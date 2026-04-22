@@ -1,0 +1,17 @@
+{
+  "updatedAt": "2026-04-19T00:00:00.000Z",
+  "buffs": {
+    "vigor": {
+      "label": "Бодрость",
+      "staRegenMult": 1.38
+    },
+    "hustle": {
+      "label": "Ходок",
+      "moveSpdMult": 1.09
+    },
+    "second_wind": {
+      "label": "Второе дыхание",
+      "staDrainMult": 0.82
+    }
+  }
+}

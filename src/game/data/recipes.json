@@ -1,0 +1,95 @@
+{
+  "updatedAt": "2026-04-20T18:25:24.835Z",
+  "recipes": [
+    {
+      "id": "rope_from_wood_sawmill",
+      "stationId": "sawmill_sw",
+      "label": "Верёвка из древесины",
+      "inputs": [
+        {
+          "curatedId": "item588",
+          "qty": 4
+        }
+      ],
+      "outputs": [
+        {
+          "curatedId": "rope_coil",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "rope_from_mats_workbench",
+      "stationId": "wb_house",
+      "label": "Базовый топорик",
+      "inputs": [
+        {
+          "curatedId": "item588",
+          "qty": 2
+        },
+        {
+          "curatedId": "item586",
+          "qty": 3
+        }
+      ],
+      "outputs": [
+        {
+          "curatedId": "axe_hatchet",
+          "qty": 1
+        }
+      ],
+      "goldCost": 5
+    },
+    {
+      "id": "recipe_1776699241771",
+      "stationId": "anvil_ne",
+      "label": "Железо",
+      "inputs": [
+        {
+          "curatedId": "iron_ore",
+          "qty": 2
+        }
+      ],
+      "outputs": [
+        {
+          "curatedId": "item562",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "recipe_1776709347830",
+      "stationId": "cooking_town",
+      "label": "Испечь хлеб",
+      "inputs": [
+        {
+          "curatedId": "item492",
+          "qty": 5
+        }
+      ],
+      "outputs": [
+        {
+          "curatedId": "bread",
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "recipe_1776709420309",
+      "stationId": "cooking_town",
+      "label": "Помолоть пшеницу",
+      "inputs": [
+        {
+          "curatedId": "item339",
+          "qty": 3
+        }
+      ],
+      "outputs": [
+        {
+          "curatedId": "item492",
+          "qty": 5
+        }
+      ]
+    }
+  ]
+}

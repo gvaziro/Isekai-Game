@@ -1,0 +1,218 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Props/Animated/Pan_05.aseprite",
+  "canvas": {
+    "width": 32,
+    "height": 32
+  },
+  "colorDepth": 32,
+  "numFrames": 8,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 2",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 10,
+          "y": 20,
+          "width": 22,
+          "height": 12,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 19,
+          "y": 23,
+          "width": 10,
+          "height": 6,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 10,
+          "y": 18,
+          "width": 22,
+          "height": 13,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 19,
+          "y": 21,
+          "width": 10,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 10,
+          "y": 16,
+          "width": 22,
+          "height": 13,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 19,
+          "y": 19,
+          "width": 10,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 12,
+          "y": 15,
+          "width": 20,
+          "height": 15,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 19,
+          "y": 19,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 9,
+          "y": 2,
+          "width": 20,
+          "height": 15,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 13,
+          "y": 0,
+          "width": 13,
+          "height": 13,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 12,
+          "y": 9,
+          "width": 20,
+          "height": 15,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 16,
+          "y": 7,
+          "width": 13,
+          "height": 13,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 10,
+          "y": 16,
+          "width": 22,
+          "height": 12,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 17,
+          "y": 14,
+          "width": 11,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 10,
+          "y": 18,
+          "width": 22,
+          "height": 13,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 19,
+          "y": 19,
+          "width": 10,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

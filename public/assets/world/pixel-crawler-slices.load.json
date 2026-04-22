@@ -1,0 +1,34 @@
+{
+  "load": [
+    {
+      "key": "pc_slice_tilesets_dungeon_tiles_tile_0_0",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_tilesets_dungeon_tiles_tile_0_0.png"
+    },
+    {
+      "key": "pc_slice_tilesets_dungeon_tiles_tile_1_0",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_tilesets_dungeon_tiles_tile_1_0.png"
+    },
+    {
+      "key": "pc_slice_tilesets_dungeon_tiles_tile_2_0",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_tilesets_dungeon_tiles_tile_2_0.png"
+    },
+    {
+      "key": "pc_slice_tilesets_dungeon_tiles_tile_0_1",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_tilesets_dungeon_tiles_tile_0_1.png"
+    },
+    {
+      "key": "pc_slice_structures_buildings_props_sample_32",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_structures_buildings_props_sample_32.png"
+    },
+    {
+      "key": "pc_slice_structures_buildings_props_sample_48",
+      "type": "image",
+      "url": "/assets/world/pc-env-slices/pc_slice_structures_buildings_props_sample_48.png"
+    }
+  ]
+}

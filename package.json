@@ -1,0 +1,47 @@
+{
+  "name": "nagibatop-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint",
+    "gen-assets": "node scripts/gen-assets.mjs",
+    "gen:pc-env": "node scripts/gen-pixel-crawler-environment-load.mjs",
+    "gen:pc-slices": "node scripts/gen-pixel-crawler-slices.mjs",
+    "gen:pc-auto-slices": "node scripts/gen-pixel-crawler-auto-slices.mjs",
+    "gen:aseprite-spec": "node scripts/dump-aseprite-spec.mjs",
+    "gen-items": "node scripts/items-catalog.mjs",
+    "gen-items-mapping": "node scripts/items-init-mapping.mjs",
+    "preview:static": "tsx scripts/preview-map.ts",
+    "preview:live": "node scripts/preview-live.mjs"
+  },
+  "dependencies": {
+    "next": "16.2.4",
+    "openai": "^6.34.0",
+    "phaser": "^4.0.0",
+    "pngjs": "^7.0.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "ase-parser": "^0.0.18",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "playwright": "^1.51.1",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4",
+    "tsx": "^4.19.3",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  }
+}

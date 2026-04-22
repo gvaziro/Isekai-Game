@@ -1,0 +1,23 @@
+{
+  "tileSize": 16,
+  "terrains": {
+    "grass": {
+      "block": [0, 0],
+      "fillRow": 10,
+      "darkRow": 11,
+      "fillCols": [1, 2, 3]
+    },
+    "dirt_warm": {
+      "block": [5, 0],
+      "fillRow": 10,
+      "darkRow": 11,
+      "fillCols": [6, 7, 8]
+    },
+    "dirt_red": {
+      "block": [10, 0],
+      "fillRow": 10,
+      "darkRow": 11,
+      "fillCols": [11, 12, 13]
+    }
+  }
+}

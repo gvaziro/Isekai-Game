@@ -1,0 +1,33 @@
+{
+  "bench": {
+    "left": 48,
+    "top": 16,
+    "width": 32,
+    "height": 32
+  },
+  "updatedAt": "2026-04-19T15:09:51.385Z",
+  "chest": {
+    "left": 752,
+    "top": 176,
+    "width": 16,
+    "height": 16
+  },
+  "bush2": {
+    "left": 192,
+    "top": 64,
+    "width": 48,
+    "height": 32
+  },
+  "rock2": {
+    "left": 144,
+    "top": 160,
+    "width": 16,
+    "height": 16
+  },
+  "rock1": {
+    "left": 64,
+    "top": 96,
+    "width": 16,
+    "height": 16
+  }
+}

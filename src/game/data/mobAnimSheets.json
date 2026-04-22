@@ -1,0 +1,13 @@
+{
+  "$schema": "Мобы Orc Crew / Skeleton Crew (Pixel Crawler). Пути относительно Entities/Mobs.",
+  "mobs": [
+    { "id": "orc_base", "folder": "Orc Crew/Orc" },
+    { "id": "orc_rogue", "folder": "Orc Crew/Orc - Rogue" },
+    { "id": "orc_shaman", "folder": "Orc Crew/Orc - Shaman" },
+    { "id": "orc_warrior", "folder": "Orc Crew/Orc - Warrior" },
+    { "id": "skeleton_base", "folder": "Skeleton Crew/Skeleton - Base" },
+    { "id": "skeleton_mage", "folder": "Skeleton Crew/Skeleton - Mage" },
+    { "id": "skeleton_rogue", "folder": "Skeleton Crew/Skeleton - Rogue" },
+    { "id": "skeleton_warrior", "folder": "Skeleton Crew/Skeleton - Warrior" }
+  ]
+}

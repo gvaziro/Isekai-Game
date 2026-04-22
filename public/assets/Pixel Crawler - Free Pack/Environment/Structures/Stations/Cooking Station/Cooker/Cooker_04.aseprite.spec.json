@@ -1,0 +1,204 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Cooking Station/Cooker/Cooker_04.aseprite",
+  "canvas": {
+    "width": 80,
+    "height": 80
+  },
+  "colorDepth": 32,
+  "numFrames": 4,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 2",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Layer 3",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Layer 4",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 2,
+          "y": 6,
+          "width": 78,
+          "height": 74,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 49,
+          "y": 46,
+          "width": 11,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 53,
+          "y": 39,
+          "width": 3,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 9,
+          "y": 0,
+          "width": 15,
+          "height": 54,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 2,
+          "y": 6,
+          "width": 78,
+          "height": 74,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 49,
+          "y": 46,
+          "width": 11,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 52,
+          "y": 39,
+          "width": 5,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 10,
+          "y": 2,
+          "width": 15,
+          "height": 52,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 2,
+          "y": 6,
+          "width": 78,
+          "height": 74,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 49,
+          "y": 46,
+          "width": 11,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 51,
+          "y": 44,
+          "width": 8,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 9,
+          "y": 1,
+          "width": 15,
+          "height": 52,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 2,
+          "y": 6,
+          "width": 78,
+          "height": 74,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 49,
+          "y": 46,
+          "width": 11,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 53,
+          "y": 45,
+          "width": 2,
+          "height": 4,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 9,
+          "y": 0,
+          "width": 13,
+          "height": 54,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

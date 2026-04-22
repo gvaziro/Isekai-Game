@@ -1,0 +1,31 @@
+{
+  "defaults": {
+    "bottomStripPx": 3,
+    "bottomFrac": 0.06,
+    "minTrunkWidth": 2,
+    "minCellWidth": 6,
+    "minCellHeightPx": 10,
+    "minCellHeightFrac": 0.35,
+    "alphaThreshold": 0,
+    "rowLowFrac": 0.15,
+    "minBandFrac": 0.6,
+    "dedupeRows": true,
+    "excludeSource": true
+  },
+  "targets": [],
+  "excludeSourceRels": [
+    "Props/Static/Trees/Model_01/Size_02.png",
+    "Props/Static/Trees/Model_01/Size_03.png",
+    "Props/Static/Trees/Model_01/Size_04.png",
+    "Props/Static/Trees/Model_01/Size_05.png",
+    "Props/Static/Trees/Model_02/Size_02.png",
+    "Props/Static/Trees/Model_02/Size_03.png",
+    "Props/Static/Trees/Model_02/Size_04.png",
+    "Props/Static/Trees/Model_02/Size_05.png",
+    "Props/Static/Trees/Model_03/Size_02.png",
+    "Props/Static/Trees/Model_03/Size_03.png",
+    "Props/Static/Trees/Model_03/Size_04.png",
+    "Props/Static/Trees/Model_03/Size_05.png"
+  ],
+  "_comment": "Деревья для игры — nature + world/decor; авто-нарезка pc_auto_* отключена. excludeSourceRels скрывает листы Trees/* из pixel-crawler-environment.load.json."
+}

@@ -1,0 +1,141 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Mobs/Skeleton Crew/Skeleton - Base/Death/Death.aseprite",
+  "canvas": {
+    "width": 96,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 8,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 38,
+          "y": 34,
+          "width": 16,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 33,
+          "width": 17,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 25,
+          "width": 19,
+          "height": 38,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 17,
+          "width": 19,
+          "height": 47,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 28,
+          "width": 17,
+          "height": 36,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 37,
+          "width": 17,
+          "height": 27,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 53,
+          "width": 17,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 50,
+          "width": 17,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

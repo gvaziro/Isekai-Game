@@ -1,0 +1,3 @@
+Anvil_PRO,80,0,96,96
+Anvil_Small,0,64,64,48
+Anvil_Medium,80,32,80,64

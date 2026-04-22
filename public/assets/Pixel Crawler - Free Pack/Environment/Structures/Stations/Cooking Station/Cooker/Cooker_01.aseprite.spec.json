@@ -1,0 +1,36 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Cooking Station/Cooker/Cooker_01.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 11,
+          "y": 3,
+          "width": 42,
+          "height": 50,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

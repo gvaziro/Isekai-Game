@@ -1,0 +1,106 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Cooking Station/Cooking Station.aseprite",
+  "canvas": {
+    "width": 288,
+    "height": 224
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 2",
+      "visible": false
+    },
+    {
+      "index": 2,
+      "name": "Layer 3",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Layer 5",
+      "visible": false
+    },
+    {
+      "index": 4,
+      "name": "Layer 7",
+      "visible": false
+    },
+    {
+      "index": 5,
+      "name": "Layer 6",
+      "visible": false
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 24,
+          "y": 70,
+          "width": 264,
+          "height": 154,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 28,
+          "y": 28,
+          "width": 73,
+          "height": 85,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 1,
+          "y": 20,
+          "width": 275,
+          "height": 185,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 5",
+          "x": 17,
+          "y": 17,
+          "width": 270,
+          "height": 207,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 7",
+          "x": 30,
+          "y": 80,
+          "width": 70,
+          "height": 12,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Layer 6",
+          "x": 30,
+          "y": 95,
+          "width": 215,
+          "height": 97,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

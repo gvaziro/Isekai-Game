@@ -1,0 +1,111 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Mobs/Skeleton Crew/Skeleton - Warrior/Death/Death.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 48
+  },
+  "colorDepth": 32,
+  "numFrames": 6,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 19,
+          "y": 11,
+          "width": 22,
+          "height": 37,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 15,
+          "y": 2,
+          "width": 25,
+          "height": 46,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 11,
+          "y": 14,
+          "width": 28,
+          "height": 34,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 8,
+          "y": 23,
+          "width": 31,
+          "height": 25,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 5,
+          "y": 36,
+          "width": 34,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 3,
+          "y": 38,
+          "width": 36,
+          "height": 10,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Pine_Green,0,1,63,143
+Pine_Semigreen,64,1,63,143
+Pine_Bare,137,7,47,137
+Pine_Yellow,0,145,63,143
+Pine_red,64,145,63,143
+Pine_Chopped_winter,153,257,13,15
+Pine_Chopped_notwinter,153,273,13,15

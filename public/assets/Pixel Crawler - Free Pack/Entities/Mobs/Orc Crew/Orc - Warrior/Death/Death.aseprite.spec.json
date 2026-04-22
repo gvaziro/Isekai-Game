@@ -1,0 +1,170 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Mobs/Orc Crew/Orc - Warrior/Death/Death.aseprite",
+  "canvas": {
+    "width": 96,
+    "height": 80
+  },
+  "colorDepth": 32,
+  "numFrames": 6,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 2",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 35,
+          "y": 60,
+          "width": 9,
+          "height": 19,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 37,
+          "y": 52,
+          "width": 19,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 34,
+          "y": 55,
+          "width": 9,
+          "height": 23,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 35,
+          "y": 40,
+          "width": 22,
+          "height": 40,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 40,
+          "y": 65,
+          "width": 9,
+          "height": 15,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 40,
+          "y": 58,
+          "width": 19,
+          "height": 22,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 43,
+          "y": 62,
+          "width": 9,
+          "height": 18,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 39,
+          "y": 53,
+          "width": 27,
+          "height": 27,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 44,
+          "y": 68,
+          "width": 19,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 42,
+          "y": 68,
+          "width": 33,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 2",
+          "x": 43,
+          "y": 70,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 42,
+          "y": 65,
+          "width": 33,
+          "height": 15,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

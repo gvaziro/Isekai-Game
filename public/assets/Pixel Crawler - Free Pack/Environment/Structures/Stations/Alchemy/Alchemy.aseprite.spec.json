@@ -1,0 +1,78 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Alchemy/Alchemy.aseprite",
+  "canvas": {
+    "width": 192,
+    "height": 160
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 5",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Layer 3",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Layer 4",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 19,
+          "width": 192,
+          "height": 141,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 5",
+          "x": 141,
+          "y": 34,
+          "width": 37,
+          "height": 12,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 0,
+          "y": 8,
+          "width": 192,
+          "height": 60,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 180,
+          "y": 50,
+          "width": 8,
+          "height": 4,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

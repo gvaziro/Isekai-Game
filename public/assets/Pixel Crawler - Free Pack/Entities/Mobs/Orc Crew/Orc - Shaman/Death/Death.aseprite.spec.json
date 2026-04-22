@@ -1,0 +1,126 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Mobs/Orc Crew/Orc - Shaman/Death/Death.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 7,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 43,
+          "width": 23,
+          "height": 21,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 21,
+          "y": 35,
+          "width": 23,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 26,
+          "y": 48,
+          "width": 23,
+          "height": 16,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 26,
+          "y": 45,
+          "width": 23,
+          "height": 19,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 22,
+          "y": 55,
+          "width": 34,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 22,
+          "y": 52,
+          "width": 34,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 22,
+          "y": 52,
+          "width": 34,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Npc's/Knight/Run/Run.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 6,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 5",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 21,
+          "y": 33,
+          "width": 23,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 25,
+          "y": 36,
+          "width": 15,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 23,
+          "y": 32,
+          "width": 17,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 21,
+          "y": 33,
+          "width": 24,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 25,
+          "y": 36,
+          "width": 15,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 5",
+          "x": 24,
+          "y": 32,
+          "width": 16,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

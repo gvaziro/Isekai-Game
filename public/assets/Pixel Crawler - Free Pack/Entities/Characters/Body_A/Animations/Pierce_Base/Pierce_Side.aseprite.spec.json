@@ -1,0 +1,466 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Characters/Body_A/Animations/Pierce_Base/Pierce_Side.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 8,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Corpo",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Arma",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Braços",
+      "visible": true
+    },
+    {
+      "index": 4,
+      "name": "Cabeça",
+      "visible": true
+    }
+  ],
+  "tags": [
+    {
+      "from": 0,
+      "to": 0,
+      "animDirection": "Forward",
+      "repeat": 0,
+      "color": "000000",
+      "name": "K"
+    },
+    {
+      "from": 3,
+      "to": 3,
+      "animDirection": "Forward",
+      "repeat": 0,
+      "color": "000000",
+      "name": "K"
+    }
+  ],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 25,
+          "y": 38,
+          "width": 14,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 30,
+          "width": 11,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 18,
+          "y": 34,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 20,
+          "y": 30,
+          "width": 18,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 20,
+          "y": 17,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 25,
+          "y": 38,
+          "width": 14,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 22,
+          "y": 30,
+          "width": 11,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 16,
+          "y": 34,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 18,
+          "y": 30,
+          "width": 19,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 19,
+          "y": 17,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 24,
+          "y": 38,
+          "width": 15,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 21,
+          "y": 30,
+          "width": 11,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 15,
+          "y": 34,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 17,
+          "y": 30,
+          "width": 19,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 17,
+          "y": 17,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 23,
+          "y": 40,
+          "width": 17,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 30,
+          "y": 33,
+          "width": 13,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 43,
+          "y": 35,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 28,
+          "y": 32,
+          "width": 22,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 37,
+          "y": 22,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 23,
+          "y": 40,
+          "width": 16,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 29,
+          "y": 33,
+          "width": 13,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 39,
+          "y": 35,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 28,
+          "y": 32,
+          "width": 18,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 35,
+          "y": 22,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 24,
+          "y": 40,
+          "width": 15,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 28,
+          "y": 33,
+          "width": 11,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 35,
+          "y": 35,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 27,
+          "y": 32,
+          "width": 15,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 30,
+          "y": 21,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 24,
+          "y": 38,
+          "width": 15,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 26,
+          "y": 31,
+          "width": 10,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 28,
+          "y": 36,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 28,
+          "y": 33,
+          "width": 11,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 27,
+          "y": 19,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Corpo",
+          "x": 25,
+          "y": 38,
+          "width": 14,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 1",
+          "x": 25,
+          "y": 31,
+          "width": 9,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Arma",
+          "x": 20,
+          "y": 36,
+          "width": 20,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Braços",
+          "x": 22,
+          "y": 32,
+          "width": 15,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Cabeça",
+          "x": 23,
+          "y": 19,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Characters/Body_A/Animations/Run_Base/Run_Side.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 6,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Leg_B",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Chest",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Head",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Arm_B",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 27,
+          "y": 36,
+          "width": 13,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 29,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 17,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 23,
+          "y": 29,
+          "width": 19,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 28,
+          "y": 37,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 30,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 18,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 24,
+          "y": 30,
+          "width": 16,
+          "height": 10,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 25,
+          "y": 38,
+          "width": 14,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 31,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 18,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 28,
+          "y": 32,
+          "width": 9,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 25,
+          "y": 36,
+          "width": 16,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 29,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 17,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 28,
+          "y": 29,
+          "width": 12,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 29,
+          "y": 37,
+          "width": 7,
+          "height": 10,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 30,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 18,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 28,
+          "y": 31,
+          "width": 9,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Leg_B",
+          "x": 26,
+          "y": 38,
+          "width": 11,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Chest",
+          "x": 27,
+          "y": 31,
+          "width": 10,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Head",
+          "x": 26,
+          "y": 18,
+          "width": 13,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Arm_B",
+          "x": 25,
+          "y": 32,
+          "width": 15,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+Oak_green_big,3,2,73,126
+Oak_semigreen_Big,83,2,73,126
+Oak_bare_big,166,2,69,126
+Oak_winter_big,246,2,69,126
+Oak_chopped_summer,328,9,28,23
+Oak_chopped_autumn,328,41,28,23
+Oak_chopped_winter,328,73,28,23
+Oak_chopped_spring,325,105,33,23
+Oak_red_big,3,130,73,126
+Oak_yellow_Big,83,130,73,126

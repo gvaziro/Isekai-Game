@@ -1,0 +1,71 @@
+{
+  "natureRootUrl": "/assets/nature",
+  "outputs": [
+    {
+      "textureKey": "tree1",
+      "sheet": "Pines",
+      "sprite": "Pine_Green",
+      "outRel": "decor/tree1.png"
+    },
+    {
+      "textureKey": "tree1_autumn",
+      "sheet": "Pines",
+      "sprite": "Pine_Yellow",
+      "outRel": "decor/tree1_autumn.png"
+    },
+    {
+      "textureKey": "tree2",
+      "sheet": "Fir",
+      "sprite": "Fir_Green",
+      "outRel": "decor/tree2.png"
+    },
+    {
+      "textureKey": "tree3",
+      "sheet": "Grand_Fir",
+      "sprite": "Grand_Fir_Green",
+      "outRel": "decor/tree3.png"
+    },
+    {
+      "textureKey": "tree3_red",
+      "sheet": "Pines",
+      "sprite": "Pine_red",
+      "outRel": "decor/tree3_red.png"
+    },
+    {
+      "textureKey": "tree_chopped_pine",
+      "sheet": "Pines",
+      "sprite": "Pine_Chopped_notwinter",
+      "outRel": "decor/tree_chopped_pine.png"
+    },
+    {
+      "textureKey": "tree_chopped_fir",
+      "sheet": "Fir",
+      "sprite": "Fir_chopped_notwinter",
+      "outRel": "decor/tree_chopped_fir.png"
+    },
+    {
+      "textureKey": "tree_chopped_grand_fir",
+      "sheet": "Grand_Fir",
+      "sprite": "Grand_Fir_Chopped_notwinter",
+      "outRel": "decor/tree_chopped_grand_fir.png"
+    },
+    {
+      "textureKey": "rock1",
+      "manifestKey": "rock1",
+      "snapGrid": 16,
+      "sheet": "Rocks",
+      "sprite": "Rock_Gray_Big",
+      "slice": { "left": 98, "top": 19, "width": 28, "height": 43 },
+      "outRel": "decor/rock1.png"
+    },
+    {
+      "textureKey": "rock2",
+      "manifestKey": "rock2",
+      "snapGrid": 16,
+      "sheet": "Rocks",
+      "sprite": "Rock_Yellow_Big",
+      "slice": { "left": 2, "top": 19, "width": 28, "height": 43 },
+      "outRel": "decor/rock2.png"
+    }
+  ]
+}

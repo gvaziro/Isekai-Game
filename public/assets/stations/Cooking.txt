@@ -1,0 +1,4 @@
+Cooking_Basic,0,16,64,48
+Cooking_Small,64,16,64,48
+Cooking_Madium,128,16,80,48
+Cooking_Big,208,16,80,48

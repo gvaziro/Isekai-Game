@@ -1,0 +1,7257 @@
+{
+  "$schema": "./items.mapping.schema.json",
+  "updatedAt": "2026-04-20T18:21:46.725Z",
+  "items": [
+    {
+      "frameKey": "item1",
+      "id": "blade_rusty",
+      "name": "Ржавый клинок",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item2",
+      "id": "item2",
+      "name": "Простой клинок",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item3",
+      "id": "item3",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item4",
+      "id": "item4",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item5",
+      "id": "item5",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item6",
+      "id": "item6",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item7",
+      "id": "item7",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item8",
+      "id": "item8",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item9",
+      "id": "item9",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item10",
+      "id": "item10",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item11",
+      "id": "item11",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item12",
+      "id": "item12",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item13",
+      "id": "item13",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item14",
+      "id": "item14",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item15",
+      "id": "item15",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item16",
+      "id": "item16",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item17",
+      "id": "item17",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item18",
+      "id": "item18",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item19",
+      "id": "item19",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item20",
+      "id": "item20",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item21",
+      "id": "item21",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item22",
+      "id": "item22",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item23",
+      "id": "item23",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item24",
+      "id": "knife_kitchen",
+      "name": "Ножик",
+      "slot": "pickaxe"
+    },
+    {
+      "frameKey": "item25",
+      "id": "item25",
+      "name": "",
+      "slot": "pickaxe"
+    },
+    {
+      "frameKey": "item26",
+      "id": "item26",
+      "name": "",
+      "slot": "pickaxe"
+    },
+    {
+      "frameKey": "item27",
+      "id": "item27",
+      "name": "",
+      "slot": "pickaxe"
+    },
+    {
+      "frameKey": "item28",
+      "id": "item28",
+      "name": "",
+      "slot": "pickaxe"
+    },
+    {
+      "frameKey": "item29",
+      "id": "item29",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item30",
+      "id": "item30",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item31",
+      "id": "item31",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item32",
+      "id": "item32",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item33",
+      "id": "item33",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item34",
+      "id": "item34",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item35",
+      "id": "item35",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item36",
+      "id": "item36",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item37",
+      "id": "item37",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item38",
+      "id": "item38",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item39",
+      "id": "item39",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item40",
+      "id": "item40",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item41",
+      "id": "item41",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item42",
+      "id": "item42",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item43",
+      "id": "item43",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item44",
+      "id": "item44",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item45",
+      "id": "item45",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item46",
+      "id": "item46",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item47",
+      "id": "item47",
+      "name": "",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item48",
+      "id": "wand_twig",
+      "name": "Жезл из еловой ветки",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item49",
+      "id": "item49",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item50",
+      "id": "item50",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item51",
+      "id": "item51",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item52",
+      "id": "item52",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item53",
+      "id": "item53",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item54",
+      "id": "item54",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item55",
+      "id": "item55",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item56",
+      "id": "item56",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item57",
+      "id": "item57",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item58",
+      "id": "item58",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item59",
+      "id": "item59",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item60",
+      "id": "item60",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item61",
+      "id": "item61",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item62",
+      "id": "item62",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item63",
+      "id": "item63",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item64",
+      "id": "item64",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item65",
+      "id": "item65",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item66",
+      "id": "item66",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item67",
+      "id": "item67",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item68",
+      "id": "item68",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item69",
+      "id": "item69",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item70",
+      "id": "item70",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item71",
+      "id": "item71",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item72",
+      "id": "item72",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item73",
+      "id": "item73",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item74",
+      "id": "item74",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item75",
+      "id": "item75",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item76",
+      "id": "item76",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item77",
+      "id": "item77",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item78",
+      "id": "shield_buckler",
+      "name": "Баклер",
+      "slot": "offhand"
+    },
+    {
+      "frameKey": "item79",
+      "id": "item79",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item80",
+      "id": "item80",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item81",
+      "id": "item81",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item82",
+      "id": "item82",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item83",
+      "id": "item83",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item84",
+      "id": "item84",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item85",
+      "id": "item85",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item86",
+      "id": "item86",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item87",
+      "id": "item87",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item88",
+      "id": "item88",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item89",
+      "id": "item89",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item90",
+      "id": "item90",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item91",
+      "id": "item91",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item92",
+      "id": "item92",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item93",
+      "id": "item93",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item94",
+      "id": "item94",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item95",
+      "id": "item95",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item96",
+      "id": "item96",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item97",
+      "id": "item97",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item98",
+      "id": "item98",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item99",
+      "id": "item99",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item100",
+      "id": "axe_hatchet",
+      "name": "Топорик",
+      "slot": "axe",
+      "tags": [
+        "instrument",
+        "axe"
+      ]
+    },
+    {
+      "frameKey": "item101",
+      "id": "item101",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item102",
+      "id": "item102",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item103",
+      "id": "item103",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item104",
+      "id": "item104",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item105",
+      "id": "item105",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item106",
+      "id": "item106",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item107",
+      "id": "item107",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item108",
+      "id": "item108",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item109",
+      "id": "item109",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item110",
+      "id": "item110",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item111",
+      "id": "item111",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item112",
+      "id": "item112",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item147",
+      "id": "item147",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item148",
+      "id": "item148",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item149",
+      "id": "item149",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item150",
+      "id": "feather",
+      "name": "Перо",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item151",
+      "id": "item151",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item152",
+      "id": "item152",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item153",
+      "id": "item153",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item154",
+      "id": "item154",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item155",
+      "id": "item155",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item156",
+      "id": "item156",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item157",
+      "id": "item157",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item158",
+      "id": "item158",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item159",
+      "id": "item159",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item160",
+      "id": "shield_round",
+      "name": "Круглый щит",
+      "slot": "offhand",
+      "iconFrameKey": "item198"
+    },
+    {
+      "frameKey": "item161",
+      "id": "item161",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item162",
+      "id": "item162",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item163",
+      "id": "item163",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item164",
+      "id": "item164",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item165",
+      "id": "item165",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item166",
+      "id": "item166",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item167",
+      "id": "item167",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item168",
+      "id": "item168",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item169",
+      "id": "item169",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item170",
+      "id": "item170",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item171",
+      "id": "item171",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item172",
+      "id": "item172",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item173",
+      "id": "item173",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item174",
+      "id": "item174",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item175",
+      "id": "item175",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item176",
+      "id": "item176",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item177",
+      "id": "item177",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item178",
+      "id": "item178",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item179",
+      "id": "item179",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item180",
+      "id": "apple",
+      "name": "Яблоко",
+      "slot": "consumable",
+      "iconFrameKey": "item322"
+    },
+    {
+      "frameKey": "item186",
+      "id": "fishing_rod_simple",
+      "name": "Простая удочка",
+      "slot": "fishing_rod",
+      "tags": [
+        "instrument",
+        "fishing_rod"
+      ]
+    },
+    {
+      "frameKey": "item187",
+      "id": "item187",
+      "name": "Крутоая удочка",
+      "slot": "fishing_rod"
+    },
+    {
+      "frameKey": "item188",
+      "id": "item188",
+      "name": "Профессиональная удочка",
+      "slot": "fishing_rod"
+    },
+    {
+      "frameKey": "item189",
+      "id": "item189",
+      "name": "Удочка деда",
+      "slot": "fishing_rod"
+    },
+    {
+      "frameKey": "item190",
+      "id": "item190",
+      "name": "Техноспиннинг",
+      "slot": "fishing_rod"
+    },
+    {
+      "frameKey": "item191",
+      "id": "item191",
+      "name": "",
+      "slot": "fishing_rod"
+    },
+    {
+      "frameKey": "item192",
+      "id": "item192",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item193",
+      "id": "item193",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item194",
+      "id": "item194",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item195",
+      "id": "item195",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item196",
+      "id": "item196",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item197",
+      "id": "item197",
+      "name": "",
+      "slot": "offhand"
+    },
+    {
+      "frameKey": "item198",
+      "id": "item198",
+      "name": "",
+      "slot": "offhand"
+    },
+    {
+      "frameKey": "item199",
+      "id": "item199",
+      "name": "",
+      "slot": "offhand"
+    },
+    {
+      "frameKey": "item200",
+      "id": "helm_leather",
+      "name": "Кожаный шлем",
+      "slot": "helmet",
+      "iconFrameKey": "item201"
+    },
+    {
+      "frameKey": "item202",
+      "id": "item202",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item203",
+      "id": "item203",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item204",
+      "id": "item204",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item205",
+      "id": "item205",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item206",
+      "id": "item206",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item207",
+      "id": "item207",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item208",
+      "id": "item208",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item209",
+      "id": "item209",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item210",
+      "id": "mushroom",
+      "name": "Гриб",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item211",
+      "id": "item211",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item212",
+      "id": "item212",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item213",
+      "id": "item213",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item214",
+      "id": "item214",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item215",
+      "id": "item215",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item216",
+      "id": "item216",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item217",
+      "id": "item217",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item218",
+      "id": "item218",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item219",
+      "id": "item219",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item220",
+      "id": "item220",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item221",
+      "id": "item221",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item222",
+      "id": "item222",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item223",
+      "id": "item223",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item224",
+      "id": "item224",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item225",
+      "id": "item225",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item226",
+      "id": "item226",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item227",
+      "id": "item227",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item228",
+      "id": "item228",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item229",
+      "id": "item229",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item230",
+      "id": "cap_wool",
+      "name": "Шерстяная шапка",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item231",
+      "id": "item231",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item232",
+      "id": "item232",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item233",
+      "id": "item233",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item234",
+      "id": "item234",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item235",
+      "id": "item235",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item236",
+      "id": "item236",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item237",
+      "id": "item237",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item238",
+      "id": "item238",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item239",
+      "id": "item239",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item240",
+      "id": "fish",
+      "name": "Сушёная рыба",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item241",
+      "id": "item241",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item242",
+      "id": "item242",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item243",
+      "id": "item243",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item244",
+      "id": "item244",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item245",
+      "id": "item245",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item246",
+      "id": "item246",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item247",
+      "id": "item247",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item248",
+      "id": "item248",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item249",
+      "id": "item249",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item250",
+      "id": "item250",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item251",
+      "id": "item251",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item252",
+      "id": "item252",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item253",
+      "id": "item253",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item254",
+      "id": "item254",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item255",
+      "id": "item255",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item256",
+      "id": "item256",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item257",
+      "id": "item257",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item258",
+      "id": "item258",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item259",
+      "id": "item259",
+      "name": "",
+      "slot": "pants"
+    },
+    {
+      "frameKey": "item260",
+      "id": "shirt_linen",
+      "name": "Льняная рубаха",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item261",
+      "id": "item261",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item262",
+      "id": "item262",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item263",
+      "id": "item263",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item264",
+      "id": "item264",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item265",
+      "id": "item265",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item266",
+      "id": "item266",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item267",
+      "id": "item267",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item268",
+      "id": "item268",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item269",
+      "id": "item269",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item270",
+      "id": "herb",
+      "name": "Трава",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item271",
+      "id": "item271",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item272",
+      "id": "item272",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item273",
+      "id": "item273",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item274",
+      "id": "item274",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item275",
+      "id": "item275",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item276",
+      "id": "item276",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item277",
+      "id": "item277",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item278",
+      "id": "item278",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item279",
+      "id": "item279",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item280",
+      "id": "item280",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item281",
+      "id": "item281",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item282",
+      "id": "item282",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item283",
+      "id": "item283",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item284",
+      "id": "item284",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item285",
+      "id": "item285",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item286",
+      "id": "item286",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item287",
+      "id": "item287",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item288",
+      "id": "item288",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item289",
+      "id": "item289",
+      "name": "",
+      "slot": "boots"
+    },
+    {
+      "frameKey": "item290",
+      "id": "coat_travel",
+      "name": "Дорожный камзол",
+      "slot": "chest",
+      "iconFrameKey": "item232"
+    },
+    {
+      "frameKey": "item291",
+      "id": "item291",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item292",
+      "id": "item292",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item293",
+      "id": "item293",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item294",
+      "id": "item294",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item295",
+      "id": "item295",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item296",
+      "id": "item296",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item297",
+      "id": "item297",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item298",
+      "id": "item298",
+      "name": "Полный латный шлем",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item299",
+      "id": "item299",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item300",
+      "id": "bottle_empty",
+      "name": "Пустая бутыль",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item301",
+      "id": "item301",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item302",
+      "id": "item302",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item303",
+      "id": "item303",
+      "name": "Маска злого духа",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item304",
+      "id": "item304",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item305",
+      "id": "item305",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item306",
+      "id": "item306",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item307",
+      "id": "item307",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item308",
+      "id": "item308",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item309",
+      "id": "item309",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item310",
+      "id": "item310",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item311",
+      "id": "item311",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item312",
+      "id": "item312",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item313",
+      "id": "item313",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item314",
+      "id": "item314",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item315",
+      "id": "item315",
+      "name": "",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item316",
+      "id": "item316",
+      "name": "Шляпа фокусника",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item317",
+      "id": "item317",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item318",
+      "id": "item318",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item319",
+      "id": "item319",
+      "name": "",
+      "slot": "chest"
+    },
+    {
+      "frameKey": "item320",
+      "id": "boots_simple",
+      "name": "Простые сапоги",
+      "slot": "boots",
+      "iconFrameKey": "item267"
+    },
+    {
+      "frameKey": "item321",
+      "id": "item321",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item322",
+      "id": "item322",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item323",
+      "id": "item323",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item324",
+      "id": "item324",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item325",
+      "id": "item325",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item326",
+      "id": "item326",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item327",
+      "id": "item327",
+      "name": "Гриб",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item328",
+      "id": "item328",
+      "name": "Мухомор",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item329",
+      "id": "item329",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item330",
+      "id": "candle",
+      "name": "Свеча",
+      "slot": "material",
+      "iconFrameKey": "item668"
+    },
+    {
+      "frameKey": "item331",
+      "id": "item331",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item332",
+      "id": "item332",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item333",
+      "id": "item333",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item334",
+      "id": "item334",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item335",
+      "id": "item335",
+      "name": "Тыква",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item336",
+      "id": "item336",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item337",
+      "id": "item337",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item338",
+      "id": "item338",
+      "name": "Яйцо",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item339",
+      "id": "item339",
+      "name": "Пшеница",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item340",
+      "id": "item340",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item341",
+      "id": "item341",
+      "name": "Киви",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item342",
+      "id": "item342",
+      "name": "Баклажан",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item343",
+      "id": "item343",
+      "name": "Огурец",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item344",
+      "id": "item344",
+      "name": "Банан",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item345",
+      "id": "item345",
+      "name": "Кокос",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item346",
+      "id": "item346",
+      "name": "Лук",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item347",
+      "id": "item347",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item348",
+      "id": "item348",
+      "name": "Мороженое",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item349",
+      "id": "item349",
+      "name": "Пицца",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item351",
+      "id": "item351",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item352",
+      "id": "item352",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item353",
+      "id": "item353",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item354",
+      "id": "item354",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item355",
+      "id": "item355",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item356",
+      "id": "item356",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item357",
+      "id": "item357",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item358",
+      "id": "item358",
+      "name": "Печенье",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item359",
+      "id": "item359",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item360",
+      "id": "map_fragment",
+      "name": "Осколок карты",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item361",
+      "id": "item361",
+      "name": "Сахар",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item362",
+      "id": "item362",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item363",
+      "id": "item363",
+      "name": "Горох",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item364",
+      "id": "item364",
+      "name": "Кукуруза",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item365",
+      "id": "item365",
+      "name": "Черника",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item366",
+      "id": "item366",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item367",
+      "id": "item367",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item368",
+      "id": "item368",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item369",
+      "id": "item369",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item370",
+      "id": "item370",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item371",
+      "id": "item371",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item372",
+      "id": "item372",
+      "name": "Кружка кофе",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item373",
+      "id": "item373",
+      "name": "Ананас",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item374",
+      "id": "item374",
+      "name": "Медовые соты",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item375",
+      "id": "item375",
+      "name": "Персик",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item376",
+      "id": "item376",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item377",
+      "id": "item377",
+      "name": "Перец чили",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item378",
+      "id": "item378",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item379",
+      "id": "item379",
+      "name": "Гриб Лисичка",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item380",
+      "id": "ring_iron",
+      "name": "Пряные травы",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item381",
+      "id": "item381",
+      "name": "Вешенка",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item382",
+      "id": "item382",
+      "name": "Вишня",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item383",
+      "id": "item383",
+      "name": "Лимон",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item384",
+      "id": "item384",
+      "name": "Онигири",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item385",
+      "id": "item385",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item386",
+      "id": "item386",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item387",
+      "id": "item387",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item388",
+      "id": "item388",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item389",
+      "id": "item389",
+      "name": "Гриб Маны",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item390",
+      "id": "coin_stack",
+      "name": "Мешочек монет",
+      "slot": "quest",
+      "iconFrameKey": "item676"
+    },
+    {
+      "frameKey": "item391",
+      "id": "item391",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item392",
+      "id": "item392",
+      "name": "Шампиньон",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item393",
+      "id": "item393",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item394",
+      "id": "item394",
+      "name": "Брюква",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item395",
+      "id": "item395",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item396",
+      "id": "item396",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item397",
+      "id": "item397",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item398",
+      "id": "item398",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item399",
+      "id": "item399",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item400",
+      "id": "item400",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item401",
+      "id": "item401",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item402",
+      "id": "Бургер",
+      "name": "Бургер",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item403",
+      "id": "Пудинг",
+      "name": "Пудинг",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item404",
+      "id": "item404",
+      "name": "Надрочено в булку",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item405",
+      "id": "item405",
+      "name": "Мед",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item406",
+      "id": "item406",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item407",
+      "id": "item407",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item408",
+      "id": "item408",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item409",
+      "id": "item409",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item410",
+      "id": "ring_gem",
+      "name": "Кольцо с камушком",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item411",
+      "id": "item411",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item412",
+      "id": "item412",
+      "name": "Гриб середины леса",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item413",
+      "id": "item413",
+      "name": "Гриб Тролля",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item414",
+      "id": "item414",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item415",
+      "id": "item415",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item416",
+      "id": "item416",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item417",
+      "id": "item417",
+      "name": "Виноград",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item418",
+      "id": "item418",
+      "name": "Помидор",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item419",
+      "id": "item419",
+      "name": "Брокколи",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item420",
+      "id": "item420",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item421",
+      "id": "item421",
+      "name": "Ролл с лососем",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item422",
+      "id": "item422",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item423",
+      "id": "item423",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item424",
+      "id": "item424",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item425",
+      "id": "item425",
+      "name": "Круассан",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item426",
+      "id": "item426",
+      "name": "Пирог \"Мамин\"",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item427",
+      "id": "item427",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item428",
+      "id": "item428",
+      "name": "Пирог с черникой",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item429",
+      "id": "item429",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item430",
+      "id": "item430",
+      "name": "Картофель ФРИ",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item431",
+      "id": "item431",
+      "name": "Клубника \"Бомба\"",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item432",
+      "id": "item432",
+      "name": "Рыбий хвост",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item433",
+      "id": "item433",
+      "name": "Суши",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item434",
+      "id": "item434",
+      "name": "Сырой лосось",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item435",
+      "id": "item435",
+      "name": "Жареный лосось",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item436",
+      "id": "item436",
+      "name": "Улитка",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item437",
+      "id": "item437",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item438",
+      "id": "item438",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item439",
+      "id": "item439",
+      "name": "",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item440",
+      "id": "hp_small",
+      "name": "Целебная настойка",
+      "slot": "consumable",
+      "iconFrameKey": "item1189"
+    },
+    {
+      "frameKey": "item441",
+      "id": "item441",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item442",
+      "id": "item442",
+      "name": "Сырое крылышко",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item443",
+      "id": "item443",
+      "name": "Сырой кролик",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item444",
+      "id": "item444",
+      "name": "Сырые ребрышки",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item445",
+      "id": "item445",
+      "name": "Свежий кусок мяса",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item446",
+      "id": "item446",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item447",
+      "id": "item447",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item448",
+      "id": "item448",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item449",
+      "id": "item449",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item450",
+      "id": "item450",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item451",
+      "id": "item451",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item452",
+      "id": "item452",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item453",
+      "id": "item453",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item454",
+      "id": "item454",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item455",
+      "id": "item455",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item456",
+      "id": "item456",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item457",
+      "id": "item457",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item458",
+      "id": "item458",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item459",
+      "id": "item459",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item460",
+      "id": "item460",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item461",
+      "id": "item461",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item462",
+      "id": "item462",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item463",
+      "id": "item463",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item464",
+      "id": "item464",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item465",
+      "id": "item465",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item466",
+      "id": "item466",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item467",
+      "id": "item467",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item468",
+      "id": "item468",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item469",
+      "id": "item469",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item470",
+      "id": "hp_medium",
+      "name": "Флакон жизни",
+      "slot": "consumable",
+      "iconFrameKey": "item730"
+    },
+    {
+      "frameKey": "item471",
+      "id": "item471",
+      "name": "Гриб масленок",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item472",
+      "id": "item472",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item473",
+      "id": "item473",
+      "name": "Красный лук",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item474",
+      "id": "item474",
+      "name": "Зеленый лук",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item475",
+      "id": "item475",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item476",
+      "id": "item476",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item477",
+      "id": "item477",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item478",
+      "id": "item478",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item479",
+      "id": "item479",
+      "name": "Вареник ",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item480",
+      "id": "item480",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item481",
+      "id": "item481",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item482",
+      "id": "item482",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item483",
+      "id": "item483",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item484",
+      "id": "item484",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item485",
+      "id": "item485",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item486",
+      "id": "item486",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item487",
+      "id": "item487",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item488",
+      "id": "item488",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item489",
+      "id": "item489",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item490",
+      "id": "item490",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item491",
+      "id": "item491",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item492",
+      "id": "item492",
+      "name": "Мука",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item493",
+      "id": "item493",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item494",
+      "id": "item494",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item495",
+      "id": "item495",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item496",
+      "id": "item496",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item497",
+      "id": "item497",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item498",
+      "id": "item498",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item499",
+      "id": "item499",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item500",
+      "id": "stamina_drink",
+      "name": "Отвар бодрости",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item501",
+      "id": "item501",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item502",
+      "id": "item502",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item503",
+      "id": "item503",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item504",
+      "id": "item504",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item505",
+      "id": "item505",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item506",
+      "id": "item506",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item507",
+      "id": "item507",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item508",
+      "id": "item508",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item509",
+      "id": "item509",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item510",
+      "id": "item510",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item511",
+      "id": "item511",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item512",
+      "id": "item512",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item513",
+      "id": "item513",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item514",
+      "id": "item514",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item515",
+      "id": "item515",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item516",
+      "id": "item516",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item517",
+      "id": "item517",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item518",
+      "id": "item518",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item519",
+      "id": "item519",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item520",
+      "id": "item520",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item521",
+      "id": "item521",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item522",
+      "id": "item522",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item523",
+      "id": "item523",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item524",
+      "id": "item524",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item525",
+      "id": "item525",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item526",
+      "id": "item526",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item527",
+      "id": "item527",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item528",
+      "id": "item528",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item529",
+      "id": "item529",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item530",
+      "id": "bread",
+      "name": "Хлеб",
+      "slot": "consumable",
+      "iconFrameKey": "item332"
+    },
+    {
+      "frameKey": "item531",
+      "id": "item531",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item532",
+      "id": "item532",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item533",
+      "id": "item533",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item534",
+      "id": "item534",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item535",
+      "id": "item535",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item536",
+      "id": "item536",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item537",
+      "id": "item537",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item538",
+      "id": "item538",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item539",
+      "id": "item539",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item540",
+      "id": "item540",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item541",
+      "id": "item541",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item542",
+      "id": "item542",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item543",
+      "id": "item543",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item544",
+      "id": "item544",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item545",
+      "id": "item545",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item546",
+      "id": "item546",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item547",
+      "id": "item547",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item548",
+      "id": "item548",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item549",
+      "id": "item549",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item550",
+      "id": "item550",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item551",
+      "id": "item551",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item552",
+      "id": "item552",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item553",
+      "id": "item553",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item554",
+      "id": "item554",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item555",
+      "id": "item555",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item556",
+      "id": "item556",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item557",
+      "id": "item557",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item558",
+      "id": "item558",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item559",
+      "id": "item559",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item560",
+      "id": "cheese",
+      "name": "Сыр",
+      "slot": "consumable",
+      "iconFrameKey": "item324"
+    },
+    {
+      "frameKey": "item561",
+      "id": "item561",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item562",
+      "id": "item562",
+      "name": "Железный слиток",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item563",
+      "id": "item563",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item564",
+      "id": "item564",
+      "name": "Медный слиток",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item565",
+      "id": "item565",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item566",
+      "id": "item566",
+      "name": "Серебряный слиток",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item567",
+      "id": "item567",
+      "name": "Золотой слиток",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item568",
+      "id": "item568",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item569",
+      "id": "item569",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item570",
+      "id": "item570",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item571",
+      "id": "item571",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item572",
+      "id": "item572",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item573",
+      "id": "item573",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item574",
+      "id": "item574",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item575",
+      "id": "item575",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item576",
+      "id": "item576",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item577",
+      "id": "item577",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item578",
+      "id": "item578",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item579",
+      "id": "item579",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item580",
+      "id": "item580",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item581",
+      "id": "item581",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item582",
+      "id": "item582",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item583",
+      "id": "item583",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item584",
+      "id": "item584",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item585",
+      "id": "item585",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item586",
+      "id": "item586",
+      "name": "Камень",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item587",
+      "id": "item587",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item588",
+      "id": "item588",
+      "name": "Древесина",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item589",
+      "id": "item589",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item590",
+      "id": "rope_coil",
+      "name": "Моток верёвки",
+      "slot": "material",
+      "iconFrameKey": "item686"
+    },
+    {
+      "frameKey": "item591",
+      "id": "item591",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item592",
+      "id": "item592",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item593",
+      "id": "item593",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item594",
+      "id": "item594",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item595",
+      "id": "item595",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item596",
+      "id": "item596",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item597",
+      "id": "item597",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item598",
+      "id": "item598",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item599",
+      "id": "item599",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item600",
+      "id": "item600",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item601",
+      "id": "item601",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item602",
+      "id": "item602",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item603",
+      "id": "1",
+      "name": "Подарок 1",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item604",
+      "id": "2",
+      "name": "Подарок 2",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item605",
+      "id": "3",
+      "name": "Подарок 3",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item606",
+      "id": "4",
+      "name": "Подарок 4",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item607",
+      "id": "5",
+      "name": "Подарок 5",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item608",
+      "id": "6",
+      "name": "Подарок 6",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item609",
+      "id": "7",
+      "name": "Подарок 7",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item610",
+      "id": "item610",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item611",
+      "id": "item611",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item612",
+      "id": "item612",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item613",
+      "id": "item613",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item614",
+      "id": "item614",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item615",
+      "id": "item615",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item616",
+      "id": "item616",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item617",
+      "id": "item617",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item618",
+      "id": "item618",
+      "name": "Шапка Санты",
+      "slot": "helmet"
+    },
+    {
+      "frameKey": "item619",
+      "id": "item619",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item620",
+      "id": "iron_ore",
+      "name": "Кусочек железной руды",
+      "slot": "material",
+      "iconFrameKey": "item576"
+    },
+    {
+      "frameKey": "item621",
+      "id": "item621",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item622",
+      "id": "item622",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item623",
+      "id": "item623",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item624",
+      "id": "item624",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item625",
+      "id": "item625",
+      "name": "Дневник",
+      "slot": "active_item"
+    },
+    {
+      "frameKey": "item626",
+      "id": "item626",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item627",
+      "id": "item627",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item628",
+      "id": "item628",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item629",
+      "id": "item629",
+      "name": "Записка",
+      "slot": "active_item"
+    },
+    {
+      "frameKey": "item630",
+      "id": "item630",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item631",
+      "id": "item631",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item632",
+      "id": "item632",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item633",
+      "id": "item633",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item634",
+      "id": "item634",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item635",
+      "id": "item635",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item636",
+      "id": "item636",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item637",
+      "id": "item637",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item638",
+      "id": "item638",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item639",
+      "id": "item639",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item640",
+      "id": "item640",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item641",
+      "id": "item641",
+      "name": "Письмо",
+      "slot": "active_item"
+    },
+    {
+      "frameKey": "item642",
+      "id": "item642",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item643",
+      "id": "item643",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item644",
+      "id": "item644",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item645",
+      "id": "item645",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item646",
+      "id": "item646",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item647",
+      "id": "item647",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item648",
+      "id": "item648",
+      "name": "Книга заклинаний",
+      "slot": "active_item"
+    },
+    {
+      "frameKey": "item649",
+      "id": "item649",
+      "name": "Свиток заклинания",
+      "slot": "active_item"
+    },
+    {
+      "frameKey": "item650",
+      "id": "wood_log",
+      "name": "Чурак",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item651",
+      "id": "item651",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item652",
+      "id": "item652",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item653",
+      "id": "item653",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item654",
+      "id": "item654",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item655",
+      "id": "item655",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item656",
+      "id": "item656",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item657",
+      "id": "item657",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item658",
+      "id": "item658",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item659",
+      "id": "item659",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item660",
+      "id": "item660",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item661",
+      "id": "item661",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item662",
+      "id": "item662",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item663",
+      "id": "item663",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item664",
+      "id": "item664",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item665",
+      "id": "item665",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item666",
+      "id": "item666",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item667",
+      "id": "item667",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item668",
+      "id": "item668",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item669",
+      "id": "item669",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item670",
+      "id": "item670",
+      "name": "Шкура",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item671",
+      "id": "item671",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item672",
+      "id": "item672",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item673",
+      "id": "item673",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item674",
+      "id": "item674",
+      "name": "Кожаный рюкзак",
+      "slot": "backpack",
+      "inventoryBonusSlots": 5
+    },
+    {
+      "frameKey": "item675",
+      "id": "item675",
+      "name": "Походный рюкзак",
+      "slot": "backpack",
+      "inventoryBonusSlots": 10
+    },
+    {
+      "frameKey": "item676",
+      "id": "item676",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item677",
+      "id": "item677",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item678",
+      "id": "item678",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item679",
+      "id": "item679",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item680",
+      "id": "leather_scrap",
+      "name": "Обрезки кожи",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item681",
+      "id": "item681",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item682",
+      "id": "item682",
+      "name": "Портфель торговца",
+      "slot": "backpack",
+      "inventoryBonusSlots": 3
+    },
+    {
+      "frameKey": "item683",
+      "id": "item683",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item684",
+      "id": "item684",
+      "name": "Сигарета",
+      "slot": "consumable"
+    },
+    {
+      "frameKey": "item685",
+      "id": "item685",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item686",
+      "id": "item686",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item687",
+      "id": "item687",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item688",
+      "id": "item688",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item689",
+      "id": "item689",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item690",
+      "id": "item690",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item691",
+      "id": "item691",
+      "name": "Золотой ключ",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item692",
+      "id": "item692",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item693",
+      "id": "item693",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item694",
+      "id": "item694",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item695",
+      "id": "item695",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item696",
+      "id": "item696",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item697",
+      "id": "item697",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item698",
+      "id": "item698",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item699",
+      "id": "item699",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item700",
+      "id": "item700",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item701",
+      "id": "item701",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item702",
+      "id": "item702",
+      "name": "Нитки",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item703",
+      "id": "item703",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item704",
+      "id": "item704",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item705",
+      "id": "item705",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item706",
+      "id": "item706",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item707",
+      "id": "item707",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item708",
+      "id": "item708",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item709",
+      "id": "item709",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item710",
+      "id": "cloth_roll",
+      "name": "Рулон ткани",
+      "slot": "material"
+    },
+    {
+      "frameKey": "item711",
+      "id": "item711",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item712",
+      "id": "item712",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item713",
+      "id": "item713",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item714",
+      "id": "item714",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item715",
+      "id": "item715",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item716",
+      "id": "item716",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item717",
+      "id": "item717",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item718",
+      "id": "item718",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item719",
+      "id": "item719",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item720",
+      "id": "item720",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item721",
+      "id": "item721",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item722",
+      "id": "item722",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item723",
+      "id": "item723",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item724",
+      "id": "item724",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item725",
+      "id": "item725",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item726",
+      "id": "item726",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item727",
+      "id": "item727",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item728",
+      "id": "item728",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item729",
+      "id": "item729",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item730",
+      "id": "item730",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item731",
+      "id": "item731",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item732",
+      "id": "item732",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item733",
+      "id": "item733",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item734",
+      "id": "item734",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item735",
+      "id": "item735",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item736",
+      "id": "item736",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item737",
+      "id": "item737",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item738",
+      "id": "item738",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item739",
+      "id": "item739",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item740",
+      "id": "nails",
+      "name": "Гвозди",
+      "slot": "material",
+      "iconFrameKey": "item932"
+    },
+    {
+      "frameKey": "item741",
+      "id": "item741",
+      "name": "Ржавый ключ",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item742",
+      "id": "item742",
+      "name": "Серебряный ключ",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item743",
+      "id": "item743",
+      "name": "Зловещий ключ",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item744",
+      "id": "item744",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item745",
+      "id": "item745",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item746",
+      "id": "item746",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item747",
+      "id": "item747",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item748",
+      "id": "item748",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item749",
+      "id": "item749",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item750",
+      "id": "item750",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item751",
+      "id": "item751",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item752",
+      "id": "item752",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item753",
+      "id": "item753",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item754",
+      "id": "item754",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item755",
+      "id": "item755",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item756",
+      "id": "item756",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item757",
+      "id": "item757",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item758",
+      "id": "item758",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item759",
+      "id": "item759",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item760",
+      "id": "item760",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item761",
+      "id": "item761",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item762",
+      "id": "item762",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item763",
+      "id": "item763",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item764",
+      "id": "item764",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item765",
+      "id": "item765",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item766",
+      "id": "item766",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item767",
+      "id": "item767",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item768",
+      "id": "item768",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item769",
+      "id": "item769",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item770",
+      "id": "hammer_tool",
+      "name": "Молоток",
+      "slot": "material",
+      "iconFrameKey": "item695"
+    },
+    {
+      "frameKey": "item771",
+      "id": "item771",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item772",
+      "id": "item772",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item773",
+      "id": "item773",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item774",
+      "id": "item774",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item775",
+      "id": "item775",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item776",
+      "id": "item776",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item777",
+      "id": "item777",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item778",
+      "id": "item778",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item779",
+      "id": "item779",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item780",
+      "id": "item780",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item781",
+      "id": "item781",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item782",
+      "id": "item782",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item783",
+      "id": "item783",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item784",
+      "id": "item784",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item785",
+      "id": "item785",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item786",
+      "id": "item786",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item787",
+      "id": "item787",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item788",
+      "id": "item788",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item789",
+      "id": "item789",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item790",
+      "id": "item790",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item791",
+      "id": "item791",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item792",
+      "id": "item792",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item793",
+      "id": "item793",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item794",
+      "id": "item794",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item795",
+      "id": "item795",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item796",
+      "id": "item796",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item797",
+      "id": "item797",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item798",
+      "id": "item798",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item799",
+      "id": "item799",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item800",
+      "id": "key_iron",
+      "name": "Железный ключ",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item801",
+      "id": "item801",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item802",
+      "id": "item802",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item803",
+      "id": "item803",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item804",
+      "id": "item804",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item805",
+      "id": "item805",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item806",
+      "id": "item806",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item807",
+      "id": "item807",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item808",
+      "id": "item808",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item809",
+      "id": "item809",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item810",
+      "id": "item810",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item811",
+      "id": "item811",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item812",
+      "id": "item812",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item813",
+      "id": "item813",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item814",
+      "id": "item814",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item815",
+      "id": "item815",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item816",
+      "id": "item816",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item817",
+      "id": "item817",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item818",
+      "id": "item818",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item819",
+      "id": "item819",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item820",
+      "id": "item820",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item821",
+      "id": "item821",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item822",
+      "id": "item822",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item823",
+      "id": "item823",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item824",
+      "id": "item824",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item825",
+      "id": "item825",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item826",
+      "id": "item826",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item827",
+      "id": "item827",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item828",
+      "id": "item828",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item829",
+      "id": "item829",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item830",
+      "id": "scroll_old",
+      "name": "Пожелтевший свиток",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item831",
+      "id": "item831",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item832",
+      "id": "item832",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item833",
+      "id": "item833",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item834",
+      "id": "item834",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item835",
+      "id": "item835",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item836",
+      "id": "item836",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item837",
+      "id": "item837",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item838",
+      "id": "item838",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item839",
+      "id": "item839",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item840",
+      "id": "item840",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item841",
+      "id": "item841",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item842",
+      "id": "item842",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item843",
+      "id": "item843",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item844",
+      "id": "item844",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item845",
+      "id": "item845",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item846",
+      "id": "item846",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item847",
+      "id": "item847",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item848",
+      "id": "item848",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item849",
+      "id": "item849",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item850",
+      "id": "item850",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item851",
+      "id": "item851",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item852",
+      "id": "item852",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item853",
+      "id": "item853",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item854",
+      "id": "item854",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item855",
+      "id": "item855",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item856",
+      "id": "item856",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item857",
+      "id": "item857",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item858",
+      "id": "item858",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item859",
+      "id": "item859",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item860",
+      "id": "letter_sealed",
+      "name": "Запечатанное письмо",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item861",
+      "id": "item861",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item862",
+      "id": "item862",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item863",
+      "id": "item863",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item864",
+      "id": "item864",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item865",
+      "id": "item865",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item866",
+      "id": "item866",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item867",
+      "id": "item867",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item868",
+      "id": "item868",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item869",
+      "id": "item869",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item870",
+      "id": "item870",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item871",
+      "id": "item871",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item872",
+      "id": "item872",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item873",
+      "id": "item873",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item874",
+      "id": "item874",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item875",
+      "id": "item875",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item876",
+      "id": "item876",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item877",
+      "id": "item877",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item878",
+      "id": "item878",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item879",
+      "id": "item879",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item880",
+      "id": "item880",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item881",
+      "id": "item881",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item882",
+      "id": "item882",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item883",
+      "id": "item883",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item884",
+      "id": "item884",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item885",
+      "id": "item885",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item886",
+      "id": "item886",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item887",
+      "id": "item887",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item888",
+      "id": "item888",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item889",
+      "id": "item889",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item890",
+      "id": "compass",
+      "name": "Компас",
+      "slot": "quest"
+    },
+    {
+      "frameKey": "item891",
+      "id": "item891",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item892",
+      "id": "item892",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item893",
+      "id": "item893",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item894",
+      "id": "item894",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item895",
+      "id": "item895",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item896",
+      "id": "item896",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item897",
+      "id": "item897",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item898",
+      "id": "item898",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item899",
+      "id": "item899",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item900",
+      "id": "item900",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item901",
+      "id": "item901",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item902",
+      "id": "item902",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item903",
+      "id": "item903",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item904",
+      "id": "item904",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item905",
+      "id": "item905",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item906",
+      "id": "item906",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item907",
+      "id": "item907",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item908",
+      "id": "item908",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item909",
+      "id": "item909",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item910",
+      "id": "item910",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item911",
+      "id": "item911",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item912",
+      "id": "item912",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item913",
+      "id": "item913",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item914",
+      "id": "item914",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item915",
+      "id": "item915",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item916",
+      "id": "item916",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item917",
+      "id": "item917",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item918",
+      "id": "item918",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item919",
+      "id": "item919",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item920",
+      "id": "lantern",
+      "name": "Щит",
+      "slot": "offhand",
+      "iconFrameKey": "item199"
+    },
+    {
+      "frameKey": "item921",
+      "id": "item921",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item922",
+      "id": "item922",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item923",
+      "id": "item923",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item924",
+      "id": "item924",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item925",
+      "id": "item925",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item926",
+      "id": "item926",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item927",
+      "id": "item927",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item928",
+      "id": "item928",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item929",
+      "id": "item929",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item930",
+      "id": "item930",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item931",
+      "id": "item931",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item932",
+      "id": "item932",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item933",
+      "id": "item933",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item934",
+      "id": "item934",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item935",
+      "id": "item935",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item936",
+      "id": "item936",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item937",
+      "id": "item937",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item938",
+      "id": "item938",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item939",
+      "id": "item939",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item940",
+      "id": "item940",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item941",
+      "id": "item941",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item942",
+      "id": "item942",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item943",
+      "id": "item943",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item944",
+      "id": "item944",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item945",
+      "id": "item945",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item946",
+      "id": "item946",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item947",
+      "id": "item947",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item948",
+      "id": "item948",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item949",
+      "id": "item949",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item950",
+      "id": "torch",
+      "name": "Факел",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item951",
+      "id": "item951",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item952",
+      "id": "item952",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item953",
+      "id": "item953",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item954",
+      "id": "item954",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item955",
+      "id": "item955",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item956",
+      "id": "item956",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item957",
+      "id": "item957",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item958",
+      "id": "item958",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item959",
+      "id": "item959",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item960",
+      "id": "item960",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item961",
+      "id": "item961",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item962",
+      "id": "item962",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item963",
+      "id": "item963",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item964",
+      "id": "item964",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item965",
+      "id": "item965",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item966",
+      "id": "item966",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item967",
+      "id": "item967",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item968",
+      "id": "item968",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item969",
+      "id": "item969",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item970",
+      "id": "item970",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item971",
+      "id": "item971",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item972",
+      "id": "item972",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item973",
+      "id": "item973",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item974",
+      "id": "item974",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item975",
+      "id": "item975",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item976",
+      "id": "item976",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item977",
+      "id": "item977",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item978",
+      "id": "item978",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item979",
+      "id": "item979",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item980",
+      "id": "pickaxe",
+      "name": "Плохая Кирка",
+      "slot": "pickaxe",
+      "tags": [
+        "instrument",
+        "pickaxe"
+      ],
+      "iconFrameKey": "item22"
+    },
+    {
+      "frameKey": "item981",
+      "id": "item981",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item982",
+      "id": "item982",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item983",
+      "id": "item983",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item984",
+      "id": "item984",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item985",
+      "id": "item985",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item986",
+      "id": "item986",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item987",
+      "id": "item987",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item988",
+      "id": "item988",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item989",
+      "id": "item989",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item990",
+      "id": "item990",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item991",
+      "id": "item991",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item992",
+      "id": "item992",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item993",
+      "id": "item993",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item994",
+      "id": "item994",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item995",
+      "id": "item995",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item996",
+      "id": "item996",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item997",
+      "id": "item997",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item998",
+      "id": "item998",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item999",
+      "id": "item999",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1000",
+      "id": "item1000",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1001",
+      "id": "item1001",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1002",
+      "id": "item1002",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1003",
+      "id": "item1003",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1004",
+      "id": "item1004",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1005",
+      "id": "item1005",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1006",
+      "id": "item1006",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1007",
+      "id": "item1007",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1008",
+      "id": "item1008",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1009",
+      "id": "item1009",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1010",
+      "id": "spear_short",
+      "name": "Короткое копьё",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item1011",
+      "id": "item1011",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1012",
+      "id": "item1012",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1013",
+      "id": "item1013",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1014",
+      "id": "item1014",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1015",
+      "id": "item1015",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1016",
+      "id": "item1016",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1017",
+      "id": "item1017",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1018",
+      "id": "item1018",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1019",
+      "id": "item1019",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1020",
+      "id": "item1020",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1021",
+      "id": "item1021",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1022",
+      "id": "item1022",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1023",
+      "id": "item1023",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1024",
+      "id": "item1024",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1025",
+      "id": "item1025",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1026",
+      "id": "item1026",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1027",
+      "id": "item1027",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1028",
+      "id": "item1028",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1029",
+      "id": "item1029",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1030",
+      "id": "item1030",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1031",
+      "id": "item1031",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1032",
+      "id": "item1032",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1033",
+      "id": "item1033",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1034",
+      "id": "item1034",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1035",
+      "id": "item1035",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1036",
+      "id": "item1036",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1037",
+      "id": "item1037",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1038",
+      "id": "item1038",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1039",
+      "id": "item1039",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1040",
+      "id": "bow_small",
+      "name": "Орхидея",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1041",
+      "id": "item1041",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1042",
+      "id": "item1042",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1043",
+      "id": "item1043",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1044",
+      "id": "item1044",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1045",
+      "id": "item1045",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1046",
+      "id": "item1046",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1047",
+      "id": "item1047",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1048",
+      "id": "item1048",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1049",
+      "id": "item1049",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1050",
+      "id": "item1050",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1051",
+      "id": "item1051",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1052",
+      "id": "item1052",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1053",
+      "id": "item1053",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1054",
+      "id": "item1054",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1055",
+      "id": "item1055",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1056",
+      "id": "item1056",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1057",
+      "id": "item1057",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1058",
+      "id": "item1058",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1059",
+      "id": "item1059",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1060",
+      "id": "item1060",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1061",
+      "id": "item1061",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1062",
+      "id": "item1062",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1063",
+      "id": "item1063",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1064",
+      "id": "item1064",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1065",
+      "id": "item1065",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1066",
+      "id": "item1066",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1067",
+      "id": "item1067",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1068",
+      "id": "item1068",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1069",
+      "id": "item1069",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1070",
+      "id": "arrow_bundle",
+      "name": "Стрелы",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1071",
+      "id": "item1071",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1072",
+      "id": "item1072",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1073",
+      "id": "item1073",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1074",
+      "id": "item1074",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1075",
+      "id": "item1075",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1076",
+      "id": "item1076",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1077",
+      "id": "item1077",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1078",
+      "id": "item1078",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1079",
+      "id": "item1079",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1080",
+      "id": "item1080",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1081",
+      "id": "item1081",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1082",
+      "id": "item1082",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1083",
+      "id": "item1083",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1084",
+      "id": "item1084",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1085",
+      "id": "item1085",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1086",
+      "id": "item1086",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1087",
+      "id": "item1087",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1088",
+      "id": "item1088",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1089",
+      "id": "item1089",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1090",
+      "id": "item1090",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1091",
+      "id": "item1091",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1092",
+      "id": "item1092",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1093",
+      "id": "item1093",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1094",
+      "id": "item1094",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1095",
+      "id": "item1095",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1096",
+      "id": "item1096",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1097",
+      "id": "item1097",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1098",
+      "id": "item1098",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1099",
+      "id": "item1099",
+      "name": "",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1100",
+      "id": "dagger",
+      "name": "Кинжал",
+      "slot": "fish"
+    },
+    {
+      "frameKey": "item1101",
+      "id": "item1101",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1102",
+      "id": "item1102",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1103",
+      "id": "item1103",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1104",
+      "id": "item1104",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1105",
+      "id": "item1105",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1106",
+      "id": "item1106",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1107",
+      "id": "item1107",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1108",
+      "id": "item1108",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1109",
+      "id": "item1109",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1110",
+      "id": "item1110",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1111",
+      "id": "item1111",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1112",
+      "id": "item1112",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1113",
+      "id": "item1113",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1114",
+      "id": "item1114",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1115",
+      "id": "item1115",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1116",
+      "id": "item1116",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1117",
+      "id": "item1117",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1118",
+      "id": "item1118",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1119",
+      "id": "item1119",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1120",
+      "id": "item1120",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1121",
+      "id": "item1121",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1122",
+      "id": "item1122",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1123",
+      "id": "item1123",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1124",
+      "id": "item1124",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1125",
+      "id": "item1125",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1126",
+      "id": "item1126",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1127",
+      "id": "item1127",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1128",
+      "id": "item1128",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1129",
+      "id": "item1129",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1130",
+      "id": "mace",
+      "name": "Булава",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item1131",
+      "id": "item1131",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1132",
+      "id": "item1132",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1133",
+      "id": "item1133",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1134",
+      "id": "item1134",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1135",
+      "id": "item1135",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1136",
+      "id": "item1136",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1137",
+      "id": "item1137",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1138",
+      "id": "item1138",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1139",
+      "id": "item1139",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1140",
+      "id": "item1140",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1141",
+      "id": "item1141",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1142",
+      "id": "item1142",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1143",
+      "id": "item1143",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1144",
+      "id": "item1144",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1145",
+      "id": "item1145",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1146",
+      "id": "item1146",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1147",
+      "id": "item1147",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1148",
+      "id": "item1148",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1149",
+      "id": "item1149",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1150",
+      "id": "item1150",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1151",
+      "id": "item1151",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1152",
+      "id": "item1152",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1153",
+      "id": "item1153",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1154",
+      "id": "item1154",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1155",
+      "id": "item1155",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1156",
+      "id": "item1156",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1157",
+      "id": "item1157",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1158",
+      "id": "item1158",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1159",
+      "id": "item1159",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1160",
+      "id": "staff_oak",
+      "name": "Дубовый посох",
+      "slot": "weapon"
+    },
+    {
+      "frameKey": "item1161",
+      "id": "item1161",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1162",
+      "id": "item1162",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1163",
+      "id": "item1163",
+      "name": "",
+      "slot": "unknown"
+    },
+    {
+      "frameKey": "item1164",
+      "id": "item1164",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1165",
+      "id": "item1165",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1166",
+      "id": "item1166",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1167",
+      "id": "item1167",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1168",
+      "id": "item1168",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1169",
+      "id": "item1169",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1170",
+      "id": "item1170",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1171",
+      "id": "item1171",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1172",
+      "id": "item1172",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1173",
+      "id": "item1173",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1174",
+      "id": "item1174",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1175",
+      "id": "item1175",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1176",
+      "id": "item1176",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1177",
+      "id": "item1177",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1178",
+      "id": "item1178",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1179",
+      "id": "item1179",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1180",
+      "id": "item1180",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1181",
+      "id": "item1181",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1182",
+      "id": "item1182",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1183",
+      "id": "item1183",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1184",
+      "id": "item1184",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1185",
+      "id": "item1185",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1186",
+      "id": "item1186",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1187",
+      "id": "item1187",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1188",
+      "id": "item1188",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1189",
+      "id": "item1189",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1190",
+      "id": "potion_blue",
+      "name": "Синий эликсир",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1191",
+      "id": "item1191",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1192",
+      "id": "item1192",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1193",
+      "id": "item1193",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1194",
+      "id": "item1194",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1195",
+      "id": "item1195",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1196",
+      "id": "item1196",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1197",
+      "id": "item1197",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1198",
+      "id": "item1198",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1199",
+      "id": "item1199",
+      "name": "Крыло летущей мыши",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1200",
+      "id": "item1200",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1201",
+      "id": "item1201",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1202",
+      "id": "item1202",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1203",
+      "id": "item1203",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1204",
+      "id": "item1204",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1205",
+      "id": "item1205",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1206",
+      "id": "item1206",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1207",
+      "id": "item1207",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1208",
+      "id": "item1208",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1209",
+      "id": "item1209",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1210",
+      "id": "potion_green",
+      "name": "Зелёная микстура",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1211",
+      "id": "item1211",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1212",
+      "id": "item1212",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1213",
+      "id": "item1213",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1214",
+      "id": "item1214",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1215",
+      "id": "item1215",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1216",
+      "id": "item1216",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1217",
+      "id": "item1217",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1218",
+      "id": "item1218",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1219",
+      "id": "item1219",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1220",
+      "id": "ore_silver",
+      "name": "Серебряная крошка",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1221",
+      "id": "item1221",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1222",
+      "id": "item1222",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1223",
+      "id": "item1223",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1224",
+      "id": "item1224",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1225",
+      "id": "item1225",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1226",
+      "id": "item1226",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1227",
+      "id": "item1227",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1228",
+      "id": "item1228",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1229",
+      "id": "item1229",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1230",
+      "id": "gem_red",
+      "name": "Красный камень",
+      "slot": "loot",
+      "iconFrameKey": "item536"
+    },
+    {
+      "frameKey": "item1231",
+      "id": "item1231",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1232",
+      "id": "item1232",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1233",
+      "id": "item1233",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1234",
+      "id": "item1234",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1235",
+      "id": "item1235",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1236",
+      "id": "item1236",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1237",
+      "id": "item1237",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1238",
+      "id": "item1238",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1239",
+      "id": "item1239",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1240",
+      "id": "item1240",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1241",
+      "id": "item1241",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1242",
+      "id": "item1242",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1243",
+      "id": "item1243",
+      "name": "",
+      "slot": "loot"
+    },
+    {
+      "frameKey": "item1244",
+      "id": "item1244",
+      "name": "",
+      "slot": "loot"
+    }
+  ]
+}

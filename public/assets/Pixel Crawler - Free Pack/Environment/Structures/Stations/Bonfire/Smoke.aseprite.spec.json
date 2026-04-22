@@ -1,0 +1,163 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Bonfire/Smoke.aseprite",
+  "canvas": {
+    "width": 32,
+    "height": 48
+  },
+  "colorDepth": 32,
+  "numFrames": 4,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": false
+    },
+    {
+      "index": 1,
+      "name": "Layer 3",
+      "visible": false
+    },
+    {
+      "index": 2,
+      "name": "Layer 4",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 1,
+          "y": 27,
+          "width": 29,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 13,
+          "y": 2,
+          "width": 7,
+          "height": 30,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 15,
+          "y": 2,
+          "width": 3,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 1,
+          "y": 27,
+          "width": 29,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 13,
+          "y": 3,
+          "width": 7,
+          "height": 29,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 15,
+          "y": 3,
+          "width": 3,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 1,
+          "y": 27,
+          "width": 29,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 13,
+          "y": 4,
+          "width": 7,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 15,
+          "y": 4,
+          "width": 3,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 1,
+          "y": 27,
+          "width": 29,
+          "height": 14,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 12,
+          "y": 2,
+          "width": 7,
+          "height": 30,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 14,
+          "y": 5,
+          "width": 4,
+          "height": 27,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

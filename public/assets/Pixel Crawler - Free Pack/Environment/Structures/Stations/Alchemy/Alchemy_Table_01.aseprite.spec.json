@@ -1,0 +1,2755 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Alchemy/Alchemy_Table_01.aseprite",
+  "canvas": {
+    "width": 32,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 63,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 3",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Layer 4",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Layer 2",
+      "visible": true
+    },
+    {
+      "index": 4,
+      "name": "Layer 5",
+      "visible": true
+    },
+    {
+      "index": 5,
+      "name": "Layer 6",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 0,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 4,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 8,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 31,
+          "width": 31,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 29,
+          "width": 31,
+          "height": 32,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 26,
+          "width": 31,
+          "height": 35,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 24,
+          "width": 31,
+          "height": 37,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 24,
+          "width": 31,
+          "height": 37,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 26,
+          "width": 31,
+          "height": 35,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 28,
+          "width": 31,
+          "height": 33,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 30,
+          "width": 31,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 31,
+          "width": 31,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 5,
+          "y": 31,
+          "width": 27,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 8,
+          "y": 29,
+          "width": 24,
+          "height": 32,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 8,
+          "y": 30,
+          "width": 24,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 9,
+          "y": 30,
+          "width": 23,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 8,
+          "y": 30,
+          "width": 24,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 9,
+          "y": 30,
+          "width": 23,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 8,
+          "y": 30,
+          "width": 24,
+          "height": 31,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 8,
+          "y": 29,
+          "width": 24,
+          "height": 32,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 5,
+          "y": 31,
+          "width": 27,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 31,
+          "width": 31,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 32,
+          "width": 31,
+          "height": 29,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 53,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 55,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 16,
+          "y": 35,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 57,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 19,
+          "y": 40,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 58,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 42,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 20,
+          "y": 46,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 59,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 11,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 20,
+          "y": 46,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 60,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 8,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 20,
+          "y": 46,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 61,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 4,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 20,
+          "y": 46,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 62,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 39,
+          "width": 32,
+          "height": 25,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 41,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 4",
+          "x": 0,
+          "y": 44,
+          "width": 9,
+          "height": 8,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 2",
+          "x": 1,
+          "y": 33,
+          "width": 31,
+          "height": 28,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Layer 5",
+          "x": 20,
+          "y": 46,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

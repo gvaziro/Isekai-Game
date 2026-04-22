@@ -1,0 +1,111 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Entities/Npc's/Rogue/Death/Death.aseprite",
+  "canvas": {
+    "width": 64,
+    "height": 32
+  },
+  "colorDepth": 32,
+  "numFrames": 6,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 2,
+          "width": 19,
+          "height": 30,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 9,
+          "width": 21,
+          "height": 23,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 9,
+          "width": 28,
+          "height": 23,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 17,
+          "width": 34,
+          "height": 15,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 23,
+          "width": 35,
+          "height": 9,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 23,
+          "y": 21,
+          "width": 35,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

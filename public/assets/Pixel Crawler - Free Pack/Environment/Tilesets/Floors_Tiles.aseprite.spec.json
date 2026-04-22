@@ -1,0 +1,36 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Tilesets/Floors_Tiles.aseprite",
+  "canvas": {
+    "width": 400,
+    "height": 416
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 416,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

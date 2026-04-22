@@ -1,0 +1,81 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Bonfire/Bonfire_08.aseprite",
+  "canvas": {
+    "width": 32,
+    "height": 32
+  },
+  "colorDepth": 32,
+  "numFrames": 4,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 4,
+          "y": 11,
+          "width": 23,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 4,
+          "y": 11,
+          "width": 23,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 4,
+          "y": 11,
+          "width": 23,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 4,
+          "y": 11,
+          "width": 23,
+          "height": 11,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

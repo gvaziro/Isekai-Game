@@ -1,0 +1,36 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Props/Static/Trees/Model_03/Size_05.aseprite",
+  "canvas": {
+    "width": 384,
+    "height": 512
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 1,
+          "width": 369,
+          "height": 511,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

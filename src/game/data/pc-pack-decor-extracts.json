@@ -1,0 +1,55 @@
+{
+  "packRootUrl": "/assets/Pixel%20Crawler%20-%20Free%20Pack",
+  "extractions": [
+    {
+      "kind": "extract",
+      "id": "bush1",
+      "manifestKey": "bush1",
+      "snapGrid": 16,
+      "srcRel": "Environment/Props/Static/Vegetation.png",
+      "asepriteSpecRel": "Environment/Props/Static/Vegetation.aseprite.spec.json",
+      "slice": { "left": 128, "top": 256, "width": 32, "height": 32 },
+      "outRel": "decor/bush1.png"
+    },
+    {
+      "kind": "extract",
+      "id": "bush2",
+      "manifestKey": "bush2",
+      "snapGrid": 16,
+      "srcRel": "Environment/Props/Static/Vegetation.png",
+      "asepriteSpecRel": "Environment/Props/Static/Vegetation.aseprite.spec.json",
+      "slice": { "left": 224, "top": 288, "width": 32, "height": 32 },
+      "outRel": "decor/bush2.png"
+    },
+    {
+      "kind": "extract",
+      "id": "bench",
+      "manifestKey": "bench",
+      "snapGrid": 16,
+      "srcRel": "Environment/Props/Static/Furniture.png",
+      "asepriteSpecRel": "Environment/Props/Static/Furniture.aseprite.spec.json",
+      "slice": { "left": 288, "top": 448, "width": 48, "height": 32 },
+      "outRel": "decor/bench.png"
+    },
+    {
+      "kind": "extract",
+      "id": "chest",
+      "manifestKey": "chest",
+      "snapGrid": 16,
+      "srcRel": "Environment/Props/Static/Furniture.png",
+      "asepriteSpecRel": "Environment/Props/Static/Furniture.aseprite.spec.json",
+      "slice": { "left": 448, "top": 576, "width": 32, "height": 32 },
+      "outRel": "decor/chest.png"
+    },
+    {
+      "kind": "verticalStripToHorizontal",
+      "id": "bonfire_sheet",
+      "srcRel": "Environment/Structures/Stations/Bonfire/Bonfire.png",
+      "asepriteSpecRel": null,
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 6,
+      "outRel": "decor/bonfire_sheet.png"
+    }
+  ]
+}

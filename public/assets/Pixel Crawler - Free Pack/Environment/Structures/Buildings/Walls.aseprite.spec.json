@@ -1,0 +1,36 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Buildings/Walls.aseprite",
+  "canvas": {
+    "width": 672,
+    "height": 800
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 7,
+          "width": 672,
+          "height": 782,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

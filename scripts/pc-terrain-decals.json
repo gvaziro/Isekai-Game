@@ -1,0 +1,23 @@
+{
+  "tileSize": 16,
+  "vegetationRel": "Environment/Props/Static/Vegetation.png",
+  "rocksRel": "Environment/Props/Static/Rocks.png",
+  "grass": [
+    { "src": "vegetation", "x": 128, "y": 256, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 224, "y": 288, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 192, "y": 224, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 144, "y": 240, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 176, "y": 272, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 160, "y": 256, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 208, "y": 288, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 96, "y": 208, "w": 16, "h": 16 }
+  ],
+  "dirt": [
+    { "src": "rocks", "x": 48, "y": 96, "w": 16, "h": 16 },
+    { "src": "rocks", "x": 144, "y": 160, "w": 16, "h": 16 },
+    { "src": "rocks", "x": 64, "y": 128, "w": 16, "h": 16 },
+    { "src": "rocks", "x": 112, "y": 192, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 288, "y": 320, "w": 16, "h": 16 },
+    { "src": "vegetation", "x": 320, "y": 352, "w": 16, "h": 16 }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "grids": [
+    {
+      "keyPrefix": "pc_env_props_animated_pan_",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_bonfire_bonfire_",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_bonfire_bonfire",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_bonfire_fire_",
+      "frameWidth": 16,
+      "frameHeight": 16
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_bonfire_smoke_",
+      "frameWidth": 16,
+      "frameHeight": 16
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_cooking_station_cooker_cooker_03_sheet",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_cooking_station_cooker_cooker_04_sheet",
+      "frameWidth": 80,
+      "frameHeight": 80
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_cooking_station_grill_grill_",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_furnace_bricks_",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_furnace_iron_",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_furnace_stone_",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_structures_stations_furnace_furnace",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "keyPrefix": "pc_env_",
+      "frameWidth": 16,
+      "frameHeight": 16
+    }
+  ]
+}

@@ -1,0 +1,1228 @@
+{
+  "world": {
+    "width": 1280,
+    "height": 960
+  },
+  "load": [
+    {
+      "key": "grass",
+      "type": "image",
+      "url": "/assets/world/grass.png"
+    },
+    {
+      "key": "dirt",
+      "type": "image",
+      "url": "/assets/world/dirt.png"
+    },
+    {
+      "key": "world_ground",
+      "type": "image",
+      "url": "/assets/world/world_ground.png"
+    },
+    {
+      "key": "forest_ground",
+      "type": "image",
+      "url": "/assets/world/forest_ground.png"
+    },
+    {
+      "key": "grass_decor",
+      "type": "spritesheet",
+      "url": "/assets/world/decor/grass_decor.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "house",
+      "type": "image",
+      "url": "/assets/world/buildings/house.png"
+    },
+    {
+      "key": "pond",
+      "type": "image",
+      "url": "/assets/world/decor/pond.png"
+    },
+    {
+      "key": "tree1",
+      "type": "image",
+      "url": "/assets/world/decor/tree1.png"
+    },
+    {
+      "key": "tree1_autumn",
+      "type": "image",
+      "url": "/assets/world/decor/tree1_autumn.png"
+    },
+    {
+      "key": "tree2",
+      "type": "image",
+      "url": "/assets/world/decor/tree2.png"
+    },
+    {
+      "key": "tree3",
+      "type": "image",
+      "url": "/assets/world/decor/tree3.png"
+    },
+    {
+      "key": "tree3_red",
+      "type": "image",
+      "url": "/assets/world/decor/tree3_red.png"
+    },
+    {
+      "key": "tree_chopped_pine",
+      "type": "image",
+      "url": "/assets/world/decor/tree_chopped_pine.png"
+    },
+    {
+      "key": "tree_chopped_fir",
+      "type": "image",
+      "url": "/assets/world/decor/tree_chopped_fir.png"
+    },
+    {
+      "key": "tree_chopped_grand_fir",
+      "type": "image",
+      "url": "/assets/world/decor/tree_chopped_grand_fir.png"
+    },
+    {
+      "key": "rock1",
+      "type": "image",
+      "url": "/assets/world/decor/rock1.png"
+    },
+    {
+      "key": "rock2",
+      "type": "image",
+      "url": "/assets/world/decor/rock2.png"
+    },
+    {
+      "key": "nature_rocks",
+      "type": "image",
+      "url": "/assets/nature/Rocks.png"
+    },
+    {
+      "key": "bush1",
+      "type": "image",
+      "url": "/assets/world/decor/bush1.png"
+    },
+    {
+      "key": "bush2",
+      "type": "image",
+      "url": "/assets/world/decor/bush2.png"
+    },
+    {
+      "key": "bench",
+      "type": "image",
+      "url": "/assets/world/decor/bench.png"
+    },
+    {
+      "key": "chest",
+      "type": "image",
+      "url": "/assets/world/decor/chest.png"
+    },
+    {
+      "key": "bonfire_sheet",
+      "type": "spritesheet",
+      "url": "/assets/world/decor/bonfire_sheet.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "craft_wb_house",
+      "type": "image",
+      "url": "/assets/stations/Workbench.png"
+    },
+    {
+      "key": "craft_wb_workshop",
+      "type": "image",
+      "url": "/assets/stations/Workbench.png"
+    },
+    {
+      "key": "craft_sawmill",
+      "type": "image",
+      "url": "/assets/stations/Sawmill.png"
+    },
+    {
+      "key": "craft_anvil",
+      "type": "image",
+      "url": "/assets/stations/Anvil.png"
+    },
+    {
+      "key": "craft_cooking",
+      "type": "image",
+      "url": "/assets/stations/Cooking.png"
+    },
+    {
+      "key": "craft_alchemy",
+      "type": "image",
+      "url": "/assets/stations/Alchemy.png"
+    },
+    {
+      "key": "pc_idle_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_idle_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_idle_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_idle_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_idle_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_idle_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_walk_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_walk_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_walk_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_walk_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_walk_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_walk_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_run_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_run_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_run_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_run_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_run_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_run_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_hit_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_hit_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_hit_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_hit_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_hit_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_hit_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_death_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_death_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_death_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_death_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_death_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_death_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_slice_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_slice_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_slice_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_slice_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_slice_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_slice_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_pierce_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_pierce_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_pierce_top",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_pierce_top.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_pierce_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_pierce_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_crush_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_crush_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_crush_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_crush_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_crush_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_crush_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_collect_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_collect_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_collect_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_collect_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_collect_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_collect_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_fishing_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_fishing_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_fishing_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_fishing_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_fishing_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_fishing_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_watering_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_watering_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_watering_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_watering_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_watering_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_watering_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_idle_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_idle_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_idle_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_idle_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_idle_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_idle_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_walk_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_walk_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_walk_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_walk_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_walk_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_walk_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_run_side",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_run_side.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_run_up",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_run_up.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "pc_carry_run_down",
+      "type": "spritesheet",
+      "url": "/assets/world/units/pc_carry_run_down.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_orc_base_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_base_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_orc_base_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_base_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_orc_rogue_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_rogue_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_orc_rogue_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_rogue_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_orc_shaman_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_shaman_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_orc_shaman_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_shaman_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_orc_warrior_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_warrior_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_orc_warrior_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_orc_warrior_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_skeleton_base_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_base_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_skeleton_base_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_base_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_skeleton_mage_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_mage_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_skeleton_mage_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_mage_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_skeleton_rogue_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_rogue_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_skeleton_rogue_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_rogue_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "mob_skeleton_warrior_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_warrior_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "mob_skeleton_warrior_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/mob_skeleton_warrior_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "npc_knight_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_knight_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "npc_knight_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_knight_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "npc_rogue_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_rogue_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "npc_rogue_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_rogue_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    },
+    {
+      "key": "npc_wizzard_idle",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_wizzard_idle.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    {
+      "key": "npc_wizzard_run",
+      "type": "spritesheet",
+      "url": "/assets/world/units/npc_wizzard_run.png",
+      "frameWidth": 64,
+      "frameHeight": 64
+    }
+  ],
+  "animations": [
+    {
+      "key": "pc-idle-side",
+      "textureKey": "pc_idle_side",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-idle-up",
+      "textureKey": "pc_idle_up",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-idle-down",
+      "textureKey": "pc_idle_down",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-walk-side",
+      "textureKey": "pc_walk_side",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-walk-up",
+      "textureKey": "pc_walk_up",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-walk-down",
+      "textureKey": "pc_walk_down",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-run-side",
+      "textureKey": "pc_run_side",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "pc-run-up",
+      "textureKey": "pc_run_up",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "pc-run-down",
+      "textureKey": "pc_run_down",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "pc-hit-side",
+      "textureKey": "pc_hit_side",
+      "start": 0,
+      "end": 3,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-hit-up",
+      "textureKey": "pc_hit_up",
+      "start": 0,
+      "end": 3,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-hit-down",
+      "textureKey": "pc_hit_down",
+      "start": 0,
+      "end": 3,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-death-side",
+      "textureKey": "pc_death_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-death-up",
+      "textureKey": "pc_death_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-death-down",
+      "textureKey": "pc_death_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-slice-side",
+      "textureKey": "pc_slice_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-slice-up",
+      "textureKey": "pc_slice_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-slice-down",
+      "textureKey": "pc_slice_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-pierce-side",
+      "textureKey": "pc_pierce_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-pierce-top",
+      "textureKey": "pc_pierce_top",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-pierce-down",
+      "textureKey": "pc_pierce_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 14,
+      "repeat": 0
+    },
+    {
+      "key": "pc-crush-side",
+      "textureKey": "pc_crush_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-crush-up",
+      "textureKey": "pc_crush_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-crush-down",
+      "textureKey": "pc_crush_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 12,
+      "repeat": 0
+    },
+    {
+      "key": "pc-collect-side",
+      "textureKey": "pc_collect_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-collect-up",
+      "textureKey": "pc_collect_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-collect-down",
+      "textureKey": "pc_collect_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-fishing-side",
+      "textureKey": "pc_fishing_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 8,
+      "repeat": 0
+    },
+    {
+      "key": "pc-fishing-up",
+      "textureKey": "pc_fishing_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 8,
+      "repeat": 0
+    },
+    {
+      "key": "pc-fishing-down",
+      "textureKey": "pc_fishing_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 8,
+      "repeat": 0
+    },
+    {
+      "key": "pc-watering-side",
+      "textureKey": "pc_watering_side",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-watering-up",
+      "textureKey": "pc_watering_up",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-watering-down",
+      "textureKey": "pc_watering_down",
+      "start": 0,
+      "end": 7,
+      "frameRate": 10,
+      "repeat": 0
+    },
+    {
+      "key": "pc-carry-idle-side",
+      "textureKey": "pc_carry_idle_side",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-idle-up",
+      "textureKey": "pc_carry_idle_up",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-idle-down",
+      "textureKey": "pc_carry_idle_down",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-walk-side",
+      "textureKey": "pc_carry_walk_side",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-walk-up",
+      "textureKey": "pc_carry_walk_up",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-walk-down",
+      "textureKey": "pc_carry_walk_down",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-run-side",
+      "textureKey": "pc_carry_run_side",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-run-up",
+      "textureKey": "pc_carry_run_up",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "pc-carry-run-down",
+      "textureKey": "pc_carry_run_down",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-base-idle",
+      "textureKey": "mob_orc_base_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-base-run",
+      "textureKey": "mob_orc_base_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-rogue-idle",
+      "textureKey": "mob_orc_rogue_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-rogue-run",
+      "textureKey": "mob_orc_rogue_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-shaman-idle",
+      "textureKey": "mob_orc_shaman_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-shaman-run",
+      "textureKey": "mob_orc_shaman_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-warrior-idle",
+      "textureKey": "mob_orc_warrior_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-orc-warrior-run",
+      "textureKey": "mob_orc_warrior_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-base-idle",
+      "textureKey": "mob_skeleton_base_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-base-run",
+      "textureKey": "mob_skeleton_base_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-mage-idle",
+      "textureKey": "mob_skeleton_mage_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-mage-run",
+      "textureKey": "mob_skeleton_mage_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-rogue-idle",
+      "textureKey": "mob_skeleton_rogue_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-rogue-run",
+      "textureKey": "mob_skeleton_rogue_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-warrior-idle",
+      "textureKey": "mob_skeleton_warrior_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-mob-skeleton-warrior-run",
+      "textureKey": "mob_skeleton_warrior_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-bonfire",
+      "textureKey": "bonfire_sheet",
+      "start": 0,
+      "end": 5,
+      "frameRate": 8,
+      "repeat": -1
+    },
+    {
+      "key": "a-knight-idle",
+      "textureKey": "npc_knight_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-knight-run",
+      "textureKey": "npc_knight_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-rogue-idle",
+      "textureKey": "npc_rogue_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-rogue-run",
+      "textureKey": "npc_rogue_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    },
+    {
+      "key": "a-wizzard-idle",
+      "textureKey": "npc_wizzard_idle",
+      "start": 0,
+      "end": 3,
+      "frameRate": 6,
+      "repeat": -1
+    },
+    {
+      "key": "a-wizzard-run",
+      "textureKey": "npc_wizzard_run",
+      "start": 0,
+      "end": 5,
+      "frameRate": 10,
+      "repeat": -1
+    }
+  ],
+  "hero": {
+    "frameSize": 64,
+    "idleSide": "pc-idle-side",
+    "idleUp": "pc-idle-up",
+    "idleDown": "pc-idle-down",
+    "walkSide": "pc-walk-side",
+    "walkUp": "pc-walk-up",
+    "walkDown": "pc-walk-down",
+    "runSide": "pc-run-side",
+    "runUp": "pc-run-up",
+    "runDown": "pc-run-down",
+    "hitSide": "pc-hit-side",
+    "hitUp": "pc-hit-up",
+    "hitDown": "pc-hit-down",
+    "deathSide": "pc-death-side",
+    "deathUp": "pc-death-up",
+    "deathDown": "pc-death-down",
+    "sliceSide": "pc-slice-side",
+    "sliceUp": "pc-slice-up",
+    "sliceDown": "pc-slice-down",
+    "pierceSide": "pc-pierce-side",
+    "pierceUp": "pc-pierce-top",
+    "pierceDown": "pc-pierce-down",
+    "crushSide": "pc-crush-side",
+    "crushUp": "pc-crush-up",
+    "crushDown": "pc-crush-down",
+    "collectSide": "pc-collect-side",
+    "collectUp": "pc-collect-up",
+    "collectDown": "pc-collect-down",
+    "fishingSide": "pc-fishing-side",
+    "fishingUp": "pc-fishing-up",
+    "fishingDown": "pc-fishing-down",
+    "wateringSide": "pc-watering-side",
+    "wateringUp": "pc-watering-up",
+    "wateringDown": "pc-watering-down",
+    "carryIdleSide": "pc-carry-idle-side",
+    "carryIdleUp": "pc-carry-idle-up",
+    "carryIdleDown": "pc-carry-idle-down",
+    "carryWalkSide": "pc-carry-walk-side",
+    "carryWalkUp": "pc-carry-walk-up",
+    "carryWalkDown": "pc-carry-walk-down",
+    "carryRunSide": "pc-carry-run-side",
+    "carryRunUp": "pc-carry-run-up",
+    "carryRunDown": "pc-carry-run-down"
+  },
+  "units": {
+    "elena": {
+      "idleAnim": "a-wizzard-idle",
+      "runAnim": "a-wizzard-run"
+    },
+    "marcus": {
+      "idleAnim": "a-knight-idle",
+      "runAnim": "a-knight-run"
+    },
+    "igor": {
+      "idleAnim": "a-rogue-idle",
+      "runAnim": "a-rogue-run"
+    }
+  },
+  "mobs": {
+    "orc_base": {
+      "idleAnim": "a-mob-orc-base-idle",
+      "runAnim": "a-mob-orc-base-run",
+      "textureKeyIdle": "mob_orc_base_idle"
+    },
+    "orc_rogue": {
+      "idleAnim": "a-mob-orc-rogue-idle",
+      "runAnim": "a-mob-orc-rogue-run",
+      "textureKeyIdle": "mob_orc_rogue_idle"
+    },
+    "orc_shaman": {
+      "idleAnim": "a-mob-orc-shaman-idle",
+      "runAnim": "a-mob-orc-shaman-run",
+      "textureKeyIdle": "mob_orc_shaman_idle"
+    },
+    "orc_warrior": {
+      "idleAnim": "a-mob-orc-warrior-idle",
+      "runAnim": "a-mob-orc-warrior-run",
+      "textureKeyIdle": "mob_orc_warrior_idle"
+    },
+    "skeleton_base": {
+      "idleAnim": "a-mob-skeleton-base-idle",
+      "runAnim": "a-mob-skeleton-base-run",
+      "textureKeyIdle": "mob_skeleton_base_idle"
+    },
+    "skeleton_mage": {
+      "idleAnim": "a-mob-skeleton-mage-idle",
+      "runAnim": "a-mob-skeleton-mage-run",
+      "textureKeyIdle": "mob_skeleton_mage_idle"
+    },
+    "skeleton_rogue": {
+      "idleAnim": "a-mob-skeleton-rogue-idle",
+      "runAnim": "a-mob-skeleton-rogue-run",
+      "textureKeyIdle": "mob_skeleton_rogue_idle"
+    },
+    "skeleton_warrior": {
+      "idleAnim": "a-mob-skeleton-warrior-idle",
+      "runAnim": "a-mob-skeleton-warrior-run",
+      "textureKeyIdle": "mob_skeleton_warrior_idle"
+    }
+  }
+}

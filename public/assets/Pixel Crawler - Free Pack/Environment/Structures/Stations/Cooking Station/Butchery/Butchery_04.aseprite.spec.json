@@ -1,0 +1,78 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Cooking Station/Butchery/Butchery_04.aseprite",
+  "canvas": {
+    "width": 80,
+    "height": 80
+  },
+  "colorDepth": 32,
+  "numFrames": 1,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 2",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Layer 3",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Layer 4",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 40,
+          "width": 64,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 17,
+          "y": 16,
+          "width": 46,
+          "height": 45,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Layer 3",
+          "x": 2,
+          "y": 16,
+          "width": 67,
+          "height": 64,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Layer 4",
+          "x": 26,
+          "y": 24,
+          "width": 11,
+          "height": 14,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+Fir_Blue,4,4,37,76
+Fir_cyan,52,4,37,76
+Fir_Bare,99,6,40,74
+Fir_DarkGreen,4,84,37,76
+Fir_Green,52,84,37,76
+Fir_chopped_winter,117,135,6,9
+Fir_chopped_notwinter,117,151,6,9

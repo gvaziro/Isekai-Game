@@ -1,0 +1,144 @@
+{
+  "id": "forest",
+  "world": {
+    "width": 1280,
+    "height": 960
+  },
+  "backgroundFill": "#2a4a22",
+  "groundTextureKey": "forest_ground",
+  "pathSegments": [
+    {
+      "x": 580,
+      "y": 0,
+      "w": 120,
+      "h": 960
+    }
+  ],
+  "imageProps": [
+    {
+      "x": 180,
+      "y": 720,
+      "texture": "rock1",
+      "collider": {
+        "w": 22,
+        "h": 12,
+        "oy": 7
+      }
+    },
+    {
+      "x": 1120,
+      "y": 440,
+      "texture": "rock2",
+      "collider": {
+        "w": 22,
+        "h": 12,
+        "oy": 7
+      }
+    },
+    {
+      "x": 380,
+      "y": 820,
+      "texture": "bush1"
+    },
+    {
+      "x": 920,
+      "y": 860,
+      "texture": "bush2"
+    },
+    {
+      "x": 520,
+      "y": 200,
+      "texture": "rock1",
+      "collider": {
+        "w": 22,
+        "h": 12,
+        "oy": 7
+      }
+    },
+    {
+      "x": 780,
+      "y": 320,
+      "texture": "bush1"
+    },
+    {
+      "x": 260,
+      "y": 480,
+      "texture": "bush2"
+    },
+    {
+      "x": 1010,
+      "y": 640,
+      "texture": "rock2",
+      "collider": {
+        "w": 22,
+        "h": 12,
+        "oy": 7
+      }
+    }
+  ],
+  "animStations": [],
+  "npcIdleTexture": {
+    "elena": "npc_wizzard_idle",
+    "marcus": "npc_knight_idle",
+    "igor": "npc_rogue_idle"
+  },
+  "enemySpawns": [
+    {
+      "id": "grunt_crossroads",
+      "zoneId": "crossroads",
+      "x": 520,
+      "y": 680,
+      "lootTable": "grunt",
+      "mobVisualId": "orc_warrior"
+    },
+    {
+      "id": "grunt_se_1",
+      "zoneId": "se_woods",
+      "x": 980,
+      "y": 720,
+      "lootTable": "grunt",
+      "mobVisualId": "skeleton_rogue"
+    },
+    {
+      "id": "grunt_se_2",
+      "zoneId": "se_woods",
+      "x": 1060,
+      "y": 780,
+      "lootTable": "grunt",
+      "mobVisualId": "orc_shaman",
+      "level": 3
+    },
+    {
+      "id": "grunt_se_3",
+      "zoneId": "se_woods",
+      "x": 920,
+      "y": 840,
+      "lootTable": "grunt",
+      "mobVisualId": "skeleton_warrior"
+    }
+  ],
+  "spawns": {
+    "default": {
+      "x": 640,
+      "y": 800
+    },
+    "from_town": {
+      "x": 640,
+      "y": 140
+    }
+  },
+  "exits": [
+    {
+      "id": "to_town",
+      "x": 520,
+      "y": 888,
+      "w": 240,
+      "h": 72,
+      "targetLocationId": "town",
+      "targetSpawnId": "from_forest",
+      "label": "В поселение"
+    }
+  ],
+  "grassDecorSeed": "#51b2a3",
+  "grassDecorCount": 52
+}

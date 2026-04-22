@@ -1,0 +1,6 @@
+Furnace_Medium_ON,81,0,48,64
+Furnace_BIG_ON,0,0,80,64
+Furnace_Small_ON,130,65,32,48
+Furnace_Small_OFF,130,0,32,64
+Furnace_Medium_OFF,81,65,48,64
+Furnace_Big_OFF,0,65,80,64

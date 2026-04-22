@@ -1,0 +1,4034 @@
+{
+  "format": "aseprite-spec-v1",
+  "sourceAseprite": "Environment/Structures/Stations/Alchemy/Alchemy_Table_02.aseprite",
+  "canvas": {
+    "width": 48,
+    "height": 64
+  },
+  "colorDepth": 32,
+  "numFrames": 51,
+  "layers": [
+    {
+      "index": 0,
+      "name": "Layer 1",
+      "visible": true
+    },
+    {
+      "index": 1,
+      "name": "Layer 2",
+      "visible": true
+    },
+    {
+      "index": 2,
+      "name": "Taça",
+      "visible": true
+    },
+    {
+      "index": 3,
+      "name": "Livro",
+      "visible": true
+    },
+    {
+      "index": 4,
+      "name": "Fogo",
+      "visible": true
+    },
+    {
+      "index": 5,
+      "name": "Pote",
+      "visible": true
+    },
+    {
+      "index": 6,
+      "name": "Folha",
+      "visible": true
+    },
+    {
+      "index": 7,
+      "name": "Copo",
+      "visible": true
+    }
+  ],
+  "tags": [],
+  "slices": [],
+  "frames": [
+    {
+      "index": 0,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 12,
+          "y": 38,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 21,
+          "y": 35,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 28,
+          "y": 32,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 28,
+          "width": 7,
+          "height": 6,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 29,
+          "width": 10,
+          "height": 10,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 28,
+          "width": 8,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 29,
+          "width": 10,
+          "height": 10,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 28,
+          "width": 8,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 29,
+          "width": 10,
+          "height": 10,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 33,
+          "y": 28,
+          "width": 8,
+          "height": 12,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 26,
+          "y": 33,
+          "width": 15,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 20,
+          "y": 36,
+          "width": 21,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 10,
+          "y": 39,
+          "width": 31,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 12,
+          "y": 43,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 22,
+          "y": 38,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 30,
+          "y": 33,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 12,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 37,
+          "y": 28,
+          "width": 5,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 27,
+          "y": 36,
+          "width": 5,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 17,
+          "y": 43,
+          "width": 5,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 9,
+          "y": 45,
+          "width": 5,
+          "height": 6,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 10,
+          "y": 20,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 21,
+          "y": 18,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 26,
+          "y": 16,
+          "width": 9,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 17,
+          "width": 10,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 15,
+          "width": 10,
+          "height": 20,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 13,
+          "width": 10,
+          "height": 27,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 11,
+          "width": 10,
+          "height": 29,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 13,
+          "width": 10,
+          "height": 27,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 15,
+          "width": 10,
+          "height": 15,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 30,
+          "y": 17,
+          "width": 9,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 26,
+          "y": 16,
+          "width": 9,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 20,
+          "y": 18,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 10,
+          "y": 22,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "durationMs": 100,
+      "cels": [
+        {
+          "layerIndex": 0,
+          "layerName": "Layer 1",
+          "x": 0,
+          "y": 29,
+          "width": 48,
+          "height": 35,
+          "celType": 2
+        },
+        {
+          "layerIndex": 1,
+          "layerName": "Layer 2",
+          "x": 2,
+          "y": 20,
+          "width": 44,
+          "height": 40,
+          "celType": 2
+        },
+        {
+          "layerIndex": 2,
+          "layerName": "Taça",
+          "x": 10,
+          "y": 43,
+          "width": 7,
+          "height": 7,
+          "celType": 2
+        },
+        {
+          "layerIndex": 3,
+          "layerName": "Livro",
+          "x": 14,
+          "y": 25,
+          "width": 9,
+          "height": 11,
+          "celType": 2
+        },
+        {
+          "layerIndex": 4,
+          "layerName": "Fogo",
+          "x": 33,
+          "y": 36,
+          "width": 13,
+          "height": 17,
+          "celType": 2
+        },
+        {
+          "layerIndex": 5,
+          "layerName": "Pote",
+          "x": 3,
+          "y": 24,
+          "width": 7,
+          "height": 9,
+          "celType": 2
+        },
+        {
+          "layerIndex": 6,
+          "layerName": "Folha",
+          "x": 3,
+          "y": 47,
+          "width": 6,
+          "height": 5,
+          "celType": 2
+        },
+        {
+          "layerIndex": 7,
+          "layerName": "Copo",
+          "x": 2,
+          "y": 41,
+          "width": 6,
+          "height": 7,
+          "celType": 2
+        }
+      ]
+    }
+  ]
+}

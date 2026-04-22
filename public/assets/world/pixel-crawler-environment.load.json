@@ -1,0 +1,564 @@
+{
+  "load": [
+    {
+      "key": "pc_env_props_animated_pan_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Animated/Pan_01-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_props_animated_pan_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Animated/Pan_02-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 2
+    },
+    {
+      "key": "pc_env_props_animated_pan_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Animated/Pan_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_props_animated_pan_04_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Animated/Pan_04-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_props_animated_pan_05_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Animated/Pan_05-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 8
+    },
+    {
+      "key": "pc_env_props_static_dungeon_props",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Dungeon_Props.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_esoteric",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Esoteric.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_farm",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Farm.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_furniture",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Furniture.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 2700
+    },
+    {
+      "key": "pc_env_props_static_meat",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Meat.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 36
+    },
+    {
+      "key": "pc_env_props_static_pan",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Pan.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 110
+    },
+    {
+      "key": "pc_env_props_static_resources",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Resources.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_rocks",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Rocks.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 247
+    },
+    {
+      "key": "pc_env_props_static_shadows",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Shadows.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_tools",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Tools.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_props_static_trees_model_03_size_03_export",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Trees/Model_03/Size_03-export.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 216
+    },
+    {
+      "key": "pc_env_props_static_trees_model_03_size_04_export_export",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Trees/Model_03/Size_04-export-export.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 468
+    },
+    {
+      "key": "pc_env_props_static_trees_model_03_size_04_export",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Trees/Model_03/Size_04-export.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 468
+    },
+    {
+      "key": "pc_env_props_static_vegetation",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Props/Static/Vegetation.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 675
+    },
+    {
+      "key": "pc_env_structures_buildings_floors",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Buildings/Floors.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_structures_buildings_props",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Buildings/Props.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_structures_buildings_roofs",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Buildings/Roofs.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_structures_buildings_shadows",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Buildings/Shadows.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_structures_buildings_walls",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Buildings/Walls.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 2100
+    },
+    {
+      "key": "pc_env_structures_stations_alchemy_alchemy_table_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Alchemy/Alchemy_Table_01-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 528
+    },
+    {
+      "key": "pc_env_structures_stations_alchemy_alchemy_table_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Alchemy/Alchemy_Table_02-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 660
+    },
+    {
+      "key": "pc_env_structures_stations_alchemy_alchemy_table_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Alchemy/Alchemy_Table_03-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_01-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_02-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_04_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_04-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_05_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_05-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_06_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_06-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_07_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_07-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_08_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_08-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_09_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_09-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 10
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire_10_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire_10-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_bonfire",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Bonfire.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_fire_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Fire_01-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 24
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_fire_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Fire_02-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 24
+    },
+    {
+      "key": "pc_env_structures_stations_bonfire_smoke_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Bonfire/Smoke-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 24
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_butchery_butchery_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Butchery/Butchery_01-Sheet.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 16
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_butchery_butchery_02",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Butchery/Butchery_02.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 16
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_butchery_butchery_03",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Butchery/Butchery_03.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 25
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_butchery_butchery_04",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Butchery/Butchery_04.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 25
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_cooker_cooker_01",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Cooker/Cooker_01.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 16
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_cooker_cooker_02",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Cooker/Cooker_02.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 16
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_cooker_cooker_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Cooker/Cooker_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_cooker_cooker_04_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Cooker/Cooker_04-Sheet.png",
+      "frameWidth": 80,
+      "frameHeight": 80,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_cooking_station",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Cooking%20Station.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 252
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_estructure",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Estructure.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 252
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_grill_grill_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Grill/Grill_01-Sheet.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_grill_grill_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Grill/Grill_02-Sheet.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_grill_grill_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Grill/Grill_03-Sheet.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 4
+    },
+    {
+      "key": "pc_env_structures_stations_cooking_station_grill_grill_04_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Cooking%20Station/Grill/Grill_04-Sheet.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frameCount": 5
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_bricks_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Bricks_01-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_bricks_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Bricks_02-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_bricks_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Bricks_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_furnace",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Furnace.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 72
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_iron_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Iron_01-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_iron_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Iron_02-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_iron_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Iron_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_stone_01_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Stone_01-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 6
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_stone_02_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Stone_02-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_structures_stations_furnace_stone_03_sheet",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Structures/Stations/Furnace/Stone_03-Sheet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frameCount": 12
+    },
+    {
+      "key": "pc_env_tilesets_dungeon_tiles",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Tilesets/Dungeon_Tiles.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_tilesets_floors_tiles",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Tilesets/Floors_Tiles.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 650
+    },
+    {
+      "key": "pc_env_tilesets_wall_tiles",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Tilesets/Wall_Tiles.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    },
+    {
+      "key": "pc_env_tilesets_wall_variations",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Tilesets/Wall_Variations.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 480
+    },
+    {
+      "key": "pc_env_tilesets_water_tiles",
+      "type": "spritesheet",
+      "url": "/assets/Pixel%20Crawler%20-%20Free%20Pack/Environment/Tilesets/Water_tiles.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frameCount": 625
+    }
+  ]
+}
