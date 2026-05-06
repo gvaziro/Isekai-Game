@@ -19,6 +19,14 @@ const ZOOM_MAX = 2.8;
 const EXIT_MINIMAP_FILL = "#ca8a04";
 const EXIT_MINIMAP_STROKE = "#fde047";
 
+const DEATH_DROP_MAP_FILL = "#e11d48";
+const DEATH_DROP_MAP_STROKE = "#fecdd3";
+
+const GUIDE_TOWN_STROKE = "rgba(253, 224, 71, 0.85)";
+const GUIDE_TOWN_FILL = "rgba(253, 224, 71, 0.95)";
+const GUIDE_CORPSE_STROKE = "rgba(244, 63, 94, 0.88)";
+const GUIDE_CORPSE_FILL = "rgba(251, 113, 133, 0.95)";
+
 function drawGuideLineToTarget(
   ctx: CanvasRenderingContext2D,
   px: number,
@@ -26,8 +34,11 @@ function drawGuideLineToTarget(
   tx: number,
   ty: number,
   w: number,
-  h: number
+  h: number,
+  style?: { stroke: string; fill: string }
 ): void {
+  const stroke = style?.stroke ?? GUIDE_TOWN_STROKE;
+  const fill = style?.fill ?? GUIDE_TOWN_FILL;
   const margin = 10;
   const loX = margin;
   const hiX = w - margin;
@@ -50,8 +61,8 @@ function drawGuideLineToTarget(
   const ax = px + ux * tLine;
   const ay = py + uy * tLine;
   ctx.save();
-  ctx.strokeStyle = "rgba(253, 224, 71, 0.85)";
-  ctx.fillStyle = "rgba(253, 224, 71, 0.95)";
+  ctx.strokeStyle = stroke;
+  ctx.fillStyle = fill;
   ctx.lineWidth = 2;
   ctx.setLineDash([5, 4]);
   ctx.beginPath();
@@ -88,6 +99,7 @@ export default function ForestMapOverlay({
   const player = useGameStore((s) => s.player);
   const revealed = useGameStore((s) => s.forestRevealedCells);
   const worldSeed = useGameStore((s) => s.forestWorldSeed);
+  const deathDrops = useGameStore((s) => s.deathDrops);
 
   const viewGw = Math.max(
     18,
@@ -240,6 +252,47 @@ export default function ForestMapOverlay({
       drawGuideLineToTarget(ctx, vx, vy, exSx, exSy, CANVAS_W, CANVAS_H);
     }
 
+    const forestCorpses = Object.values(deathDrops).filter(
+      (d) =>
+        d.locationId === "forest" &&
+        Number.isFinite(d.x) &&
+        Number.isFinite(d.y)
+    );
+    let nearestCorpse: (typeof forestCorpses)[number] | null = null;
+    let nearestDist = Infinity;
+    for (const d of forestCorpses) {
+      const dist = Math.hypot(d.x - player.x, d.y - player.y);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearestCorpse = d;
+      }
+    }
+    if (nearestCorpse && nearestDist > 20) {
+      const cx = nearestCorpse.x / FOREST_MAP_CELL;
+      const cy = nearestCorpse.y / FOREST_MAP_CELL;
+      const csx = (cx - originGx) * cw + cw / 2;
+      const csy = (cy - originGy) * ch + ch / 2;
+      drawGuideLineToTarget(ctx, vx, vy, csx, csy, CANVAS_W, CANVAS_H, {
+        stroke: GUIDE_CORPSE_STROKE,
+        fill: GUIDE_CORPSE_FILL,
+      });
+    }
+
+    for (const d of forestCorpses) {
+      const cx = d.x / FOREST_MAP_CELL;
+      const cy = d.y / FOREST_MAP_CELL;
+      const mx = (cx - originGx) * cw + cw / 2;
+      const my = (cy - originGy) * ch + ch / 2;
+      const r = Math.max(2.5, cw * 0.28);
+      ctx.fillStyle = DEATH_DROP_MAP_FILL;
+      ctx.beginPath();
+      ctx.arc(mx, my, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = DEATH_DROP_MAP_STROKE;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
     ctx.fillStyle = "#f59e0b";
     ctx.beginPath();
     ctx.arc(vx, vy, Math.max(3, cw * 0.35), 0, Math.PI * 2);
@@ -257,6 +310,7 @@ export default function ForestMapOverlay({
     worldSeed,
     viewGw,
     viewGh,
+    deathDrops,
   ]);
 
   if (!open) return null;
@@ -275,7 +329,8 @@ export default function ForestMapOverlay({
         <p className="mt-1 text-center text-[11px] text-zinc-500">
           Разведанная область: дорога, деревья, камни, кусты и трава. Перетащите
           карту указателем, колёсико — масштаб. Жёлтая пунктирная линия и
-          стрелка — направление к выходу в поселение (на хабе).
+          стрелка — направление к выходу в поселение (на хабе). Розовая — к
+          ближайшему месту гибели с лутом; розовые точки — все такие места.
         </p>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
           <button
@@ -327,6 +382,13 @@ export default function ForestMapOverlay({
           <span className="inline-flex items-center gap-1">
             <span className="h-2 w-2 rounded-sm" style={{ background: EXIT_MINIMAP_FILL }} />
             выход в город
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <span
+              className="h-2 w-2 rounded-full border border-[#fecdd3]"
+              style={{ background: DEATH_DROP_MAP_FILL }}
+            />
+            тело с лутом
           </span>
           <span className="inline-flex items-center gap-1">
             <span className="h-2 w-2 rounded-sm" style={{ background: FOREST_MINIMAP_COLORS.path }} />

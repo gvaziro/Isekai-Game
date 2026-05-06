@@ -6,6 +6,7 @@ import {
   FOREST_CHUNK_W,
   generateForestChunkPayload,
   isForestChunkAllowed,
+  type ForestForagePickup,
   worldToForestChunk,
 } from "@/src/game/locations/forestChunkGen";
 import type { LayoutImageProp } from "@/src/game/locations/types";
@@ -19,6 +20,8 @@ export type ForestChunkManagerHooks = {
   /** Спрайт пропа + коллайдеры чанка (всё уничтожается при выгрузке чанка). */
   placeChunkLayoutProp: (chunkKey: string, p: LayoutImageProp) => Phaser.GameObjects.GameObject[];
   pushWorldObject: (obj: Phaser.GameObjects.GameObject) => void;
+  /** Грибы у деревьев — как дроп на земле (живут в `MainScene.pickups`). */
+  spawnChunkForestForage?: (chunkKey: string, items: readonly ForestForagePickup[]) => void;
 };
 
 /**
@@ -161,6 +164,8 @@ export class ForestChunkManager {
         objs.push(o);
       }
     }
+
+    this.hooks.spawnChunkForestForage?.(key, payload.forestForage);
 
     this.loaded.set(key, objs);
   }

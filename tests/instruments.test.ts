@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { MAX_INVENTORY_SLOTS } from "@/src/game/constants/gameplay";
 import {
   equippedHasInstrumentRole,
   inventoryHasInstrumentRole,
@@ -61,7 +62,7 @@ describe("inventoryQtyOf", () => {
 
 describe("sanitizeEquippedVsCatalog", () => {
   it("снимает кирку с слота оружия и кладёт в инвентарь", () => {
-    const inv = Array.from({ length: 24 }, () => null) as (
+    const inv = Array.from({ length: MAX_INVENTORY_SLOTS }, () => null) as (
       | { curatedId: string; qty: number }
       | null
     )[];
@@ -73,7 +74,7 @@ describe("sanitizeEquippedVsCatalog", () => {
   });
 
   it("валидное оружие оставляет", () => {
-    const inv = Array.from({ length: 24 }, () => null) as (
+    const inv = Array.from({ length: MAX_INVENTORY_SLOTS }, () => null) as (
       | { curatedId: string; qty: number }
       | null
     )[];
@@ -82,7 +83,7 @@ describe("sanitizeEquippedVsCatalog", () => {
   });
 
   it("кирка в слоте кирки остаётся", () => {
-    const inv = Array.from({ length: 24 }, () => null) as (
+    const inv = Array.from({ length: MAX_INVENTORY_SLOTS }, () => null) as (
       | { curatedId: string; qty: number }
       | null
     )[];

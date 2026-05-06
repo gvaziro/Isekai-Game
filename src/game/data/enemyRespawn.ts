@@ -2,6 +2,7 @@ import {
   DUNGEON_BOSS_INSTANCE_ID,
   getDungeonBossSpawnForFloor,
 } from "@/src/game/data/dungeonBoss";
+import { ENEMIES, getEnemyRespawnMs } from "@/src/game/data/enemies";
 import { getRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext";
 import { ENEMY_SPAWNS } from "@/src/game/data/combatWorld";
 import { getLocation } from "@/src/game/locations";
@@ -17,11 +18,15 @@ export const MOB_RESPAWN_MS_BY_VISUAL: Partial<Record<string, number>> = {
   orc_base: 48_000,
   orc_rogue: 50_000,
   skeleton_base: 45_000,
+  slime_basic: 38_000,
 };
 
 const DEFAULT_RESPAWN_MS = 75_000;
 
 export function getEnemyRespawnDelayMs(mobVisualId: string): number {
+  if (Object.prototype.hasOwnProperty.call(ENEMIES, mobVisualId)) {
+    return getEnemyRespawnMs(mobVisualId);
+  }
   return MOB_RESPAWN_MS_BY_VISUAL[mobVisualId] ?? DEFAULT_RESPAWN_MS;
 }
 

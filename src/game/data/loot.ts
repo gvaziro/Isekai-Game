@@ -1,8 +1,8 @@
-import { dungeonBossChestIdForFloor } from "@/src/game/data/dungeonBoss";
+import { getDungeonBossChestForFloor } from "@/src/game/data/dungeonBoss";
 import { getRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext";
 import type { CuratedItemDef } from "@/src/game/data/items.curated";
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
-import type { GameLocation, LayoutImageProp } from "@/src/game/locations/types";
+import type { GameLocation } from "@/src/game/locations/types";
 
 /** Сундуки: id и координаты как у декора chest в layout */
 export type ChestDef = {
@@ -11,69 +11,11 @@ export type ChestDef = {
   y: number;
 };
 
-type ChestBlueprint = { id: string; anchorX: number; anchorY: number };
-
-/** Якоря — шиппинг; после правок карты позиция берётся с ближайшего пропа `texture: "chest"`. */
-const TOWN_CHEST_BLUEPRINTS: readonly ChestBlueprint[] = [
-  { id: "chest_nw_house", anchorX: 132, anchorY: 348 },
-  { id: "chest_ne_plaza", anchorX: 1142, anchorY: 292 },
-  { id: "chest_sw_workshop", anchorX: 228, anchorY: 796 },
-];
-
-function distSq(ax: number, ay: number, bx: number, by: number): number {
-  const dx = ax - bx;
-  const dy = ay - by;
-  return dx * dx + dy * dy;
-}
-
-function nearestChestProp(
-  props: readonly LayoutImageProp[],
-  anchorX: number,
-  anchorY: number
-): { x: number; y: number } {
-  const cand = props.filter((p) => p.texture === "chest");
-  if (cand.length === 0) return { x: anchorX, y: anchorY };
-  let best = cand[0]!;
-  let bestD = distSq(best.x, best.y, anchorX, anchorY);
-  for (let i = 1; i < cand.length; i++) {
-    const p = cand[i]!;
-    const d = distSq(p.x, p.y, anchorX, anchorY);
-    if (d < bestD) {
-      bestD = d;
-      best = p;
-    }
-  }
-  return { x: best.x, y: best.y };
-}
-
-function resolveTownChestsFromProps(loc: GameLocation): ChestDef[] {
-  return TOWN_CHEST_BLUEPRINTS.map((b) => {
-    const { x, y } = nearestChestProp(loc.imageProps, b.anchorX, b.anchorY);
-    return { id: b.id, x, y };
-  });
-}
-
-/** Сундук босса: позиция с пропа `chest` на процедурной карте этажа. */
-function resolveDungeonBossChestFromProps(loc: GameLocation): ChestDef {
-  const id = dungeonBossChestIdForFloor(getRuntimeDungeonFloor());
-  const chests = loc.imageProps.filter((p) => p.texture === "chest");
-  const p = chests[0];
-  if (!p) {
-    return { id, x: 0, y: 0 };
-  }
-  return { id, x: p.x, y: p.y };
-}
-
-/**
- * Сундуки на текущем layout: координаты с пропов `chest`, чтобы совпадало с редактором.
- * В лесу сундуков нет — пустой список.
- */
+/** Сундуки на текущем layout. В городе — позже из TMJ; в лесу нет. */
 export function getChestsForLocation(loc: GameLocation): readonly ChestDef[] {
   if (loc.id === "dungeon") {
-    return [resolveDungeonBossChestFromProps(loc)];
-  }
-  if (loc.id === "town") {
-    return resolveTownChestsFromProps(loc);
+    const c = getDungeonBossChestForFloor(getRuntimeDungeonFloor());
+    return [{ id: c.id, x: c.x, y: c.y }];
   }
   return [];
 }
@@ -162,6 +104,15 @@ export function rollDungeonBossChestDrops(): { curatedId: string; qty: number }[
   const out: { curatedId: string; qty: number }[] = [];
   if (equip) out.push({ curatedId: equip, qty: 1 });
   if (potion) out.push({ curatedId: potion, qty: 1 });
+  if (out.length === 0) {
+    const fallback = pickFirstValid([
+      "hp_small",
+      "bread",
+      "apple",
+      "coin_stack",
+    ] as CuratedItemDef["id"][]);
+    if (fallback) out.push({ curatedId: fallback, qty: 1 });
+  }
   return out;
 }
 

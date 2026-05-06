@@ -92,6 +92,14 @@
       "mobVisualId": "orc_warrior"
     },
     {
+      "id": "grunt_slime_cross",
+      "zoneId": "crossroads",
+      "x": 600,
+      "y": 640,
+      "lootTable": "grunt",
+      "mobVisualId": "slime_basic"
+    },
+    {
       "id": "grunt_se_1",
       "zoneId": "se_woods",
       "x": 980,

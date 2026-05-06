@@ -1,0 +1,7 @@
+{
+  "$schema": "Дополнение к manifest: load, animations, units, mobs. Редактор: /dev/character-editor. Слияние: src/game/load/mergeAssetManifestExtras.ts",
+  "load": [],
+  "animations": [],
+  "units": {},
+  "mobs": {}
+}

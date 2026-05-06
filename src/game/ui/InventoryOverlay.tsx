@@ -24,6 +24,7 @@ import {
   getConsumableEffect,
   getCuratedItem,
   getEffectiveInventorySlotCount,
+  hotbarItemIsImmediatelyUsable,
   itemSlotSupportsUsableEffect,
 } from "@/src/game/data/itemRegistry";
 import { ITEM_ATLAS } from "@/src/game/data/items.generated";
@@ -424,7 +425,7 @@ export default function InventoryOverlay({
     !!detailDef &&
     itemSlotSupportsUsableEffect(detailDef.slot) &&
     !!detailStack &&
-    !!getConsumableEffect(detailStack.curatedId);
+    hotbarItemIsImmediatelyUsable(detailStack.curatedId);
 
   const detailConsumableFxLine =
     detailStack &&

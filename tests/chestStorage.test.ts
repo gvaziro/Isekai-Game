@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CHEST_STORAGE_SLOTS } from "@/src/game/constants/gameplay";
 import { chestIdHasLootTable } from "@/src/game/data/loot";
+import { dungeonBossChestIdForFloor } from "@/src/game/data/dungeonBoss";
 import {
   createFreshPersistedGameState,
   useGameStore,
@@ -78,5 +79,27 @@ describe("chest storage store", () => {
     const st = useGameStore.getState();
     expect(st.chestSlots[cid]?.[2]?.qty).toBe(95);
     expect(st.inventorySlots[0]).toBeNull();
+  });
+
+  it("кладёт лут босс-сундука подземелья в ячейки сундука при первом открытии", () => {
+    const base = createFreshPersistedGameState();
+    const chestId = dungeonBossChestIdForFloor(1);
+    useGameStore.setState({
+      ...base,
+      openedChestIds: {},
+      chestSlots: {},
+    });
+
+    const r = useGameStore.getState().applyBossChestLootIfNeeded(chestId, 100, 200);
+    expect(r.applied).toBe(true);
+    expect(r.xp).toBeGreaterThan(0);
+
+    const row = useGameStore.getState().chestSlots[chestId];
+    expect(row).toBeDefined();
+    expect(row!.some((s) => s !== null)).toBe(true);
+    expect(useGameStore.getState().openedChestIds[chestId]).toBe(true);
+
+    const r2 = useGameStore.getState().applyBossChestLootIfNeeded(chestId, 100, 200);
+    expect(r2.applied).toBe(false);
   });
 });

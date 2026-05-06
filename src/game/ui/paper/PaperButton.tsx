@@ -1,6 +1,10 @@
 "use client";
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+} from "react";
 
 type Variant = "primary" | "accent" | "close";
 
@@ -16,22 +20,30 @@ const variants: Record<Variant, string> = {
     "max-w-[min(100%,11rem)] border-[#5a5346] bg-[#f0e8d8]/95 text-[#3d362c] hover:bg-[#e8dcc8] active:bg-[#dfd0b8]",
 };
 
-export function PaperButton({
-  variant = "primary",
-  className = "",
-  children,
-  ...rest
-}: ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: Variant;
-  children: ReactNode;
-}) {
+export const PaperButton = forwardRef<
+  HTMLButtonElement,
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: Variant;
+    children: ReactNode;
+  }
+>(function PaperButton(
+  {
+    variant = "primary",
+    className = "",
+    type = "button",
+    children,
+    ...rest
+  },
+  ref
+) {
   return (
     <button
-      type="button"
+      ref={ref}
+      type={type}
       className={`${base} ${variants[variant]} ${className}`.trim()}
       {...rest}
     >
       {children}
     </button>
   );
-}
+});

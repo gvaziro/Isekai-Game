@@ -6,8 +6,9 @@
  * Остальной декор Pixel Crawler — `src/game/data/pc-pack-decor-extracts.json`;
  * перед нарезкой сверяем размер PNG с `canvas` из соседнего `*.aseprite.spec.json` (npm run gen:aseprite-spec).
  *
- * Листы героя Body_A/Animations — единый реестр в `src/game/data/heroAnimSheets.json`
- * (копирование, spritesheet load и блок `hero` в manifest собираются из него).
+ * Листы героя — `src/game/data/heroAnimSheets.json` (поле `publicMain` =
+ * путь относительно `public/assets/characters/main/` для кастомного героя,
+ * иначе `rel` из Pixel Crawler Body_A/Animations).
  *
  * Враги Orc Crew / Skeleton Crew — `src/game/data/mobAnimSheets.json` + `manifest.mobs`.
  */
@@ -34,6 +35,9 @@ const PC_BODY = path.join(
 
 const PC_NPC = path.join(PC, "Entities", "Npc's");
 const PC_MOBS = path.join(PC, "Entities", "Mobs");
+
+/** Кастомный главный герой: PNG-листы в `public/assets/characters/main/`. */
+const PC_MAIN_HERO = path.join(root, "public", "assets", "characters", "main");
 
 const TILE = 16;
 
@@ -534,6 +538,25 @@ async function buildForestGroundPng(autotileCfg, decalsCfg) {
   });
 }
 
+async function buildDungeonVoidPng() {
+  const W = 64;
+  const H = 64;
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" shape-rendering="crispEdges">
+      <rect width="${W}" height="${H}" fill="#14121a"/>
+      <rect x="0" y="0" width="16" height="16" fill="#17131f"/>
+      <rect x="32" y="16" width="16" height="16" fill="#110f17"/>
+      <rect x="16" y="48" width="16" height="16" fill="#181520"/>
+      <rect x="48" y="48" width="16" height="16" fill="#100e15"/>
+      <rect x="7" y="24" width="2" height="2" fill="#221b2c"/>
+      <rect x="42" y="6" width="1" height="1" fill="#251d30"/>
+      <rect x="55" y="31" width="2" height="1" fill="#211a2a"/>
+      <rect x="28" y="39" width="1" height="2" fill="#261f31"/>
+    </svg>
+  `;
+  await sharp(Buffer.from(svg)).png().toFile(path.join(outRoot, "dungeon_void.png"));
+}
+
 /**
  * 64×64 бесшовный блок: 4×4 из light/dark fill (`fillRow`/`darkRow`/`fillCols`)
  * без флипов и без декалей — чистая плитка для рантайм tileSprite.
@@ -741,6 +764,7 @@ async function main() {
   await buildGrassDecorAtlas();
   await buildWorldGroundPng(autotileCfg, decalsCfg);
   await buildForestGroundPng(autotileCfg, decalsCfg);
+  await buildDungeonVoidPng();
 
   await buildHousePng();
   await buildPondPng();
@@ -758,8 +782,17 @@ async function main() {
     throw new Error("heroAnimSheets.json: отсутствует heroManifest");
   }
   for (const c of clips) {
-    const rel = c.rel.replace(/\//g, path.sep);
-    const src = path.join(PC_BODY, rel);
+    let src;
+    if (typeof c.publicMain === "string" && c.publicMain.length > 0) {
+      src = path.join(PC_MAIN_HERO, c.publicMain.replace(/\//g, path.sep));
+    } else if (typeof c.rel === "string" && c.rel.length > 0) {
+      const rel = c.rel.replace(/\//g, path.sep);
+      src = path.join(PC_BODY, rel);
+    } else {
+      throw new Error(
+        `heroAnimSheets: у клипа ${c.textureKey} нужен publicMain или rel`
+      );
+    }
     if (!fs.existsSync(src)) {
       throw new Error(`Нет листа героя: ${src}`);
     }
@@ -884,7 +917,7 @@ async function main() {
   const npcRunFrames = 6;
 
   const manifest = {
-    world: { width: 1280, height: 960 },
+    world: { width: 800, height: 800 },
     load: [
       { key: "grass", type: "image", url: "/assets/world/grass.png" },
       { key: "dirt", type: "image", url: "/assets/world/dirt.png" },
@@ -897,6 +930,11 @@ async function main() {
         key: "forest_ground",
         type: "image",
         url: "/assets/world/forest_ground.png",
+      },
+      {
+        key: "dungeon_void",
+        type: "image",
+        url: "/assets/world/dungeon_void.png",
       },
       {
         key: "grass_decor",

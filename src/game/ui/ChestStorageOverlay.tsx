@@ -6,7 +6,10 @@ import {
   useState,
   type DragEvent,
 } from "react";
-import { CHEST_STORAGE_SLOTS } from "@/src/game/constants/gameplay";
+import {
+  CHEST_STORAGE_SLOTS,
+  isDeathCorpseChestId,
+} from "@/src/game/constants/gameplay";
 import { isDungeonBossChestId } from "@/src/game/data/dungeonBoss";
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
 import { ITEM_ATLAS } from "@/src/game/data/items.generated";
@@ -14,7 +17,10 @@ import {
   ItemAtlasIcon,
   type ItemAtlasFramesFile,
 } from "@/src/game/ui/ItemAtlasIcon";
-import { useGameStore } from "@/src/game/state/gameStore";
+import {
+  DEATH_CORPSE_CHEST_PANEL_SLOTS,
+  useGameStore,
+} from "@/src/game/state/gameStore";
 import { PaperModalChrome } from "@/src/game/ui/paper/PaperChrome";
 import { PaperSectionLabel } from "@/src/game/ui/paper/PaperSectionLabel";
 import { PaperSlotChrome } from "@/src/game/ui/paper/PaperSlotChrome";
@@ -75,10 +81,15 @@ export default function ChestStorageOverlay({
   const [hoverInv, setHoverInv] = useState<number | null>(null);
   const [hoverChest, setHoverChest] = useState<number | null>(null);
 
+  const chestSlotCount =
+    chestId && isDeathCorpseChestId(chestId)
+      ? DEATH_CORPSE_CHEST_PANEL_SLOTS
+      : CHEST_STORAGE_SLOTS;
+
   const chestRow =
     chestId && chestSlotsMap[chestId]
       ? chestSlotsMap[chestId]!
-      : Array.from({ length: CHEST_STORAGE_SLOTS }, () => null);
+      : Array.from({ length: chestSlotCount }, () => null);
 
   useEffect(() => {
     if (!open || !ITEM_ATLAS.available) return;
@@ -114,39 +125,41 @@ export default function ChestStorageOverlay({
     const st = useGameStore.getState();
     st.ensureChestStorageRow(chestId);
 
-    let totalXp = 0;
+    if (!isDeathCorpseChestId(chestId)) {
+      let totalXp = 0;
 
-    if (isDungeonBossChestId(chestId)) {
-      const r = st.applyBossChestLootIfNeeded(chestId, chestX, chestY);
-      if (r.applied) {
-        totalXp += r.xp;
-        if (r.toastLines.length > 0) {
-          window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
-              detail: {
-                message:
-                  r.xp > 0
-                    ? `В сундуке: ${r.toastLines.join(", ")}`
-                    : r.toastLines.join(", "),
-              },
-            })
-          );
+      if (isDungeonBossChestId(chestId)) {
+        const r = st.applyBossChestLootIfNeeded(chestId, chestX, chestY);
+        if (r.applied) {
+          totalXp += r.xp;
+          if (r.toastLines.length > 0) {
+            window.dispatchEvent(
+              new CustomEvent("nagibatop-toast", {
+                detail: {
+                  message:
+                    r.xp > 0
+                      ? `В сундуке: ${r.toastLines.join(", ")}`
+                      : r.toastLines.join(", "),
+                },
+              })
+            );
+          }
+        }
+      } else {
+        const xp = st.applyTownChestLootSeedIfNeeded(chestId);
+        if (xp !== null) {
+          totalXp += xp;
         }
       }
-    } else {
-      const xp = st.applyTownChestLootSeedIfNeeded(chestId);
-      if (xp !== null) {
-        totalXp += xp;
+
+      if (totalXp > 0) {
+        grantXp(totalXp);
       }
-    }
 
-    if (totalXp > 0) {
-      grantXp(totalXp);
-    }
-
-    const st2 = useGameStore.getState();
-    if (!st2.openedChestIds[chestId]) {
-      markChestOpened(chestId);
+      const st2 = useGameStore.getState();
+      if (!st2.openedChestIds[chestId]) {
+        markChestOpened(chestId);
+      }
     }
   }, [open, chestId, chestX, chestY, grantXp, markChestOpened]);
 
@@ -208,14 +221,20 @@ export default function ChestStorageOverlay({
 
   if (!open || !chestId) return null;
 
+  const corpseChest = chestId !== null && isDeathCorpseChestId(chestId);
+
   return (
-    <PaperModalChrome title="Сундук" onClose={onClose}>
+    <PaperModalChrome
+      title={corpseChest ? "У тела" : "Сундук"}
+      onClose={onClose}
+    >
       <div className="flex min-h-0 flex-1 flex-col gap-4 pb-2 pt-0.5 lg:flex-row">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           <PaperSectionLabel>Рюкзак</PaperSectionLabel>
           <p className="text-[10px] leading-snug text-[#5c5346] sm:text-[11px]">
-            Перетащите предметы между рюкзаком и сундуком. Совпадающие стаки
-            сливаются до лимита стека.
+            {corpseChest
+              ? "Перетащите вещи между рюкзаком и телом. Совпадающие стеки сливаются до лимита."
+              : "Перетащите предметы между рюкзаком и сундуком. Совпадающие стаки сливаются до лимита стека."}
           </p>
           <div className="paper-scroll grid max-h-[min(36vh,280px)] grid-cols-4 gap-2 overflow-y-auto overflow-x-hidden pb-1 sm:grid-cols-6">
             {inventorySlots.map((stack, i) => {
@@ -272,9 +291,11 @@ export default function ChestStorageOverlay({
         </div>
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-          <PaperSectionLabel>Хранилище сундука</PaperSectionLabel>
+          <PaperSectionLabel>
+            {corpseChest ? "Вещи у тела" : "Хранилище сундука"}
+          </PaperSectionLabel>
           <div className="paper-scroll grid max-h-[min(36vh,280px)] grid-cols-4 gap-2 overflow-y-auto overflow-x-hidden pb-1 sm:grid-cols-6">
-            {Array.from({ length: CHEST_STORAGE_SLOTS }, (_, i) => {
+            {Array.from({ length: chestSlotCount }, (_, i) => {
               const stack = chestRow[i] ?? null;
               const def = stack ? getCuratedItem(stack.curatedId) : undefined;
               const hi =
@@ -288,7 +309,9 @@ export default function ChestStorageOverlay({
                   title={
                     stack && def
                       ? `${def.name}${stack.qty > 1 ? ` ×${stack.qty}` : ""}`
-                      : `Сундук · слот ${i + 1}`
+                      : corpseChest
+                        ? `У тела · слот ${i + 1}`
+                        : `Сундук · слот ${i + 1}`
                   }
                   draggable={!!stack}
                   onDragStart={

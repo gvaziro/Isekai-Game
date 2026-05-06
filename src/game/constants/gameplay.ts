@@ -10,7 +10,7 @@ export const NPC_BARK_COOLDOWN_MS_MAX = 14000;
 /** Подбор предмета с земли */
 export const PICKUP_RADIUS = 28;
 /** Базовые ячейки рюкзака без надетого предмета «рюкзак». */
-export const BASE_INVENTORY_SLOTS = 24;
+export const BASE_INVENTORY_SLOTS = 9;
 /** Максимум дополнительных ячеек от надетого рюкзака (на предмет). */
 export const MAX_BACKPACK_BONUS_SLOTS = 24;
 /** Физический размер массива инвентаря в сохранении (база + макс. бонус). */
@@ -26,6 +26,31 @@ export const HOTBAR_WHEEL_NUDGE_EVENT = "nagibatop-hotbar-wheel-nudge";
 
 /** Выброс из инвентаря: предмет появляется в мире рядом с героем. */
 export const SPAWN_WORLD_PICKUP_EVENT = "nagibatop-spawn-world-pickup";
+
+/** Сообщение о смерти: центральная модалка, закрывается только игроком (не тост). */
+export const DEATH_MODAL_EVENT = "nagibatop-death-modal";
+
+/** Временный «сундук» для лута с тела (`chestSlots`); в сейв не пишется. */
+export const DEATH_CORPSE_CHEST_PREFIX = "__death_corpse__";
+
+export function deathCorpseChestId(dropId: string): string {
+  return `${DEATH_CORPSE_CHEST_PREFIX}${dropId}`;
+}
+
+export function isDeathCorpseChestId(
+  chestId: string | null | undefined
+): chestId is string {
+  return (
+    typeof chestId === "string" && chestId.startsWith(DEATH_CORPSE_CHEST_PREFIX)
+  );
+}
+
+export function deathCorpseDropIdFromChestId(chestId: string): string {
+  return chestId.slice(DEATH_CORPSE_CHEST_PREFIX.length);
+}
+
+/** После обмена с телом — перерисовать маркеры в сцене. */
+export const RESYNC_CORPSE_PICKUPS_EVENT = "nagibatop-resync-corpse-pickups";
 
 /**
  * Внутреннее разрешение Phaser в обычной игре (не `?preview=1` с полным кадром мира).

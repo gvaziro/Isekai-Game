@@ -15,6 +15,10 @@ import { useGameStore } from "@/src/game/state/gameStore";
 const CANVAS_W = 320;
 const CANVAS_H = 240;
 
+/** Маркер «тело с лутом» на миникарте (розовый, отличается от игрока). */
+const DEATH_DROP_MAP_FILL = "#e11d48";
+const DEATH_DROP_MAP_STROKE = "#fecdd3";
+
 /** Ключ клетки сетки `gx,gy` как в `getDungeonWallCellKeySet`. */
 function localGridKey(gx: number, gy: number): string {
   return `${gx},${gy}`;
@@ -53,6 +57,7 @@ export default function DungeonMapOverlay({
   const floor = useGameStore((s) => s.dungeonCurrentFloor);
   const player = useGameStore((s) => s.player);
   const revealed = useGameStore((s) => s.dungeonRevealedCells);
+  const deathDrops = useGameStore((s) => s.deathDrops);
 
   useEffect(() => {
     if (!open) return;
@@ -126,6 +131,28 @@ export default function DungeonMapOverlay({
         Math.ceil(ch)
       );
     }
+    const corpsesOnFloor = Object.values(deathDrops).filter(
+      (d) =>
+        d.locationId === "dungeon" &&
+        d.dungeonFloor === floor &&
+        Number.isFinite(d.x) &&
+        Number.isFinite(d.y)
+    );
+    for (const d of corpsesOnFloor) {
+      const gx = d.x / DUNGEON_MAP_CELL;
+      const gy = d.y / DUNGEON_MAP_CELL;
+      const dcx = gx * cw + cw / 2;
+      const dcy = gy * ch + ch / 2;
+      const r = Math.max(2.5, cw * 0.28);
+      ctx.fillStyle = DEATH_DROP_MAP_FILL;
+      ctx.beginPath();
+      ctx.arc(dcx, dcy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = DEATH_DROP_MAP_STROKE;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
     const pgx = player.x / DUNGEON_MAP_CELL;
     const pgy = player.y / DUNGEON_MAP_CELL;
     const cx = pgx * cw + cw / 2;
@@ -137,7 +164,7 @@ export default function DungeonMapOverlay({
     ctx.strokeStyle = "#1c1917";
     ctx.lineWidth = 1;
     ctx.stroke();
-  }, [open, floor, player.x, player.y, revealed]);
+  }, [open, floor, player.x, player.y, revealed, deathDrops]);
 
   if (!open) return null;
 
@@ -154,8 +181,21 @@ export default function DungeonMapOverlay({
         </h2>
         <p className="mt-1 text-center text-[11px] text-zinc-500">
           Видны только пол и стены там, где вы уже были; по мере движения карта
-          открывается дальше.
+          открывается дальше. Розовая точка — место гибели с выпавшим лутом.
         </p>
+        <div className="mt-3 flex flex-wrap justify-center gap-3 text-[9px] text-zinc-500">
+          <span className="inline-flex items-center gap-1">
+            <span className="h-2 w-2 rounded-full bg-amber-500 ring-1 ring-zinc-900" />
+            вы
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <span
+              className="h-2 w-2 rounded-full border border-[#fecdd3]"
+              style={{ background: DEATH_DROP_MAP_FILL }}
+            />
+            тело с лутом
+          </span>
+        </div>
         <div className="mt-3 flex justify-center">
           <canvas
             ref={canvasRef}

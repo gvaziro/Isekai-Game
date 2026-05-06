@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useGameStore } from "@/src/game/state/gameStore";
-import { useUiSettingsStore } from "@/src/game/state/uiSettingsStore";
+import {
+  DEFAULT_NIGHT_TINT_MUL,
+  DEFAULT_NIGHT_VIGNETTE_MUL,
+  useUiSettingsStore,
+} from "@/src/game/state/uiSettingsStore";
 import { PaperButton } from "@/src/game/ui/paper/PaperButton";
 import { PaperModalChrome } from "@/src/game/ui/paper/PaperChrome";
 
-type SettingsTab = "sound" | "stats";
+type SettingsTab = "sound" | "display" | "stats";
 
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
@@ -29,6 +33,13 @@ export default function SettingsOverlay({
   const setSfxVolume = useUiSettingsStore((s) => s.setSfxVolume);
   const footstepVolume = useUiSettingsStore((s) => s.footstepVolume);
   const setFootstepVolume = useUiSettingsStore((s) => s.setFootstepVolume);
+  const nightTintMul = useUiSettingsStore((s) => s.nightTintMul);
+  const setNightTintMul = useUiSettingsStore((s) => s.setNightTintMul);
+  const nightVignetteMul = useUiSettingsStore((s) => s.nightVignetteMul);
+  const setNightVignetteMul = useUiSettingsStore((s) => s.setNightVignetteMul);
+  const resetNightVisibilityCalibration = useUiSettingsStore(
+    (s) => s.resetNightVisibilityCalibration
+  );
 
   const lifetimeStats = useGameStore((s) => s.lifetimeStats);
   const level = useGameStore((s) => s.character.level);
@@ -55,6 +66,8 @@ export default function SettingsOverlay({
 
   const pct = Math.round(sfxVolume * 100);
   const footPct = Math.round(footstepVolume * 100);
+  const tintPct = Math.round(nightTintMul * 100);
+  const vigPct = Math.round(nightVignetteMul * 100);
 
   return (
     <PaperModalChrome title="Настройки" onClose={onClose}>
@@ -67,6 +80,14 @@ export default function SettingsOverlay({
             onClick={() => setTab("sound")}
           >
             Звук
+          </PaperButton>
+          <PaperButton
+            type="button"
+            variant={tab === "display" ? "accent" : "primary"}
+            className="!px-2 !py-0.5 !text-[10px]"
+            onClick={() => setTab("display")}
+          >
+            Экран
           </PaperButton>
           <PaperButton
             type="button"
@@ -115,6 +136,60 @@ export default function SettingsOverlay({
             <p className="text-xs leading-relaxed text-[#6b5d4a]">
               Сохраняется в этом браузере. Редактор карт по-прежнему без звука.
             </p>
+          </div>
+        )}
+
+        {tab === "display" && (
+          <div className="flex flex-col gap-4">
+            <p className="text-xs leading-relaxed text-[#6b5d4a]">
+              Два множителя к встроенной кривой суток. 100% — без усиления от
+              ползунка; по умолчанию в игре выставлено сильнее (см. сброс).
+              Сохраняется локально.
+            </p>
+            <label className="flex flex-col gap-2 text-sm text-[#4a4338]">
+              <span className="font-medium text-[#3d2914]">
+                Затемнение суток{" "}
+                <span className="font-mono tabular-nums">{tintPct}%</span>
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={200}
+                value={tintPct}
+                onChange={(e) => {
+                  setNightTintMul(Number(e.target.value) / 100);
+                }}
+                className="w-full accent-amber-700"
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-sm text-[#4a4338]">
+              <span className="font-medium text-[#3d2914]">
+                Виньетка (края экрана){" "}
+                <span className="font-mono tabular-nums">{vigPct}%</span>
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={200}
+                value={vigPct}
+                onChange={(e) => {
+                  setNightVignetteMul(Number(e.target.value) / 100);
+                }}
+                className="w-full accent-amber-700"
+              />
+            </label>
+            <div className="flex flex-wrap items-center gap-2">
+              <PaperButton
+                type="button"
+                variant="primary"
+                className="!px-2 !py-0.5 !text-[10px]"
+                onClick={() => resetNightVisibilityCalibration()}
+              >
+                Сбросить ночь (
+                {Math.round(DEFAULT_NIGHT_TINT_MUL * 100)}% /{" "}
+                {Math.round(DEFAULT_NIGHT_VIGNETTE_MUL * 100)}%)
+              </PaperButton>
+            </div>
           </div>
         )}
 

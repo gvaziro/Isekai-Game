@@ -81,6 +81,11 @@ export default function HomePlayMenu() {
               </Link>
             </li>
             <li>
+              <Link href="/dev/character-editor" className={menuItemMutedClass}>
+                Редактор персонажей
+              </Link>
+            </li>
+            <li>
               <Link href="/dev/tileset-atlas" className={menuItemMutedClass}>
                 Карта тайлсетов
               </Link>
@@ -93,6 +98,11 @@ export default function HomePlayMenu() {
             <li>
               <Link href="/dev/buffs" className={menuItemMutedClass}>
                 Менеджер бафов
+              </Link>
+            </li>
+            <li>
+              <Link href="/dev/enemies" className={menuItemMutedClass}>
+                Редактор врагов
               </Link>
             </li>
             <li>

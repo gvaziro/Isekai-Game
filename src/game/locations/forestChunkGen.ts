@@ -154,6 +154,14 @@ export const FOREST_HUB_ENEMY_SPAWNS: LocationEnemySpawn[] = [
     mobVisualId: "orc_warrior",
   },
   {
+    id: "grunt_slime_cross",
+    zoneId: "crossroads",
+    x: 380,
+    y: 340,
+    lootTable: "grunt",
+    mobVisualId: "slime_basic",
+  },
+  {
     id: "grunt_se_1",
     zoneId: "se_woods",
     x: 480,
@@ -400,10 +408,131 @@ function randomWildProps(
   return out;
 }
 
+/** Лежачий гриб у дерева (подбор как у дропа на земле). */
+export type ForestForagePickup = {
+  id: string;
+  x: number;
+  y: number;
+  curatedId: string;
+  qty: 1;
+};
+
+const MUSHROOM_IDS = [
+  "item327",
+  "item471",
+  "item379",
+  "item412",
+  "item389",
+] as const;
+
+const MUSHROOM_WEIGHTS_NEAR = [10, 1.2, 0.35, 0, 0] as const;
+const MUSHROOM_WEIGHTS_MID = [4, 3, 2, 2, 0.2] as const;
+const MUSHROOM_WEIGHTS_FAR = [1, 2, 3, 4, 4] as const;
+
+/**
+ * 0 — у входа из города, 1 — далеко в лесу.
+ * Держать в синхроне с `forestThreatGradient01` в `forestMobGradient.ts`
+ * (те же точка входа и d0/d1).
+ */
+function forestMushroomDepth01(worldX: number, worldY: number): number {
+  const ax = FOREST_HUB_SPAWNS.from_town.x;
+  const ay = FOREST_HUB_SPAWNS.from_town.y;
+  const dist = Math.hypot(worldX - ax, worldY - ay);
+  const d0 = 300;
+  const d1 = 2680;
+  if (dist <= d0) return 0;
+  if (dist >= d1) return 1;
+  return (dist - d0) / (d1 - d0);
+}
+
+function lerp(a: number, b: number, u: number): number {
+  return a + (b - a) * u;
+}
+
+function mushroomWeightsAtDepth(t: number): number[] {
+  const u = Math.max(0, Math.min(1, t));
+  if (u <= 0.5) {
+    const k = u / 0.5;
+    return MUSHROOM_IDS.map((_, i) =>
+      lerp(MUSHROOM_WEIGHTS_NEAR[i]!, MUSHROOM_WEIGHTS_MID[i]!, k)
+    );
+  }
+  const k = (u - 0.5) / 0.5;
+  return MUSHROOM_IDS.map((_, i) =>
+    lerp(MUSHROOM_WEIGHTS_MID[i]!, MUSHROOM_WEIGHTS_FAR[i]!, k)
+  );
+}
+
+function pickMushroomCuratedId(t: number, rand: () => number): string {
+  const w = mushroomWeightsAtDepth(t);
+  let sum = 0;
+  for (const x of w) sum += Math.max(0, x);
+  if (sum <= 0) return MUSHROOM_IDS[0]!;
+  let r = rand() * sum;
+  for (let i = 0; i < MUSHROOM_IDS.length; i++) {
+    r -= Math.max(0, w[i]!);
+    if (r <= 0) return MUSHROOM_IDS[i]!;
+  }
+  return MUSHROOM_IDS[MUSHROOM_IDS.length - 1]!;
+}
+
+const MUSHROOM_GEN_SALT = 0xf00d5eed;
+const MUSHROOM_TREE_TRY_PROB = 0.165;
+const MUSHROOM_SECOND_SLOT_PROB = 0.26;
+
+/**
+ * Детерминированные грибы у подножия деревьев (1 иногда 2 на дерево).
+ */
+export function generateForestMushroomsNearTrees(
+  trees: LayoutImageProp[],
+  worldSeed: number,
+  cx: number,
+  cy: number
+): ForestForagePickup[] {
+  if (trees.length === 0 || worldSeed === 0) return [];
+  const chunkSeed = mixForestChunkSeed(worldSeed, cx, cy);
+  const rand = mulberry32(chunkSeed ^ MUSHROOM_GEN_SALT);
+  const out: ForestForagePickup[] = [];
+
+  for (let i = 0; i < trees.length; i++) {
+    const tree = trees[i]!;
+    if (rand() > MUSHROOM_TREE_TRY_PROB) continue;
+
+    const ox = (rand() * 2 - 1) * 15;
+    const x0 = tree.x + ox;
+    const y0 = tree.y + rand() * 2.5;
+    const t0 = forestMushroomDepth01(x0, y0);
+    const id0 = `forest_forage_${worldSeed}_${cx}_${cy}_${i}_0`;
+    out.push({
+      id: id0,
+      x: x0,
+      y: y0,
+      curatedId: pickMushroomCuratedId(t0, rand),
+      qty: 1,
+    });
+
+    if (rand() > MUSHROOM_SECOND_SLOT_PROB) continue;
+    const x1 = x0 + 10 + rand() * 12;
+    const y1 = tree.y + rand() * 2.5;
+    const t1 = forestMushroomDepth01(x1, y1);
+    const id1 = `forest_forage_${worldSeed}_${cx}_${cy}_${i}_1`;
+    out.push({
+      id: id1,
+      x: x1,
+      y: y1,
+      curatedId: pickMushroomCuratedId(Math.max(t0, t1), rand),
+      qty: 1,
+    });
+  }
+
+  return out;
+}
+
 export type ForestChunkPayload = {
   imageProps: LayoutImageProp[];
   grassDecor: GrassDecorDef[];
   pathSegments: PathSegment[];
+  forestForage: ForestForagePickup[];
 };
 
 /**
@@ -415,7 +544,12 @@ export function generateForestChunkPayload(
   worldSeed: number
 ): ForestChunkPayload {
   if (!isForestChunkAllowed(cx, cy)) {
-    return { imageProps: [], grassDecor: [], pathSegments: [] };
+    return {
+      imageProps: [],
+      grassDecor: [],
+      pathSegments: [],
+      forestForage: [],
+    };
   }
   const ox = cx * FOREST_CHUNK_W;
   const oy = cy * FOREST_CHUNK_H;
@@ -468,7 +602,13 @@ export function generateForestChunkPayload(
       chunkSeed,
       40
     );
-    return { imageProps, grassDecor, pathSegments };
+    const forestForage = generateForestMushroomsNearTrees(
+      trees,
+      worldSeed,
+      cx,
+      cy
+    );
+    return { imageProps, grassDecor, pathSegments, forestForage };
   }
 
   const pathSegments = getMainTrailSegmentsForChunk(cx, cy);
@@ -515,7 +655,13 @@ export function generateForestChunkPayload(
     chunkSeed,
     36
   );
-  return { imageProps, grassDecor, pathSegments };
+  const forestForage = generateForestMushroomsNearTrees(
+    trees,
+    worldSeed,
+    cx,
+    cy
+  );
+  return { imageProps, grassDecor, pathSegments, forestForage };
 }
 
 export function chunkKey(cx: number, cy: number): string {

@@ -9,9 +9,9 @@ export type WorldPickupDef = {
 };
 
 export const WORLD_PICKUPS: readonly WorldPickupDef[] = [
-  { id: "wp_center_apple", x: 620, y: 428, curatedId: "apple", qty: 2 },
-  { id: "wp_cross_bread", x: 618, y: 458, curatedId: "bread", qty: 1 },
-  { id: "wp_near_fire", x: 1004, y: 312, curatedId: "torch", qty: 1 },
-  { id: "wp_elena_plaza", x: 300, y: 720, curatedId: "scroll_old", qty: 1 },
-  { id: "wp_marcus_bench", x: 920, y: 318, curatedId: "coin_stack", qty: 1 },
+  { id: "wp_center_apple", x: 388, y: 357, curatedId: "apple", qty: 2 },
+  { id: "wp_cross_bread", x: 386, y: 382, curatedId: "bread", qty: 1 },
+  { id: "wp_near_fire", x: 628, y: 260, curatedId: "wooden_torch", qty: 1 },
+  { id: "wp_elena_plaza", x: 188, y: 600, curatedId: "scroll_old", qty: 1 },
+  { id: "wp_marcus_bench", x: 575, y: 265, curatedId: "coin_stack", qty: 1 },
 ];

@@ -45,7 +45,6 @@ export {
   NPC_IDLE_TEXTURE,
   PATH_CROSS,
   PATH_SEGMENTS,
-  POND_COLLIDER,
   TOWN_LOCATION,
   WORLD,
 } from "@/src/game/locations/town";
@@ -71,7 +70,16 @@ export function getLocation(id: LocationId): GameLocation {
   }
   const base = REGISTRY[id] ?? TOWN_LOCATION;
   const draft = loadStoredEditorDraftLocation(id);
-  if (draft) return structuredClone(draft);
+  if (draft) {
+    if (id === "town") {
+      const merged = structuredClone(draft);
+      merged.world = { ...TOWN_LOCATION.world };
+      merged.enemySpawns = [];
+      merged.pondCollider = undefined;
+      return merged;
+    }
+    return structuredClone(draft);
+  }
   return base;
 }
 

@@ -58,11 +58,12 @@ function formatRecentEvents(npc: NpcBundle, limit = 24): string {
     .join("\n");
 }
 
-/** Длинный стабильный system-блок для prompt caching + уникальный профиль NPC. */
+/**
+ * System-сообщения: сначала общий неизменный префикс (лучше prompt cache), затем профиль,
+ * в конце — меняющийся лог событий.
+ */
 export function buildSystemMessages(npc: NpcBundle): { role: "system"; content: string }[] {
-  const core = `
-${SHARED_RULES}
-
+  const profile = `
 === Профиль персонажа (канон) ===
 ${npc.characterMd.trim()}
 
@@ -76,7 +77,8 @@ ${formatRecentEvents(npc)}
 `.trim();
 
   return [
-    { role: "system", content: core },
+    { role: "system", content: SHARED_RULES },
+    { role: "system", content: profile },
     { role: "system", content: eventsBlock },
   ];
 }

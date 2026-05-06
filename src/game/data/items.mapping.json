@@ -1,6 +1,6 @@
 {
   "$schema": "./items.mapping.schema.json",
-  "updatedAt": "2026-04-20T18:21:46.725Z",
+  "updatedAt": "2026-05-05T18:14:14.790Z",
   "items": [
     {
       "frameKey": "item1",
@@ -1028,12 +1028,6 @@
       "slot": "helmet"
     },
     {
-      "frameKey": "item210",
-      "id": "mushroom",
-      "name": "Гриб",
-      "slot": "consumable"
-    },
-    {
       "frameKey": "item211",
       "id": "item211",
       "name": "",
@@ -1728,8 +1722,8 @@
     {
       "frameKey": "item326",
       "id": "item326",
-      "name": "",
-      "slot": "unknown"
+      "name": "Морковь",
+      "slot": "consumable"
     },
     {
       "frameKey": "item327",
@@ -2416,85 +2410,85 @@
       "frameKey": "item441",
       "id": "item441",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item442",
       "id": "item442",
       "name": "Сырое крылышко",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item443",
       "id": "item443",
       "name": "Сырой кролик",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item444",
       "id": "item444",
       "name": "Сырые ребрышки",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item445",
       "id": "item445",
       "name": "Свежий кусок мяса",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item446",
       "id": "item446",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item447",
       "id": "item447",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item448",
       "id": "item448",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item449",
       "id": "item449",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item450",
       "id": "item450",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item451",
       "id": "item451",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item452",
       "id": "item452",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item453",
       "id": "item453",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item454",
       "id": "item454",
       "name": "",
-      "slot": "unknown"
+      "slot": "consumable"
     },
     {
       "frameKey": "item455",
@@ -2655,20 +2649,20 @@
     },
     {
       "frameKey": "item481",
-      "id": "item481",
-      "name": "",
-      "slot": "unknown"
+      "id": "r",
+      "name": "Капуста",
+      "slot": "consumable"
     },
     {
       "frameKey": "item482",
       "id": "item482",
-      "name": "",
+      "name": "Красная капуста",
       "slot": "unknown"
     },
     {
       "frameKey": "item483",
       "id": "item483",
-      "name": "",
+      "name": "Цветная капуста",
       "slot": "unknown"
     },
     {
@@ -2812,8 +2806,8 @@
     {
       "frameKey": "item507",
       "id": "item507",
-      "name": "",
-      "slot": "unknown"
+      "name": "Тако",
+      "slot": "consumable"
     },
     {
       "frameKey": "item508",
@@ -4090,15 +4084,16 @@
     },
     {
       "frameKey": "item719",
-      "id": "item719",
-      "name": "",
-      "slot": "unknown"
+      "id": "hand_torch",
+      "name": "Факел",
+      "slot": "consumable",
+      "basePrice": 16
     },
     {
       "frameKey": "item720",
-      "id": "item720",
-      "name": "",
-      "slot": "unknown"
+      "id": "hand_torch_lit",
+      "name": "Горящий факел",
+      "slot": "consumable"
     },
     {
       "frameKey": "item721",
@@ -4746,9 +4741,9 @@
     },
     {
       "frameKey": "item828",
-      "id": "item828",
-      "name": "",
-      "slot": "unknown"
+      "id": "r",
+      "name": "Крест Святого",
+      "slot": "quest"
     },
     {
       "frameKey": "item829",
@@ -5479,8 +5474,8 @@
     },
     {
       "frameKey": "item950",
-      "id": "torch",
-      "name": "Факел",
+      "id": "wooden_torch",
+      "name": "Дровяной факел",
       "slot": "weapon"
     },
     {

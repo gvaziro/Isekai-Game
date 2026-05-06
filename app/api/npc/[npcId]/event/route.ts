@@ -76,7 +76,7 @@ export async function POST(
     .slice(0, 12000);
 
   const openai = getOpenAI();
-  const model = process.env.NPC_SUMMARY_MODEL ?? process.env.NPC_MODEL ?? "gpt-4o-mini";
+  const model = process.env.NPC_SUMMARY_MODEL ?? process.env.NPC_MODEL ?? "gpt-5.4-mini";
 
   const completion = await openai.chat.completions.create({
     model,

@@ -33,7 +33,10 @@ import {
 import { ensureCroppedPropTexture } from "@/src/game/load/croppedPropTexture";
 import { EnemyMob } from "@/src/game/entities/EnemyMob";
 import { PatrolNpc } from "@/src/game/entities/NPC";
-import { applyPixelCrawlerFeetHitbox } from "@/src/game/entities/Player";
+import {
+  applyPixelCrawlerFeetHitbox,
+  playerVisionWorldPoint,
+} from "@/src/game/entities/Player";
 import {
   DUNGEON_BOSS_ATK_MULT,
   DUNGEON_BOSS_HP_MULT,
@@ -72,6 +75,8 @@ import {
   NPC_BARK_COOLDOWN_MS_MAX,
   NPC_BARK_COOLDOWN_MS_MIN,
   PICKUP_RADIUS,
+  deathCorpseChestId,
+  RESYNC_CORPSE_PICKUPS_EVENT,
   SPAWN_WORLD_PICKUP_EVENT,
   TREE_CHOP_RADIUS,
 } from "@/src/game/constants/gameplay";
@@ -93,7 +98,6 @@ import {
   XP_WORLD_PICKUP,
   damageEnemyDealsToPlayer,
   damagePlayerDealsToEnemy,
-  getEnemyGruntStatsForLevel,
   getPlayerAttackCooldownMs,
   resolveMobAggroRadii,
   rollPlayerEvadesMobHit,
@@ -105,19 +109,33 @@ import {
   playerHasInstrumentRole,
 } from "@/src/game/data/instruments";
 import { ENEMY_SPAWNS, type EnemySpawnDef } from "@/src/game/data/combatWorld";
+import {
+  getEnemyAiRadii,
+  getEnemyStatsForVisual,
+  isEnemyArchived,
+} from "@/src/game/data/enemies";
 import { getEnemyRespawnDelayMs } from "@/src/game/data/enemyRespawn";
 import {
   forestMobLevelFromTemplate,
   forestRespawnDelayMultiplier,
   forestSpawnPresenceChance,
 } from "@/src/game/data/forestMobGradient";
+import {
+  createTownTilemapLayers,
+  getTownTmjData,
+  parseTownColliderRects,
+  parseTownTravelExits,
+} from "@/src/game/maps/townTilemapRuntime";
 import type {
   LayoutImageProp,
   LocationEnemySpawn,
   LocationExit,
 } from "@/src/game/locations/types";
 import { ForestChunkManager } from "@/src/game/locations/forestChunkManager";
-import { TREE_TEXTURE_KEYS } from "@/src/game/locations/forestChunkGen";
+import {
+  TREE_TEXTURE_KEYS,
+  type ForestForagePickup,
+} from "@/src/game/locations/forestChunkGen";
 import { forestStumpTextureKey } from "@/src/game/locations/forestTreeStump";
 import {
   createForestWildMobSpawn,
@@ -147,9 +165,11 @@ import {
 import { setRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext";
 import {
   forestTreePersistKey,
+  markerCuratedIdForDeathCorpse,
   useGameStore,
   waitForGameStoreHydration,
 } from "@/src/game/state/gameStore";
+import { DayNightLighting, type PlayerVisionWorldHint } from "@/src/game/systems/DayNightLighting";
 import { useUiSettingsStore } from "@/src/game/state/uiSettingsStore";
 
 const TREE_TEXTURE_KEY_SET = new Set<string>(
@@ -263,6 +283,8 @@ export class MainScene extends Phaser.Scene {
     sprite: Phaser.GameObjects.Image;
     curatedId: string;
     qty: number;
+    kind: "item" | "corpse" | "forest_forage";
+    deathDropId?: string;
   }> = [];
   private enemies: EnemyMob[] = [];
   private lastEnemyRespawnCheckMs = 0;
@@ -280,11 +302,17 @@ export class MainScene extends Phaser.Scene {
   private locationDef!: GameLocation;
   private currentLocationId!: LocationId;
   private worldDisposables: Phaser.GameObjects.GameObject[] = [];
+  /** Оверлей день/ночь (экранные координаты), не входит в `worldDisposables`. */
+  private dayNightLighting: DayNightLighting | null = null;
   /** Прямоугольники коллизий только от `imageProps` (пересборка после hot-reload вырезов). */
   private propObstacleRects: Phaser.GameObjects.Rectangle[] = [];
   private locationTransition = false;
   /** Станции крафта — позиции из актуального layout (после правок карты). */
   private craftStationsResolved: ResolvedCraftStation[] = [];
+  /** Город: тайлмапа из `town.tmj`. */
+  private townPhaserTilemap: Phaser.Tilemaps.Tilemap | null = null;
+  /** Зоны выходов из object-слоя Travel (если карта загружена). */
+  private townTmjExits: LocationExit[] | null = null;
   /** Удержание Shift — спринт (быстрее, тратит стамину; после нуля стамины — «перегруз» без спринта) */
   private keyShiftSprint!: Phaser.Input.Keyboard.Key;
   private sfxVolUnsub: (() => void) | undefined;
@@ -423,6 +451,33 @@ export class MainScene extends Phaser.Scene {
     return out;
   }
 
+  private spawnForestChunkForagePickups(
+    _chunkKey: string,
+    items: readonly ForestForagePickup[]
+  ): void {
+    if (!ITEM_ATLAS.available || !this.textures.exists(ITEM_ATLAS.textureKey)) {
+      return;
+    }
+    const picked = useGameStore.getState().pickedForestForageIds;
+    for (const it of items) {
+      if (picked[it.id] === true) continue;
+      if (this.pickups.some((p) => p.id === it.id)) continue;
+      const cdef = getCuratedItem(it.curatedId);
+      if (!cdef) continue;
+      const spr = this.add
+        .image(it.x, it.y, ITEM_ATLAS.textureKey, cdef.atlasFrame)
+        .setOrigin(0.5, 1);
+      spr.setDepth(it.y + 0.5);
+      this.pickups.push({
+        id: it.id,
+        sprite: spr,
+        curatedId: it.curatedId,
+        qty: it.qty,
+        kind: "forest_forage",
+      });
+    }
+  }
+
   private applyForestWorldBounds(): void {
     if (!this.forestChunkMgr) return;
     const b = this.forestChunkMgr.computeWorldBounds();
@@ -461,6 +516,34 @@ export class MainScene extends Phaser.Scene {
     this.worldDisposables.push(obj);
   }
 
+  private syncDayNightLighting(): void {
+    if (this.previewMode || !this.dayNightLighting) return;
+    const st = useGameStore.getState();
+    const torchSt = st.activeTorch;
+    let visionHint: PlayerVisionWorldHint | null = null;
+    if (this.player && this.player.active) {
+      const { worldX, worldY } = playerVisionWorldPoint(this.player);
+      visionHint = {
+        worldX,
+        worldY,
+        hasTorch: !!torchSt && torchSt.remainingGameMinutes > 0,
+      };
+    }
+    this.dayNightLighting.sync(
+      this.currentLocationId,
+      st.worldTimeMinutes,
+      visionHint
+    );
+  }
+
+  /** Выходы: для города — из TMJ, иначе из `GameLocation`. */
+  private getActiveExits(loc: GameLocation): LocationExit[] {
+    if (loc.id === "town" && this.townTmjExits?.length) {
+      return this.townTmjExits;
+    }
+    return loc.exits;
+  }
+
   /** Пульсирующая подсветка прямоугольников `exits` (выход из данжа / вход / прочие). */
   private addExitZoneHighlights(locId: LocationId, exits: LocationExit[]): void {
     if (!exits.length) return;
@@ -486,6 +569,9 @@ export class MainScene extends Phaser.Scene {
 
   private clearWorldEntities(): void {
     this.cancelForestGather();
+    this.townPhaserTilemap?.destroy();
+    this.townPhaserTilemap = null;
+    this.townTmjExits = null;
     this.forestTrees = [];
     this.forestRocks = [];
     this.forestStumpSprites.clear();
@@ -527,6 +613,7 @@ export class MainScene extends Phaser.Scene {
   ): void {
     const mobCat = this.manifest.mobs;
     if (!mobCat) return;
+    if (isEnemyArchived(sp.mobVisualId)) return;
     if (
       this.enemies.some(
         (e) => e.instanceId === sp.id && e.state !== "dead"
@@ -540,7 +627,10 @@ export class MainScene extends Phaser.Scene {
       return;
     }
     if (!this.anims.exists(mobDef.idleAnim)) return;
-    let mobStats = getEnemyGruntStatsForLevel(this.resolveGruntSpawnLevel(sp));
+    let mobStats = getEnemyStatsForVisual(
+      sp.mobVisualId,
+      this.resolveGruntSpawnLevel(sp)
+    );
     if (statMult?.hpMult) {
       mobStats = {
         ...mobStats,
@@ -553,7 +643,7 @@ export class MainScene extends Phaser.Scene {
         atk: Math.max(1, Math.floor(mobStats.atk * statMult.atkMult)),
       };
     }
-    const radii = resolveMobAggroRadii(sp);
+    const radii = resolveMobAggroRadii(sp, getEnemyAiRadii(sp.mobVisualId));
     const mob = new EnemyMob(this, sp.x, sp.y, {
       instanceId: sp.id,
       mobVisualId: sp.mobVisualId,
@@ -574,6 +664,16 @@ export class MainScene extends Phaser.Scene {
       idleAnim: mobDef.idleAnim,
       runAnim: mobDef.runAnim,
       textureKey: mobDef.textureKeyIdle,
+      idleAnimUp: mobDef.idleAnimUp,
+      idleAnimDown: mobDef.idleAnimDown,
+      idleAnimSide: mobDef.idleAnimSide,
+      runAnimUp: mobDef.runAnimUp,
+      runAnimDown: mobDef.runAnimDown,
+      runAnimSide: mobDef.runAnimSide,
+      attackAnimUp: mobDef.attackAnimUp,
+      attackAnimDown: mobDef.attackAnimDown,
+      attackAnimSide: mobDef.attackAnimSide,
+      attackStrikeDelayMs: mobDef.attackStrikeDelayMs,
     });
     mob.setDepth(sp.y);
     this.physics.add.collider(mob, this.obstacles);
@@ -647,6 +747,10 @@ export class MainScene extends Phaser.Scene {
     const map = store.enemyRespawnNotBeforeMs;
 
     for (const sp of mobSpawns) {
+      if (isEnemyArchived(sp.mobVisualId)) {
+        store.clearEnemyRespawnAfterSpawn(sp.id);
+        continue;
+      }
       const notBefore = map[sp.id];
       if (notBefore === undefined || now < notBefore) continue;
 
@@ -654,7 +758,10 @@ export class MainScene extends Phaser.Scene {
         (e) => e.instanceId === sp.id && e.state === "dead"
       );
       if (deadMob) {
-        const stats = getEnemyGruntStatsForLevel(this.resolveGruntSpawnLevel(sp));
+        const stats = getEnemyStatsForVisual(
+          sp.mobVisualId,
+          this.resolveGruntSpawnLevel(sp)
+        );
         deadMob.reviveAtSpawn(stats);
         store.clearEnemyRespawnAfterSpawn(sp.id);
         continue;
@@ -752,6 +859,8 @@ export class MainScene extends Phaser.Scene {
         getWorldSeed: () => useGameStore.getState().forestWorldSeed,
         pushWorldObject: (o) => this.pushWorldObject(o),
         placeChunkLayoutProp: (ck, p) => this.placeChunkLayoutProp(ck, p),
+        spawnChunkForestForage: (ck, items) =>
+          this.spawnForestChunkForagePickups(ck, items),
       });
       const sp0 = loc.spawns.default;
       this.forestChunkMgr.sync(sp0.x, sp0.y);
@@ -780,8 +889,9 @@ export class MainScene extends Phaser.Scene {
         }
       }
 
-      this.addExitZoneHighlights(locId, loc.exits);
+      this.addExitZoneHighlights(locId, this.getActiveExits(loc));
       this.craftStationsResolved = resolveCraftStations(loc);
+      this.spawnDeathCorpsePickupsForLocation();
       return;
     }
 
@@ -796,73 +906,97 @@ export class MainScene extends Phaser.Scene {
         .setDepth(-10)
     );
 
-    const ground = addGroundDisplay(
-      this,
-      loc.groundTextureKey,
-      W,
-      H,
-      0
-    );
-    this.pushWorldObject(ground);
-
-    if (!loc.floorTiles || loc.floorTiles.length === 0) {
-      for (const o of addPathDirtLayer(this, loc.pathSegments, 0.15)) {
-        this.pushWorldObject(o);
-      }
-    }
-
-    if (loc.floorTiles && loc.floorTiles.length > 0) {
-      for (const t of loc.floorTiles) {
-        if (!this.textures.exists(t.texture)) continue;
-        const size = t.size ?? 16;
-        const img = this.add
-          .image(t.x, t.y, t.texture, t.frame)
-          .setOrigin(0, 0);
-        img.setDisplaySize(size, size);
-        img.setDepth(0.2);
-        this.pushWorldObject(img);
-      }
-    }
-
-    const decorList = getGrassDecor(locId);
-    for (const d of decorList) {
-      const spr = this.add
-        .image(d.x, d.y, "grass_decor", d.variant)
-        .setOrigin(0.5, 1);
-      spr.setDepth(d.y - 0.15);
-      this.pushWorldObject(spr);
-    }
-
-    for (const p of loc.imageProps) {
-      if (p.textureCrop) {
-        const ck = ensureCroppedPropTexture(this, p.texture, p.textureCrop);
-        if (ck) {
-          this.placePropImage(p.x, p.y, ck, p.collider, undefined);
+    if (locId === "town") {
+      this.townTmjExits = null;
+      this.townPhaserTilemap?.destroy();
+      this.townPhaserTilemap = null;
+      const tmj = getTownTmjData(this);
+      if (tmj) {
+        this.townTmjExits = parseTownTravelExits(tmj);
+        try {
+          this.townPhaserTilemap = createTownTilemapLayers(this);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn("[MainScene] town tilemap:", e);
         }
-      } else {
-        this.placePropImage(p.x, p.y, p.texture, p.collider, p.frame);
+        for (const r of parseTownColliderRects(tmj)) {
+          const cx = r.x + r.w / 2;
+          const cy = r.y + r.h / 2;
+          this.addStaticRect(cx, cy, r.w, r.h);
+        }
       }
-      if (p.texture === "pond" && loc.pondCollider) {
-        const pc = loc.pondCollider;
-        this.addStaticRect(pc.x, pc.y, pc.w, pc.h);
+    } else {
+      const ground = addGroundDisplay(
+        this,
+        loc.groundTextureKey,
+        W,
+        H,
+        0
+      );
+      this.pushWorldObject(ground);
+
+      if (!loc.floorTiles || loc.floorTiles.length === 0) {
+        for (const o of addPathDirtLayer(this, loc.pathSegments, 0.15)) {
+          this.pushWorldObject(o);
+        }
+      }
+
+      if (loc.floorTiles && loc.floorTiles.length > 0) {
+        for (const t of loc.floorTiles) {
+          if (!this.textures.exists(t.texture)) continue;
+          const size = t.size ?? 16;
+          const img = this.add
+            .image(t.x, t.y, t.texture, t.frame)
+            .setOrigin(0, 0);
+          img.setDisplaySize(size, size);
+          img.setDepth(0.2);
+          this.pushWorldObject(img);
+        }
       }
     }
 
-    for (const s of loc.animStations) {
-      const spr = this.add
-        .sprite(s.x, s.y, s.texture, 0)
-        .setOrigin(0.5, 1);
-      spr.setDepth(s.y);
-      if (this.anims.exists(s.animKey)) {
-        spr.play(s.animKey);
+    /** Город целиком из `town.tmj`; черновик редактора мог сохранить старый MVP-слой поверх. */
+    if (locId !== "town") {
+      const decorList = getGrassDecor(locId);
+      for (const d of decorList) {
+        const spr = this.add
+          .image(d.x, d.y, "grass_decor", d.variant)
+          .setOrigin(0.5, 1);
+        spr.setDepth(d.y - 0.15);
+        this.pushWorldObject(spr);
       }
-      this.pushWorldObject(spr);
-      this.addStaticRect(
-        s.collider.x,
-        s.collider.y,
-        s.collider.w,
-        s.collider.h
-      );
+
+      for (const p of loc.imageProps) {
+        if (p.textureCrop) {
+          const ck = ensureCroppedPropTexture(this, p.texture, p.textureCrop);
+          if (ck) {
+            this.placePropImage(p.x, p.y, ck, p.collider, undefined);
+          }
+        } else {
+          this.placePropImage(p.x, p.y, p.texture, p.collider, p.frame);
+        }
+        if (p.texture === "pond" && loc.pondCollider) {
+          const pc = loc.pondCollider;
+          this.addStaticRect(pc.x, pc.y, pc.w, pc.h);
+        }
+      }
+
+      for (const s of loc.animStations) {
+        const spr = this.add
+          .sprite(s.x, s.y, s.texture, 0)
+          .setOrigin(0.5, 1);
+        spr.setDepth(s.y);
+        if (this.anims.exists(s.animKey)) {
+          spr.play(s.animKey);
+        }
+        this.pushWorldObject(spr);
+        this.addStaticRect(
+          s.collider.x,
+          s.collider.y,
+          s.collider.w,
+          s.collider.h
+        );
+      }
     }
 
     if (locId === "town") {
@@ -912,48 +1046,17 @@ export class MainScene extends Phaser.Scene {
       this.physics.add.collider(npc, this.obstacles);
       this.npcs.push(npc);
     }
-
-    const taken = useGameStore.getState().pickedWorldItemIds;
-    if (ITEM_ATLAS.available && this.textures.exists(ITEM_ATLAS.textureKey)) {
-      for (const wp of WORLD_PICKUPS) {
-        if (taken[wp.id]) continue;
-        const cdef = getCuratedItem(wp.curatedId);
-        if (!cdef) continue;
-        const spr = this.add
-          .image(wp.x, wp.y, ITEM_ATLAS.textureKey, cdef.atlasFrame)
-          .setOrigin(0.5, 1);
-        spr.setDepth(wp.y + 0.5);
-        this.pickups.push({
-          id: wp.id,
-          sprite: spr,
-          curatedId: wp.curatedId,
-          qty: wp.qty,
-        });
-      }
-    }
     }
 
     if (this.manifest.mobs) {
-      if (locId === "town") {
-        const now = Date.now();
-        const respawn = useGameStore.getState().enemyRespawnNotBeforeMs;
-        const mobSpawns = loc.enemySpawns ?? ENEMY_SPAWNS;
-        for (const sp of mobSpawns) {
-          const notBefore = respawn[sp.id];
-          if (notBefore !== undefined && now < notBefore) continue;
-          this.spawnEnemyFromSpawnDef(sp);
-          if (notBefore !== undefined && now >= notBefore) {
-            useGameStore.getState().clearEnemyRespawnAfterSpawn(sp.id);
-          }
-        }
-      }
       if (locId === "dungeon") {
         this.setupDungeonCombat();
       }
     }
 
-    this.addExitZoneHighlights(locId, loc.exits);
+    this.addExitZoneHighlights(locId, this.getActiveExits(loc));
     this.craftStationsResolved = resolveCraftStations(loc);
+    this.spawnDeathCorpsePickupsForLocation();
   }
 
   private isDungeonBossAlive(): boolean {
@@ -1092,6 +1195,7 @@ export class MainScene extends Phaser.Scene {
             this.postRespawnInvulUntil = tNow + opts.postSpawnInvulMs;
           }
           opts?.afterFadeIn?.();
+          this.syncDayNightLighting();
         } catch (e) {
           console.error("[MainScene] gotoLocation", e);
           if (this.sys?.isActive()) {
@@ -1179,6 +1283,8 @@ export class MainScene extends Phaser.Scene {
           this.boundOnSliceTexturesApplied
         );
       }
+      this.dayNightLighting?.destroy();
+      this.dayNightLighting = null;
     });
 
     const lw = this.locationDef.world.width;
@@ -1502,6 +1608,12 @@ export class MainScene extends Phaser.Scene {
 
     window.addEventListener(SPAWN_WORLD_PICKUP_EVENT, onSpawnWorldPickup);
 
+    const onResyncCorpsePickups = () => {
+      if (!this.sys?.isActive()) return;
+      this.resyncDeathCorpsePickups();
+    };
+    window.addEventListener(RESYNC_CORPSE_PICKUPS_EVENT, onResyncCorpsePickups);
+
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.sfxVolUnsub?.();
       this.sfxVolUnsub = undefined;
@@ -1520,6 +1632,10 @@ export class MainScene extends Phaser.Scene {
       );
       window.removeEventListener("nagibatop-dungeon-enter", onDungeonEnter);
       window.removeEventListener(SPAWN_WORLD_PICKUP_EVENT, onSpawnWorldPickup);
+      window.removeEventListener(
+        RESYNC_CORPSE_PICKUPS_EVENT,
+        onResyncCorpsePickups
+      );
       window.__NAGIBATOP_READY__ = false;
       delete window.__NAGIBATOP_CAPTURE_FULL_MAP__;
       delete window.__NAGIBATOP_HURT__;
@@ -1583,6 +1699,12 @@ export class MainScene extends Phaser.Scene {
         this.hintText.setVisible(hintWasVisible);
       }
     };
+
+    if (!this.previewMode) {
+      this.dayNightLighting = new DayNightLighting(this);
+      this.dayNightLighting.ensure();
+      this.syncDayNightLighting();
+    }
 
     this.booted = true;
     if (typeof window !== "undefined") {
@@ -1681,7 +1803,50 @@ export class MainScene extends Phaser.Scene {
       .image(x, y, ITEM_ATLAS.textureKey, cdef.atlasFrame)
       .setOrigin(0.5, 1);
     spr.setDepth(y + 0.5);
-    this.pickups.push({ id, sprite: spr, curatedId, qty });
+    this.pickups.push({ id, sprite: spr, curatedId, qty, kind: "item" });
+  }
+
+  /** Маркеры «трупа» с лутом после смерти под дебафом (данные в сторе). */
+  private spawnDeathCorpsePickupsForLocation(): void {
+    if (!ITEM_ATLAS.available || !this.textures.exists(ITEM_ATLAS.textureKey)) {
+      return;
+    }
+    const st = useGameStore.getState();
+    const floorNow =
+      this.currentLocationId === "dungeon" ? st.dungeonCurrentFloor : null;
+    for (const drop of Object.values(st.deathDrops)) {
+      if (drop.locationId !== this.currentLocationId) continue;
+      if (this.currentLocationId === "dungeon") {
+        if (drop.dungeonFloor !== floorNow) continue;
+      }
+      const markerId = markerCuratedIdForDeathCorpse(drop);
+      const cdef = getCuratedItem(markerId);
+      if (!cdef) continue;
+      const visId = `corpse_vis_${drop.id}`;
+      if (this.pickups.some((p) => p.id === visId)) continue;
+      const spr = this.add
+        .image(drop.x, drop.y, ITEM_ATLAS.textureKey, cdef.atlasFrame)
+        .setOrigin(0.5, 1);
+      spr.setDepth(drop.y + 0.5);
+      this.pickups.push({
+        id: visId,
+        sprite: spr,
+        curatedId: markerId,
+        qty: 1,
+        kind: "corpse",
+        deathDropId: drop.id,
+      });
+    }
+  }
+
+  private resyncDeathCorpsePickups(): void {
+    for (const p of this.pickups) {
+      if (p.kind === "corpse") {
+        p.sprite.destroy();
+      }
+    }
+    this.pickups = this.pickups.filter((p) => p.kind !== "corpse");
+    this.spawnDeathCorpsePickupsForLocation();
   }
 
   private playSfx(id: FantasySfxId, volume = 1): void {
@@ -1968,6 +2133,7 @@ export class MainScene extends Phaser.Scene {
       }
       this.hintText.setVisible(false);
       this.lastHp = useGameStore.getState().character.hp;
+      this.syncDayNightLighting();
       return;
     }
 
@@ -2046,7 +2212,10 @@ export class MainScene extends Phaser.Scene {
 
     if (typeof window !== "undefined" && !this.previewMode) {
       useGameStore.getState().tickVitality(delta, moving, sprintingMove);
+      useGameStore.getState().tickWorldTime(delta);
     }
+
+    this.syncDayNightLighting();
 
     this.lastHp = useGameStore.getState().character.hp;
 
@@ -2135,7 +2304,15 @@ export class MainScene extends Phaser.Scene {
             playerX: this.player.x,
             playerY: this.player.y,
             onStrikePlayer: (rawAtk) => {
-              if (time < this.postRespawnInvulUntil) return;
+              if (this.time.now < this.postRespawnInvulUntil) return;
+              const pxStrike = this.player.x;
+              const pyStrike = this.player.y;
+              if (
+                Phaser.Math.Distance.Between(pxStrike, pyStrike, e.x, e.y) >
+                e.attackRange + 10
+              ) {
+                return;
+              }
               if (
                 rollPlayerEvadesMobHit(
                   stCombat.character.attrs.agi,
@@ -2173,7 +2350,7 @@ export class MainScene extends Phaser.Scene {
                 amt,
                 "#fca5a5"
               );
-              this.cameras.main.shake(210, 0.006);
+              this.cameras.main.shake(90, 0.002);
             },
           });
         }
@@ -2210,8 +2387,19 @@ export class MainScene extends Phaser.Scene {
     );
 
     const activePickups = this.pickups.filter((p) => p.sprite.active);
-    const nearPickup = activePickups.find(
+    const nearCorpsePickup = activePickups.find(
       (p) =>
+        p.kind === "corpse" &&
+        Phaser.Math.Distance.Between(
+          px,
+          py,
+          p.sprite.x,
+          p.sprite.y
+        ) < PICKUP_RADIUS
+    );
+    const nearItemPickup = activePickups.find(
+      (p) =>
+        (p.kind === "item" || p.kind === "forest_forage") &&
         Phaser.Math.Distance.Between(
           px,
           py,
@@ -2220,7 +2408,7 @@ export class MainScene extends Phaser.Scene {
         ) < PICKUP_RADIUS
     );
 
-    const nearExit = this.locationDef.exits.find((ex) =>
+    const nearExit = this.getActiveExits(this.locationDef).find((ex) =>
       pointInExitZone(px, py, ex, 0)
     );
 
@@ -2292,10 +2480,14 @@ export class MainScene extends Phaser.Scene {
       hintMsg = `[ E ] ${nearStation.label}`;
       hintX = nearStation.x;
       hintY = nearStation.y - 36;
-    } else if (nearPickup) {
+    } else if (nearCorpsePickup) {
+      hintMsg = "[ E ] Забрать вещи";
+      hintX = nearCorpsePickup.sprite.x;
+      hintY = nearCorpsePickup.sprite.y - 36;
+    } else if (nearItemPickup) {
       hintMsg = "[ E ] Подобрать";
-      hintX = nearPickup.sprite.x;
-      hintY = nearPickup.sprite.y - 36;
+      hintX = nearItemPickup.sprite.x;
+      hintY = nearItemPickup.sprite.y - 36;
     } else if (forestGatherTarget) {
       hintMsg =
         forestGatherTarget.kind === "tree" ? "[ E ] Рубить" : "[ E ] Добыть";
@@ -2383,24 +2575,76 @@ export class MainScene extends Phaser.Scene {
       return;
     }
 
-    if (nearPickup) {
+    if (nearCorpsePickup?.deathDropId) {
+      const dropId = nearCorpsePickup.deathDropId;
+      const res = useGameStore.getState().tryRecoverDeathCorpse(dropId);
+      if (res.ok) {
+        this.heroAnim.tryPlayInteract("collect");
+        this.playSfx(FANTASY_SFX.pickup);
+        this.resyncDeathCorpsePickups();
+        window.dispatchEvent(
+          new CustomEvent("nagibatop-toast", {
+            detail: {
+              message: res.partial
+                ? "Часть вещей забрана. Освободите место и вернитесь за остальным."
+                : "Вещи с места гибели забраны.",
+            },
+          })
+        );
+      } else if (res.openAsChest) {
+        const prepared =
+          useGameStore.getState().prepareDeathCorpseChest(dropId);
+        if (!prepared) {
+          window.dispatchEvent(
+            new CustomEvent("nagibatop-toast", {
+              detail: {
+                message: "Не удалось открыть вещи у тела.",
+              },
+            })
+          );
+        } else {
+          this.heroAnim.tryPlayInteract("collect");
+          this.playSfx(FANTASY_SFX.chestOpen);
+          window.dispatchEvent(
+            new CustomEvent("nagibatop-chest-open", {
+              detail: {
+                chestId: deathCorpseChestId(dropId),
+                chestX: nearCorpsePickup.sprite.x,
+                chestY: nearCorpsePickup.sprite.y,
+              },
+            })
+          );
+        }
+      } else {
+        window.dispatchEvent(
+          new CustomEvent("nagibatop-toast", {
+            detail: { message: res.reason ?? "Нельзя забрать" },
+          })
+        );
+      }
+      return;
+    }
+
+    if (nearItemPickup) {
       const res = useGameStore.getState().tryAddItem(
-        nearPickup.curatedId,
-        nearPickup.qty
+        nearItemPickup.curatedId,
+        nearItemPickup.qty
       );
       if (res.ok) {
-        if (WORLD_PICKUPS.some((w) => w.id === nearPickup.id)) {
-          useGameStore.getState().markWorldPickupTaken(nearPickup.id);
+        if (WORLD_PICKUPS.some((w) => w.id === nearItemPickup.id)) {
+          useGameStore.getState().markWorldPickupTaken(nearItemPickup.id);
+        } else if (nearItemPickup.kind === "forest_forage") {
+          useGameStore.getState().markForestForageTaken(nearItemPickup.id);
         }
         this.heroAnim.tryPlayInteract("collect");
         this.playSfx(FANTASY_SFX.pickup);
         this.rewardXp(XP_WORLD_PICKUP);
-        nearPickup.sprite.destroy();
-        this.pickups = this.pickups.filter((x) => x.id !== nearPickup.id);
+        nearItemPickup.sprite.destroy();
+        this.pickups = this.pickups.filter((x) => x.id !== nearItemPickup.id);
         window.dispatchEvent(
           new CustomEvent("nagibatop-toast", {
             detail: {
-              message: `Подобрано: ${getCuratedItem(nearPickup.curatedId)?.name ?? nearPickup.curatedId} ×${nearPickup.qty}`,
+              message: `Подобрано: ${getCuratedItem(nearItemPickup.curatedId)?.name ?? nearItemPickup.curatedId} ×${nearItemPickup.qty}`,
             },
           })
         );

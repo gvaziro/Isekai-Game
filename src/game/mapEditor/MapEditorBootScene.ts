@@ -5,7 +5,12 @@ import {
   queueSliceOverrideParentTextures,
   readSliceOverridesMap,
 } from "@/src/game/load/assetSliceOverridesRuntime";
+import {
+  mergeAssetManifestWithExtras,
+  type CharacterPackJson,
+} from "@/src/game/load/mergeAssetManifestExtras";
 import type { AssetManifest } from "@/src/game/types";
+import { TOWN_TILESET_LOAD } from "@/src/game/maps/townTilesetPreload.gen";
 
 /**
  * Загрузка ассетов как в игре, но стартовая сцена — MapEditScene.
@@ -29,7 +34,15 @@ export class MapEditorBootScene extends Phaser.Scene {
       "pcAutoSlicesLoad",
       "/assets/world/pixel-crawler-autoslices.load.json"
     );
+    this.load.json("characterPack", "/assets/world/character-pack.json");
     this.load.json("sliceOverrides", "/asset-slice-overrides.json");
+    this.load.tilemapTiledJSON(
+      "townMapJson",
+      "/assets/world/maps/town/town.tmj"
+    );
+    for (const e of TOWN_TILESET_LOAD) {
+      this.load.image(e.key, e.url);
+    }
   }
 
   create(): void {
@@ -49,15 +62,15 @@ export class MapEditorBootScene extends Phaser.Scene {
     const autoSlices = this.cache.json.get("pcAutoSlicesLoad") as
       | { load?: AssetManifest["load"] }
       | undefined;
-    const merged: AssetManifest = {
-      ...data,
-      load: [
-        ...data.load,
-        ...(extra?.load ?? []),
-        ...(slices?.load ?? []),
-        ...(autoSlices?.load ?? []),
-      ],
-    };
+    const characterPack = this.cache.json.get("characterPack") as
+      | CharacterPackJson
+      | undefined;
+    const merged = mergeAssetManifestWithExtras(data, {
+      pcEnvLoad: extra,
+      pcSlicesLoad: slices,
+      pcAutoSlicesLoad: autoSlices,
+      characterPack: characterPack ?? null,
+    });
 
     if (ITEM_ATLAS.available) {
       this.load.atlas(

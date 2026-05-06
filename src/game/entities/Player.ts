@@ -1,6 +1,8 @@
 import * as Phaser from "phaser";
 
 const FRAME_PC = 64;
+const visionScratch = new Phaser.Math.Vector2();
+const visionMat = new Phaser.GameObjects.Components.TransformMatrix();
 const frameOpaqueBottomCache = new Map<string, number>();
 
 function frameOpaqueBottom(sprite: Phaser.Physics.Arcade.Sprite): number {
@@ -88,6 +90,24 @@ export function applyPixelCrawlerFeetHitbox(
   const w = 14;
   const h = 10;
   syncFeetHitboxToVisibleBottom(sprite, w, h);
+}
+
+/**
+ * Мировая точка «глаз / грудь» для маски ночной видимости: привязка к текущему кадру
+ * и трансформу спрайта (flip, scale), а не к прямоугольнику physics body.
+ */
+export function playerVisionWorldPoint(
+  sprite: Phaser.Physics.Arcade.Sprite
+): { worldX: number; worldY: number } {
+  const w = Math.abs(sprite.displayWidth);
+  const h = Math.abs(sprite.displayHeight);
+  const ox = sprite.displayOriginX;
+  const oy = sprite.displayOriginY;
+  const localX = -ox + w * 0.5;
+  const localY = -oy + h * 0.34;
+  sprite.getWorldTransformMatrix(visionMat);
+  visionMat.transformPoint(localX, localY, visionScratch);
+  return { worldX: visionScratch.x, worldY: visionScratch.y };
 }
 
 /**

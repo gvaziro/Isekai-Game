@@ -108,6 +108,30 @@ export function applyXpDeathPenalty(
   return { level: L, xp };
 }
 
+/** id баффа «болезнь смерти» (см. `buffs.json`). */
+export const DEATH_SICKNESS_BUFF_ID = "death_sickness";
+/** Длительность дебафа после смерти, секунды реального времени (тикает в `tickVitality`). */
+export const DEATH_SICKNESS_DURATION_SEC = 600;
+/** Максимум сохранённых «трупов» с лутом (анти-раздувание сейва). */
+export const MAX_PERSISTED_DEATH_CORPSES = 12;
+
+/**
+ * Случайная потеря золота при смерти: 5–15% от текущего, минимум 1 при gold > 0.
+ * `rnd` — для тестов (по умолчанию Math.random).
+ */
+export function rollGoldLostOnDeath(
+  currentGold: number,
+  rnd: () => number = Math.random
+): number {
+  const g = Math.max(0, Math.floor(currentGold));
+  if (g <= 0) return 0;
+  const t = Math.min(1, Math.max(0, rnd()));
+  const pct = 0.05 + t * 0.1;
+  let lost = Math.floor(g * pct);
+  if (lost < 1) lost = 1;
+  return Math.min(g, lost);
+}
+
 /** Множитель добычи опыта от удачи (мягкий, до ~+22% на высоких LUCK). */
 export function xpGainFromLuckMultiplier(luck: number): number {
   const bonus = (luck - BASE_LUCK) * 0.003;
@@ -314,7 +338,7 @@ export const ITEM_EQUIP_BONUSES: Record<
   dagger: { atk: 5 },
   mace: { atk: 9 },
   staff_oak: { atk: 5 },
-  torch: { atk: 2 },
+  wooden_torch: { atk: 2 },
   shield_buckler: { def: 5 },
   shield_round: { def: 8 },
   lantern: { def: 1 },
@@ -340,6 +364,9 @@ export type ConsumableFx = {
 /** Если в данных нет `cooldownMs`, подставляется это значение. */
 export const DEFAULT_CONSUMABLE_COOLDOWN_MS = 3500;
 
+/** Полный запас одного расходного факела (игровые минуты). */
+export const TORCH_FULL_GAME_MINUTES = 6 * 60;
+
 /** Эффективный откат расходника после слияния balance + маппинг. */
 export function resolveConsumableCooldownMs(
   fx: ConsumableFx | undefined
@@ -356,8 +383,16 @@ export function resolveConsumableCooldownMs(
 }
 
 export const CONSUMABLE_EFFECTS: Record<string, ConsumableFx> = {
-  hp_small: { healHp: 24, cooldownMs: 4200 },
-  hp_medium: { healHp: 48, cooldownMs: 5200 },
+  hp_small: {
+    healHp: 24,
+    applyBuffs: [{ id: "warmth", durationSec: 28 }],
+    cooldownMs: 4200,
+  },
+  hp_medium: {
+    healHp: 48,
+    applyBuffs: [{ id: "bulwark", durationSec: 38 }],
+    cooldownMs: 5200,
+  },
   stamina_drink: {
     restoreSta: 36,
     applyBuffs: [{ id: "vigor", durationSec: 38 }],
@@ -375,10 +410,30 @@ export const CONSUMABLE_EFFECTS: Record<string, ConsumableFx> = {
     applyBuffs: [{ id: "hustle", durationSec: 30 }],
     cooldownMs: 2600,
   },
-  apple: { healHp: 7, restoreSta: 4, cooldownMs: 2000 },
-  mushroom: { healHp: 6, restoreSta: 8, cooldownMs: 2200 },
-  fish: { healHp: 14, restoreSta: 6, cooldownMs: 3000 },
-  potion_blue: { healHp: 30, restoreSta: 15, cooldownMs: 5600 },
+  apple: {
+    healHp: 7,
+    restoreSta: 4,
+    applyBuffs: [{ id: "fortune_bite", durationSec: 28 }],
+    cooldownMs: 2000,
+  },
+  mushroom: {
+    healHp: 6,
+    restoreSta: 8,
+    applyBuffs: [{ id: "mind_spore", durationSec: 40 }],
+    cooldownMs: 2200,
+  },
+  fish: {
+    healHp: 14,
+    restoreSta: 6,
+    applyBuffs: [{ id: "scavenger", durationSec: 38 }],
+    cooldownMs: 3000,
+  },
+  potion_blue: {
+    healHp: 30,
+    restoreSta: 15,
+    applyBuffs: [{ id: "battle_tonic", durationSec: 42 }],
+    cooldownMs: 5600,
+  },
   potion_green: {
     healHp: 18,
     restoreSta: 28,
@@ -406,8 +461,30 @@ export const STA_WINDED_MOVE_SPEED_MULT = 0.34;
 /** Пассивное восстановление HP в покое (в секунду, только без движения) */
 export const HP_REGEN_IDLE_PER_SEC = 0.55;
 
-/** Длительность «сна» в безопасной зоне (город / лес) до полного восстановления HP/STA. */
+/** Длительность «сна» в безопасной зоне (город / лес) — базовая длина канала при эталонной длительности сна. */
 export const SLEEP_CHANNEL_MS = 5000;
+
+/** Эталон длины сна (игровые минуты) для масштабирования реального канала ожидания. */
+export const SLEEP_CHANNEL_REF_GAME_MINUTES = 480;
+export const SLEEP_CHANNEL_MS_MIN = 1500;
+export const SLEEP_CHANNEL_MS_MAX = 20000;
+
+/** Полное восстановление HP/STA при сне не короче этого (игровые минуты). */
+export const SLEEP_FULL_RECOVERY_GAME_MINUTES = 360;
+/** Сброс перегруза стамины после сна не короче этого (игровые минуты). */
+export const SLEEP_WINDED_CLEAR_GAME_MINUTES = 60;
+
+export function computeSleepChannelRealMs(sleepGameMinutes: number): number {
+  const raw =
+    SLEEP_CHANNEL_MS *
+    (sleepGameMinutes / SLEEP_CHANNEL_REF_GAME_MINUTES);
+  return Math.round(
+    Math.min(
+      SLEEP_CHANNEL_MS_MAX,
+      Math.max(SLEEP_CHANNEL_MS_MIN, raw)
+    )
+  );
+}
 
 /** Канал рубки дерева (мс): за это время наносится ровно CHOP_TREE_STRIKE_COUNT ударов. */
 export const CHOP_TREE_CHANNEL_MS = 3000;
@@ -559,7 +636,7 @@ export const XP_ENEMY_KILL = 26;
 export const ENEMY_LEVEL_MAX = 99;
 
 /**
- * «Бандит» — база для уровня 1 (`getEnemyGruntStatsForLevel(1)` совпадает с этими числами).
+ * «Бандит» — база для уровня 1 (`getEnemyStatsForVisual("__default", 1)` совпадает с этими числами).
  * Спрайты — Orc / Skeleton в manifest.mobs.
  */
 export const ENEMY_GRUNT_HP = 48;
@@ -585,30 +662,38 @@ export type MobAggroRadii = {
 };
 
 /** Радиусы агро из спавна с дефолтами и минимальными отступами между порогами. */
-export function resolveMobAggroRadii(sp: {
-  aggroRadius?: number;
-  loseAggroRadius?: number;
-  leashRadius?: number;
-}): MobAggroRadii {
+export function resolveMobAggroRadii(
+  sp: {
+    aggroRadius?: number;
+    loseAggroRadius?: number;
+    leashRadius?: number;
+  },
+  defaults?: MobAggroRadii
+): MobAggroRadii {
+  const d = defaults ?? {
+    aggroRadius: MOB_AGGRO_RADIUS,
+    loseAggroRadius: MOB_LOSE_AGGRO_RADIUS,
+    leashRadius: MOB_LEASH_RADIUS,
+  };
   const aggro = Math.max(
     32,
     Math.min(
       MOB_AGGRO_RADIUS_SCHEMA_MAX,
-      Math.floor(sp.aggroRadius ?? MOB_AGGRO_RADIUS)
+      Math.floor(sp.aggroRadius ?? d.aggroRadius)
     )
   );
   const lose = Math.max(
     aggro + 8,
     Math.min(
       MOB_AGGRO_RADIUS_SCHEMA_MAX,
-      Math.floor(sp.loseAggroRadius ?? MOB_LOSE_AGGRO_RADIUS)
+      Math.floor(sp.loseAggroRadius ?? d.loseAggroRadius)
     )
   );
   const leash = Math.max(
     lose + 8,
     Math.min(
       MOB_AGGRO_RADIUS_SCHEMA_MAX,
-      Math.floor(sp.leashRadius ?? MOB_LEASH_RADIUS)
+      Math.floor(sp.leashRadius ?? d.leashRadius)
     )
   );
   return { aggroRadius: aggro, loseAggroRadius: lose, leashRadius: leash };
@@ -623,35 +708,6 @@ export type EnemyGruntScaledStats = {
   attackRange: number;
   attackCooldownMs: number;
 };
-
-/**
- * Статы одного архетипа «grunt» по уровню (для `EnemyMob` и баланса XP).
- * Уровень 1 = константы ENEMY_GRUNT_* выше.
- */
-export function getEnemyGruntStatsForLevel(level: number): EnemyGruntScaledStats {
-  const L = Math.max(1, Math.min(ENEMY_LEVEL_MAX, Math.floor(level)));
-  const t = L - 1;
-  const hp = Math.floor(
-    ENEMY_GRUNT_HP * (1 + 0.12 * t + 0.008 * t * t)
-  );
-  const atk = ENEMY_GRUNT_ATK + Math.floor(1.4 * t);
-  const armor = ENEMY_GRUNT_ARMOR + Math.floor(0.45 * t);
-  const speed = Math.min(130, ENEMY_GRUNT_SPEED + Math.floor(2 * t));
-  const attackRange = ENEMY_GRUNT_ATTACK_RANGE + Math.floor(t / 4);
-  const attackCooldownMs = Math.max(
-    700,
-    Math.floor(ENEMY_GRUNT_ATTACK_COOLDOWN_MS * (1 - 0.025 * Math.min(t, 8)))
-  );
-  return {
-    level: L,
-    hp,
-    atk,
-    armor,
-    speed,
-    attackRange,
-    attackCooldownMs,
-  };
-}
 
 /** Опыт за убийство моба уровня `level` (рост с уровнем, верхняя граница). */
 export function xpEnemyKill(level: number): number {
@@ -703,3 +759,6 @@ export function damageEnemyDealsToPlayer(
 ): number {
   return Math.max(1, Math.floor(enemyAtk - playerDef * 0.38));
 }
+
+/** Реализация в `enemies.ts` (данные из `enemies.json`). */
+export { getEnemyGruntStatsForLevel } from "./enemies";

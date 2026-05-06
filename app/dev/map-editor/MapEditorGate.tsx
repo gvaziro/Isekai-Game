@@ -18,6 +18,13 @@ export default function MapEditorGate() {
     <div className="min-h-screen bg-zinc-950 px-3 py-6 text-zinc-100 sm:px-4">
       <div className="mx-auto mb-4 flex flex-wrap items-center gap-3 max-w-[min(1920px,100%)]">
         <Link
+          href="/dev/character-editor"
+          className="text-sm text-emerald-400 hover:text-emerald-300"
+        >
+          Редактор персонажей
+        </Link>
+        <span className="text-zinc-600">·</span>
+        <Link
           href="/"
           className="text-sm text-emerald-400 hover:text-emerald-300"
         >

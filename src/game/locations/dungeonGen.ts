@@ -17,20 +17,37 @@ const WALL_COLL = { w: CELL, h: 10, oy: 5 } as const;
 // Сундук масштабируется `getEffectivePropCollider()` от исходного source-slice.
 const CHEST_COLL = { w: 26, h: 14, oy: 8 } as const;
 
-const WALL_TEX = "dungeon_wall";
+const DUNGEON_TILESET_TEX = "pc_env_tilesets_dungeon_tiles";
+const WALL_TEX = DUNGEON_TILESET_TEX;
 const WALL_COLS = 25;
-const WALL_FRAMES: number[] = (() => {
-  const out: number[] = [];
-  for (let row = 16; row <= 18; row++) {
-    for (let col = 6; col <= 11; col++) out.push(row * WALL_COLS + col);
-  }
-  return out;
-})();
+const frame = (col: number, row: number): number => row * WALL_COLS + col;
 
-const FLOOR_TEX = "dungeon_floor";
+const WALL_TOP_FRAMES: number[] = [
+  frame(0, 0),
+  frame(1, 0),
+  frame(2, 0),
+];
+
+const WALL_FACE_FRAMES: number[] = [
+  frame(0, 1),
+  frame(1, 1),
+  frame(2, 1),
+];
+
+const FLOOR_TEX = DUNGEON_TILESET_TEX;
 const FLOOR_FRAMES: number[] = [
-  327, 328, 351, 352, 353, 377, 378, 452, 453, 476, 477, 478, 502, 503, 550, 551,
-  552, 553, 554, 575, 576, 577, 578, 579,
+  frame(4, 0),
+  frame(5, 0),
+  frame(6, 0),
+  frame(7, 0),
+  frame(4, 1),
+  frame(5, 1),
+  frame(6, 1),
+  frame(7, 1),
+  frame(4, 2),
+  frame(5, 2),
+  frame(6, 2),
+  frame(7, 2),
 ];
 
 type Rect = { x: number; y: number; w: number; h: number };
@@ -236,6 +253,24 @@ function pickFrame(rand: () => number, frames: number[]): number {
   return frames[Math.floor(rand() * frames.length)] ?? frames[0]!;
 }
 
+function pickWallFrame(
+  rand: () => number,
+  floor: Set<string>,
+  gx: number,
+  gy: number
+): number | null {
+  const floorAbove = floor.has(key(gx, gy - 1));
+  const floorBelow = floor.has(key(gx, gy + 1));
+  const floorLeft = floor.has(key(gx - 1, gy));
+  const floorRight = floor.has(key(gx + 1, gy));
+  if (!floorAbove && !floorBelow && !floorLeft && !floorRight) return null;
+
+  if (floorBelow && !floorAbove) {
+    return pickFrame(rand, WALL_TOP_FRAMES);
+  }
+  return pickFrame(rand, WALL_FACE_FRAMES);
+}
+
 /**
  * Процедурные катакомбы для этажа: размер мира, BSP и сид уникальны для каждого F.
  */
@@ -316,23 +351,15 @@ export function generateCatacombsForFloor(floor: number): GameLocationJson {
   for (let gx = 0; gx < gw; gx++) {
     for (let gy = 0; gy < gh; gy++) {
       if (floorCells.has(key(gx, gy))) continue;
-      const neigh =
-        (gx > 0 && floorCells.has(key(gx - 1, gy))) ||
-        (gx + 1 < gw && floorCells.has(key(gx + 1, gy))) ||
-        (gy > 0 && floorCells.has(key(gx, gy - 1))) ||
-        (gy + 1 < gh && floorCells.has(key(gx, gy + 1))) ||
-        (gx > 0 && gy > 0 && floorCells.has(key(gx - 1, gy - 1))) ||
-        (gx + 1 < gw && gy > 0 && floorCells.has(key(gx + 1, gy - 1))) ||
-        (gx > 0 && gy + 1 < gh && floorCells.has(key(gx - 1, gy + 1))) ||
-        (gx + 1 < gw && gy + 1 < gh && floorCells.has(key(gx + 1, gy + 1)));
-      if (!neigh) continue;
+      const wallFrame = pickWallFrame(rand, floorCells, gx, gy);
+      if (wallFrame === null) continue;
       const x = gx * CELL + CELL / 2;
       const y = (gy + 1) * CELL;
       imageProps.push({
         x,
         y,
         texture: WALL_TEX,
-        frame: pickFrame(rand, WALL_FRAMES),
+        frame: wallFrame,
         collider: { ...WALL_COLL },
       });
     }

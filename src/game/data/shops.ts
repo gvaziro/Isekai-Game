@@ -8,6 +8,8 @@ export type ShopEntry = {
   buyMult?: number;
   /** Множитель к базовой цене выкупа */
   sellMult?: number;
+  /** Минимальный уровень персонажа, с которого товар доступен */
+  requiredLevel?: number;
 };
 
 export type ShopDef = {
@@ -44,6 +46,7 @@ export const SHOPS: readonly ShopDef[] = [
       { curatedId: "potion_blue", stock: 5 },
       { curatedId: "mushroom", stock: 10 },
       { curatedId: "fishing_rod_simple", stock: 4 },
+      { curatedId: "hand_torch", stock: 12 },
     ],
   },
   {
@@ -61,6 +64,9 @@ export const SHOPS: readonly ShopDef[] = [
       { curatedId: "helm_leather", stock: 4 },
       { curatedId: "coat_travel", stock: 3 },
       { curatedId: "axe_hatchet", stock: 4 },
+      { curatedId: "item682", stock: 4 },
+      { curatedId: "item674", stock: 3, requiredLevel: 20 },
+      { curatedId: "item675", stock: 2, requiredLevel: 50 },
     ],
   },
   {

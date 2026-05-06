@@ -10,6 +10,7 @@
     "test:run": "vitest run",
     "lint": "eslint",
     "gen-assets": "node scripts/gen-assets.mjs",
+    "gen:town-map": "node scripts/flatten-town-tmj.mjs",
     "gen:pc-env": "node scripts/gen-pixel-crawler-environment-load.mjs",
     "gen:pc-slices": "node scripts/gen-pixel-crawler-slices.mjs",
     "gen:pc-auto-slices": "node scripts/gen-pixel-crawler-auto-slices.mjs",

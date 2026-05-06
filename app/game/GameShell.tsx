@@ -51,10 +51,12 @@ export default function GameShell() {
             <kbd className="rounded bg-zinc-800 px-0.5">E</kbd> — действие,{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">I</kbd> инвентарь,{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">J</kbd> квесты,{" "}
-            <kbd className="rounded bg-zinc-800 px-0.5">Z</kbd> — отдохнуть (город
-            / лес),{" "}
+            <kbd className="rounded bg-zinc-800 px-0.5">Z</kbd> — сон (город / лес:
+            длительность ползунком, шаг 30 мин),{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">M</kbd> — карта подземелья
-            (в катакомбах). Прогресс сохраняется сам.
+            (в катакомбах),{" "}
+            <kbd className="rounded bg-zinc-800 px-0.5">Alt+Enter</kbd> — на весь
+            экран. Прогресс сохраняется сам.
           </p>
         </div>
         <button

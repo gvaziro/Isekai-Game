@@ -27,10 +27,15 @@ import {
   serializeLocationToJsonObject,
 } from "@/src/game/locations/locationSchema";
 import {
+  mergeAssetManifestWithExtras,
+  type CharacterPackJson,
+} from "@/src/game/load/mergeAssetManifestExtras";
+import {
   buildCatalogFromManifestLoad,
   type CatalogItem,
   type ManifestLoadEntry,
 } from "@/src/game/mapEditor/manifestCatalog";
+import type { AssetManifest } from "@/src/game/types";
 import { COLLIDER_PRESETS, presetCollider } from "@/src/game/mapEditor/colliderPresets";
 import MapElementCatalog from "@/src/game/mapEditor/MapElementCatalog";
 import SpriteSheetFramePicker from "@/src/game/mapEditor/SpriteSheetFramePicker";
@@ -302,24 +307,39 @@ export default function MapEditorRoot() {
       fetch("/assets/world/pixel-crawler-autoslices.load.json")
         .then((r) => (r.ok ? r.json() : { load: [] }))
         .catch(() => ({ load: [] })),
+      fetch("/assets/world/character-pack.json")
+        .then((r) => (r.ok ? r.json() : {}))
+        .catch(() => ({})),
     ])
       .then(
-        ([data, extra, slices, autoSlices]: [
+        ([data, extra, slices, autoSlices, characterPack]: [
+          AssetManifest,
           { load?: ManifestLoadEntry[] },
           { load?: ManifestLoadEntry[] },
           { load?: ManifestLoadEntry[] },
-          { load?: ManifestLoadEntry[] },
+          Record<string, unknown>,
         ]) => {
-        const load = [
-          ...(data.load ?? []),
-          ...(extra.load ?? []),
-          ...(slices.load ?? []),
-          ...(autoSlices.load ?? []),
-        ];
-        const { images, spritesheets } = buildCatalogFromManifestLoad(load);
-        setCatalogImages(images);
-        setCatalogSpritesheets(spritesheets);
-      })
+          const merged = mergeAssetManifestWithExtras(data, {
+            pcEnvLoad: extra as { load?: AssetManifest["load"] },
+            pcSlicesLoad: slices as { load?: AssetManifest["load"] },
+            pcAutoSlicesLoad: autoSlices as { load?: AssetManifest["load"] },
+            characterPack:
+              characterPack &&
+              typeof characterPack === "object" &&
+              ("load" in characterPack ||
+                "animations" in characterPack ||
+                "units" in characterPack ||
+                "mobs" in characterPack)
+                ? (characterPack as CharacterPackJson)
+                : null,
+          });
+          const { images, spritesheets } = buildCatalogFromManifestLoad(
+            merged.load
+          );
+          setCatalogImages(images);
+          setCatalogSpritesheets(spritesheets);
+        }
+      )
       .catch(() => {
         setCatalogImages([]);
         setCatalogSpritesheets([]);

@@ -66,13 +66,14 @@ export async function POST(
   }
 
   const messages = buildMessagesForCompletion(npc, body.history, body.message);
-  const model = process.env.NPC_MODEL ?? "gpt-4o-mini";
+  const model = process.env.NPC_MODEL ?? "gpt-5.4-mini";
 
   let completionStream: AsyncIterable<OpenAI.Chat.Completions.ChatCompletionChunk>;
   try {
     completionStream = await createNpcChatCompletionStream({
       model,
       messages,
+      promptCacheKey: `npc:${rawId}`,
     });
   } catch (e) {
     console.error("[api/chat]", e);
@@ -118,6 +119,15 @@ export async function POST(
       };
       try {
         for await (const part of completionStream) {
+          if (process.env.NPC_LOG_PROMPT_CACHE === "1" && part.usage) {
+            const cached =
+              part.usage.prompt_tokens_details?.cached_tokens ?? 0;
+            console.log("[api/chat] prompt_cache", {
+              npcId: rawId,
+              prompt_tokens: part.usage.prompt_tokens,
+              cached_tokens: cached,
+            });
+          }
           const choice0 = part.choices?.[0];
           const token = extractChatCompletionDeltaText(choice0?.delta);
           if (token) {

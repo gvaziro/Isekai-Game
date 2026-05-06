@@ -13,6 +13,7 @@ const MOBS = [
   { mobVisualId: "skeleton_rogue", lootTable: "grunt" },
   { mobVisualId: "orc_shaman", lootTable: "grunt" },
   { mobVisualId: "skeleton_warrior", lootTable: "grunt" },
+  { mobVisualId: "slime_basic", lootTable: "grunt" },
 ] as const;
 
 export function wildForestMobInstanceId(

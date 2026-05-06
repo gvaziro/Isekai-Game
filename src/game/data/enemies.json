@@ -1,0 +1,295 @@
+{
+  "updatedAt": "2026-05-05T00:00:00.000Z",
+  "enemies": {
+    "__default": {
+      "label": "Grunt (по умолчанию)",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 75000
+    },
+    "orc_base": {
+      "label": "Orc base",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 48000
+    },
+    "orc_rogue": {
+      "label": "Orc rogue",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 50000
+    },
+    "orc_shaman": {
+      "label": "Orc shaman",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 72000
+    },
+    "orc_warrior": {
+      "label": "Orc warrior",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 55000
+    },
+    "skeleton_base": {
+      "label": "Skeleton base",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 45000
+    },
+    "skeleton_mage": {
+      "label": "Skeleton mage",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 88000
+    },
+    "skeleton_rogue": {
+      "label": "Skeleton rogue",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 42000
+    },
+    "skeleton_warrior": {
+      "label": "Skeleton warrior",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 60000
+    },
+    "slime_basic": {
+      "label": "Slime",
+      "base": {
+        "hp": 48,
+        "atk": 9,
+        "armor": 2,
+        "speed": 88,
+        "attackRange": 38,
+        "attackCooldownMs": 980
+      },
+      "scaling": {
+        "hpLinear": 0.12,
+        "hpQuad": 0.008,
+        "atkPerLevel": 1.4,
+        "armorPerLevel": 0.45,
+        "speedPerLevel": 2,
+        "speedCap": 130,
+        "attackRangePerLevelInv": 4,
+        "cooldownDecayPerLevel": 0.025,
+        "cooldownDecayLevelCap": 8,
+        "cooldownMin": 700
+      },
+      "ai": {
+        "aggroRadius": 220,
+        "loseAggroRadius": 400,
+        "leashRadius": 520
+      },
+      "respawnMs": 38000
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-05-03T12:00:00.000Z",
   "buffs": {
     "vigor": {
       "label": "Бодрость",
@@ -12,6 +12,45 @@
     "second_wind": {
       "label": "Второе дыхание",
       "staDrainMult": 0.82
+    },
+    "warmth": {
+      "label": "Тепло",
+      "hpRegenMult": 1.25
+    },
+    "bulwark": {
+      "label": "Бастион",
+      "defMult": 1.12
+    },
+    "fortune_bite": {
+      "label": "Укус фортуны",
+      "luckMult": 1.1
+    },
+    "mind_spore": {
+      "label": "Спора прозрения",
+      "xpGainMult": 1.08
+    },
+    "scavenger": {
+      "label": "Сборщик",
+      "goldGainMult": 1.15
+    },
+    "battle_tonic": {
+      "label": "Боевой тоник",
+      "atkMult": 1.12
+    },
+    "fleet_blade": {
+      "label": "Быстрый клинок",
+      "attackCooldownMult": 0.92
+    },
+    "mist_step": {
+      "label": "Шаг в тумане",
+      "evadeMult": 1.12
+    },
+    "death_sickness": {
+      "label": "Болезнь смерти",
+      "defMult": 0.9,
+      "moveSpdMult": 0.95,
+      "xpGainMult": 0.9,
+      "atkMult": 0.95
     }
   }
 }

@@ -55,11 +55,26 @@ export type AssetManifestUnitEntry = {
   runAnim: string;
 };
 
-/** Враг — Orc / Skeleton (idle 32×32, run 64×64 как у NPC Knight). */
+/**
+ * Враг — Orc / Skeleton (idle 32×32, run 64×64 как у NPC Knight);
+ * опционально направленный моб (например слайм 64×64) с отдельными клипами
+ * idle/walk по сторонам и одноразовой атакой (`repeat: 0` в манифесте).
+ */
 export type MobUnitManifest = {
   idleAnim: string;
   runAnim: string;
   textureKeyIdle: string;
+  idleAnimUp?: string;
+  idleAnimDown?: string;
+  idleAnimSide?: string;
+  runAnimUp?: string;
+  runAnimDown?: string;
+  runAnimSide?: string;
+  attackAnimUp?: string;
+  attackAnimDown?: string;
+  attackAnimSide?: string;
+  /** Задержка нанесения урона после старта attack-клипа (мс). */
+  attackStrikeDelayMs?: number;
 };
 
 /**

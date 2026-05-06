@@ -91,7 +91,7 @@ export type LocationEnemySpawn = {
   y: number;
   lootTable: string;
   mobVisualId: string;
-  /** Уровень моба (статы из `getEnemyGruntStatsForLevel`). По умолчанию 1. */
+  /** Уровень моба (статы из `getEnemyStatsForVisual(mobVisualId, level)`). По умолчанию 1. */
   level?: number;
   /** Переопределение радиуса агро; иначе `MOB_AGGRO_RADIUS` из balance. */
   aggroRadius?: number;

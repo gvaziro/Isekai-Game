@@ -39,6 +39,7 @@ export const DUNGEON_GRUNT_VISUAL_IDS = [
   "orc_shaman",
   "skeleton_warrior",
   "skeleton_mage",
+  "slime_basic",
 ] as const;
 
 export {

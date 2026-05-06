@@ -157,7 +157,16 @@ export function getConsumableEffect(id: string): ConsumableFx | undefined {
 
 /** Полный откат предмета (мс) с учётом balance и каталога. */
 export function getConsumableCooldownMs(id: string): number {
+  if (id === "hand_torch") return 0;
   return resolveConsumableCooldownMs(getConsumableEffect(id));
+}
+
+/** Можно ли применить предмет сразу из хотбара (F / цифры). */
+export function hotbarItemIsImmediatelyUsable(curatedId: string): boolean {
+  if (curatedId === "hand_torch") return true;
+  const def = getCuratedItem(curatedId);
+  if (!def || !itemSlotSupportsUsableEffect(def.slot)) return false;
+  return !!getConsumableEffect(curatedId);
 }
 
 /** Дополнительные ячейки инвентаря от надетого рюкзака (0…MAX_BACKPACK_BONUS_SLOTS). */

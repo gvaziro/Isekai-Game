@@ -41,6 +41,7 @@ export default function ShopOverlay({
 }) {
   const inventorySlots = useGameStore((s) => s.inventorySlots);
   const gold = useGameStore((s) => s.character.gold);
+  const characterLevel = useGameStore((s) => s.character.level);
   const shops = useGameStore((s) => s.shops);
   const touchShopRestock = useGameStore((s) => s.touchShopRestock);
   const buyFromShop = useGameStore((s) => s.buyFromShop);
@@ -50,6 +51,12 @@ export default function ShopOverlay({
   const [pickedInv, setPickedInv] = useState<number | null>(null);
 
   const shopDef = useMemo(() => getShopDefById(shopId), [shopId]);
+  const visibleShopEntries = useMemo(() => {
+    if (!shopDef) return [];
+    return shopDef.entries.filter(
+      (e) => (e.requiredLevel ?? 0) <= characterLevel
+    );
+  }, [shopDef, characterLevel]);
   const runtime = shops[shopId];
 
   useEffect(() => {
@@ -122,7 +129,7 @@ export default function ShopOverlay({
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
           <PaperSectionLabel>Товар торговца</PaperSectionLabel>
           <div className="paper-scroll flex max-h-[min(42vh,280px)] flex-col gap-2 overflow-y-auto pr-1">
-            {shopDef.entries.map((entry) => {
+            {visibleShopEntries.map((entry) => {
               const def = getCuratedItem(entry.curatedId);
               const base = getItemBasePrice(entry.curatedId);
               const unit = computeBuyUnitPrice(shopDef, entry, base);

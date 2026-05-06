@@ -22,10 +22,14 @@ import ForestMapOverlay from "@/src/game/ui/ForestMapOverlay";
 import LevelStatOverlay from "@/src/game/ui/LevelStatOverlay";
 import HotbarHud from "@/src/game/ui/HotbarHud";
 import {
+  DEATH_MODAL_EVENT,
+  deathCorpseDropIdFromChestId,
   HOTBAR_SLOT_COUNT,
   HOTBAR_WHEEL_NUDGE_EVENT,
+  isDeathCorpseChestId,
   PLAY_VIEWPORT_HEIGHT,
   PLAY_VIEWPORT_WIDTH,
+  RESYNC_CORPSE_PICKUPS_EVENT,
 } from "@/src/game/constants/gameplay";
 import { WORLD } from "@/src/game/layout";
 import {
@@ -38,34 +42,17 @@ import {
   useQuestStore,
   waitForQuestStoreHydration,
 } from "@/src/game/state/questStore";
-import { getDerivedCombatStats } from "@/src/game/rpg/derivedStats";
 import { subscribeAssetSliceOverridesSaved } from "@/src/game/load/assetSliceOverridesRuntime";
-import { getConsumableEffect } from "@/src/game/data/itemRegistry";
+import { hotbarItemIsImmediatelyUsable } from "@/src/game/data/itemRegistry";
+import { PaperButton } from "@/src/game/ui/paper/PaperButton";
 
-/** Можно ли начать канал сна (город/лес и есть смысл: не полные виталы или winded). */
+/** Можно ли открыть отдых (только город / лес — планирование сна и сдвиг времени суток). */
 function canAttemptSleepChannel():
   | { ok: true }
-  | { ok: false; reason: "wrong_location" | "full" } {
+  | { ok: false; reason: "wrong_location" } {
   const st = useGameStore.getState();
   if (st.currentLocationId !== "town" && st.currentLocationId !== "forest") {
     return { ok: false, reason: "wrong_location" };
-  }
-  const now =
-    typeof performance !== "undefined" && typeof performance.now === "function"
-      ? performance.now()
-      : Date.now();
-  const winded =
-    (st.staWindedUntilMs ?? 0) > 0 && now < (st.staWindedUntilMs ?? 0);
-  const origin =
-    st.isekaiOrigin?.completed === true ? st.isekaiOrigin.bonus : undefined;
-  const d = getDerivedCombatStats(
-    st.character.level,
-    st.equipped,
-    origin,
-    st.character.attrs
-  );
-  if (!winded && st.character.hp >= d.maxHp && st.character.sta >= d.maxSta) {
-    return { ok: false, reason: "full" };
   }
   return { ok: true };
 }
@@ -110,6 +97,7 @@ function DevHud() {
 }
 
 export default function GameRoot() {
+  const gameFrameRef = useRef<HTMLDivElement>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const phaserGameRef = useRef<import("phaser").Game | null>(null);
   const [dialogue, setDialogue] = useState<DialogueOpen | null>(null);
@@ -119,6 +107,8 @@ export default function GameRoot() {
   const [mapCaptureBusy, setMapCaptureBusy] = useState(false);
   const [mapCaptureNotice, setMapCaptureNotice] = useState<string | null>(null);
   const [devHud, setDevHud] = useState(false);
+  const [fullscreenAvailable, setFullscreenAvailable] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [chestOpen, setChestOpen] = useState<{
     chestId: string;
@@ -133,6 +123,10 @@ export default function GameRoot() {
   const [achievementsOpen, setAchievementsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [deathModalMessage, setDeathModalMessage] = useState<string | null>(
+    null
+  );
+  const deathModalCloseRef = useRef<HTMLButtonElement>(null);
   const [craftToasts, setCraftToasts] = useState<
     ReadonlyArray<{ id: number; message: string }>
   >([]);
@@ -152,6 +146,8 @@ export default function GameRoot() {
   const levelStatAllocOpen =
     !preview && gameStoreHydrated && unspentStatPoints > 0;
 
+  const deathModalOpen = !preview && deathModalMessage !== null;
+
   const modalLike =
     inventoryOpen ||
     chestOpen !== null ||
@@ -166,7 +162,8 @@ export default function GameRoot() {
     levelStatAllocOpen ||
     sleepOpen ||
     dungeonMapOpen ||
-    forestMapOpen;
+    forestMapOpen ||
+    deathModalOpen;
 
   useEffect(() => {
     if (modalLike) {
@@ -186,6 +183,34 @@ export default function GameRoot() {
     window.addEventListener("nagibatop-toast", onToast);
     return () => window.removeEventListener("nagibatop-toast", onToast);
   }, []);
+
+  useEffect(() => {
+    const onDeathModal = (e: Event) => {
+      const msg = (e as CustomEvent<{ message: string }>).detail?.message;
+      if (!msg) return;
+      setDeathModalMessage(msg);
+    };
+    window.addEventListener(DEATH_MODAL_EVENT, onDeathModal);
+    return () => window.removeEventListener(DEATH_MODAL_EVENT, onDeathModal);
+  }, []);
+
+  useEffect(() => {
+    if (!deathModalOpen) return;
+    const t = window.setTimeout(() => {
+      deathModalCloseRef.current?.focus({ preventScroll: true });
+    }, 0);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setDeathModalMessage(null);
+      }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("keydown", onKey, true);
+    };
+  }, [deathModalOpen]);
 
   useEffect(() => {
     if (craftOpen === null) {
@@ -314,10 +339,65 @@ export default function GameRoot() {
     setSettingsOpen((v) => !v);
   }, []);
 
+  const toggleFullscreen = useCallback(async () => {
+    if (preview) return;
+    const el = gameFrameRef.current;
+    if (!el || !document.fullscreenEnabled || !el.requestFullscreen) {
+      setToast("Полноэкранный режим недоступен в этом браузере.");
+      window.setTimeout(() => setToast(null), 2800);
+      return;
+    }
+
+    try {
+      if (document.fullscreenElement === el) {
+        await document.exitFullscreen();
+      } else {
+        await el.requestFullscreen({ navigationUI: "hide" });
+        hostRef.current?.focus({ preventScroll: true });
+      }
+    } catch (e) {
+      console.warn("[GameRoot] fullscreen", e);
+      setToast("Браузер не разрешил открыть игру на весь экран.");
+      window.setTimeout(() => setToast(null), 2800);
+    }
+  }, [preview]);
+
   const closeSleep = useCallback(() => setSleepOpen(false), []);
 
   const closeDungeonMap = useCallback(() => setDungeonMapOpen(false), []);
   const closeForestMap = useCallback(() => setForestMapOpen(false), []);
+
+  useEffect(() => {
+    if (preview) return;
+    const syncFullscreenState = () => {
+      setFullscreenAvailable(
+        Boolean(document.fullscreenEnabled && gameFrameRef.current?.requestFullscreen)
+      );
+      setIsFullscreen(document.fullscreenElement === gameFrameRef.current);
+    };
+    syncFullscreenState();
+    document.addEventListener("fullscreenchange", syncFullscreenState);
+    document.addEventListener("fullscreenerror", syncFullscreenState);
+    return () => {
+      document.removeEventListener("fullscreenchange", syncFullscreenState);
+      document.removeEventListener("fullscreenerror", syncFullscreenState);
+    };
+  }, [preview]);
+
+  useEffect(() => {
+    if (preview) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || !e.altKey || e.code !== "Enter") return;
+      const el = e.target as HTMLElement | null;
+      if (el?.closest?.("input, textarea, select, [contenteditable=true]")) {
+        return;
+      }
+      e.preventDefault();
+      void toggleFullscreen();
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [preview, toggleFullscreen]);
 
   useEffect(() => {
     if (preview) return;
@@ -382,7 +462,7 @@ export default function GameRoot() {
                 message:
                   r.reason === "wrong_location"
                     ? "Отдохнуть можно только в городе или в лесу."
-                    : "Сейчас не нужно отдыхать.",
+                    : "Нельзя открыть отдых.",
               },
             })
           );
@@ -555,7 +635,7 @@ export default function GameRoot() {
           const canUseHotbarNumber =
             !!stack &&
             stack.qty > 0 &&
-            !!getConsumableEffect(stack.curatedId);
+            hotbarItemIsImmediatelyUsable(stack.curatedId);
 
           if (canUseHotbarNumber) {
             const r = gs.useConsumableAt(idx);
@@ -713,7 +793,14 @@ export default function GameRoot() {
   }
 
   return (
-    <div className="relative inline-block">
+    <div
+      ref={gameFrameRef}
+      className={
+        isFullscreen
+          ? "relative h-screen w-screen bg-black"
+          : "relative inline-block"
+      }
+    >
       <button
         type="button"
         disabled={mapCaptureBusy}
@@ -784,6 +871,18 @@ export default function GameRoot() {
             Настройки
             <span className="ml-2 font-mono text-[10px] text-zinc-500">O</span>
           </button>
+          <button
+            type="button"
+            disabled={!fullscreenAvailable}
+            onClick={() => void toggleFullscreen()}
+            className="pointer-events-auto rounded-lg border border-emerald-700 bg-emerald-950/90 px-3 py-2 text-left text-xs font-medium text-emerald-100 shadow-md backdrop-blur-sm hover:bg-emerald-900/90 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:bg-zinc-900/80 disabled:text-zinc-500"
+            title="Переключить полноэкранный режим (Alt+Enter)"
+          >
+            {isFullscreen ? "Оконный режим" : "Во весь экран"}
+            <span className="ml-2 font-mono text-[10px] text-emerald-400/80">
+              Alt+Enter
+            </span>
+          </button>
         </div>
       ) : null}
       {!preview && devHud ? <DevHud /> : null}
@@ -817,7 +916,9 @@ export default function GameRoot() {
         className={
           preview
             ? "relative inline-block overflow-hidden rounded-lg border border-zinc-700 bg-black"
-            : "relative h-[min(88vh,720px)] w-[min(100%,1280px)] max-w-[1280px] overflow-hidden rounded-lg border border-zinc-700 bg-black"
+            : isFullscreen
+              ? "relative h-screen w-screen overflow-hidden bg-black"
+              : "relative h-[min(88vh,720px)] w-[min(100%,1280px)] max-w-[1280px] overflow-hidden rounded-lg border border-zinc-700 bg-black"
         }
       >
         <div
@@ -836,6 +937,44 @@ export default function GameRoot() {
           }
         />
         {!preview ? <HotbarHud /> : null}
+        {deathModalOpen ? (
+          <div
+            className="pointer-events-auto absolute inset-0 z-[200] flex items-center justify-center bg-black/75 p-4"
+            role="presentation"
+          >
+            <div
+              className="paper-pixelated max-h-[min(78vh,560px)] w-full max-w-lg overflow-hidden rounded-sm border-2 border-[#7f1d1d] bg-[#1c1917]/98 shadow-[0_0_0_2px_rgba(0,0,0,0.4)]"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="death-modal-title"
+            >
+              <div className="border-b-2 border-[#7f1d1d]/80 bg-[#292524] px-4 py-2.5">
+                <h2
+                  id="death-modal-title"
+                  className="text-center text-[13px] font-bold tracking-wide text-[#fecaca]"
+                >
+                  Вы без сознания
+                </h2>
+              </div>
+              <div className="max-h-[min(60vh,420px)] overflow-y-auto px-4 py-3">
+                <p className="whitespace-pre-wrap text-left text-[12px] leading-relaxed text-[#e7e5e4]">
+                  {deathModalMessage}
+                </p>
+              </div>
+              <div className="flex justify-center border-t border-[#44403c] bg-[#1c1917] px-4 py-3">
+                <PaperButton
+                  ref={deathModalCloseRef}
+                  type="button"
+                  variant="accent"
+                  className="min-w-[8rem] px-4 py-1.5 text-[11px]"
+                  onClick={() => setDeathModalMessage(null)}
+                >
+                  Понятно
+                </PaperButton>
+              </div>
+            </div>
+          </div>
+        ) : null}
         <InventoryOverlay
           open={!preview && inventoryOpen}
           onClose={() => setInventoryOpen(false)}
@@ -845,7 +984,20 @@ export default function GameRoot() {
           chestId={chestOpen?.chestId ?? null}
           chestX={chestOpen?.chestX ?? 0}
           chestY={chestOpen?.chestY ?? 0}
-          onClose={() => setChestOpen(null)}
+          onClose={() => {
+            const cur = chestOpen;
+            if (cur && isDeathCorpseChestId(cur.chestId)) {
+              useGameStore
+                .getState()
+                .finalizeDeathCorpseChest(
+                  deathCorpseDropIdFromChestId(cur.chestId)
+                );
+              window.dispatchEvent(
+                new CustomEvent(RESYNC_CORPSE_PICKUPS_EVENT)
+              );
+            }
+            setChestOpen(null);
+          }}
         />
         <CraftOverlay
           open={!preview && craftOpen !== null}

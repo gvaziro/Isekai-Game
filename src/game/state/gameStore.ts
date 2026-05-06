@@ -3,6 +3,9 @@ import { persist } from "zustand/middleware";
 import {
   BUFFS,
   HP_REGEN_IDLE_PER_SEC,
+  SLEEP_FULL_RECOVERY_GAME_MINUTES,
+  SLEEP_WINDED_CLEAR_GAME_MINUTES,
+  TORCH_FULL_GAME_MINUTES,
   XP_CHEST_EMPTY,
   XP_CHEST_FIRST,
   migrateAttrsFromLegacyLevel,
@@ -12,6 +15,10 @@ import {
   STA_WINDED_DURATION_MS,
   STAT_POINTS_PER_LEVEL,
   applyXpDeathPenalty,
+  DEATH_SICKNESS_BUFF_ID,
+  DEATH_SICKNESS_DURATION_SEC,
+  MAX_PERSISTED_DEATH_CORPSES,
+  rollGoldLostOnDeath,
   xpGainFromLuckMultiplier,
   professionXpToNext,
   rollCraftMaterialsLost,
@@ -20,10 +27,13 @@ import {
 import type { ConsumableFx } from "@/src/game/data/balance";
 import {
   CHEST_STORAGE_SLOTS,
+  DEATH_MODAL_EVENT,
   HOTBAR_SLOT_COUNT,
   MAX_INVENTORY_SLOTS,
   MAX_STACK,
   SPAWN_WORLD_PICKUP_EVENT,
+  deathCorpseChestId,
+  isDeathCorpseChestId,
 } from "@/src/game/constants/gameplay";
 import {
   shiftHotbarIndex,
@@ -35,6 +45,7 @@ import {
   getCuratedItem,
   getEffectiveInventorySlotCount,
   getItemBasePrice,
+  hotbarItemIsImmediatelyUsable,
   itemSlotSupportsUsableEffect,
 } from "@/src/game/data/itemRegistry";
 import {
@@ -52,7 +63,7 @@ import {
   isDungeonBossChestId,
   migrateLegacyDungeonBossChestOpened,
 } from "@/src/game/data/dungeonBoss";
-import { getLocation } from "@/src/game/locations";
+import { getLocation, isLocationId } from "@/src/game/locations";
 import type { LocationId } from "@/src/game/locations/types";
 import type { ActiveBuff } from "@/src/game/rpg/derivedStats";
 import {
@@ -120,14 +131,27 @@ import {
 } from "@/src/game/data/professions";
 import { getRecipeById } from "@/src/game/data/recipes";
 import {
+  clampTorchRemainingForPersist,
+  drainTorchGameMinutes,
+  type ActiveTorchState,
+} from "@/src/game/data/torchRuntime";
+import {
   cloneInventorySlots,
   hasRecipeInputs,
   simulateCraftConsumeInputsOnly,
   simulateCraftOutputs,
 } from "@/src/game/systems/craftInventory";
+import {
+  advanceWorldTime,
+  GAME_MINUTES_PER_DAY,
+  gameMinutesFromRealMs,
+  MORNING_GAME_MINUTES,
+  wakeUpAtMorning,
+  type WorldClock,
+} from "@/src/game/time/dayNight";
 
-/** Версия сейва (увеличивать при изменении persist-полей). 25: отдельные ремесленные профессии (кузня/алхимия/кухня/крафт). */
-export const SAVE_VERSION = 27;
+/** Версия сейва (увеличивать при изменении persist-полей). 30: трупы с лутом после смерти. */
+export const SAVE_VERSION = 30;
 
 /** Макс. записей срубленных деревьев в сейве (защита от раздувания). */
 export const MAX_CHOPPED_FOREST_TREE_KEYS = 6000;
@@ -307,6 +331,18 @@ function parsePersistedIsekaiOrigin(raw: unknown): IsekaiOriginPersisted {
 
 export type InventoryStack = { curatedId: string; qty: number };
 
+/** Лут игрока на месте смерти (persist). */
+export type DeathCorpseDrop = {
+  id: string;
+  locationId: LocationId;
+  /** Только для dungeon — этаж. В других локациях `null`. */
+  dungeonFloor: number | null;
+  x: number;
+  y: number;
+  corpseInventory: (InventoryStack | null)[];
+  corpseEquipped: Partial<Record<EquipSlot, string>>;
+};
+
 export type CharacterState = {
   level: number;
   xp: number;
@@ -336,8 +372,53 @@ const EQUIP_SLOTS: EquipSlot[] = [
   "fishing_rod",
 ];
 
+/** Рюкзак трупа + зеркала слотов экипировки (порядок как в EQUIP_SLOTS). */
+export const DEATH_CORPSE_CHEST_PANEL_SLOTS =
+  MAX_INVENTORY_SLOTS + EQUIP_SLOTS.length;
+
+function chestStorageRowLength(chestId: string): number {
+  return isDeathCorpseChestId(chestId)
+    ? DEATH_CORPSE_CHEST_PANEL_SLOTS
+    : CHEST_STORAGE_SLOTS;
+}
+
+function emptyChestRowForChestId(chestId: string): (InventoryStack | null)[] {
+  return Array.from({ length: chestStorageRowLength(chestId) }, () => null);
+}
+
+export function markerCuratedIdForDeathCorpse(drop: DeathCorpseDrop): string {
+  for (const s of drop.corpseInventory) {
+    if (s?.curatedId) return s.curatedId;
+  }
+  for (const slot of EQUIP_SLOTS) {
+    const id = drop.corpseEquipped[slot];
+    if (id) return id;
+  }
+  return "bread";
+}
+
 function emptySlots(): (InventoryStack | null)[] {
   return Array.from({ length: MAX_INVENTORY_SLOTS }, () => null);
+}
+
+function fixLegacyCuratedId(curatedId: string): string {
+  if (curatedId === "torch") return "wooden_torch";
+  if (curatedId === "item719") return "hand_torch";
+  if (curatedId === "item720") return "hand_torch_lit";
+  return curatedId;
+}
+
+function sanitizeActiveTorch(raw: unknown): ActiveTorchState | null {
+  return clampTorchRemainingForPersist(
+    raw &&
+      typeof raw === "object" &&
+      typeof (raw as ActiveTorchState).remainingGameMinutes === "number"
+      ? {
+          remainingGameMinutes: (raw as ActiveTorchState)
+            .remainingGameMinutes,
+        }
+      : null
+  );
 }
 
 function sanitizeInventorySlotsPersist(
@@ -355,7 +436,7 @@ function sanitizeInventorySlotsPersist(
     ) {
       const q = Math.floor((s as InventoryStack).qty);
       out[i] = {
-        curatedId: (s as InventoryStack).curatedId,
+        curatedId: fixLegacyCuratedId((s as InventoryStack).curatedId),
         qty: Math.max(1, Math.min(MAX_STACK, q)),
       };
     }
@@ -418,6 +499,7 @@ function sanitizeChestSlotsPersist(
   if (!raw || typeof raw !== "object") return {};
   const out: Record<string, (InventoryStack | null)[]> = {};
   for (const [k, v] of Object.entries(raw)) {
+    if (isDeathCorpseChestId(k)) continue;
     if (!Array.isArray(v)) continue;
     const row = emptyChestSlots();
     for (let i = 0; i < CHEST_STORAGE_SLOTS; i++) {
@@ -549,6 +631,8 @@ export function createFreshPersistedGameState(): GameSaveState {
     inventorySlots: emptySlots(),
     equipped: {},
     pickedWorldItemIds: {},
+    pickedForestForageIds: {},
+    deathDrops: {},
     openedChestIds: {},
     chestSlots: {},
     chestTableLootClaimed: {},
@@ -569,7 +653,19 @@ export function createFreshPersistedGameState(): GameSaveState {
     unlockedAchievements: {},
     professions: initialProfessions(),
     consumableEffectsRevealed: {},
+    worldDay: 1,
+    worldTimeMinutes: MORNING_GAME_MINUTES,
+    activeTorch: null,
   };
+}
+
+function sanitizePickedIdRecord(raw: unknown): Record<string, boolean> {
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, boolean> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof k === "string" && k.trim() && v === true) out[k] = true;
+  }
+  return out;
 }
 
 function sanitizeConsumableEffectsRevealed(
@@ -619,6 +715,127 @@ function mergeBuffs(
   }));
 }
 
+/** Та же логика слияния, что у `tryAddItem`, но над переданной копией `slots`. */
+function mergeCuratedQtyIntoSlots(
+  slots: (InventoryStack | null)[],
+  effectiveSlotCount: number,
+  curatedId: string,
+  qty: number
+): { slots: (InventoryStack | null)[]; remaining: number } {
+  const def = getCuratedItem(curatedId);
+  if (!def) return { slots, remaining: qty };
+  if (qty <= 0) return { slots, remaining: 0 };
+  let remaining = qty;
+  const out = [...slots];
+  const eff = Math.max(0, Math.min(effectiveSlotCount, MAX_INVENTORY_SLOTS));
+
+  while (remaining > 0) {
+    let merged = false;
+    for (let i = 0; i < eff; i++) {
+      const s = out[i];
+      if (!s || s.curatedId !== curatedId) continue;
+      const space = MAX_STACK - s.qty;
+      if (space <= 0) continue;
+      const add = Math.min(space, remaining);
+      out[i] = { curatedId, qty: s.qty + add };
+      remaining -= add;
+      merged = true;
+      break;
+    }
+    if (remaining <= 0) break;
+    if (merged) continue;
+
+    const emptyIdx = out.slice(0, eff).findIndex((x) => x === null);
+    if (emptyIdx === -1) {
+      break;
+    }
+    const put = Math.min(remaining, MAX_STACK);
+    out[emptyIdx] = { curatedId, qty: put };
+    remaining -= put;
+  }
+  return { slots: out, remaining };
+}
+
+function hasActiveDeathSickness(buffs: ActiveBuff[] | undefined): boolean {
+  return (
+    buffs?.some(
+      (b) => b.id === DEATH_SICKNESS_BUFF_ID && b.remainingSec > 0
+    ) ?? false
+  );
+}
+
+function sanitizeDeathDrops(raw: unknown): Record<string, DeathCorpseDrop> {
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, DeathCorpseDrop> = {};
+  let n = 0;
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (n >= MAX_PERSISTED_DEATH_CORPSES) break;
+    if (!v || typeof v !== "object") continue;
+    const o = v as Record<string, unknown>;
+    const id = typeof o.id === "string" && o.id.trim() ? o.id.trim() : k;
+    const locRaw = o.locationId;
+    if (typeof locRaw !== "string" || !isLocationId(locRaw)) continue;
+    const x = typeof o.x === "number" && Number.isFinite(o.x) ? o.x : NaN;
+    const y = typeof o.y === "number" && Number.isFinite(o.y) ? o.y : NaN;
+    if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+
+    let dungeonFloor: number | null = null;
+    if (locRaw === "dungeon") {
+      const df = o.dungeonFloor;
+      dungeonFloor =
+        typeof df === "number" && Number.isFinite(df)
+          ? clampDungeonFloor(df)
+          : 1;
+    } else if (o.dungeonFloor != null) {
+      continue;
+    }
+
+    const corpseInventory = sanitizeInventorySlotsPersist(o.corpseInventory);
+    let corpseEquipped: Partial<Record<EquipSlot, string>> = {};
+    const rawEq = o.corpseEquipped;
+    if (rawEq && typeof rawEq === "object") {
+      for (const slot of EQUIP_SLOTS) {
+        const cid = (rawEq as Record<string, unknown>)[slot];
+        if (typeof cid === "string" && cid.trim()) {
+          corpseEquipped[slot] = fixLegacyCuratedId(cid.trim());
+        }
+      }
+    }
+    corpseEquipped = sanitizeEquippedVsCatalog(corpseEquipped, corpseInventory);
+
+    out[id] = {
+      id,
+      locationId: locRaw,
+      dungeonFloor,
+      x,
+      y,
+      corpseInventory,
+      corpseEquipped,
+    };
+    n++;
+  }
+  return out;
+}
+
+function pruneOldestDeathDropIfFull(
+  drops: Record<string, DeathCorpseDrop>
+): Record<string, DeathCorpseDrop> {
+  const keys = Object.keys(drops);
+  if (keys.length < MAX_PERSISTED_DEATH_CORPSES) return drops;
+  const sorted = [...keys].sort((a, b) => {
+    const ma = /^corp_(\d+)_/.exec(a);
+    const mb = /^corp_(\d+)_/.exec(b);
+    const ta = ma ? Number(ma[1]) : 0;
+    const tb = mb ? Number(mb[1]) : 0;
+    return ta - tb;
+  });
+  const dropKey = sorted[0];
+  if (!dropKey) return drops;
+  const next = { ...drops };
+  delete next[dropKey];
+  return next;
+}
+
 function vitalityNowMs(): number {
   if (typeof performance !== "undefined" && typeof performance.now === "function") {
     return performance.now();
@@ -640,6 +857,10 @@ export type GameSaveState = {
   inventorySlots: (InventoryStack | null)[];
   equipped: Partial<Record<EquipSlot, string>>;
   pickedWorldItemIds: Record<string, boolean>;
+  /** Подобранные грибы/подлесок у деревьев (ключ `forest_forage_*` из чанка). */
+  pickedForestForageIds: Record<string, boolean>;
+  /** Лут на месте смерти (подбирается у маркера «трупа»). */
+  deathDrops: Record<string, DeathCorpseDrop>;
   openedChestIds: Record<string, boolean>;
   /** Содержимое сундуков по id (ключ — chest id из loot / dungeon). */
   chestSlots: Record<string, (InventoryStack | null)[]>;
@@ -701,6 +922,18 @@ export type GameSaveState = {
    * видел описание эффекта — после первого успешного применения.
    */
   consumableEffectsRevealed: Record<string, true>;
+  /** Календарный день мира (1 = первый день после старта / миграции). */
+  worldDay: number;
+  /**
+   * Время суток в игровых минутах от полуночи [0, 1440).
+   * Дробная часть допустима (накопление от кадров).
+   */
+  worldTimeMinutes: number;
+  /**
+   * Горящий расходный факел: свет, пока `remainingGameMinutes` > 0.
+   * Не привязан к выбранному слоту хотбара.
+   */
+  activeTorch: ActiveTorchState | null;
 };
 
 type GameStore = GameSaveState & {
@@ -721,9 +954,12 @@ type GameStore = GameSaveState & {
   equipFromInventorySlot: (slotIndex: number) => boolean;
   unequip: (equipSlot: EquipSlot) => boolean;
   markWorldPickupTaken: (worldPickupId: string) => void;
+  markForestForageTaken: (forageId: string) => void;
   markChestOpened: (chestId: string) => void;
-  /** Гарантировать массив длины CHEST_STORAGE_SLOTS для chestId. */
+  /** Гарантировать длину ряда: сундук или панель «у тела». */
   ensureChestStorageRow: (chestId: string) => void;
+  prepareDeathCorpseChest: (dropId: string) => boolean;
+  finalizeDeathCorpseChest: (dropId: string) => void;
   swapChestSlots: (chestId: string, from: number, to: number) => void;
   moveBetweenInvAndChest: (
     chestId: string,
@@ -765,6 +1001,13 @@ type GameStore = GameSaveState & {
   /** Вернуть одно очко из стата (не ниже attrsMin) */
   deallocateStatPoint: (attr: AttrKey) => void;
   respawnAfterDeath: () => void;
+  tryRecoverDeathCorpse: (dropId: string) => {
+    ok: boolean;
+    reason?: string;
+    cleared?: boolean;
+    partial?: boolean;
+    openAsChest?: boolean;
+  };
   useConsumableAt: (
     slotIndex: number
   ) => { ok: boolean; reason?: string };
@@ -825,6 +1068,12 @@ type GameStore = GameSaveState & {
   nudgeHotbarSelection: (deltaSign: number) => void;
   /** Полные HP/STA по derived, сброс перегруза (после канала «сна» в UI). */
   applySleepRecovery: () => void;
+  /** Сон по расписанию: время мира и частичное/полное восстановление виталов. */
+  applySleepSchedule: (wake: WorldClock, sleepGameMinutes: number) => void;
+  /** Игровое время суток (только активный геймплей — вызывать из MainScene). */
+  tickWorldTime: (deltaMs: number) => void;
+  /** Установить 06:00; если уже после 06:00 — следующий календарный день. */
+  setWorldTimeToMorning: () => void;
   /** Открыть клетки мини-карты вокруг мировой позиции (подземелье). */
   revealDungeonMapAtWorld: (
     floor: number,
@@ -916,6 +1165,8 @@ export const useGameStore = create<GameStore>()(
       inventorySlots: emptySlots(),
       equipped: {},
       pickedWorldItemIds: {},
+      pickedForestForageIds: {},
+      deathDrops: {},
       openedChestIds: {},
       chestSlots: {},
       chestTableLootClaimed: {},
@@ -937,6 +1188,9 @@ export const useGameStore = create<GameStore>()(
       unlockedAchievements: {},
       professions: initialProfessions(),
       consumableEffectsRevealed: {},
+      worldDay: 1,
+      worldTimeMinutes: MORNING_GAME_MINUTES,
+      activeTorch: null,
 
       setHotbarSelectedIndex: (index) =>
         set({
@@ -1148,6 +1402,14 @@ export const useGameStore = create<GameStore>()(
         if (qty < 1 || !Number.isFinite(qty))
           return { ok: false, reason: "Неверное количество" };
 
+        const needLevel = entry.requiredLevel ?? 0;
+        if (get().character.level < needLevel) {
+          return {
+            ok: false,
+            reason: `Нужен уровень ${needLevel}`,
+          };
+        }
+
         const st = get();
         let runtime = st.shops[shopId] ?? initialShopRuntime(def);
         runtime = applyShopRestock(def, runtime, Date.now());
@@ -1353,6 +1615,66 @@ export const useGameStore = create<GameStore>()(
           };
         }),
 
+      tickWorldTime: (deltaMs) => {
+        if (deltaMs <= 0) return;
+        const dm = gameMinutesFromRealMs(deltaMs);
+        set((s) => {
+          const next = advanceWorldTime(
+            {
+              worldDay: s.worldDay,
+              worldTimeMinutes: s.worldTimeMinutes,
+            },
+            deltaMs
+          );
+          const prevTorch = s.activeTorch;
+          const nextTorch = drainTorchGameMinutes(prevTorch, dm);
+          const clockChanged =
+            next.worldDay !== s.worldDay ||
+            next.worldTimeMinutes !== s.worldTimeMinutes;
+          const torchChanged =
+            (prevTorch === null) !== (nextTorch === null) ||
+            (prevTorch &&
+              nextTorch &&
+              Math.abs(
+                prevTorch.remainingGameMinutes -
+                  nextTorch.remainingGameMinutes
+              ) > 1e-6);
+          if (!clockChanged && !torchChanged) {
+            return {};
+          }
+          if (prevTorch && !nextTorch && typeof window !== "undefined") {
+            queueMicrotask(() => {
+              window.dispatchEvent(
+                new CustomEvent("nagibatop-toast", {
+                  detail: { message: "Факел догорел." },
+                })
+              );
+            });
+          }
+          const patch: Partial<GameSaveState> = {};
+          if (clockChanged) {
+            patch.worldDay = next.worldDay;
+            patch.worldTimeMinutes = next.worldTimeMinutes;
+          }
+          if (torchChanged) {
+            patch.activeTorch = nextTorch;
+          }
+          return patch;
+        });
+      },
+
+      setWorldTimeToMorning: () =>
+        set((s) => {
+          const next = wakeUpAtMorning({
+            worldDay: s.worldDay,
+            worldTimeMinutes: s.worldTimeMinutes,
+          });
+          return {
+            worldDay: next.worldDay,
+            worldTimeMinutes: next.worldTimeMinutes,
+          };
+        }),
+
       takeDamage: (amount) => {
         if (amount <= 0) return;
         set((s) => ({
@@ -1532,7 +1854,7 @@ export const useGameStore = create<GameStore>()(
         get().grantProfessionXp(craftProfId, XP_PROFESSION_CRAFT_PER_ACTION);
         flushAchievementUnlocks();
         const successMessage = recipe.outputs
-          .map((line) => {
+          .map((line: { curatedId: string; qty: number }) => {
             const def = getCuratedItem(line.curatedId);
             return `${def?.name ?? line.curatedId} ×${line.qty}`;
           })
@@ -1581,6 +1903,14 @@ export const useGameStore = create<GameStore>()(
 
       respawnAfterDeath: () => {
         const st = get();
+        const deathX = st.player.x;
+        const deathY = st.player.y;
+        const deathLoc = st.currentLocationId;
+        const deathDungeonFloor =
+          deathLoc === "dungeon" ? st.dungeonCurrentFloor : null;
+
+        const diedUnderSickness = hasActiveDeathSickness(st.character.buffs);
+
         const { level: nextLevel, xp: nextXp } = applyXpDeathPenalty(
           st.character.level,
           st.character.xp
@@ -1592,14 +1922,48 @@ export const useGameStore = create<GameStore>()(
           st.character.unspentStatPoints,
           levelsLost
         );
+
+        const goldLost = rollGoldLostOnDeath(st.character.gold);
+        const nextGold = Math.max(0, st.character.gold - goldLost);
+
+        let nextInventory = st.inventorySlots;
+        let nextEquipped = st.equipped;
+        let nextDeathDrops = st.deathDrops;
+
+        if (diedUnderSickness) {
+          nextDeathDrops = pruneOldestDeathDropIfFull({ ...nextDeathDrops });
+          const corpseId = `corp_${Date.now()}_${Math.random()
+            .toString(36)
+            .slice(2, 10)}`;
+          nextDeathDrops = {
+            ...nextDeathDrops,
+            [corpseId]: {
+              id: corpseId,
+              locationId: deathLoc,
+              dungeonFloor: deathDungeonFloor,
+              x: deathX,
+              y: deathY,
+              corpseInventory: cloneInventorySlots(st.inventorySlots),
+              corpseEquipped: { ...st.equipped },
+            },
+          };
+          nextInventory = emptySlots();
+          nextEquipped = {};
+        }
+
         const d = getDerivedCombatStats(
           nextLevel,
-          st.equipped,
+          nextEquipped,
           persistedOriginBonus(st.isekaiOrigin),
           reclaimed.attrs
         );
+        const sicknessBuff: ActiveBuff = {
+          id: DEATH_SICKNESS_BUFF_ID,
+          remainingSec: DEATH_SICKNESS_DURATION_SEC,
+        };
+
         const townLoc = getLocation("town");
-        const locId = st.currentLocationId;
+        const locId = deathLoc;
         const spawnKey =
           locId === "dungeon"
             ? "from_dungeon"
@@ -1615,15 +1979,19 @@ export const useGameStore = create<GameStore>()(
           currentLocationId: "town",
           player: { x: spawn.x, y: spawn.y },
           staWindedUntilMs: 0,
+          inventorySlots: nextInventory,
+          equipped: nextEquipped,
+          deathDrops: nextDeathDrops,
           character: {
             ...s.character,
             level: nextLevel,
             xp: nextXp,
             attrs: reclaimed.attrs,
             unspentStatPoints: reclaimed.unspentStatPoints,
+            gold: nextGold,
             hp: d.maxHp,
             sta: d.maxSta,
-            buffs: [],
+            buffs: [sicknessBuff],
           },
           lifetimeStats: {
             ...s.lifetimeStats,
@@ -1650,18 +2018,219 @@ export const useGameStore = create<GameStore>()(
               })
             );
           }
-          const toastMsg =
+
+          let where =
             locId === "dungeon"
-              ? "Вы теряете сознание… Вас выбросило из подземелья. Часть опыта растворилась."
+              ? "Вас вытащили из подземелья и отнесли в поселение."
               : locId === "forest"
-                ? "Вы теряете сознание… Очнулись в поселении. Часть опыта растворилась."
-                : "Вы теряете сознание… Очнулись у дороги. Часть опыта растворилась.";
+                ? "Вас нашли в лесу и притащили в деревню."
+                : "Вас оттащили к дороге в поселение.";
+          const xpBit = " Часть опыта растворилась.";
+          const goldBit =
+            goldLost > 0
+              ? ` Потеряно золота: ${goldLost}.`
+              : " Золото не потеряно.";
+          const sickBit =
+            " Действует «болезнь смерти» — не умирайте снова, иначе вещи останутся у тела.";
+          const corpseBit = diedUnderSickness
+            ? " Ваши вещи лежат там, где вы пали — доберитесь и заберите их."
+            : "";
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
-              detail: { message: toastMsg },
+            new CustomEvent(DEATH_MODAL_EVENT, {
+              detail: {
+                message: `Вы теряете сознание… ${where}${xpBit}${goldBit}${sickBit}${corpseBit}`,
+              },
             })
           );
         }
+      },
+
+      tryRecoverDeathCorpse: (dropId) => {
+        const st = get();
+        const drop = st.deathDrops[dropId];
+        if (!drop) {
+          return { ok: false, reason: "Здесь нечего забирать" };
+        }
+
+        let slots = cloneInventorySlots(st.inventorySlots);
+        const eff = getEffectiveInventorySlotCount(st.equipped);
+        let inv = cloneInventorySlots(drop.corpseInventory);
+        let eq: Partial<Record<EquipSlot, string>> = { ...drop.corpseEquipped };
+        let touched = false;
+
+        for (let i = 0; i < inv.length; i++) {
+          const stack = inv[i];
+          if (!stack) continue;
+          const r = mergeCuratedQtyIntoSlots(
+            slots,
+            eff,
+            stack.curatedId,
+            stack.qty
+          );
+          slots = r.slots;
+          if (r.remaining < stack.qty) {
+            touched = true;
+            inv[i] =
+              r.remaining <= 0
+                ? null
+                : { curatedId: stack.curatedId, qty: r.remaining };
+          }
+        }
+
+        for (const slot of EQUIP_SLOTS) {
+          const cid = eq[slot];
+          if (!cid) continue;
+          const r = mergeCuratedQtyIntoSlots(slots, eff, cid, 1);
+          slots = r.slots;
+          if (r.remaining === 0) {
+            touched = true;
+            delete eq[slot];
+          }
+        }
+
+        const emptyInv = inv.every((x) => x === null);
+        const emptyEq = EQUIP_SLOTS.every((sl) => !eq[sl]);
+
+        const hasSomething =
+          drop.corpseInventory.some((x) => x !== null) ||
+          EQUIP_SLOTS.some((sl) => !!drop.corpseEquipped[sl]);
+
+        if (!touched) {
+          if (!hasSomething) {
+            return { ok: false, reason: "Здесь нечего забирать" };
+          }
+          return { ok: false, openAsChest: true, reason: "Инвентарь полон" };
+        }
+
+        set((s) => {
+          const nextDrops =
+            emptyInv && emptyEq
+              ? Object.fromEntries(
+                  Object.entries(s.deathDrops).filter(([k]) => k !== dropId)
+                )
+              : {
+                  ...s.deathDrops,
+                  [dropId]: {
+                    ...drop,
+                    corpseInventory: inv,
+                    corpseEquipped: eq,
+                  },
+                };
+          return {
+            inventorySlots: slots,
+            deathDrops: nextDrops,
+          };
+        });
+        get().clampCharacterVitals();
+        return {
+          ok: true,
+          cleared: emptyInv && emptyEq,
+          partial: !(emptyInv && emptyEq),
+        };
+      },
+
+      prepareDeathCorpseChest: (dropId) => {
+        const st = get();
+        const drop = st.deathDrops[dropId];
+        if (!drop) return false;
+        const key = deathCorpseChestId(dropId);
+        const row: (InventoryStack | null)[] = Array.from(
+          { length: DEATH_CORPSE_CHEST_PANEL_SLOTS },
+          () => null
+        );
+        const inv = cloneInventorySlots(drop.corpseInventory);
+        for (let i = 0; i < MAX_INVENTORY_SLOTS; i++) {
+          row[i] = inv[i] ?? null;
+        }
+        for (let i = 0; i < EQUIP_SLOTS.length; i++) {
+          const es = EQUIP_SLOTS[i]!;
+          const id = drop.corpseEquipped[es];
+          row[MAX_INVENTORY_SLOTS + i] = id
+            ? { curatedId: id, qty: 1 }
+            : null;
+        }
+        get().ensureChestStorageRow(key);
+        set((s) => ({
+          chestSlots: { ...s.chestSlots, [key]: row },
+        }));
+        return true;
+      },
+
+      finalizeDeathCorpseChest: (dropId) => {
+        const key = deathCorpseChestId(dropId);
+        set((s) => {
+          const row = s.chestSlots[key];
+          const nextChest = { ...s.chestSlots };
+          delete nextChest[key];
+
+          const drop = s.deathDrops[dropId];
+          if (
+            !drop ||
+            !row ||
+            row.length !== DEATH_CORPSE_CHEST_PANEL_SLOTS
+          ) {
+            return { chestSlots: nextChest };
+          }
+
+          const invSlice = row.slice(0, MAX_INVENTORY_SLOTS);
+          let corpseInventory = emptySlots();
+          for (let i = 0; i < MAX_INVENTORY_SLOTS; i++) {
+            const c = invSlice[i];
+            corpseInventory[i] = c ? { curatedId: c.curatedId, qty: c.qty } : null;
+          }
+
+          const corpseEquipped: Partial<Record<EquipSlot, string>> = {};
+          for (let i = 0; i < EQUIP_SLOTS.length; i++) {
+            const es = EQUIP_SLOTS[i]!;
+            const stak = row[MAX_INVENTORY_SLOTS + i];
+            if (!stak) continue;
+            corpseEquipped[es] = stak.curatedId;
+            if (stak.qty > 1) {
+              const r = addItemsToSlotGrid(
+                corpseInventory,
+                stak.curatedId,
+                stak.qty - 1
+              );
+              corpseInventory = r.slots;
+              if (r.remaining > 0 && typeof window !== "undefined") {
+                window.dispatchEvent(
+                  new CustomEvent(SPAWN_WORLD_PICKUP_EVENT, {
+                    detail: {
+                      curatedId: stak.curatedId,
+                      qty: r.remaining,
+                      worldX: drop.x,
+                      worldY: drop.y,
+                    },
+                  })
+                );
+              }
+            }
+          }
+
+          const corpseEquippedSan = sanitizeEquippedVsCatalog(
+            corpseEquipped,
+            corpseInventory
+          );
+          const emptyInv = corpseInventory.every((x) => x === null);
+          const emptyEq = EQUIP_SLOTS.every((sl) => !corpseEquippedSan[sl]);
+
+          const nextDrops =
+            emptyInv && emptyEq
+              ? Object.fromEntries(
+                  Object.entries(s.deathDrops).filter(([k]) => k !== dropId)
+                )
+              : {
+                  ...s.deathDrops,
+                  [dropId]: {
+                    ...drop,
+                    corpseInventory,
+                    corpseEquipped: corpseEquippedSan,
+                  },
+                };
+
+          return { chestSlots: nextChest, deathDrops: nextDrops };
+        });
+        get().clampCharacterVitals();
       },
 
       useConsumableAt: (slotIndex) => {
@@ -1672,6 +2241,33 @@ export const useGameStore = create<GameStore>()(
         const def = getCuratedItem(stack.curatedId);
         if (!def || !itemSlotSupportsUsableEffect(def.slot))
           return { ok: false, reason: "Нельзя использовать" };
+
+        if (stack.curatedId === "hand_torch") {
+          get().removeSlotAt(slotIndex, 1);
+          set((s) => ({
+            activeTorch: {
+              remainingGameMinutes: TORCH_FULL_GAME_MINUTES,
+            },
+            consumableEffectsRevealed: {
+              ...s.consumableEffectsRevealed,
+              hand_torch: true,
+            },
+            lifetimeStats: {
+              ...s.lifetimeStats,
+              consumablesUsed: s.lifetimeStats.consumablesUsed + 1,
+            },
+          }));
+          flushAchievementUnlocks();
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("nagibatop-toast", {
+                detail: { message: "Факел зажжён — горит, пока не выгорит." },
+              })
+            );
+          }
+          return { ok: true };
+        }
+
         const fx = getConsumableEffect(stack.curatedId);
         if (!fx)
           return { ok: false, reason: "Пока нельзя использовать" };
@@ -1935,6 +2531,14 @@ export const useGameStore = create<GameStore>()(
         }
       },
 
+      markForestForageTaken: (forageId) => {
+        const id = forageId.trim();
+        if (!id) return;
+        set((s) => ({
+          pickedForestForageIds: { ...s.pickedForestForageIds, [id]: true },
+        }));
+      },
+
       markChestOpened: (chestId) => {
         set((s) => {
           const was = s.openedChestIds[chestId] === true;
@@ -1966,11 +2570,12 @@ export const useGameStore = create<GameStore>()(
 
       ensureChestStorageRow: (chestId) => {
         set((s) => {
+          const wantLen = chestStorageRowLength(chestId);
           const cur = s.chestSlots[chestId];
-          if (cur && cur.length === CHEST_STORAGE_SLOTS) return s;
-          const row = emptyChestSlots();
+          if (cur && cur.length === wantLen) return s;
+          const row = emptyChestRowForChestId(chestId);
           if (cur && Array.isArray(cur)) {
-            for (let i = 0; i < Math.min(cur.length, CHEST_STORAGE_SLOTS); i++) {
+            for (let i = 0; i < Math.min(cur.length, wantLen); i++) {
               row[i] = cur[i] ?? null;
             }
           }
@@ -1982,7 +2587,9 @@ export const useGameStore = create<GameStore>()(
         if (from === to) return;
         get().ensureChestStorageRow(chestId);
         set((s) => {
-          const row = [...(s.chestSlots[chestId] ?? emptyChestSlots())];
+          const row = [
+            ...(s.chestSlots[chestId] ?? emptyChestRowForChestId(chestId)),
+          ];
           if (
             from < 0 ||
             to < 0 ||
@@ -2003,7 +2610,9 @@ export const useGameStore = create<GameStore>()(
         get().ensureChestStorageRow(chestId);
         set((s) => {
           const inv = [...s.inventorySlots];
-          const chestRow = [...(s.chestSlots[chestId] ?? emptyChestSlots())];
+          const chestRow = [
+            ...(s.chestSlots[chestId] ?? emptyChestRowForChestId(chestId)),
+          ];
           const getStack = (k: "inv" | "chest", i: number) =>
             k === "inv" ? inv[i] : chestRow[i];
           const setStack = (
@@ -2090,38 +2699,70 @@ export const useGameStore = create<GameStore>()(
           return { applied: false, xp: 0, toastLines: [] };
         }
 
-        const drops = rollDungeonBossChestDrops();
+        get().ensureChestStorageRow(chestId);
+
+        let drops = rollDungeonBossChestDrops();
+        if (!drops.length) {
+          drops = [
+            { curatedId: "hp_small", qty: 1 },
+            { curatedId: "bread", qty: 1 },
+          ].filter((d) => getCuratedItem(d.curatedId));
+        }
+
         const toastLines: string[] = [];
-        let anyOk = false;
+        let anyReward = false;
+
+        let row = [
+          ...(get().chestSlots[chestId] ?? emptyChestRowForChestId(chestId)),
+        ];
+        const spill: { curatedId: string; qty: number }[] = [];
 
         for (const d of drops) {
-          const res = get().tryAddItem(d.curatedId, d.qty);
-          if (res.ok) {
-            anyOk = true;
+          const res = addItemsToSlotGrid(row, d.curatedId, d.qty);
+          row = res.slots;
+          const placed = d.qty - res.remaining;
+          if (placed > 0) {
+            anyReward = true;
             toastLines.push(
-              `${getCuratedItem(d.curatedId)?.name ?? d.curatedId} ×${d.qty}`
+              `${getCuratedItem(d.curatedId)?.name ?? d.curatedId} ×${placed}`
             );
-          } else {
-            if (typeof window !== "undefined") {
-              window.dispatchEvent(
-                new CustomEvent(SPAWN_WORLD_PICKUP_EVENT, {
-                  detail: {
-                    curatedId: d.curatedId,
-                    qty: d.qty,
-                    worldX,
-                    worldY,
-                  },
-                })
-              );
-            }
+          }
+          if (res.remaining > 0) {
+            spill.push({ curatedId: d.curatedId, qty: res.remaining });
+          }
+        }
+
+        set((s) => ({
+          chestSlots: { ...s.chestSlots, [chestId]: row },
+        }));
+
+        for (const s of spill) {
+          const res = get().tryAddItem(s.curatedId, s.qty);
+          if (res.ok) {
+            anyReward = true;
             toastLines.push(
-              `${getCuratedItem(d.curatedId)?.name ?? d.curatedId} ×${d.qty} (у сундука)`
+              `${getCuratedItem(s.curatedId)?.name ?? s.curatedId} ×${s.qty}`
+            );
+          } else if (typeof window !== "undefined") {
+            anyReward = true;
+            window.dispatchEvent(
+              new CustomEvent(SPAWN_WORLD_PICKUP_EVENT, {
+                detail: {
+                  curatedId: s.curatedId,
+                  qty: s.qty,
+                  worldX,
+                  worldY,
+                },
+              })
+            );
+            toastLines.push(
+              `${getCuratedItem(s.curatedId)?.name ?? s.curatedId} ×${s.qty} (у сундука)`
             );
           }
         }
 
         get().markChestOpened(chestId);
-        const xp = anyOk ? XP_CHEST_FIRST : XP_CHEST_EMPTY;
+        const xp = anyReward ? XP_CHEST_FIRST : XP_CHEST_EMPTY;
         return { applied: true, xp, toastLines };
       },
 
@@ -2210,6 +2851,70 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
+      applySleepSchedule: (wake, sleepGameMinutes) => {
+        if (!Number.isFinite(sleepGameMinutes) || sleepGameMinutes < 0) return;
+        set((s) => {
+          const d = getDerivedCombatStats(
+            s.character.level,
+            s.equipped,
+            persistedOriginBonus(s.isekaiOrigin),
+            s.character.attrs
+          );
+          const st = Math.min(
+            1,
+            sleepGameMinutes / SLEEP_FULL_RECOVERY_GAME_MINUTES
+          );
+          let hp = s.character.hp;
+          let sta = s.character.sta;
+          if (st >= 1) {
+            hp = d.maxHp;
+            sta = d.maxSta;
+          } else {
+            hp = Math.min(d.maxHp, hp + (d.maxHp - hp) * st);
+            sta = Math.min(d.maxSta, sta + (d.maxSta - sta) * st);
+          }
+          let staWindedUntilMs = s.staWindedUntilMs ?? 0;
+          if (sleepGameMinutes >= SLEEP_WINDED_CLEAR_GAME_MINUTES) {
+            staWindedUntilMs = 0;
+          }
+          const wd = Math.max(1, Math.floor(wake.worldDay));
+          const wm = Math.min(
+            GAME_MINUTES_PER_DAY - Number.EPSILON,
+            Math.max(0, wake.worldTimeMinutes)
+          );
+          const prevTorch = s.activeTorch;
+          const nextTorch = drainTorchGameMinutes(prevTorch, sleepGameMinutes);
+          const torchChanged =
+            (prevTorch === null) !== (nextTorch === null) ||
+            (prevTorch &&
+              nextTorch &&
+              Math.abs(
+                prevTorch.remainingGameMinutes -
+                  nextTorch.remainingGameMinutes
+              ) > 1e-6);
+          if (prevTorch && !nextTorch && typeof window !== "undefined") {
+            queueMicrotask(() => {
+              window.dispatchEvent(
+                new CustomEvent("nagibatop-toast", {
+                  detail: { message: "Факел догорел во сне." },
+                })
+              );
+            });
+          }
+          return {
+            worldDay: wd,
+            worldTimeMinutes: wm,
+            staWindedUntilMs,
+            character: {
+              ...s.character,
+              hp,
+              sta,
+            },
+            ...(torchChanged ? { activeTorch: nextTorch } : {}),
+          };
+        });
+      },
+
       recordEnemyKill: ({ mobVisualId, instanceId: _instanceId }) => {
         const key = mobVisualId.trim() || "unknown";
         set((s) => {
@@ -2243,8 +2948,12 @@ export const useGameStore = create<GameStore>()(
         inventorySlots: s.inventorySlots,
         equipped: s.equipped,
         pickedWorldItemIds: s.pickedWorldItemIds,
+        pickedForestForageIds: s.pickedForestForageIds,
+        deathDrops: s.deathDrops,
         openedChestIds: s.openedChestIds,
-        chestSlots: s.chestSlots,
+        chestSlots: Object.fromEntries(
+          Object.entries(s.chestSlots).filter(([k]) => !isDeathCorpseChestId(k))
+        ),
         chestTableLootClaimed: s.chestTableLootClaimed,
         enemyRespawnNotBeforeMs: s.enemyRespawnNotBeforeMs,
         quests: s.quests,
@@ -2263,6 +2972,9 @@ export const useGameStore = create<GameStore>()(
         unlockedAchievements: s.unlockedAchievements,
         professions: s.professions,
         consumableEffectsRevealed: s.consumableEffectsRevealed,
+        worldDay: s.worldDay,
+        worldTimeMinutes: s.worldTimeMinutes,
+        activeTorch: s.activeTorch,
       }),
       merge: (persisted, current) => {
         type P = Partial<GameSaveState>;
@@ -2273,10 +2985,14 @@ export const useGameStore = create<GameStore>()(
         );
         const originB = persistedOriginBonus(isekaiOriginOut);
         const invSlots = sanitizeInventorySlotsPersist(p.inventorySlots);
-        const eqSan = sanitizeEquippedVsCatalog(
-          (p.equipped ?? {}) as Partial<Record<EquipSlot, string>>,
-          invSlots
-        );
+        const eqRaw = {
+          ...(p.equipped ?? {}),
+        } as Partial<Record<EquipSlot, string>>;
+        for (const k of Object.keys(eqRaw) as EquipSlot[]) {
+          const v = eqRaw[k];
+          if (v) eqRaw[k] = fixLegacyCuratedId(v);
+        }
+        const eqSan = sanitizeEquippedVsCatalog(eqRaw, invSlots);
         const rawChar = p.character as CharacterState | undefined;
         const persistedGold =
           rawChar &&
@@ -2475,6 +3191,26 @@ export const useGameStore = create<GameStore>()(
           (p as Partial<GameSaveState>).consumableEffectsRevealed
         );
 
+        const rawWorldDay = (p as Partial<GameSaveState>).worldDay;
+        const rawWorldMin = (p as Partial<GameSaveState>).worldTimeMinutes;
+        const worldDay =
+          typeof rawWorldDay === "number" &&
+          Number.isFinite(rawWorldDay) &&
+          rawWorldDay >= 1
+            ? Math.min(1_000_000, Math.floor(rawWorldDay))
+            : 1;
+        const worldTimeMinutes =
+          typeof rawWorldMin === "number" &&
+          Number.isFinite(rawWorldMin) &&
+          rawWorldMin >= 0
+            ? ((rawWorldMin % GAME_MINUTES_PER_DAY) + GAME_MINUTES_PER_DAY) %
+              GAME_MINUTES_PER_DAY
+            : MORNING_GAME_MINUTES;
+
+        const activeTorch = sanitizeActiveTorch(
+          (p as Partial<GameSaveState>).activeTorch
+        );
+
         return {
           ...c,
           saveVersion: SAVE_VERSION,
@@ -2484,6 +3220,12 @@ export const useGameStore = create<GameStore>()(
           inventorySlots: invSlots,
           equipped: eqSan,
           pickedWorldItemIds: p.pickedWorldItemIds ?? {},
+          pickedForestForageIds: sanitizePickedIdRecord(
+            (p as Partial<GameSaveState>).pickedForestForageIds
+          ),
+          deathDrops: sanitizeDeathDrops(
+            (p as Partial<GameSaveState>).deathDrops
+          ),
           openedChestIds: migrateLegacyDungeonBossChestOpened(
             p.openedChestIds ?? {}
           ),
@@ -2506,6 +3248,9 @@ export const useGameStore = create<GameStore>()(
           unlockedAchievements,
           professions,
           consumableEffectsRevealed,
+          worldDay,
+          worldTimeMinutes,
+          activeTorch,
           staWindedUntilMs: 0,
           consumableCooldownUntil: {},
         };
