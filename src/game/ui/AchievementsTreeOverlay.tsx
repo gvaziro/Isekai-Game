@@ -125,10 +125,15 @@ function TreeBranch({
   const def = getAchievementById(node.achievementId);
   const ts = unlockedAchievements[node.achievementId];
   const ok = ts !== undefined;
-  const title = def?.title ?? node.achievementId;
-  const desc = def?.description ?? "";
+  const masked = Boolean(def?.hidden) && !ok;
+  const title = masked
+    ? "Скрытое достижение"
+    : (def?.title ?? node.achievementId);
+  const desc = masked
+    ? "Название, условие и детали станут видны после разблокировки."
+    : (def?.description ?? "");
   const prog =
-    !ok && def ? getAchievementProgressForDef(def, snap) : null;
+    !ok && def && !masked ? getAchievementProgressForDef(def, snap) : null;
 
   return (
     <li className="list-none" style={{ marginLeft: pad }}>
@@ -160,6 +165,10 @@ function TreeBranch({
               </div>
             ) : prog ? (
               <AchievementProgressBar prog={prog} />
+            ) : masked ? (
+              <div className="mt-1 text-[10px] text-[#8a7d6c]">
+                Прогресс скрыт.
+              </div>
             ) : (
               <div className="mt-1 text-[10px] text-[#8a7d6c]">
                 Прогресс недоступен для этого условия.

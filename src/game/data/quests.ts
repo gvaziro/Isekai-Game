@@ -1,35 +1,41 @@
 import { questDefSchema, type QuestDef } from "@/src/game/data/schemas/quest";
+import { DUNGEON_MAX_FLOOR } from "@/src/game/data/dungeonFloorScaling";
 
 /** Контент квестов (проверка на старте). */
 const RAW_QUESTS = [
   {
-    id: "intro_village",
-    title: "Знакомство с деревней",
+    id: "escape_village",
+    title: "Сквозь туман",
     description:
-      "Поговорите с паладином у северо-восточной площади, загляните к перекрёстку и откройте сундук у северо-западного дома.",
+      "Деревня заперта: с одной стороны бескрайний лес, с другой — магический туман на дороге. Легенда гласит: хранитель в катакомбах держит заклятие. Спуститесь в подземелье, зачистите все этажи и победите стража последнего уровня — тогда туман рассеется.",
     stages: [
       {
-        id: "meet_marcus",
+        id: "hear_briefing",
         summary: "Поговорить с Маркусом",
         objective: { kind: "talk_to" as const, npcId: "marcus" },
       },
       {
-        id: "visit_crossroads",
-        summary: "Дойти до центрального перекрёстка",
+        id: "reach_dungeon_portal",
+        summary: "Дойти до входа в катакомбы",
         objective: {
           kind: "reach_point" as const,
-          x: 618,
-          y: 458,
-          radius: 96,
+          x: 640,
+          y: 720,
+          radius: 110,
         },
       },
       {
-        id: "open_nw_chest",
-        summary: "Открыть сундук у северо-западного дома",
+        id: "clear_catacombs",
+        summary: `Победить хранителя на ${DUNGEON_MAX_FLOOR}-м этаже катакомб`,
         objective: {
-          kind: "open_chest" as const,
-          chestId: "chest_nw_house",
+          kind: "dungeon_cleared_to_floor" as const,
+          floor: DUNGEON_MAX_FLOOR,
         },
+      },
+      {
+        id: "report_back",
+        summary: "Доложить Маркусу",
+        objective: { kind: "talk_to" as const, npcId: "marcus" },
       },
     ],
   },
@@ -37,7 +43,7 @@ const RAW_QUESTS = [
     id: "clear_crossroads",
     title: "Угроза у дороги",
     description:
-      "После осмотра деревни разберитесь с бандитом у южного перекрёстка.",
+      "Разберитесь с бандитом у южного перекрёстка.",
     stages: [
       {
         id: "beat_grunt",

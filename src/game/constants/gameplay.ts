@@ -24,6 +24,9 @@ export const HOTBAR_SLOT_COUNT = 9;
 /** После смены выбранного слота колесом мыши (подсказка с названием предмета). */
 export const HOTBAR_WHEEL_NUDGE_EVENT = "nagibatop-hotbar-wheel-nudge";
 
+/** Синтетический выход у западной границы деревни: туман / дорога наружу. */
+export const VILLAGE_FOG_EXIT_ID = "village_fog_barrier";
+
 /** Выброс из инвентаря: предмет появляется в мире рядом с героем. */
 export const SPAWN_WORLD_PICKUP_EVENT = "nagibatop-spawn-world-pickup";
 

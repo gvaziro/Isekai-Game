@@ -17,7 +17,7 @@ function bump(
   const cur = m.get(key) ?? {
     texture,
     frame,
-    byLocation: { town: 0, forest: 0, dungeon: 0 },
+    byLocation: { town: 0, forest: 0, dungeon: 0, beyond: 0 },
   };
   cur.byLocation[locId]++;
   m.set(key, cur);
@@ -30,7 +30,7 @@ export function collectTextureUsageFromLocations(
   getLoc: (id: LocationId) => GameLocation
 ): MapTextureUsageRow[] {
   const m = new Map<string, MapTextureUsageRow>();
-  const ids: LocationId[] = ["town", "forest", "dungeon"];
+  const ids: LocationId[] = ["town", "forest", "dungeon", "beyond"];
   for (const locId of ids) {
     const loc = getLoc(locId);
     for (const p of loc.imageProps) {
@@ -49,7 +49,7 @@ export function collectTextureUsageFromLocations(
 
 export function formatUsageLocations(row: MapTextureUsageRow): string {
   const parts: string[] = [];
-  (["town", "forest", "dungeon"] as const).forEach((id) => {
+  (["town", "forest", "dungeon", "beyond"] as const).forEach((id) => {
     const n = row.byLocation[id];
     if (n > 0) parts.push(`${id}×${n}`);
   });

@@ -1,13 +1,41 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { NPC_REPLY_MAX_CHARS } from "@/src/game/constants/dialogue";
+import { DUNGEON_MAX_FLOOR } from "@/src/game/data/dungeonFloorScaling";
+import {
+  NpcChatClientResponseSchema,
+} from "@/src/game/data/npcChatStructured";
+import { useGameStore } from "@/src/game/state/gameStore";
+import { useQuestStore } from "@/src/game/state/questStore";
 import { clipNpcReply } from "@/src/game/ui/npcReplyClip";
-import { useNpcChatStream } from "@/src/game/ui/useNpcChatStream";
 
 type Turn = { role: "user" | "assistant"; content: string };
 
 export type DialogueScriptedOpener = { label: string; prompt: string };
+
+const ApiErrorBodySchema = z.object({ error: z.string() });
+
+function buildWorldSnapshotForNpcChat(): string {
+  if (typeof window === "undefined") return "";
+  const gs = useGameStore.getState();
+  const qs = useQuestStore.getState();
+  const act = qs.active;
+  const activeStr = act
+    ? `активный квест «${act.questId}», шаг ${act.stageIndex + 1}`
+    : "нет активного квеста";
+  return [
+    `Локация игрока: ${gs.currentLocationId}`,
+    `Туман на западной дороге: ${
+      gs.villageFogLifted
+        ? "рассеян — путь из деревни открыт"
+        : "стоит — нужно победить хранителя на последнем этаже катакомб"
+    }`,
+    `Катакомбы: макс. зачищенный этаж ${gs.dungeonMaxClearedFloor} из ${DUNGEON_MAX_FLOOR}`,
+    `Квесты: ${activeStr}; завершённые: ${qs.completedQuestIds.join(", ") || "—"}`,
+  ].join("\n");
+}
 
 function NpcMessageBody({ content }: { content: string }) {
   const trimmed = content.trim();
@@ -41,13 +69,12 @@ export default function DialogueOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
   const [msgs, setMsgs] = useState<Turn[]>([]);
-  const [streaming, setStreaming] = useState("");
+  const [suggestedReplies, setSuggestedReplies] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const chatAbortRef = useRef<AbortController | null>(null);
-  const { resetAccumulator, consumeSseResponse } = useNpcChatStream();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -61,7 +88,7 @@ export default function DialogueOverlay({
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs, streaming]);
+  }, [msgs, loading]);
 
   const close = useCallback(() => {
     setError(null);
@@ -76,7 +103,9 @@ export default function DialogueOverlay({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") {
+        close();
+      }
     };
     window.addEventListener("keydown", onKey, true);
     return () => window.removeEventListener("keydown", onKey, true);
@@ -126,8 +155,6 @@ export default function DialogueOverlay({
     chatAbortRef.current = ac;
 
     setLoading(true);
-    resetAccumulator();
-    setStreaming("");
     setError(null);
 
     try {
@@ -139,26 +166,54 @@ export default function DialogueOverlay({
       const res = await fetch(`/api/chat/${npcId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, history }),
+        body: JSON.stringify({
+          message: text,
+          history,
+          worldSnapshot: buildWorldSnapshotForNpcChat(),
+        }),
         signal: ac.signal,
       });
 
-      await consumeSseResponse(res, text, {
-        onStreamingText: setStreaming,
-        onCommitted: (userLine, assistantLine) => {
-          setMsgs((m) => [
-            ...m,
-            { role: "user", content: userLine },
-            { role: "assistant", content: assistantLine },
-          ]);
-        },
-        onStreamError: (message) => {
-          setError(message);
-          if (opts?.restoreInputOnError !== undefined) {
-            setInput(opts.restoreInputOnError);
-          }
-        },
-      });
+      let rawBody: unknown;
+      try {
+        rawBody = await res.json();
+      } catch {
+        setError("Сервер вернул не-JSON ответ.");
+        if (opts?.restoreInputOnError !== undefined) {
+          setInput(opts.restoreInputOnError);
+        }
+        return;
+      }
+
+      if (!res.ok) {
+        const errParsed = ApiErrorBodySchema.safeParse(rawBody);
+        setError(
+          errParsed.success
+            ? errParsed.data.error
+            : `Запрос не удался (${res.status}).`
+        );
+        if (opts?.restoreInputOnError !== undefined) {
+          setInput(opts.restoreInputOnError);
+        }
+        return;
+      }
+
+      const dataParsed = NpcChatClientResponseSchema.safeParse(rawBody);
+      if (!dataParsed.success) {
+        setError("Некорректный ответ сервера (ожидался JSON с reply и suggestions).");
+        if (opts?.restoreInputOnError !== undefined) {
+          setInput(opts.restoreInputOnError);
+        }
+        return;
+      }
+
+      const { reply, suggestions } = dataParsed.data;
+      setMsgs((m) => [
+        ...m,
+        { role: "user", content: text },
+        { role: "assistant", content: reply },
+      ]);
+      setSuggestedReplies(suggestions);
     } catch (e) {
       if (e instanceof DOMException && e.name === "AbortError") {
         return;
@@ -251,20 +306,16 @@ export default function DialogueOverlay({
               </p>
             </div>
           ))}
-          {(streaming.length > 0 || loading) && (
+          {loading ? (
             <div className="mr-8 min-w-0 rounded-lg border border-zinc-500/45 bg-zinc-600/90 p-3 shadow-sm">
               <span className="text-[10px] font-medium uppercase tracking-wide text-zinc-300">
                 NPC
               </span>
-              <p className="mt-1.5 whitespace-pre-wrap break-words text-[15px] leading-relaxed text-zinc-50 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
-                {streaming.length > 0 ? (
-                  clipNpcReply(streaming)
-                ) : loading ? (
-                  <span className="animate-pulse text-zinc-300">Печатает…</span>
-                ) : null}
+              <p className="mt-1.5 text-[15px] leading-relaxed text-zinc-50 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
+                <span className="animate-pulse text-zinc-300">Печатает…</span>
               </p>
             </div>
-          )}
+          ) : null}
           <div ref={endRef} />
         </div>
 
@@ -281,6 +332,27 @@ export default function DialogueOverlay({
                 {o.label}
               </button>
             ))}
+          </div>
+        ) : null}
+
+        {suggestedReplies.length === 3 ? (
+          <div className="mb-2 rounded-lg border border-zinc-700/80 bg-zinc-950/80 px-3 py-2">
+            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+              Варианты ответа
+            </p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+              {suggestedReplies.map((s, i) => (
+                <button
+                  key={`${i}-${s.slice(0, 24)}`}
+                  type="button"
+                  disabled={loading || summarizing}
+                  className="rounded-lg border border-emerald-800/70 bg-emerald-950/50 px-3 py-2 text-left text-xs leading-snug text-emerald-100 hover:bg-emerald-900/55 disabled:opacity-40"
+                  onClick={() => void sendUserMessage(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         ) : null}
 
@@ -320,7 +392,8 @@ export default function DialogueOverlay({
           Enter — отправить · Shift+Enter можно вставить перенос · Esc — закрыть
         </p>
         <p className="mt-1 text-center text-[10px] text-zinc-600">
-          До {NPC_REPLY_MAX_CHARS} символов в ответе NPC.
+          До {NPC_REPLY_MAX_CHARS} символов в ответе NPC; три варианта ответа —
+          подсказки, можно игнорировать и писать своё.
         </p>
       </div>
     </div>

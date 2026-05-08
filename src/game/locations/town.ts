@@ -67,6 +67,8 @@ export const TOWN_LOCATION: GameLocation = {
     default: { x: HERO_SPAWN.x, y: HERO_SPAWN.y },
     from_forest: { x: 400, y: 72 },
     from_dungeon: { x: 400, y: 740 },
+    /** Возврат из локации «beyond» у западной границы (туман рассеян). */
+    from_beyond: { x: 96, y: 400 },
   },
   /** Fallback, если TMJ не загрузился; нормальные зоны — object-слой Travel в `town.tmj`. */
   exits: [

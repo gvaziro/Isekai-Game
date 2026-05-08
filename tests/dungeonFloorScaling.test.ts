@@ -12,26 +12,26 @@ import {
 } from "@/src/game/data/dungeonFloorScaling";
 
 describe("dungeonFloorScaling", () => {
-  it("clampDungeonFloor clamps to 1..100", () => {
+  it("clampDungeonFloor clamps to 1..DUNGEON_MAX_FLOOR", () => {
     expect(clampDungeonFloor(0)).toBe(1);
     expect(clampDungeonFloor(1)).toBe(1);
-    expect(clampDungeonFloor(100)).toBe(100);
-    expect(clampDungeonFloor(101)).toBe(100);
+    expect(clampDungeonFloor(DUNGEON_MAX_FLOOR)).toBe(DUNGEON_MAX_FLOOR);
+    expect(clampDungeonFloor(DUNGEON_MAX_FLOOR + 1)).toBe(DUNGEON_MAX_FLOOR);
   });
 
   it("getMaxEnterableFloor caps at DUNGEON_MAX_FLOOR", () => {
     expect(getMaxEnterableFloor(0)).toBe(1);
-    expect(getMaxEnterableFloor(99)).toBe(100);
-    expect(getMaxEnterableFloor(100)).toBe(100);
+    expect(getMaxEnterableFloor(DUNGEON_MAX_FLOOR - 1)).toBe(DUNGEON_MAX_FLOOR);
+    expect(getMaxEnterableFloor(DUNGEON_MAX_FLOOR)).toBe(DUNGEON_MAX_FLOOR);
   });
 
   it("getBossLevel never exceeds 99", () => {
-    expect(getBossLevel(100, 99)).toBeLessThanOrEqual(99);
+    expect(getBossLevel(DUNGEON_MAX_FLOOR, 99)).toBeLessThanOrEqual(99);
     expect(getBossLevel(1, 1)).toBeGreaterThanOrEqual(1);
   });
 
   it("getGruntLevelRange stays within 1..99", () => {
-    for (const f of [1, 50, 100]) {
+    for (const f of [1, 5, DUNGEON_MAX_FLOOR]) {
       for (const p of [1, 50, 99]) {
         const r = getGruntLevelRange(f, p);
         expect(r.min).toBeGreaterThanOrEqual(1);
@@ -43,10 +43,10 @@ describe("dungeonFloorScaling", () => {
 
   it("spawn density scales with floor", () => {
     const low = getDungeonSpawnMaxAlive(1);
-    const high = getDungeonSpawnMaxAlive(100);
+    const high = getDungeonSpawnMaxAlive(DUNGEON_MAX_FLOOR);
     expect(high).toBeGreaterThanOrEqual(low);
     expect(getDungeonSpawnIntervalMs(1)).toBeGreaterThanOrEqual(
-      getDungeonSpawnIntervalMs(100)
+      getDungeonSpawnIntervalMs(DUNGEON_MAX_FLOOR)
     );
   });
 
@@ -63,12 +63,10 @@ describe("dungeonFloorScaling", () => {
     expect(fastTravelAnchorsAvailable(0)).toEqual([]);
     expect(fastTravelAnchorsAvailable(9)).toEqual([]);
     expect(fastTravelAnchorsAvailable(10)).toEqual([10]);
-    expect(fastTravelAnchorsAvailable(25)).toEqual([10, 20]);
-    expect(fastTravelAnchorsAvailable(100).length).toBe(10);
-    expect(fastTravelAnchorsAvailable(100)[9]).toBe(100);
+    expect(fastTravelAnchorsAvailable(25)).toEqual([10]);
   });
 
-  it("DUNGEON_MAX_FLOOR is 100", () => {
-    expect(DUNGEON_MAX_FLOOR).toBe(100);
+  it("DUNGEON_MAX_FLOOR is 10 (стартовая арка)", () => {
+    expect(DUNGEON_MAX_FLOOR).toBe(10);
   });
 });

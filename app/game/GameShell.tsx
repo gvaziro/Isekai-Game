@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 import {
   useGameStore,
 } from "@/src/game/state/gameStore";
+import { resetLoreJournalToNewGame } from "@/src/game/state/loreJournalStore";
 import { resetQuestsToNewGame } from "@/src/game/state/questStore";
 
 const GameRoot = dynamic(() => import("@/src/game/GameRoot"), {
@@ -27,6 +28,7 @@ export default function GameShell() {
       return;
     }
     resetQuestsToNewGame();
+    resetLoreJournalToNewGame();
     useGameStore.getState().resetToNewGame();
     setGameMountKey((k) => k + 1);
   }, []);
@@ -51,8 +53,10 @@ export default function GameShell() {
             <kbd className="rounded bg-zinc-800 px-0.5">E</kbd> — действие,{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">I</kbd> инвентарь,{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">J</kbd> квесты,{" "}
-            <kbd className="rounded bg-zinc-800 px-0.5">Z</kbd> — сон (город / лес:
-            длительность ползунком, шаг 30 мин),{" "}
+            <kbd className="rounded bg-zinc-800 px-0.5">K</kbd> дневник
+            знаний,{" "}
+            <kbd className="rounded bg-zinc-800 px-0.5">Z</kbd> — сон (деревня / лес /
+            дорога за деревней: длительность ползунком, шаг 30 мин),{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">M</kbd> — карта подземелья
             (в катакомбах),{" "}
             <kbd className="rounded bg-zinc-800 px-0.5">Alt+Enter</kbd> — на весь

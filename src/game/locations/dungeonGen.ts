@@ -2,6 +2,7 @@ import {
   dungeonBossChestIdForFloor,
   registerDungeonLayoutForFloor,
 } from "@/src/game/data/dungeonBoss";
+import { DUNGEON_MAX_FLOOR } from "@/src/game/data/dungeonFloorScaling";
 import type { GameLocationJson } from "@/src/game/locations/locationSchema";
 import { mulberry32 } from "@/src/game/locations/types";
 
@@ -404,13 +405,17 @@ export function generateCatacombsForFloor(floor: number): GameLocationJson {
     y: r.cy * CELL + CELL / 2,
   }));
 
+  const isFinalBossFloor = F === DUNGEON_MAX_FLOOR;
+  const bossMobVisualId = isFinalBossFloor ? "skeleton_mage" : "orc_shaman";
+  const bossLootTable = isFinalBossFloor ? "boss_final" : "boss";
+
   registerDungeonLayoutForFloor(F, {
     gruntRoomCenters,
     bossSpawn: {
       x: bossX,
       y: bossY,
-      mobVisualId: "orc_shaman",
-      lootTable: "boss",
+      mobVisualId: bossMobVisualId,
+      lootTable: bossLootTable,
     },
     bossChest: {
       id: dungeonBossChestIdForFloor(F),

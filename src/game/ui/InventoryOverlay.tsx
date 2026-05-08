@@ -32,7 +32,6 @@ import {
   ItemAtlasIcon,
   type ItemAtlasFramesFile,
 } from "@/src/game/ui/ItemAtlasIcon";
-import { getDerivedCombatStats } from "@/src/game/rpg/derivedStats";
 import {
   formatItemRarityLabel,
   isWeaponOrArmorSlot,
@@ -191,11 +190,7 @@ export default function InventoryOverlay({
 }) {
   const inventorySlots = useGameStore((s) => s.inventorySlots);
   const equipped = useGameStore((s) => s.equipped);
-  const character = useGameStore((s) => s.character);
   const professions = useGameStore((s) => s.professions);
-  const originBonus = useGameStore((s) =>
-    s.isekaiOrigin?.completed === true ? s.isekaiOrigin.bonus : undefined
-  );
   const swapSlots = useGameStore((s) => s.swapSlots);
   const equipFromInventorySlot = useGameStore((s) => s.equipFromInventorySlot);
   const unequip = useGameStore((s) => s.unequip);
@@ -217,17 +212,6 @@ export default function InventoryOverlay({
   const [detailSlot, setDetailSlot] = useState<number | null>(null);
   /** После drag браузер иногда шлёт лишний click по ячейке — игнорируем один раз */
   const suppressBagClickAfterDrag = useRef(false);
-
-  const derived = useMemo(
-    () =>
-      getDerivedCombatStats(
-        character.level,
-        equipped,
-        originBonus,
-        character.attrs
-      ),
-    [character.level, equipped, originBonus, character.attrs]
-  );
 
   const usableInvSlots = useMemo(
     () => getEffectiveInventorySlotCount(equipped),
@@ -446,40 +430,48 @@ export default function InventoryOverlay({
 
   if (!open) return null;
 
+  const modalTitle = (
+    <span className="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5">
+      <span>Инвентарь</span>
+      <span
+        className="text-[11px] font-normal tabular-nums text-[#5c5346] sm:text-xs"
+        title={`Базовых слотов: ${BASE_INVENTORY_SLOTS}, максимум: ${MAX_INVENTORY_SLOTS}`}
+      >
+        {usableInvSlots}/{MAX_INVENTORY_SLOTS}
+      </span>
+    </span>
+  );
+
   return (
-    <PaperModalChrome title="Инвентарь" onClose={onClose}>
-      <div className="flex min-h-0 flex-1 flex-col gap-3 pb-3 pt-0.5 lg:flex-row lg:gap-4">
-        {/* Левая колонка: экипировка + сводка */}
-        <div className="flex w-full shrink-0 flex-col gap-2 lg:max-w-[240px]">
+    <PaperModalChrome title={modalTitle} onClose={onClose} fitContent>
+      <div className="flex min-h-0 flex-col gap-3 pb-1 pt-0.5 md:flex-row md:gap-4">
+        {/* Левая колонка: экипировка + профессии */}
+        <div className="flex w-full shrink-0 flex-col gap-2 md:max-w-[190px]">
           <PaperSectionLabel>Экипировка</PaperSectionLabel>
-          <p className="text-[10px] leading-snug text-[#5c5346] sm:text-[11px]">
-            Перетащите предмет из рюкзака на нужный слот, чтобы надеть. Клик по
-            надетому — снять в рюкзак (если есть место). Рюкзак расширяет число
-            ячеек сумки; кирка, топор и удочка надеваются в свои слоты внизу сетки.
-          </p>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-5 place-items-center gap-2 md:grid-cols-2">
             {EQUIP_ORDER.map((slot) => {
               const id = equipped[slot];
               const def = id ? getCuratedItem(id) : undefined;
               const equipHighlight =
                 draggingFrom !== null && hoverEquipSlot === slot;
+              const equipHint = def
+                ? `${EQUIP_LABEL[slot]} · ${def.name}${
+                    isWeaponOrArmorSlot(def.slot)
+                      ? ` · ${formatItemRarityLabel(def.rarity)}`
+                      : ""
+                  }\n${formatEquipBonuses(def.id) ?? ""}`.trim()
+                : `${EQUIP_LABEL[slot]} · Пусто · перетащите предмет из рюкзака`;
               return (
                 <div key={slot} className="flex flex-col items-center gap-1">
-                  <span className="max-w-[5.5rem] truncate text-center text-[10px] font-medium text-[#4a4338] sm:text-[11px]">
-                    {EQUIP_LABEL[slot]}
-                  </span>
                   <button
                     type="button"
-                    title={
+                    title={equipHint}
+                    aria-label={
                       def
-                        ? `${def.name}${
-                            isWeaponOrArmorSlot(def.slot)
-                              ? ` · ${formatItemRarityLabel(def.rarity)}`
-                              : ""
-                          }\n${formatEquipBonuses(def.id) ?? ""}`.trim()
-                        : "Пусто · перетащите сюда предмет из рюкзака"
+                        ? `${EQUIP_LABEL[slot]}, ${def.name}`
+                        : `${EQUIP_LABEL[slot]}, пусто`
                     }
-                    className={`rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b52] ${
+                    className={`h-fit w-fit rounded-sm bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b52] ${
                       equipHighlight
                         ? "ring-2 ring-[#2a8f6a] ring-offset-1 ring-offset-[#ebe3d2]"
                         : ""
@@ -516,154 +508,53 @@ export default function InventoryOverlay({
                       </PaperSlotChrome>
                     )}
                   </button>
+                  <span className="max-w-[4.5rem] truncate text-center text-[9px] font-medium leading-none text-[#6d6658]">
+                    {EQUIP_LABEL[slot]}
+                  </span>
                 </div>
               );
             })}
           </div>
 
-          <PaperSectionLabel>Персонаж</PaperSectionLabel>
-          <div className="rounded-md border border-[#5c4a32]/25 bg-[rgba(42,36,28,0.06)] px-2 py-2 text-[11px] text-[#4a4338] sm:text-xs">
-            <div className="flex justify-between gap-2 font-semibold text-[#3d2914]">
-              <span>Уровень {character.level}</span>
+          <details className="rounded-md border border-[#5c4a32]/25 bg-[rgba(42,36,28,0.06)] px-2 py-1.5 text-[11px] text-[#4a4338] sm:text-xs">
+            <summary className="cursor-pointer list-none text-center text-[10px] font-bold uppercase tracking-[0.14em] text-[#3d362c] [&::-webkit-details-marker]:hidden">
+              Профессии
+            </summary>
+            <div className="mt-2 space-y-1.5 border-t border-[#5c4a32]/20 pt-2">
+              {GATHER_PROFESSION_IDS.map((id) => {
+                const pr = professions[id];
+                const need = professionXpToNext(pr.level);
+                const pct =
+                  need <= 0
+                    ? 100
+                    : Math.min(100, Math.round((pr.xp / need) * 100));
+                return (
+                  <div key={id}>
+                    <div className="flex justify-between gap-2 text-[10px]">
+                      <span className="text-[#6d6658]">
+                        {GATHER_PROFESSION_LABELS[id]}
+                      </span>
+                      <span className="font-mono tabular-nums text-[#3d2914]">
+                        Ур. {pr.level} · {Math.floor(pr.xp)}/{need}
+                      </span>
+                    </div>
+                    <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-[#e8e0d0]">
+                      <div
+                        className="h-full rounded-full bg-[#2a8f6a]/85 transition-[width] duration-150"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <div className="mt-1.5 space-y-2 border-t border-[#5c4a32]/20 pt-1.5">
-              <div>
-                <div className="text-[10px] font-semibold uppercase tracking-wide text-[#8a8270]">
-                  Ресурсы
-                </div>
-                <div className="mt-1 space-y-1">
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">HP</span>
-                    <span>
-                      {Math.ceil(character.hp)} / {derived.maxHp}
-                    </span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">Стамина</span>
-                    <span>
-                      {Math.ceil(character.sta)} / {derived.maxSta}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t border-[#5c4a32]/15 pt-1.5">
-                <div className="text-[10px] font-semibold uppercase tracking-wide text-[#8a8270]">
-                  Профессии
-                </div>
-                <div className="mt-1 space-y-1.5">
-                  {GATHER_PROFESSION_IDS.map((id) => {
-                    const pr = professions[id];
-                    const need = professionXpToNext(pr.level);
-                    const pct =
-                      need <= 0
-                        ? 100
-                        : Math.min(
-                            100,
-                            Math.round((pr.xp / need) * 100)
-                          );
-                    return (
-                      <div key={id}>
-                        <div className="flex justify-between gap-2 text-[10px]">
-                          <span className="text-[#6d6658]">
-                            {GATHER_PROFESSION_LABELS[id]}
-                          </span>
-                          <span className="font-mono tabular-nums text-[#3d2914]">
-                            Ур. {pr.level} · {Math.floor(pr.xp)}/{need}
-                          </span>
-                        </div>
-                        <div className="mt-0.5 h-1.5 w-full overflow-hidden rounded-full bg-[#e8e0d0]">
-                          <div
-                            className="h-full rounded-full bg-[#2a8f6a]/85 transition-[width] duration-150"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="border-t border-[#5c4a32]/15 pt-1.5">
-                <div className="text-[10px] font-semibold uppercase tracking-wide text-[#8a8270]">
-                  Навыки (очки)
-                </div>
-                <dl className="mt-1 grid grid-cols-1 gap-y-0.5 text-[10px] sm:grid-cols-2 sm:gap-x-3 sm:text-[11px]">
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Сила</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.str}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Ловкость</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.agi}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Живучесть</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.vit}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Стойкость</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.tgh}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Выносливость</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.end}
-                    </dd>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <dt className="text-[#6d6658]">Скорость</dt>
-                    <dd className="font-mono tabular-nums text-[#3d2914]">
-                      {character.attrs.mob}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-
-              <div className="border-t border-[#5c4a32]/15 pt-1.5">
-                <div className="text-[10px] font-semibold uppercase tracking-wide text-[#8a8270]">
-                  Бой (итог)
-                </div>
-                <p className="mt-0.5 text-[9px] leading-snug text-[#8a8270]">
-                  Уровень, снаряжение и баффы уже учтены.
-                </p>
-                <div className="mt-1 space-y-1">
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">Атака</span>
-                    <span className="font-mono tabular-nums">{derived.atk}</span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">Защита</span>
-                    <span className="font-mono tabular-nums">{derived.def}</span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">Скорость боя</span>
-                    <span className="font-mono tabular-nums">{derived.spd}</span>
-                  </div>
-                  <div className="flex justify-between gap-2">
-                    <span className="text-[#6d6658]">Удача</span>
-                    <span className="font-mono tabular-nums">{derived.luck}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </details>
         </div>
 
         {/* Правая колонка: рюкзак + детали */}
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-          <PaperSectionLabel>
-            Рюкзак · перетащите предмет на другую ячейку, чтобы поменять местами
-          </PaperSectionLabel>
-          <div className="paper-scroll grid max-h-[min(42vh,320px)] grid-cols-4 gap-2 overflow-y-auto overflow-x-hidden pb-1 sm:grid-cols-6 md:max-h-[min(48vh,380px)] md:gap-2.5">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2 md:min-w-[448px]">
+          <PaperSectionLabel>Рюкзак</PaperSectionLabel>
+          <div className="paper-scroll grid max-h-[min(42vh,320px)] grid-cols-4 place-items-center gap-2 overflow-y-auto overflow-x-hidden pb-1 sm:grid-cols-6 md:max-h-[min(48vh,380px)] md:gap-2.5">
             {inventorySlots.slice(0, usableInvSlots).map((stack, i) => {
               const def = stack ? getCuratedItem(stack.curatedId) : undefined;
               const detailSel = detailSlot === i;
@@ -695,7 +586,7 @@ export default function InventoryOverlay({
                   onDragEnd={onBagDragEnd}
                   onDragOver={(e) => onBagSlotDragOver(e, i)}
                   onDrop={(e) => onBagSlotDrop(e, i)}
-                  className={`select-none rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b52] ${
+                  className={`h-fit w-fit select-none rounded-sm bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b52] ${
                     detailSel ? "ring-2 ring-amber-700/80 ring-offset-1 ring-offset-[#ebe3d2]" : ""
                   } ${
                     bagDropHighlight
@@ -738,11 +629,11 @@ export default function InventoryOverlay({
             })}
           </div>
 
-          <PaperSectionLabel>Выбранный предмет</PaperSectionLabel>
-          <div className="flex min-h-[7rem] flex-col gap-2 rounded-md border border-[#5c4a32]/25 bg-[rgba(42,36,28,0.06)] px-2 py-2 sm:min-h-[7.5rem] sm:px-3">
+          <PaperSectionLabel>Предмет</PaperSectionLabel>
+          <div className="flex flex-col gap-2 rounded-md border border-[#5c4a32]/25 bg-[rgba(42,36,28,0.06)] px-2 py-2 sm:px-3">
             {!detailStack || !detailDef ? (
-              <p className="text-center text-[11px] leading-relaxed text-[#6d6658] sm:text-xs">
-                Кликните по ячейке рюкзака, чтобы увидеть описание и действия.
+              <p className="text-center text-[11px] text-[#8a8270] sm:text-xs">
+                Не выбран
               </p>
             ) : (
               <>
@@ -860,30 +751,29 @@ export default function InventoryOverlay({
 
           <div
             role="region"
-            aria-label="Выбросить предмет на землю"
+            aria-label="Перетащите предмет из рюкзака сюда, чтобы выбросить его на землю рядом с героем"
+            title={
+              draggingFrom === null
+                ? "Перетащите сюда предмет из рюкзака, чтобы выбросить на землю"
+                : undefined
+            }
             onDragOver={onGroundStripDragOver}
             onDragLeave={() => setHoverGroundStrip(false)}
             onDrop={onGroundStripDrop}
-            className={`shrink-0 rounded-md border border-dashed px-2 py-2 text-center transition-colors ${
+            className={`shrink-0 rounded-md border border-dashed text-center transition-colors ${
+              draggingFrom !== null ? "px-2 py-2" : "px-2 py-1"
+            } ${
               hoverGroundStrip
                 ? "border-[#2a8f6a] bg-[rgba(42,143,106,0.12)] ring-2 ring-[#2a8f6a]/50"
-                : "border-[#5c4a32]/45 bg-[rgba(42,36,28,0.04)]"
+                : draggingFrom !== null
+                  ? "border-[#5c4a32]/50 bg-[rgba(42,36,28,0.06)]"
+                  : "border-[#5c4a32]/25 bg-[rgba(42,36,28,0.03)] opacity-85"
             }`}
           >
-            <p className="text-[10px] leading-snug text-[#6d6658] sm:text-[11px]">
-              Перетащите сюда предмет из рюкзака — он появится на земле рядом с
-              героем (как при «Выбросить» в карточке).
+            <p className="text-[10px] font-medium text-[#6d6658] sm:text-[11px]">
+              На землю
             </p>
           </div>
-
-          <p className="shrink-0 border-t border-[#5c4a32]/25 pb-1 pt-2 text-center text-[10px] leading-snug text-[#5c5346] sm:text-[11px]">
-            Слотов: {usableInvSlots} (база {BASE_INVENTORY_SLOTS}, предел сумки{" "}
-            {MAX_INVENTORY_SLOTS}) ·{" "}
-            <kbd className="rounded border border-[#5a5346]/60 bg-[#f4ecd8] px-1 font-mono text-[#2a241c]">
-              I
-            </kbd>{" "}
-            — закрыть · перетащите на слот экипировки, чтобы надеть
-          </p>
         </div>
       </div>
     </PaperModalChrome>

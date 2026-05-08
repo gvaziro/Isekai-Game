@@ -40,6 +40,10 @@ function buildContext(): QuestEvalContext | null {
     playerX: gs.player.x,
     playerY: gs.player.y,
     inventoryCount: (curatedId: string) => sumInventoryQty(slots, curatedId),
+    dungeonMaxClearedFloor: Math.max(
+      0,
+      Math.floor(gs.dungeonMaxClearedFloor ?? 0)
+    ),
   };
 }
 
@@ -215,12 +219,14 @@ export function mountQuestEventBridge(): () => void {
   let snap = useGameStore.getState();
   const unsubGame = useGameStore.subscribe((s) => {
     const invChanged = s.inventorySlots !== snap.inventorySlots;
+    const dungeonProg =
+      s.dungeonMaxClearedFloor !== snap.dungeonMaxClearedFloor;
     const { x, y } = s.player;
     const moved =
       Math.hypot(x - snap.player.x, y - snap.player.y) >
       (invChanged ? 0 : 4);
     snap = s;
-    if (invChanged) {
+    if (invChanged || dungeonProg) {
       useQuestStore.getState().ingestEvent({ type: "reevaluate" });
       return;
     }

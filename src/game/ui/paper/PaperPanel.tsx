@@ -10,6 +10,8 @@ type PaperPanelProps = {
   header?: ReactNode;
   /** Кнопки в правом верхнем углу панели (не перекрывают ленту с заголовком). */
   topRight?: ReactNode;
+  /** Растягивать панель по высоте доступного пространства. */
+  fillHeight?: boolean;
   /** Доп. классы на внешней обёртке панели (фон пергамента). */
   className?: string;
 };
@@ -21,11 +23,12 @@ export function PaperPanel({
   children,
   header,
   topRight,
+  fillHeight = true,
   className = "",
 }: PaperPanelProps) {
   return (
     <div
-      className={`paper-pixelated paper-parchment-bg relative flex h-full max-h-full min-h-0 w-full max-w-3xl flex-col gap-2 overflow-hidden px-6 pb-8 pt-4 ring-1 ring-[#5c4a32]/35 sm:gap-2 sm:px-8 sm:pb-8 sm:pt-5 ${className}`}
+      className={`paper-pixelated paper-parchment-bg relative flex max-h-full min-h-0 w-full max-w-3xl flex-col gap-2 overflow-hidden px-6 pb-8 pt-4 ring-1 ring-[#5c4a32]/35 sm:gap-2 sm:px-8 sm:pb-8 sm:pt-5 ${fillHeight ? "h-full" : ""} ${className}`}
     >
       {topRight ? (
         <div className="absolute right-2.5 top-2.5 z-30 sm:right-3.5 sm:top-3.5">
@@ -39,7 +42,11 @@ export function PaperPanel({
         </div>
       ) : null}
 
-      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto text-[#2a241c]">
+      <div
+        className={`relative z-10 flex min-h-0 flex-col overflow-x-hidden overflow-y-auto text-[#2a241c] ${
+          fillHeight ? "flex-1" : ""
+        }`}
+      >
         {children}
       </div>
     </div>

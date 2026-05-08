@@ -4,11 +4,13 @@ import { z } from "zod";
 import { loadNpcCached } from "@/src/server/cache";
 import { appendNpcEvent, assertSafeNpcId } from "@/src/server/npc-loader";
 import { buildMessagesForCompletion } from "@/src/server/prompt-builder";
-import { createNpcChatCompletionStream } from "@/src/server/openai";
+import { createNpcChatStructuredCompletion } from "@/src/server/openai";
 import { getClientIp, rateLimit } from "@/src/server/rate-limit";
-import { encodeSseMessage } from "@/src/server/stream-protocol";
-import { extractChatCompletionDeltaText } from "@/src/server/openai-stream-delta";
-import { NPC_REPLY_MAX_CHARS } from "@/src/game/constants/dialogue";
+import {
+  type NpcChatStructured,
+  NpcChatStructuredSchema,
+  normalizeNpcChatStructured,
+} from "@/src/game/data/npcChatStructured";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -23,6 +25,7 @@ const BodySchema = z.object({
       })
     )
     .max(24),
+  worldSnapshot: z.string().max(4500).optional(),
 });
 
 function buildSummary(user: string, assistant: string): string {
@@ -37,148 +40,137 @@ export async function POST(
 ) {
   const ip = getClientIp(req.headers);
   if (!rateLimit(ip)) {
-    return new NextResponse("Too Many Requests", { status: 429 });
+    return NextResponse.json(
+      { error: "Слишком много запросов. Подождите немного." },
+      { status: 429 }
+    );
   }
 
   const { npcId: rawId } = await ctx.params;
   try {
     assertSafeNpcId(rawId);
   } catch {
-    return new NextResponse("Bad Request", { status: 400 });
+    return NextResponse.json({ error: "Некорректный npcId" }, { status: 400 });
   }
 
   let body: z.infer<typeof BodySchema>;
   try {
     body = BodySchema.parse(await req.json());
   } catch {
-    return new NextResponse("Invalid body", { status: 400 });
+    return NextResponse.json({ error: "Некорректное тело запроса" }, { status: 400 });
   }
 
   if (!process.env.OPENAI_API_KEY) {
-    return new NextResponse("OPENAI_API_KEY missing", { status: 500 });
+    return NextResponse.json(
+      { error: "Сервер: не задан OPENAI_API_KEY" },
+      { status: 500 }
+    );
   }
 
   let npc;
   try {
     npc = await loadNpcCached(rawId);
   } catch {
-    return new NextResponse("NPC not found", { status: 404 });
+    return NextResponse.json({ error: "NPC не найден" }, { status: 404 });
   }
 
-  const messages = buildMessagesForCompletion(npc, body.history, body.message);
+  const messages = buildMessagesForCompletion(
+    npc,
+    body.history,
+    body.message,
+    body.worldSnapshot
+  );
   const model = process.env.NPC_MODEL ?? "gpt-5.4-mini";
 
-  let completionStream: AsyncIterable<OpenAI.Chat.Completions.ChatCompletionChunk>;
+  let completion: OpenAI.Chat.Completions.ChatCompletion;
+  let parsedRaw: NpcChatStructured | null;
   try {
-    completionStream = await createNpcChatCompletionStream({
+    const r = await createNpcChatStructuredCompletion({
       model,
       messages,
       promptCacheKey: `npc:${rawId}`,
+      schema: NpcChatStructuredSchema,
+      schemaName: "npc_dialogue_turn",
     });
+    completion = r.completion;
+    parsedRaw = r.parsed;
   } catch (e) {
     console.error("[api/chat]", e);
     if (e instanceof OpenAI.AuthenticationError) {
-      return new NextResponse(
-        "OpenAI: проверьте OPENAI_API_KEY (неверный или отозванный ключ).",
+      return NextResponse.json(
+        { error: "OpenAI: проверьте OPENAI_API_KEY (неверный или отозванный ключ)." },
         { status: 401 }
       );
     }
     if (e instanceof OpenAI.RateLimitError) {
-      return new NextResponse("OpenAI: лимит запросов, попробуйте позже.", {
-        status: 429,
-      });
+      return NextResponse.json(
+        { error: "OpenAI: лимит запросов, попробуйте позже." },
+        { status: 429 }
+      );
     }
     if (e instanceof OpenAI.APIError) {
       const hint = e.message?.trim() || "ошибка API";
-      return new NextResponse(`OpenAI (${e.status ?? "?"}): ${hint}`.slice(0, 900), {
-        status:
-          typeof e.status === "number" &&
-          e.status >= 400 &&
-          e.status < 600
-            ? e.status
-            : 502,
-      });
+      return NextResponse.json(
+        { error: `OpenAI (${e.status ?? "?"}): ${hint}`.slice(0, 900) },
+        {
+          status:
+            typeof e.status === "number" &&
+            e.status >= 400 &&
+            e.status < 600
+              ? e.status
+              : 502,
+        }
+      );
     }
     const msg = e instanceof Error ? e.message : String(e);
-    return new NextResponse(`Upstream error: ${msg}`.slice(0, 900), {
-      status: 502,
+    return NextResponse.json(
+      { error: `Upstream: ${msg}`.slice(0, 900) },
+      { status: 502 }
+    );
+  }
+
+  if (process.env.NPC_LOG_PROMPT_CACHE === "1" && completion.usage) {
+    const cached =
+      completion.usage.prompt_tokens_details?.cached_tokens ?? 0;
+    console.log("[api/chat] prompt_cache", {
+      npcId: rawId,
+      prompt_tokens: completion.usage.prompt_tokens,
+      cached_tokens: cached,
     });
   }
 
-  const encoder = new TextEncoder();
-  let assistantBuffer = "";
+  const choice0 = completion.choices?.[0];
+  let parsed: NpcChatStructured | null = parsedRaw;
+  if (!parsed) {
+    const sp = NpcChatStructuredSchema.safeParse(
+      (choice0?.message as { parsed?: unknown } | undefined)?.parsed
+    );
+    parsed = sp.success ? sp.data : null;
+  }
+  if (!parsed) {
+    return NextResponse.json(
+      {
+        error:
+          "Модель не вернула разобранный JSON. Попробуйте ещё раз или смените фразу.",
+      },
+      { status: 502 }
+    );
+  }
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      const safeClose = (): void => {
-        try {
-          controller.close();
-        } catch {
-          /* already closed */
-        }
-      };
-      try {
-        for await (const part of completionStream) {
-          if (process.env.NPC_LOG_PROMPT_CACHE === "1" && part.usage) {
-            const cached =
-              part.usage.prompt_tokens_details?.cached_tokens ?? 0;
-            console.log("[api/chat] prompt_cache", {
-              npcId: rawId,
-              prompt_tokens: part.usage.prompt_tokens,
-              cached_tokens: cached,
-            });
-          }
-          const choice0 = part.choices?.[0];
-          const token = extractChatCompletionDeltaText(choice0?.delta);
-          if (token) {
-            const room = NPC_REPLY_MAX_CHARS - assistantBuffer.length;
-            if (room <= 0) {
-              break;
-            }
-            const piece =
-              token.length > room ? token.slice(0, room) : token;
-            assistantBuffer += piece;
-            if (piece.length > 0) {
-              controller.enqueue(
-                encoder.encode(encodeSseMessage({ type: "delta", text: piece }))
-              );
-            }
-            if (assistantBuffer.length >= NPC_REPLY_MAX_CHARS) {
-              break;
-            }
-          }
-        }
+  const out = normalizeNpcChatStructured(parsed);
 
-        await appendNpcEvent(rawId, {
-          ts: new Date().toISOString(),
-          type: "dialogue",
-          summary: buildSummary(body.message, assistantBuffer),
-        });
+  try {
+    await appendNpcEvent(rawId, {
+      ts: new Date().toISOString(),
+      type: "dialogue",
+      summary: buildSummary(body.message, out.reply),
+    });
+  } catch (e) {
+    console.warn("[api/chat] appendNpcEvent", e);
+  }
 
-        controller.enqueue(encoder.encode(encodeSseMessage({ type: "done" })));
-        safeClose();
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String(e);
-        controller.enqueue(
-          encoder.encode(
-            encodeSseMessage({
-              type: "error",
-              message: msg,
-              code: "chat_stream",
-            })
-          )
-        );
-        safeClose();
-      }
-    },
-  });
-
-  return new NextResponse(stream, {
-    headers: {
-      "Content-Type": "text/event-stream; charset=utf-8",
-      "Cache-Control": "no-store",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no",
-    },
+  return NextResponse.json(out, {
+    status: 200,
+    headers: { "Cache-Control": "no-store" },
   });
 }

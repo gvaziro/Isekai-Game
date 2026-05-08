@@ -49,6 +49,7 @@ import {
 } from "@/src/game/data/dungeonBoss";
 import {
   clampDungeonFloor,
+  DUNGEON_MAX_FLOOR,
   getBossLevel,
   getDungeonSpawnIntervalMs,
   getDungeonSpawnMaxAlive,
@@ -79,6 +80,7 @@ import {
   RESYNC_CORPSE_PICKUPS_EVENT,
   SPAWN_WORLD_PICKUP_EVENT,
   TREE_CHOP_RADIUS,
+  VILLAGE_FOG_EXIT_ID,
 } from "@/src/game/constants/gameplay";
 import {
   CHOP_TREE_CHANNEL_MS,
@@ -149,6 +151,9 @@ function exitZoneHighlightColors(
   locId: LocationId,
   ex: LocationExit
 ): { fill: number; stroke: number } {
+  if (ex.id === VILLAGE_FOG_EXIT_ID) {
+    return { fill: 0x6b21a8, stroke: 0xe9d5ff };
+  }
   if (locId === "dungeon" && ex.targetLocationId !== "dungeon") {
     return { fill: 0x16a34a, stroke: 0x86efac };
   }
@@ -396,7 +401,11 @@ export class MainScene extends Phaser.Scene {
         const stumpImg = this.add
           .image(p.x, p.y, stumpTex)
           .setOrigin(0.5, 1);
-        stumpImg.setDepth(p.y);
+        if (p.displayScale !== undefined && p.displayScale > 0) {
+          stumpImg.setScale(p.displayScale);
+        }
+        if (p.flipX === true) stumpImg.setFlipX(true);
+        stumpImg.setDepth(p.y + (p.depthBias ?? 0));
         this.pushWorldObject(stumpImg);
         this.registerForestStumpSprite(treeKey, stumpImg);
         return [stumpImg];
@@ -429,11 +438,31 @@ export class MainScene extends Phaser.Scene {
           ? this.add.image(p.x, p.y, p.texture, p.frame).setOrigin(0.5, 1)
           : this.add.image(p.x, p.y, p.texture).setOrigin(0.5, 1);
     }
-    img.setDepth(p.y);
-    const coll =
+    if (p.displayScale !== undefined && p.displayScale > 0) {
+      img.setScale(p.displayScale);
+    }
+    if (p.flipX === true) img.setFlipX(true);
+    img.setDepth(p.y + (p.depthBias ?? 0));
+    let coll =
       p.textureCrop && p.collider
-        ? p.collider
+        ? { ...p.collider }
         : getEffectivePropCollider(this, p.texture, p.frame, p.collider);
+    if (
+      coll &&
+      TREE_TEXTURE_KEY_SET.has(p.texture) &&
+      coll.fit !== "frame" &&
+      typeof p.displayScale === "number" &&
+      p.displayScale > 0 &&
+      Math.abs(p.displayScale - 1) > 1e-4
+    ) {
+      const sc = p.displayScale;
+      const baseOy = coll.oy ?? coll.h / 2;
+      coll = {
+        w: Math.max(6, coll.w * sc),
+        h: Math.max(4, coll.h * sc),
+        oy: baseOy * sc,
+      };
+    }
     const out: Phaser.GameObjects.GameObject[] = [img];
     if (coll) {
       const oy = coll.oy ?? coll.h / 2;
@@ -536,12 +565,30 @@ export class MainScene extends Phaser.Scene {
     );
   }
 
-  /** Выходы: для города — из TMJ, иначе из `GameLocation`. */
+  /** Выходы: для города — из TMJ + синтетический выход «туман». */
+  private buildVillageFogExit(): LocationExit {
+    const lifted = useGameStore.getState().villageFogLifted;
+    return {
+      id: VILLAGE_FOG_EXIT_ID,
+      x: 4,
+      y: 300,
+      w: 76,
+      h: 220,
+      targetLocationId: "beyond",
+      targetSpawnId: "from_village_gate",
+      label: lifted ? "Покинуть деревню" : "Мгловая преграда",
+    };
+  }
+
   private getActiveExits(loc: GameLocation): LocationExit[] {
-    if (loc.id === "town" && this.townTmjExits?.length) {
-      return this.townTmjExits;
+    const base =
+      loc.id === "town" && this.townTmjExits?.length
+        ? [...this.townTmjExits]
+        : [...loc.exits];
+    if (loc.id === "town") {
+      base.push(this.buildVillageFogExit());
     }
-    return loc.exits;
+    return base;
   }
 
   /** Пульсирующая подсветка прямоугольников `exits` (выход из данжа / вход / прочие). */
@@ -1082,6 +1129,9 @@ export class MainScene extends Phaser.Scene {
       const floor = clampDungeonFloor(stBoss.dungeonCurrentFloor);
       const bossSpawn = getDungeonBossSpawnForFloor(floor);
       const bossLevel = getBossLevel(floor, playerLv);
+      const finalFloor = floor === DUNGEON_MAX_FLOOR;
+      const hpMult = DUNGEON_BOSS_HP_MULT * (finalFloor ? 1.45 : 1);
+      const atkMult = DUNGEON_BOSS_ATK_MULT * (finalFloor ? 1.22 : 1);
       this.spawnEnemyFromSpawnDef(
         {
           id: bossId,
@@ -1094,7 +1144,7 @@ export class MainScene extends Phaser.Scene {
           aggroRadius: 280,
           leashRadius: 560,
         },
-        { hpMult: DUNGEON_BOSS_HP_MULT, atkMult: DUNGEON_BOSS_ATK_MULT }
+        { hpMult, atkMult }
       );
       if (notBefore !== undefined && now >= notBefore) {
         useGameStore.getState().clearEnemyRespawnAfterSpawn(bossId);
@@ -1292,7 +1342,8 @@ export class MainScene extends Phaser.Scene {
     if (
       (W !== lw || H !== lh) &&
       this.locationDef.id !== "dungeon" &&
-      this.locationDef.id !== "forest"
+      this.locationDef.id !== "forest" &&
+      this.locationDef.id !== "beyond"
     ) {
       console.warn(
         "[MainScene] manifest.world не совпадает с локацией:",
@@ -1427,11 +1478,15 @@ export class MainScene extends Phaser.Scene {
         this.player.setVelocity(0, 0);
       }
       if (this.input.keyboard) this.input.keyboard.enabled = false;
+      /* ESC не в PHASER_KEYBOARD_CAPTURE_KEYS: иначе в element fullscreen браузер
+       * выходит из полноэкранного режима раньше, чем React успевает закрыть модалку. */
+      this.input.keyboard?.addCapture("ESC");
     };
 
     const onModalClose = () => {
       if (!this.sys?.isActive()) return;
       this.modalBlocked = false;
+      this.input.keyboard?.removeCapture("ESC");
       if (this.input.keyboard && !this.dialogueOpen) {
         this.input.keyboard.enabled = true;
       }
@@ -2008,10 +2063,14 @@ export class MainScene extends Phaser.Scene {
         ) {
           const F = useGameStore.getState().dungeonCurrentFloor;
           if (useGameStore.getState().registerDungeonBossCleared(F)) {
+            const clearedMax =
+              F === DUNGEON_MAX_FLOOR
+                ? "Страж последнего этажа пал! Магический туман на западной дороге рассеивается…"
+                : `Этаж ${F} зачищен! Доступен следующий этаж.`;
             window.dispatchEvent(
               new CustomEvent("nagibatop-toast", {
                 detail: {
-                  message: `Этаж ${F} зачищен! Доступен следующий этаж.`,
+                  message: clearedMax,
                 },
               })
             );
@@ -2497,6 +2556,12 @@ export class MainScene extends Phaser.Scene {
       hintMsg = "[ E ] Рыбалка";
       hintX = 1060;
       hintY = 660;
+    } else if (nearExit?.id === VILLAGE_FOG_EXIT_ID) {
+      hintMsg = useGameStore.getState().villageFogLifted
+        ? "[ E ] Покинуть деревню"
+        : "[ E ] Осмотреть туман";
+      hintX = px;
+      hintY = py - 36;
     } else if (nearExit) {
       hintMsg = `[ E ] ${nearExit.label ?? "Перейти"}`;
       hintX = px;
@@ -2677,6 +2742,21 @@ export class MainScene extends Phaser.Scene {
     }
 
     if (nearExit) {
+      if (nearExit.id === VILLAGE_FOG_EXIT_ID) {
+        if (!useGameStore.getState().villageFogLifted) {
+          window.dispatchEvent(
+            new CustomEvent("nagibatop-toast", {
+              detail: {
+                message:
+                  "Плотный туман не пускает. Победите хранителя на последнем этаже катакомб — и дорога откроется.",
+              },
+            })
+          );
+          return;
+        }
+        this.gotoLocation("beyond", nearExit.targetSpawnId);
+        return;
+      }
       const openDungeonFloorPicker =
         nearExit.targetLocationId === "dungeon" &&
         (this.currentLocationId === "town" ||

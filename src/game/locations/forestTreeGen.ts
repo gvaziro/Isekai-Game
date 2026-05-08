@@ -1,6 +1,7 @@
 import { forestTreePatchDensity01 } from "@/src/game/locations/forestChunkGen";
 import type { GameLocation, LayoutImageProp } from "@/src/game/locations/types";
 import { TREE_TEXTURE_KEYS } from "@/src/game/locations/forestChunkGen";
+import { SpatialMinDistIndex } from "@/src/game/locations/spatialMinDistIndex";
 import {
   mulberry32,
   pointInExitZone,
@@ -33,12 +34,6 @@ function dist(ax: number, ay: number, bx: number, by: number): number {
   return Math.sqrt(dx * dx + dy * dy);
 }
 
-function distSq(ax: number, ay: number, bx: number, by: number): number {
-  const dx = ax - bx;
-  const dy = ay - by;
-  return dx * dx + dy * dy;
-}
-
 export function forestTreeLayoutSeed(loc: GameLocation): number {
   return (loc.grassDecorSeed ^ SEED_MIX) >>> 0;
 }
@@ -64,6 +59,7 @@ export function generateForestTreeProps(
   const { world, pathSegments, imageProps, animStations, exits, spawns } = loc;
   const enemySpawns = loc.enemySpawns ?? [];
 
+  const spatial = new SpatialMinDistIndex(56);
   const out: LayoutImageProp[] = [];
   let attempts = 0;
 
@@ -102,7 +98,7 @@ export function generateForestTreeProps(
       Math.min(86, minDistance * (0.58 + 0.52 * density))
     );
     const localMinSq = localMin * localMin;
-    if (out.some((t) => distSq(t.x, t.y, x, y) < localMinSq)) {
+    if (spatial.minDistSqToNearest(x, y) < localMinSq) {
       continue;
     }
 
@@ -114,6 +110,7 @@ export function generateForestTreeProps(
       texture,
       collider: { ...TREE_COLLIDER },
     });
+    spatial.add(x, y);
   }
 
   return out;

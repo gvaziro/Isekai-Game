@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getShopByNpc } from "@/src/game/data/shops";
 import DialogueOverlay, {
   type DialogueScriptedOpener,
@@ -10,11 +10,13 @@ import ChestStorageOverlay from "@/src/game/ui/ChestStorageOverlay";
 import CraftOverlay from "@/src/game/ui/CraftOverlay";
 import InventoryOverlay from "@/src/game/ui/InventoryOverlay";
 import QuestJournalOverlay from "@/src/game/ui/QuestJournalOverlay";
+import LoreJournalOverlay from "@/src/game/ui/LoreJournalOverlay";
 import AchievementsTreeOverlay from "@/src/game/ui/AchievementsTreeOverlay";
 import QuestToast from "@/src/game/ui/QuestToast";
 import SettingsOverlay from "@/src/game/ui/SettingsOverlay";
 import ShopOverlay from "@/src/game/ui/ShopOverlay";
 import IsekaiOriginOverlay from "@/src/game/ui/IsekaiOriginOverlay";
+import OpeningCutsceneOverlay from "@/src/game/ui/OpeningCutsceneOverlay";
 import DungeonFloorPickerOverlay from "@/src/game/ui/DungeonFloorPickerOverlay";
 import SleepOverlay from "@/src/game/ui/SleepOverlay";
 import DungeonMapOverlay from "@/src/game/ui/DungeonMapOverlay";
@@ -42,16 +44,23 @@ import {
   useQuestStore,
   waitForQuestStoreHydration,
 } from "@/src/game/state/questStore";
+import { waitForLoreJournalHydration } from "@/src/game/state/loreJournalStore";
+import { mountLoreJournalEventBridge } from "@/src/game/systems/loreJournalEngine";
 import { subscribeAssetSliceOverridesSaved } from "@/src/game/load/assetSliceOverridesRuntime";
 import { hotbarItemIsImmediatelyUsable } from "@/src/game/data/itemRegistry";
+import { OPENING_CUTSCENE_SCRIPT_VERSION } from "@/src/game/data/openingCutscene";
 import { PaperButton } from "@/src/game/ui/paper/PaperButton";
-
+import {
+  computeGameRootModalLike,
+  gameRootBlocksWorldMenuHotkeys,
+  type GameRootModalLikeInput,
+} from "@/src/game/ui/gameRootModalLock";
 /** Можно ли открыть отдых (только город / лес — планирование сна и сдвиг времени суток). */
 function canAttemptSleepChannel():
   | { ok: true }
   | { ok: false; reason: "wrong_location" } {
   const st = useGameStore.getState();
-  if (st.currentLocationId !== "town" && st.currentLocationId !== "forest") {
+  if (st.currentLocationId !== "town" && st.currentLocationId !== "forest" && st.currentLocationId !== "beyond") {
     return { ok: false, reason: "wrong_location" };
   }
   return { ok: true };
@@ -120,6 +129,7 @@ export default function GameRoot() {
     label: string;
   } | null>(null);
   const [journalOpen, setJournalOpen] = useState(false);
+  const [loreJournalOpen, setLoreJournalOpen] = useState(false);
   const [achievementsOpen, setAchievementsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -132,6 +142,7 @@ export default function GameRoot() {
   >([]);
   const craftToastSeq = useRef(0);
   const [isekaiOpen, setIsekaiOpen] = useState(false);
+  const [openingCutsceneOpen, setOpeningCutsceneOpen] = useState(false);
   const [dungeonPicker, setDungeonPicker] = useState<{
     open: boolean;
     spawnId: string;
@@ -143,35 +154,71 @@ export default function GameRoot() {
   const unspentStatPoints = useGameStore(
     (s) => s.character.unspentStatPoints
   );
+  const openingCutsceneScriptVersion = useGameStore(
+    (s) => s.openingCutsceneScriptVersion
+  );
+  const markOpeningCutsceneScriptCurrent = useGameStore(
+    (s) => s.markOpeningCutsceneScriptCurrent
+  );
   const levelStatAllocOpen =
-    !preview && gameStoreHydrated && unspentStatPoints > 0;
+    !preview &&
+    gameStoreHydrated &&
+    unspentStatPoints > 0 &&
+    !openingCutsceneOpen;
 
   const deathModalOpen = !preview && deathModalMessage !== null;
 
-  const modalLike =
-    inventoryOpen ||
-    chestOpen !== null ||
-    craftOpen !== null ||
-    journalOpen ||
-    achievementsOpen ||
-    settingsOpen ||
-    npcInteract !== null ||
-    shopOpen !== null ||
-    isekaiOpen ||
-    dungeonPicker.open ||
-    levelStatAllocOpen ||
-    sleepOpen ||
-    dungeonMapOpen ||
-    forestMapOpen ||
-    deathModalOpen;
+  const modalLockInput = useMemo(
+    (): GameRootModalLikeInput => ({
+      inventoryOpen,
+      chestOpen: chestOpen !== null,
+      craftOpen: craftOpen !== null,
+      journalOpen,
+      loreJournalOpen,
+      achievementsOpen,
+      settingsOpen,
+      npcInteract: npcInteract !== null,
+      shopOpen: shopOpen !== null,
+      isekaiOpen,
+      openingCutsceneOpen,
+      dungeonPickerOpen: dungeonPicker.open,
+      levelStatAllocOpen,
+      sleepOpen,
+      dungeonMapOpen,
+      forestMapOpen,
+      deathModalOpen,
+    }),
+    [
+      inventoryOpen,
+      chestOpen,
+      craftOpen,
+      journalOpen,
+      loreJournalOpen,
+      achievementsOpen,
+      settingsOpen,
+      npcInteract,
+      shopOpen,
+      isekaiOpen,
+      openingCutsceneOpen,
+      dungeonPicker.open,
+      levelStatAllocOpen,
+      sleepOpen,
+      dungeonMapOpen,
+      forestMapOpen,
+      deathModalOpen,
+    ]
+  );
+
+  const modalLike = computeGameRootModalLike(modalLockInput);
+  const anyModalBlocking = modalLike || dialogue !== null;
 
   useEffect(() => {
-    if (modalLike) {
+    if (anyModalBlocking) {
       window.dispatchEvent(new CustomEvent("nagibatop-modal-open"));
     } else {
       window.dispatchEvent(new CustomEvent("nagibatop-modal-close"));
     }
-  }, [modalLike]);
+  }, [anyModalBlocking]);
 
   useEffect(() => {
     const onToast = (e: Event) => {
@@ -249,6 +296,7 @@ export default function GameRoot() {
       const chestY =
         typeof d.chestY === "number" && Number.isFinite(d.chestY) ? d.chestY : 0;
       setJournalOpen(false);
+      setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
       setInventoryOpen(false);
@@ -270,6 +318,7 @@ export default function GameRoot() {
           ? d.label.trim()
           : "Крафт";
       setJournalOpen(false);
+      setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
       setInventoryOpen(false);
@@ -313,6 +362,7 @@ export default function GameRoot() {
 
   const toggleInventory = useCallback(() => {
     setJournalOpen(false);
+    setLoreJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen(false);
     setInventoryOpen((v) => !v);
@@ -320,14 +370,24 @@ export default function GameRoot() {
 
   const toggleJournal = useCallback(() => {
     setInventoryOpen(false);
+    setLoreJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen(false);
     setJournalOpen((v) => !v);
   }, []);
 
+  const toggleLoreJournal = useCallback(() => {
+    setInventoryOpen(false);
+    setJournalOpen(false);
+    setAchievementsOpen(false);
+    setSettingsOpen(false);
+    setLoreJournalOpen((v) => !v);
+  }, []);
+
   const toggleAchievements = useCallback(() => {
     setInventoryOpen(false);
     setJournalOpen(false);
+    setLoreJournalOpen(false);
     setSettingsOpen(false);
     setAchievementsOpen((v) => !v);
   }, []);
@@ -335,6 +395,7 @@ export default function GameRoot() {
   const toggleSettings = useCallback(() => {
     setInventoryOpen(false);
     setJournalOpen(false);
+    setLoreJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen((v) => !v);
   }, []);
@@ -420,21 +481,7 @@ export default function GameRoot() {
         return;
       }
       if (dungeonMapOpen || forestMapOpen) return;
-      if (
-        dialogue ||
-        npcInteract ||
-        shopOpen ||
-        isekaiOpen ||
-        dungeonPicker.open ||
-        levelStatAllocOpen ||
-        inventoryOpen ||
-        chestOpen !== null ||
-        craftOpen !== null ||
-        journalOpen ||
-        achievementsOpen ||
-        settingsOpen ||
-        sleepOpen
-      )
+      if (gameRootBlocksWorldMenuHotkeys(modalLockInput, dialogue !== null))
         return;
       if (e.code === "KeyI") {
         e.preventDefault();
@@ -443,6 +490,10 @@ export default function GameRoot() {
       if (e.code === "KeyJ") {
         e.preventDefault();
         toggleJournal();
+      }
+      if (e.code === "KeyK") {
+        e.preventDefault();
+        toggleLoreJournal();
       }
       if (e.code === "KeyH") {
         e.preventDefault();
@@ -461,7 +512,7 @@ export default function GameRoot() {
               detail: {
                 message:
                   r.reason === "wrong_location"
-                    ? "Отдохнуть можно только в городе или в лесу."
+                    ? "Отдохнуть можно в деревне, в лесу или на дороге за деревней."
                     : "Нельзя открыть отдых.",
               },
             })
@@ -498,20 +549,10 @@ export default function GameRoot() {
     dungeonMapOpen,
     forestMapOpen,
     dialogue,
-    npcInteract,
-    shopOpen,
-    isekaiOpen,
-    dungeonPicker.open,
-    levelStatAllocOpen,
-    inventoryOpen,
-    chestOpen,
-    craftOpen,
-    journalOpen,
-    achievementsOpen,
-    settingsOpen,
-    sleepOpen,
+    modalLockInput,
     toggleInventory,
     toggleJournal,
+    toggleLoreJournal,
     toggleAchievements,
     toggleSettings,
   ]);
@@ -552,6 +593,23 @@ export default function GameRoot() {
 
   useEffect(() => {
     if (preview) return;
+    let cancelled = false;
+    let unmount: (() => void) | undefined;
+    void waitForLoreJournalHydration()
+      .then(() => {
+        if (!cancelled) unmount = mountLoreJournalEventBridge();
+      })
+      .catch((e) => {
+        console.warn("[GameRoot] lore journal hydration", e);
+      });
+    return () => {
+      cancelled = true;
+      unmount?.();
+    };
+  }, [preview]);
+
+  useEffect(() => {
+    if (preview) return;
     setAchievementQuestCompletedCountSource(() =>
       useQuestStore.getState().completedQuestIds.length
     );
@@ -581,6 +639,24 @@ export default function GameRoot() {
       cancelled = true;
     };
   }, [preview]);
+
+  const handleOpeningCutsceneDone = useCallback(() => {
+    markOpeningCutsceneScriptCurrent();
+    setOpeningCutsceneOpen(false);
+    useQuestStore.getState().ingestEvent({ type: "reevaluate" });
+  }, [markOpeningCutsceneScriptCurrent]);
+
+  useEffect(() => {
+    if (preview || !gameStoreHydrated) return;
+    if (openingCutsceneScriptVersion >= OPENING_CUTSCENE_SCRIPT_VERSION) return;
+    if (isekaiOpen) return;
+    setOpeningCutsceneOpen(true);
+  }, [
+    preview,
+    gameStoreHydrated,
+    isekaiOpen,
+    openingCutsceneScriptVersion,
+  ]);
 
   useEffect(() => {
     if (preview) return;
@@ -679,8 +755,16 @@ export default function GameRoot() {
       }>;
       const { npcId, displayName, scriptedOpeners } = ce.detail ?? {};
       if (!npcId) return;
+
+      const gs = useGameStore.getState();
+      if (gs.isekaiOrigin.completed === false) return;
+      if (gs.openingCutsceneScriptVersion < OPENING_CUTSCENE_SCRIPT_VERSION) {
+        return;
+      }
+
       setInventoryOpen(false);
       setJournalOpen(false);
+      setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
       setShopOpen(null);
@@ -857,6 +941,14 @@ export default function GameRoot() {
           </button>
           <button
             type="button"
+            onClick={toggleLoreJournal}
+            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
+          >
+            Дневник знаний
+            <span className="ml-2 font-mono text-[10px] text-zinc-500">K</span>
+          </button>
+          <button
+            type="button"
             onClick={toggleAchievements}
             className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
           >
@@ -1009,6 +1101,10 @@ export default function GameRoot() {
           open={!preview && journalOpen}
           onClose={() => setJournalOpen(false)}
         />
+        <LoreJournalOverlay
+          open={!preview && loreJournalOpen}
+          onClose={() => setLoreJournalOpen(false)}
+        />
         <AchievementsTreeOverlay
           open={!preview && achievementsOpen}
           onClose={() => setAchievementsOpen(false)}
@@ -1117,6 +1213,12 @@ export default function GameRoot() {
       ) : null}
       {!preview && isekaiOpen ? (
         <IsekaiOriginOverlay onComplete={() => setIsekaiOpen(false)} />
+      ) : null}
+      {!preview && openingCutsceneOpen ? (
+        <OpeningCutsceneOverlay
+          open
+          onComplete={handleOpeningCutsceneDone}
+        />
       ) : null}
       {!preview && levelStatAllocOpen ? <LevelStatOverlay /> : null}
       {!preview && dungeonPicker.open ? (

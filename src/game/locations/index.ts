@@ -10,6 +10,7 @@ import { FOREST_GRASS_DECOR, FOREST_LOCATION } from "@/src/game/locations/forest
 import { getForestInfiniteTemplateLocation } from "@/src/game/locations/forestInfinite";
 import { loadStoredEditorDraftLocation } from "@/src/game/mapEditor/mapEditorDraftStorage";
 import { GRASS_DECOR, TOWN_LOCATION } from "@/src/game/locations/town";
+import { BEYOND_LOCATION } from "@/src/game/locations/beyond";
 
 export type { GameLocation, LocationExit, LocationId } from "@/src/game/locations/types";
 export {
@@ -53,6 +54,7 @@ const REGISTRY: Record<LocationId, GameLocation> = {
   town: TOWN_LOCATION,
   forest: FOREST_LOCATION,
   dungeon: getDungeonLocationForFloor(1),
+  beyond: BEYOND_LOCATION,
 };
 
 /**
@@ -64,6 +66,9 @@ const REGISTRY: Record<LocationId, GameLocation> = {
 export function getLocation(id: LocationId): GameLocation {
   if (id === "dungeon") {
     return getDungeonLocationForFloor(getRuntimeDungeonFloor());
+  }
+  if (id === "beyond") {
+    return BEYOND_LOCATION;
   }
   if (id === "forest") {
     return getForestInfiniteTemplateLocation();
@@ -84,7 +89,7 @@ export function getLocation(id: LocationId): GameLocation {
 }
 
 export function isLocationId(x: string): x is LocationId {
-  return x === "town" || x === "forest" || x === "dungeon";
+  return x === "town" || x === "forest" || x === "dungeon" || x === "beyond";
 }
 
 /**
@@ -96,7 +101,7 @@ export function getGrassDecor(id: LocationId): GrassDecorDef[] {
   if (loc.grassDecorItems !== undefined) {
     return loc.grassDecorItems.map((g) => ({ ...g }));
   }
-  if (id === "forest") return [];
+  if (id === "forest" || id === "beyond") return [];
   if (id === "dungeon") {
     const dl = getDungeonLocationForFloor(getRuntimeDungeonFloor());
     return buildGrassDecorList(

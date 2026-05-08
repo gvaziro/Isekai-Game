@@ -9,6 +9,7 @@ type PaperModalChromeProps = {
   children: ReactNode;
   onClose: () => void;
   closeLabel?: string;
+  fitContent?: boolean;
 };
 
 /**
@@ -19,6 +20,7 @@ export function PaperModalChrome({
   children,
   onClose,
   closeLabel = "Закрыть (Esc)",
+  fitContent = false,
 }: PaperModalChromeProps) {
   return (
     <div
@@ -28,6 +30,7 @@ export function PaperModalChrome({
     >
       <PaperPanel
         className="min-h-0 w-full max-w-3xl shrink"
+        fillHeight={!fitContent}
         topRight={
           <PaperButton type="button" variant="close" onClick={onClose}>
             {closeLabel}

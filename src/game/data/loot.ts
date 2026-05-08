@@ -1,4 +1,5 @@
 import { getDungeonBossChestForFloor } from "@/src/game/data/dungeonBoss";
+import { DUNGEON_MAX_FLOOR } from "@/src/game/data/dungeonFloorScaling";
 import { getRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext";
 import type { CuratedItemDef } from "@/src/game/data/items.curated";
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
@@ -97,13 +98,25 @@ function pickFirstValid(ids: CuratedItemDef["id"][]): CuratedItemDef["id"] | nul
 
 /**
  * Гарантированно: 1 экип + 1 расходник (если id есть в атласе/маппинге).
+ * На финальном этаже — дополнительная награда.
  */
-export function rollDungeonBossChestDrops(): { curatedId: string; qty: number }[] {
+export function rollDungeonBossChestDrops(floor?: number): {
+  curatedId: string;
+  qty: number;
+}[] {
   const equip = pickFirstValid(DUNGEON_BOSS_EQUIP_CANDIDATES);
   const potion = pickFirstValid(DUNGEON_BOSS_POTION_CANDIDATES);
   const out: { curatedId: string; qty: number }[] = [];
   if (equip) out.push({ curatedId: equip, qty: 1 });
   if (potion) out.push({ curatedId: potion, qty: 1 });
+  if (
+    typeof floor === "number" &&
+    Number.isFinite(floor) &&
+    Math.floor(floor) === DUNGEON_MAX_FLOOR
+  ) {
+    const gem = pickFirstValid(["gem_red", "ring_gem"] as CuratedItemDef["id"][]);
+    if (gem) out.push({ curatedId: gem, qty: 2 });
+  }
   if (out.length === 0) {
     const fallback = pickFirstValid([
       "hp_small",
@@ -120,6 +133,7 @@ export function rollDungeonBossChestDrops(): { curatedId: string; qty: number }[
 const ENEMY_GOLD: Record<string, { min: number; max: number }> = {
   grunt: { min: 2, max: 14 },
   boss: { min: 35, max: 95 },
+  boss_final: { min: 80, max: 180 },
 };
 
 export function rollEnemyGold(tableId: string): number {
@@ -147,6 +161,15 @@ const ENEMY_TABLES: Record<string, LootEntry[]> = {
     { curatedId: "potion_blue", weight: 2, qty: 1 },
     { curatedId: "iron_ore", weight: 1, qty: 4 },
     { curatedId: "ring_gem", weight: 1, qty: 1 },
+  ],
+  boss_final: [
+    { curatedId: "gem_red", weight: 3, qty: 2 },
+    { curatedId: "ring_gem", weight: 2, qty: 1 },
+    { curatedId: "coin_stack", weight: 2, qty: 3 },
+    { curatedId: "potion_blue", weight: 2, qty: 2 },
+    { curatedId: "hp_medium", weight: 2, qty: 2 },
+    { curatedId: "mace", weight: 1, qty: 1 },
+    { curatedId: "spear_short", weight: 1, qty: 1 },
   ],
 };
 

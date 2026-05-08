@@ -4,8 +4,8 @@ import {
   DUNGEON_SPAWN_MAX_ALIVE,
 } from "@/src/game/data/dungeonSpawnParams";
 
-/** Всего этажей подземелья (включительно). */
-export const DUNGEON_MAX_FLOOR = 100;
+/** Всего этажей подземелья (включительно). Стартовая арка — 10 этажей. */
+export const DUNGEON_MAX_FLOOR = 10;
 
 export function clampDungeonFloor(f: number): number {
   return Math.max(1, Math.min(DUNGEON_MAX_FLOOR, Math.floor(f)));

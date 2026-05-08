@@ -154,7 +154,7 @@ export class ForestChunkManager {
       const spr = scene.add
         .image(d.x, d.y, "grass_decor", d.variant)
         .setOrigin(0.5, 1);
-      spr.setDepth(d.y - 0.15);
+      spr.setDepth(d.y - 0.15 + (d.depthBias ?? 0));
       objs.push(spr);
       this.hooks.pushWorldObject(spr);
     }

@@ -6,8 +6,8 @@ import {
   generateForestChunkPayload,
   getMainTrailSegmentsForChunk,
   mixForestChunkSeed,
+  pointIsInForestMainTrail,
 } from "@/src/game/locations/forestChunkGen";
-import { pointInSegment } from "@/src/game/locations/types";
 
 describe("forestChunkGen", () => {
   it("mixForestChunkSeed is deterministic", () => {
@@ -22,17 +22,18 @@ describe("forestChunkGen", () => {
   });
 
   it("wild chunk south of hub includes main trail path segments", () => {
-    const wild = generateForestChunkPayload(0, 1, 0x12345678);
+    const seed = 0x12345678;
+    const wild = generateForestChunkPayload(0, 1, seed);
     expect(wild.pathSegments.length).toBeGreaterThan(0);
     const seg = wild.pathSegments[0]!;
     expect(seg.w).toBeGreaterThan(0);
     expect(seg.h).toBeGreaterThan(0);
-    expect(getMainTrailSegmentsForChunk(0, 1)).toEqual(wild.pathSegments);
+    expect(getMainTrailSegmentsForChunk(0, 1, seed)).toEqual(wild.pathSegments);
   });
 
-  it("hub chunk has exit-related spacing for trees", () => {
+  it("hub chunk has spacing for trees (кластеры могут быть ближе якорей)", () => {
     const hub = generateForestChunkPayload(0, 0, 0x12345678);
-    const minPairSq = 41 * 41;
+    const minPairSq = 28 * 28;
     const trees = hub.imageProps.filter((p) =>
       p.texture.toLowerCase().startsWith("tree")
     );
@@ -55,26 +56,26 @@ describe("forestChunkGen", () => {
   });
 
   it("hub trees keep clear of main trail (wider margin)", () => {
-    const hub = generateForestChunkPayload(0, 0, 0xabcdef01);
-    const seg = getMainTrailSegmentsForChunk(0, 0)[0]!;
+    const seed = 0xabcdef01;
+    const hub = generateForestChunkPayload(0, 0, seed);
     const trees = hub.imageProps.filter((p) =>
       p.texture.toLowerCase().startsWith("tree")
     );
     expect(trees.length).toBeGreaterThan(0);
     for (const t of trees) {
-      expect(pointInSegment(t.x, t.y, seg, 50)).toBe(false);
+      expect(pointIsInForestMainTrail(t.x, t.y, 50, seed)).toBe(false);
     }
   });
 
   it("wild trees keep clear of trail corridor", () => {
-    const wild = generateForestChunkPayload(0, 1, 0x55aa55aa);
-    const seg = wild.pathSegments[0]!;
+    const seed = 0x55aa55aa;
+    const wild = generateForestChunkPayload(0, 1, seed);
     const trees = wild.imageProps.filter((p) =>
       p.texture.toLowerCase().startsWith("tree")
     );
     expect(trees.length).toBeGreaterThan(0);
     for (const t of trees) {
-      expect(pointInSegment(t.x, t.y, seg, 58)).toBe(false);
+      expect(pointIsInForestMainTrail(t.x, t.y, 58, seed)).toBe(false);
     }
   });
 

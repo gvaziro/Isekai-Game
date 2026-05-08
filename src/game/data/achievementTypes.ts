@@ -22,4 +22,6 @@ export type AchievementDef = {
   title: string;
   description: string;
   condition: AchievementCondition;
+  /** Пока не разблокировано — в списке скрыты название, описание и прогресс. */
+  hidden?: boolean;
 };

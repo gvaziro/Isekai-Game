@@ -5,6 +5,8 @@ export type QuestEvalContext = {
   playerX: number;
   playerY: number;
   inventoryCount: (curatedId: string) => number;
+  /** Макс. полностью зачищенный этаж катакомб (после убийства босса этажа). */
+  dungeonMaxClearedFloor: number;
 };
 
 export type QuestRuntimeEvent =
@@ -63,6 +65,8 @@ function evalObjective(
       }
       return dist(ctx.playerX, ctx.playerY, o.x, o.y) <= o.radius;
     }
+    case "dungeon_cleared_to_floor":
+      return ctx.dungeonMaxClearedFloor >= o.floor;
     default:
       return false;
   }
@@ -90,6 +94,10 @@ export function isCurrentStageComplete(
       return dist(ev.x, ev.y, o.x, o.y) <= o.radius;
     }
     return dist(ctx.playerX, ctx.playerY, o.x, o.y) <= o.radius;
+  }
+
+  if (o.kind === "dungeon_cleared_to_floor") {
+    return ctx.dungeonMaxClearedFloor >= o.floor;
   }
 
   if (!ev || ev.type === "reevaluate") return false;

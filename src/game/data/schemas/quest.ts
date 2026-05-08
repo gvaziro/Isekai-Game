@@ -29,12 +29,18 @@ const objectiveReachPoint = z.object({
   radius: z.number().positive(),
 });
 
+const objectiveDungeonClearedToFloor = z.object({
+  kind: z.literal("dungeon_cleared_to_floor"),
+  floor: z.number().int().positive(),
+});
+
 export const questObjectiveSchema = z.discriminatedUnion("kind", [
   objectiveTalkTo,
   objectiveBringItem,
   objectiveOpenChest,
   objectiveKill,
   objectiveReachPoint,
+  objectiveDungeonClearedToFloor,
 ]);
 
 export const questStageSchema = z.object({

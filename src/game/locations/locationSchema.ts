@@ -43,6 +43,9 @@ const layoutImagePropSchema = z.object({
   x: z.number(),
   y: z.number(),
   texture: z.string(),
+  displayScale: z.number().positive().optional(),
+  flipX: z.boolean().optional(),
+  depthBias: z.number().finite().optional(),
   /** Индекс кадра spritesheet (Phaser `image.setFrame`); только для `type: spritesheet` в манифесте. */
   frame: z.number().int().nonnegative().optional(),
   collider: propColliderSchema.optional(),
@@ -73,7 +76,7 @@ const locationExitSchema = z.object({
   y: z.number(),
   w: z.number(),
   h: z.number(),
-  targetLocationId: z.enum(["town", "forest", "dungeon"]),
+  targetLocationId: z.enum(["town", "forest", "dungeon", "beyond"]),
   targetSpawnId: z.string(),
   label: z.string().optional(),
 });
@@ -112,6 +115,7 @@ const grassDecorItemSchema = z.object({
   x: z.number(),
   y: z.number(),
   variant: z.number().int().min(0),
+  depthBias: z.number().finite().optional(),
 });
 
 const enemySpawnSchema = z.object({
@@ -128,7 +132,7 @@ const enemySpawnSchema = z.object({
 });
 
 export const gameLocationJsonSchema = z.object({
-  id: z.enum(["town", "forest", "dungeon"]),
+  id: z.enum(["town", "forest", "dungeon", "beyond"]),
   world: z.object({ width: z.number(), height: z.number() }),
   backgroundFill: hexOrIntSchema,
   groundTextureKey: z.string(),

@@ -65,6 +65,7 @@ import {
 } from "@/src/game/data/dungeonBoss";
 import { getLocation, isLocationId } from "@/src/game/locations";
 import type { LocationId } from "@/src/game/locations/types";
+import { registerForestWorldSeedReader } from "@/src/game/locations/forestTemplateSeed";
 import type { ActiveBuff } from "@/src/game/rpg/derivedStats";
 import {
   buffNumericProduct,
@@ -89,6 +90,8 @@ import {
   clampDungeonFloor,
   DUNGEON_MAX_FLOOR,
 } from "@/src/game/data/dungeonFloorScaling";
+import { OPENING_CUTSCENE_SCRIPT_VERSION } from "@/src/game/data/openingCutscene";
+import { resolvePersistedOpeningScriptVersion } from "@/src/game/data/openingCutsceneVersion";
 import {
   DUNGEON_REVEAL_RADIUS_CELLS,
   revealCellKeysForFloor,
@@ -150,8 +153,8 @@ import {
   type WorldClock,
 } from "@/src/game/time/dayNight";
 
-/** Версия сейва (увеличивать при изменении persist-полей). 30: трупы с лутом после смерти. */
-export const SAVE_VERSION = 30;
+/** Версия сейва (увеличивать при изменении persist-полей). 33: openingCutsceneScriptVersion. */
+export const SAVE_VERSION = 33;
 
 /** Макс. записей срубленных деревьев в сейве (защита от раздувания). */
 export const MAX_CHOPPED_FOREST_TREE_KEYS = 6000;
@@ -656,6 +659,8 @@ export function createFreshPersistedGameState(): GameSaveState {
     worldDay: 1,
     worldTimeMinutes: MORNING_GAME_MINUTES,
     activeTorch: null,
+    villageFogLifted: false,
+    openingCutsceneScriptVersion: 0,
   };
 }
 
@@ -934,6 +939,15 @@ export type GameSaveState = {
    * Не привязан к выбранному слоту хотбара.
    */
   activeTorch: ActiveTorchState | null;
+  /**
+   * Магический туман на дороге из деревни; снимается после зачистки последнего этажа катакомб.
+   */
+  villageFogLifted: boolean;
+  /**
+   * Последняя ревизия текста стартовой кат-сцены, которую игрок полностью прошёл.
+   * `0` — ещё не видел текущую `OPENING_CUTSCENE_SCRIPT_VERSION`.
+   */
+  openingCutsceneScriptVersion: number;
 };
 
 type GameStore = GameSaveState & {
@@ -1098,6 +1112,8 @@ type GameStore = GameSaveState & {
   }) => void;
   /** Перепроверить достижения (в т.ч. после событий квестов). */
   flushAchievements: () => void;
+  /** Отметить текущую ревизию пролога как просмотренную (сохраняется). */
+  markOpeningCutsceneScriptCurrent: () => void;
 };
 
 function clampCharacterToDerived(
@@ -1191,6 +1207,8 @@ export const useGameStore = create<GameStore>()(
       worldDay: 1,
       worldTimeMinutes: MORNING_GAME_MINUTES,
       activeTorch: null,
+      villageFogLifted: false,
+      openingCutsceneScriptVersion: 0,
 
       setHotbarSelectedIndex: (index) =>
         set({
@@ -1531,8 +1549,10 @@ export const useGameStore = create<GameStore>()(
         const st = get();
         if (f !== st.dungeonMaxClearedFloor + 1) return false;
         if (f < 1 || f > DUNGEON_MAX_FLOOR) return false;
+        const liftFog = f === DUNGEON_MAX_FLOOR;
         set((s) => ({
           dungeonMaxClearedFloor: f,
+          villageFogLifted: liftFog ? true : s.villageFogLifted,
           lifetimeStats: {
             ...s.lifetimeStats,
             dungeonBossFirstClears: s.lifetimeStats.dungeonBossFirstClears + 1,
@@ -2701,7 +2721,14 @@ export const useGameStore = create<GameStore>()(
 
         get().ensureChestStorageRow(chestId);
 
-        let drops = rollDungeonBossChestDrops();
+        const floorFromChest = (() => {
+          if (chestId === "chest_dungeon_boss") return 1;
+          const m = /^chest_dungeon_boss_f(\d+)$/.exec(chestId);
+          if (!m) return undefined;
+          return clampDungeonFloor(Number(m[1]));
+        })();
+
+        let drops = rollDungeonBossChestDrops(floorFromChest);
         if (!drops.length) {
           drops = [
             { curatedId: "hp_small", qty: 1 },
@@ -2936,6 +2963,9 @@ export const useGameStore = create<GameStore>()(
       flushAchievements: () => {
         flushAchievementUnlocks();
       },
+
+      markOpeningCutsceneScriptCurrent: () =>
+        set({ openingCutsceneScriptVersion: OPENING_CUTSCENE_SCRIPT_VERSION }),
     };
     },
     {
@@ -2975,6 +3005,8 @@ export const useGameStore = create<GameStore>()(
         worldDay: s.worldDay,
         worldTimeMinutes: s.worldTimeMinutes,
         activeTorch: s.activeTorch,
+        villageFogLifted: s.villageFogLifted,
+        openingCutsceneScriptVersion: s.openingCutsceneScriptVersion,
       }),
       merge: (persisted, current) => {
         type P = Partial<GameSaveState>;
@@ -3037,7 +3069,8 @@ export const useGameStore = create<GameStore>()(
         const currentLocationId: LocationId =
           locIdRaw === "forest" ||
           locIdRaw === "town" ||
-          locIdRaw === "dungeon"
+          locIdRaw === "dungeon" ||
+          locIdRaw === "beyond"
             ? locIdRaw
             : "town";
 
@@ -3211,6 +3244,21 @@ export const useGameStore = create<GameStore>()(
           (p as Partial<GameSaveState>).activeTorch
         );
 
+        const rawFogLifted = (p as Partial<GameSaveState>).villageFogLifted;
+        let villageFogLifted =
+          typeof rawFogLifted === "boolean" ? rawFogLifted : false;
+        if (
+          typeof prevSaveVersion === "number" &&
+          prevSaveVersion < 31 &&
+          dungeonMaxClearedFloor >= DUNGEON_MAX_FLOOR
+        ) {
+          villageFogLifted = true;
+        }
+
+        const openingCutsceneScriptVersion = resolvePersistedOpeningScriptVersion(
+          p as Partial<GameSaveState>
+        );
+
         return {
           ...c,
           saveVersion: SAVE_VERSION,
@@ -3251,6 +3299,8 @@ export const useGameStore = create<GameStore>()(
           worldDay,
           worldTimeMinutes,
           activeTorch,
+          villageFogLifted,
+          openingCutsceneScriptVersion,
           staWindedUntilMs: 0,
           consumableCooldownUntil: {},
         };
@@ -3258,6 +3308,8 @@ export const useGameStore = create<GameStore>()(
     }
   )
 );
+
+registerForestWorldSeedReader(() => useGameStore.getState().forestWorldSeed);
 
 export function waitForGameStoreHydration(): Promise<void> {
   return new Promise((resolve) => {

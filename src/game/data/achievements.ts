@@ -148,6 +148,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     title: "Мародёр",
     description: "Откройте сундуки 75 раз.",
     condition: { kind: "lifetime_gte", key: "chestOpenEvents", value: 75 },
+    hidden: true,
   },
   {
     id: "first_pickup",
@@ -220,6 +221,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     title: "Феникс",
     description: "Переживите десять поражений.",
     condition: { kind: "lifetime_gte", key: "playerDeaths", value: 10 },
+    hidden: true,
   },
   {
     id: "consumables_5",
@@ -287,6 +289,7 @@ export const ACHIEVEMENTS: AchievementDef[] = [
         { kind: "quests_completed_gte", value: 1 },
       ],
     },
+    hidden: true,
   },
 ];
 

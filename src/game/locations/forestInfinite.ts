@@ -6,9 +6,10 @@ import {
   FOREST_CHUNK_W,
   FOREST_HUB_ENEMY_SPAWNS,
   FOREST_HUB_EXITS,
-  FOREST_HUB_PATH,
   FOREST_HUB_SPAWNS,
+  getMainTrailSegmentsForChunk,
 } from "@/src/game/locations/forestChunkGen";
+import { getForestWorldSeedForLocationTemplate } from "@/src/game/locations/forestTemplateSeed";
 
 const baseForest = parseLocationJson(forestJson);
 
@@ -17,10 +18,13 @@ const baseForest = parseLocationJson(forestJson);
  * Не подмешивается черновик редактора — иначе конфликт с чанками.
  */
 export function getForestInfiniteTemplateLocation(): GameLocation {
+  const worldSeed = getForestWorldSeedForLocationTemplate();
   return {
     ...baseForest,
     world: { width: FOREST_CHUNK_W, height: FOREST_CHUNK_H },
-    pathSegments: FOREST_HUB_PATH.map((p) => ({ ...p })),
+    pathSegments: getMainTrailSegmentsForChunk(0, 0, worldSeed).map((p) => ({
+      ...p,
+    })),
     imageProps: [],
     animStations: [],
     exits: FOREST_HUB_EXITS.map((e) => ({ ...e })),

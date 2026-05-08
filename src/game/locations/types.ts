@@ -3,7 +3,7 @@
  * Координаты — «ноги» у нижней кромки спрайтов (origin 0.5, 1).
  */
 
-export type LocationId = "town" | "forest" | "dungeon";
+export type LocationId = "town" | "forest" | "dungeon" | "beyond";
 
 export type PathSegment = { x: number; y: number; w: number; h: number };
 
@@ -33,6 +33,15 @@ export type LayoutImageProp = {
   x: number;
   y: number;
   texture: string;
+  /**
+   * Масштаб спрайта. Для деревьев коллайдер масштабируется вместе с ним в рантайме
+   * (`MainScene.placeChunkLayoutProp`); для прочих пропов — только визуал.
+   */
+  displayScale?: number;
+  /** Отразить спрайт по X (коллайдер симметричный). */
+  flipX?: boolean;
+  /** Сдвиг sort-depth относительно `y` (тонкая перестановка порядка). */
+  depthBias?: number;
   /** Кадр многостраничной текстуры (spritesheet), если задан. */
   frame?: number;
   collider?: PropCollider;
@@ -55,7 +64,13 @@ export type LayoutAnimStation = {
   collider: { x: number; y: number; w: number; h: number };
 };
 
-export type GrassDecorDef = { x: number; y: number; variant: number };
+export type GrassDecorDef = {
+  x: number;
+  y: number;
+  variant: number;
+  /** Сдвиг sort-depth от базового `y` (процедурный лес). */
+  depthBias?: number;
+};
 
 /**
  * Тайл пола 16×16 (origin top-left). Используется для процедурных локаций
