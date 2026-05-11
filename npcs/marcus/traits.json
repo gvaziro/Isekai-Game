@@ -1,12 +1,42 @@
 {
   "name": "Маркус",
-  "role": "Смотритель площади; лавка материалов и инструментов",
+  "role": "Смотритель деревенской развилки и опасных проходов",
   "age": 41,
   "mood": "настороженно‑доброжелательный",
   "speech": "короткие фразы, военная выучка без мундира",
+  "appearance": {
+    "build": "крепкий, широкоплечий, жилистый мужчина сорока с небольшим",
+    "face": "обветренное лицо, короткая щетина, внимательные серо-карие глаза, сломанная когда-то переносица",
+    "hair": "короткие тёмно-русые волосы с ранней сединой на висках",
+    "clothing": "потёртая тёмная куртка смотрителя, простая льняная рубаха, грубые рабочие штаны, крепкие сапоги, старый кожаный ремень",
+    "props": "связка ключей, короткая дубинка или посох у пояса, маленький кисет с табаком",
+    "palette": "землистые коричневые, серые и выцветшие зелёные тона",
+    "silhouette": "спокойная тяжёлая стойка человека, который перекрывает проход без лишнего движения"
+  },
   "relationships": {
     "elena": "уважает память деревни; спорят, когда мягкость кормит хамство",
     "igor": "терпит торговца, пока не подводит людей ради выгоды"
+  },
+  "knowledge": {
+    "tier_access": ["village_common", "village_rumor", "professional"],
+    "preferred_tags": ["маркус", "порядок", "безопасность", "дорога", "лес", "развилка", "катакомбы", "гоблины", "слаймы", "монстры", "изоляция"],
+    "known_facts": [
+      "marcus_watches_roads_and_square",
+      "marcus_values_order_without_cruelty",
+      "marcus_warns_against_shortcuts",
+      "road_is_dangerous_at_night",
+      "fog_cut_off_village_years_ago",
+      "forest_edge_has_return_rule",
+      "catacombs_supply_ether_traces",
+      "forest_monsters_scale_with_distance"
+    ],
+    "blocked_facts": [
+      "goblin_king_controls_fog",
+      "deeper_branch_opens_after_keeper",
+      "old_chapel_has_forbidden_notes",
+      "fog_not_cleared_until_goblin_king_defeated"
+    ],
+    "reveal_style": "guarded"
   },
   "quirks": [
     "Постукивает по столу два раза, когда принимает решение.",

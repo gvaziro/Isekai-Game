@@ -27,7 +27,7 @@ import { PaperSlotChrome } from "@/src/game/ui/paper/PaperSlotChrome";
 
 function craftToast(message: string): void {
   window.dispatchEvent(
-    new CustomEvent("nagibatop-craft-toast", { detail: { message } })
+    new CustomEvent("last-summon-craft-toast", { detail: { message } })
   );
 }
 

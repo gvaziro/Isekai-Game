@@ -151,7 +151,6 @@ export function getMainTrailSegmentsForChunk(
   worldSeed: number
 ): PathSegment[] {
   if (!isForestChunkAllowed(cx, cy)) return [];
-  const ox = cx * FOREST_CHUNK_W;
   const oy = cy * FOREST_CHUNK_H;
   const step = 40;
   const segs: PathSegment[] = [];
@@ -784,12 +783,21 @@ export function generateForestChunkPayload(
       worldSeed,
       40
     );
-    const forestForage = generateForestMushroomsNearTrees(
+    const forestForageMushrooms = generateForestMushroomsNearTrees(
       trees,
       worldSeed,
       cx,
       cy
     );
+    /** Фиксированная записка у стандартного спавна хаба (см. FOREST_HUB_SPAWNS.default). */
+    const hubSpawnNote: ForestForagePickup = {
+      id: "forest_hub_spawn_note_v1",
+      x: FOREST_HUB_SPAWNS.default.x,
+      y: FOREST_HUB_SPAWNS.default.y + 22,
+      curatedId: "item629",
+      qty: 1,
+    };
+    const forestForage = [hubSpawnNote, ...forestForageMushrooms];
     return { imageProps, grassDecor, pathSegments, forestForage };
   }
 

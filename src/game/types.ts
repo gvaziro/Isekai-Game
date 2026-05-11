@@ -5,9 +5,26 @@ export type NpcRoute = {
   waypoints: { x: number; y: number }[];
 };
 
-export type NpcDialogueOpener = {
+export type NpcDialogueScriptChoice = {
   label: string;
-  prompt: string;
+  playerText?: string;
+  nextStepId?: string;
+  unlockLoreFactIds?: string[];
+  complete?: boolean;
+};
+
+export type NpcDialogueScriptStep = {
+  id: string;
+  npcText: string;
+  choices: NpcDialogueScriptChoice[];
+};
+
+export type NpcDialogueScene = {
+  id: string;
+  questId: string;
+  stageId: string;
+  version: number;
+  steps: NpcDialogueScriptStep[];
 };
 
 export type NpcPublic = {
@@ -17,8 +34,8 @@ export type NpcPublic = {
   displayName?: string;
   /** Из `npcs/<id>/barks.json` — случайные реплики при приближении. */
   barks?: string[];
-  /** Из `npcs/<id>/dialogue_scripts.json` — кнопки быстрого старта в диалоге. */
-  dialogueScripts?: { openers: NpcDialogueOpener[] };
+  /** Из `npcs/<id>/dialogue_scripts.json` — квестовые scripted-сцены. */
+  dialogueScripts?: { scenes: NpcDialogueScene[] };
 };
 
 export type AssetManifestLoadImage = {
@@ -53,6 +70,10 @@ export type AssetManifestAnimEntry = {
 export type AssetManifestUnitEntry = {
   idleAnim: string;
   runAnim: string;
+  /** Анимация ходьбы на север (опционально; если нет — используется runAnim). */
+  walkNAnim?: string;
+  /** Анимация ходьбы на восток/запад (опционально; если нет — используется runAnim). */
+  walkEAnim?: string;
 };
 
 /**
@@ -132,7 +153,7 @@ export type AssetManifest = {
   load: AssetManifestLoadEntry[];
   animations: AssetManifestAnimEntry[];
   hero: PixelCrawlerHeroManifest;
-  /** Только NPC (elena/marcus/igor) — спрайты Knight/Rogue/Wizzard. */
+  /** Только NPC (elena/marcus/igor) — кастомные спрайты из `public/assets/characters/<id>/`. */
   units: Record<string, AssetManifestUnitEntry>;
   /** Враги — Orc Crew / Skeleton Crew (`mobAnimSheets.json` + gen-assets). */
   mobs: Record<string, MobUnitManifest>;

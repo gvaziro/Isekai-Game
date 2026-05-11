@@ -406,7 +406,7 @@ export function generateCatacombsForFloor(floor: number): GameLocationJson {
   }));
 
   const isFinalBossFloor = F === DUNGEON_MAX_FLOOR;
-  const bossMobVisualId = isFinalBossFloor ? "skeleton_mage" : "orc_shaman";
+  const bossMobVisualId = "orc_shaman";
   const bossLootTable = isFinalBossFloor ? "boss_final" : "boss";
 
   registerDungeonLayoutForFloor(F, {

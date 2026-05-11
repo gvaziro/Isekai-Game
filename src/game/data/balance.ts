@@ -499,10 +499,17 @@ export const CHOP_ROCK_CHANNEL_MS = CHOP_TREE_CHANNEL_MS;
 export const CHOP_ROCK_STRIKE_COUNT = CHOP_TREE_STRIKE_COUNT;
 export const CHOP_ROCK_STRIKE_SPACING_MS = CHOP_TREE_STRIKE_SPACING_MS;
 /**
- * После рубки на месте показывается спрайт «пня» (chopped), затем дерево
- * полностью убирается из мира.
+ * После рубки на месте показывается спрайт «пня» (chopped); затем участок пустует и после
+ * `FOREST_TREE_REGROW_MS` дерево снова появляется в чанке.
  */
 export const FOREST_TREE_STUMP_VISIBLE_MS = 28_000;
+/**
+ * После исчезновения пня участок пустует, затем дерево снова генерируется в чанке.
+ * Реальное время (мс), относительно момента истечения пня.
+ */
+export const FOREST_TREE_REGROW_MS = 7 * 60 * 1000;
+/** То же для добытых валунов — медленнее, чем деревья. */
+export const FOREST_ROCK_REGROW_MS = 22 * 60 * 1000;
 /** id курируемого предмета «Древесина». */
 export const WOOD_MATERIAL_CURATED_ID = "item588";
 export const WOOD_DROP_MIN = 1;

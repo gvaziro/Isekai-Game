@@ -17,6 +17,7 @@ const allClosed = (): GameRootModalLikeInput => ({
   craftOpen: false,
   journalOpen: false,
   loreJournalOpen: false,
+  readableBookOpen: false,
   achievementsOpen: false,
   settingsOpen: false,
   npcInteract: false,
@@ -29,6 +30,9 @@ const allClosed = (): GameRootModalLikeInput => ({
   dungeonMapOpen: false,
   forestMapOpen: false,
   deathModalOpen: false,
+  worldQuickMenuOpen: false,
+  loadGameOverlayOpen: false,
+  saveGameOverlayOpen: false,
 });
 
 describe("opening cutscene persist", () => {
@@ -85,6 +89,24 @@ describe("gameRoot modal lock", () => {
   it("computeGameRootModalLike: дневник знаний открыт → true", () => {
     expect(
       computeGameRootModalLike({ ...allClosed(), loreJournalOpen: true })
+    ).toBe(true);
+  });
+
+  it("computeGameRootModalLike: меню «?» открыто → true", () => {
+    expect(
+      computeGameRootModalLike({ ...allClosed(), worldQuickMenuOpen: true })
+    ).toBe(true);
+  });
+
+  it("computeGameRootModalLike: окно загрузки открыто → true", () => {
+    expect(
+      computeGameRootModalLike({ ...allClosed(), loadGameOverlayOpen: true })
+    ).toBe(true);
+  });
+
+  it("computeGameRootModalLike: окно сохранения в слот открыто → true", () => {
+    expect(
+      computeGameRootModalLike({ ...allClosed(), saveGameOverlayOpen: true })
     ).toBe(true);
   });
 

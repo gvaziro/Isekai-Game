@@ -11,6 +11,7 @@ import {
 } from "@/src/game/data/balance";
 import {
   createFreshPersistedGameState,
+  defaultPlayerPoseAt,
   useGameStore,
 } from "@/src/game/state/gameStore";
 
@@ -37,7 +38,7 @@ describe("respawnAfterDeath", () => {
     useGameStore.setState({
       ...base,
       currentLocationId: "town",
-      player: { x: 100, y: 200 },
+      player: defaultPlayerPoseAt(100, 200),
       character: {
         ...base.character,
         level: 5,
@@ -67,7 +68,7 @@ describe("respawnAfterDeath", () => {
     useGameStore.setState({
       ...base,
       currentLocationId: "forest",
-      player: { x: 400, y: 300 },
+      player: defaultPlayerPoseAt(400, 300),
       character: {
         ...base.character,
         level: 3,

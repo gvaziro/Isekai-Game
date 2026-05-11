@@ -3,7 +3,7 @@
  * Требует: npm i -D playwright && npx playwright install chromium
  *
  * Next.js 16 не позволяет второй `next dev` в том же каталоге — перед запуском закройте другой дев-сервер этого проекта,
- * либо задайте URL уже работающего приложения: NAGIBATOP_PREVIEW_URL=http://127.0.0.1:3000
+ * либо задайте URL уже работающего приложения: LAST_SUMMON_PREVIEW_URL=http://127.0.0.1:3000
  */
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -47,7 +47,7 @@ async function waitForGame(baseUrl, timeoutMs = 120000) {
 
 async function main() {
   const preset =
-    process.env.NAGIBATOP_PREVIEW_URL?.trim() ||
+    process.env.LAST_SUMMON_PREVIEW_URL?.trim() ||
     process.env.PREVIEW_BASE_URL?.trim();
 
   let baseUrl = preset ?? null;
@@ -86,7 +86,7 @@ async function main() {
       timeout: 120000,
     });
 
-    await page.waitForFunction(() => window.__NAGIBATOP_READY__ === true, null, {
+    await page.waitForFunction(() => window.__LAST_SUMMON_READY__ === true, null, {
       timeout: 120000,
     });
 

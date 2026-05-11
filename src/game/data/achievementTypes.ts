@@ -2,7 +2,7 @@ import type { LifetimeStats } from "@/src/game/data/lifetimeStats";
 
 export type LifetimeStatMetricKey = keyof Omit<
   LifetimeStats,
-  "enemiesKilledByMobVisualId"
+  "enemiesKilledByMobVisualId" | "craftedRecipesById"
 >;
 
 export type AchievementCondition =

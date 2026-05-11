@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nagibatop — пиксельная локация",
+  title: "The Last Summon — пиксельная локация",
   description: "Браузерная 2D‑локация с NPC и диалогами через OpenAI",
 };
 

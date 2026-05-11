@@ -847,12 +847,12 @@ export class MapEditScene extends Phaser.Scene {
     if (propHit && tool !== "spawn") {
       const idx = propHit.getData("mapEditorPropIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-prop-select", {
+        new CustomEvent("last-summon-map-editor-prop-select", {
           detail: { index: idx },
         })
       );
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-prop-menu", {
+        new CustomEvent("last-summon-map-editor-prop-menu", {
           detail: { propIndex: idx, clientX, clientY },
         })
       );
@@ -861,12 +861,12 @@ export class MapEditScene extends Phaser.Scene {
     if (spawnHit && (tool === "select" || tool === "spawn")) {
       const key = spawnHit.getData("mapEditorSpawnKey") as string;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-spawn-select", {
+        new CustomEvent("last-summon-map-editor-spawn-select", {
           detail: { key },
         })
       );
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-spawn-menu", {
+        new CustomEvent("last-summon-map-editor-spawn-menu", {
           detail: { spawnKey: key, clientX, clientY },
         })
       );
@@ -878,12 +878,12 @@ export class MapEditScene extends Phaser.Scene {
     ) {
       const index = mobHitRmb.getData("mapEditorMobIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-mob-select", {
+        new CustomEvent("last-summon-map-editor-mob-select", {
           detail: { index },
         })
       );
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-mob-menu", {
+        new CustomEvent("last-summon-map-editor-mob-menu", {
           detail: { mobIndex: index, clientX, clientY },
         })
       );
@@ -982,7 +982,7 @@ export class MapEditScene extends Phaser.Scene {
       if (grassHit) {
         const index = grassHit.getData("mapEditorGrassIndex") as number;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-grass-click", {
+          new CustomEvent("last-summon-map-editor-grass-click", {
             detail: { index, x: wx, y: wy },
           })
         );
@@ -998,7 +998,7 @@ export class MapEditScene extends Phaser.Scene {
       }
       if (this.isWorldXYInBounds(wx, wy)) {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-grass-place", {
+          new CustomEvent("last-summon-map-editor-grass-place", {
             detail: {
               x: wx,
               y: wy,
@@ -1014,7 +1014,7 @@ export class MapEditScene extends Phaser.Scene {
       if (pathHit) {
         const idx = pathHit.getData("mapEditorPathIndex") as number;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-path-click", {
+          new CustomEvent("last-summon-map-editor-path-click", {
             detail: { segmentIndex: idx, x: wx, y: wy },
           })
         );
@@ -1050,7 +1050,7 @@ export class MapEditScene extends Phaser.Scene {
       if (exitHit) {
         const idx = exitHit.getData("mapEditorExitIndex") as number;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-exit-click", {
+          new CustomEvent("last-summon-map-editor-exit-click", {
             detail: { exitIndex: idx, x: wx, y: wy },
           })
         );
@@ -1084,7 +1084,7 @@ export class MapEditScene extends Phaser.Scene {
       if (propHit && tool !== "spawn") {
         const idx = propHit.getData("mapEditorPropIndex") as number;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-prop-select", {
+          new CustomEvent("last-summon-map-editor-prop-select", {
             detail: { index: idx },
           })
         );
@@ -1101,7 +1101,7 @@ export class MapEditScene extends Phaser.Scene {
       if (spawnHit && tool === "spawn") {
         const key = spawnHit.getData("mapEditorSpawnKey") as string;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-spawn-select", {
+          new CustomEvent("last-summon-map-editor-spawn-select", {
             detail: { key },
           })
         );
@@ -1116,7 +1116,7 @@ export class MapEditScene extends Phaser.Scene {
         return;
       }
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-world-click", {
+        new CustomEvent("last-summon-map-editor-world-click", {
           detail: { x: wx, y: wy },
         })
       );
@@ -1131,7 +1131,7 @@ export class MapEditScene extends Phaser.Scene {
       if (npcHit) {
         const npcId = npcHit.getData("mapEditorNpcId") as string;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-npc-select", {
+          new CustomEvent("last-summon-map-editor-npc-select", {
             detail: { npcId },
           })
         );
@@ -1148,7 +1148,7 @@ export class MapEditScene extends Phaser.Scene {
       const paintId = this.bridge.npcPaintId;
       if (paintId && this.isWorldXYInBounds(wx, wy)) {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-npc-place", {
+          new CustomEvent("last-summon-map-editor-npc-place", {
             detail: { npcId: paintId, x: wx, y: wy },
           })
         );
@@ -1160,7 +1160,7 @@ export class MapEditScene extends Phaser.Scene {
       if (mobHit) {
         const index = mobHit.getData("mapEditorMobIndex") as number;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-mob-select", {
+          new CustomEvent("last-summon-map-editor-mob-select", {
             detail: { index },
           })
         );
@@ -1176,7 +1176,7 @@ export class MapEditScene extends Phaser.Scene {
       }
       if (this.isWorldXYInBounds(wx, wy)) {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-map-editor-mob-place", {
+          new CustomEvent("last-summon-map-editor-mob-place", {
             detail: {
               x: wx,
               y: wy,
@@ -1196,7 +1196,7 @@ export class MapEditScene extends Phaser.Scene {
     if (propHit) {
       const idx = propHit.getData("mapEditorPropIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-prop-select", {
+        new CustomEvent("last-summon-map-editor-prop-select", {
           detail: { index: idx },
         })
       );
@@ -1214,7 +1214,7 @@ export class MapEditScene extends Phaser.Scene {
     if (spawnHit) {
       const key = spawnHit.getData("mapEditorSpawnKey") as string;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-spawn-select", {
+        new CustomEvent("last-summon-map-editor-spawn-select", {
           detail: { key },
         })
       );
@@ -1232,7 +1232,7 @@ export class MapEditScene extends Phaser.Scene {
     if (npcHit) {
       const npcId = npcHit.getData("mapEditorNpcId") as string;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-npc-select", {
+        new CustomEvent("last-summon-map-editor-npc-select", {
           detail: { npcId },
         })
       );
@@ -1250,7 +1250,7 @@ export class MapEditScene extends Phaser.Scene {
     if (mobHit) {
       const index = mobHit.getData("mapEditorMobIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-mob-select", {
+        new CustomEvent("last-summon-map-editor-mob-select", {
           detail: { index },
         })
       );
@@ -1268,7 +1268,7 @@ export class MapEditScene extends Phaser.Scene {
     if (exitHit && tool === "select") {
       const idx = exitHit.getData("mapEditorExitIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-exit-click", {
+        new CustomEvent("last-summon-map-editor-exit-click", {
           detail: { exitIndex: idx, x: wx, y: wy },
         })
       );
@@ -1286,7 +1286,7 @@ export class MapEditScene extends Phaser.Scene {
     if (grassHit && tool === "select") {
       const index = grassHit.getData("mapEditorGrassIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-grass-click", {
+        new CustomEvent("last-summon-map-editor-grass-click", {
           detail: { index, x: wx, y: wy },
         })
       );
@@ -1304,7 +1304,7 @@ export class MapEditScene extends Phaser.Scene {
     if (pathHit && tool === "select") {
       const idx = pathHit.getData("mapEditorPathIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-path-click", {
+        new CustomEvent("last-summon-map-editor-path-click", {
           detail: { segmentIndex: idx, x: wx, y: wy },
         })
       );
@@ -1336,7 +1336,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const stationIndex = top.getData("mapEditorAnimIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-anim-click", {
+        new CustomEvent("last-summon-map-editor-anim-click", {
           detail: { stationIndex, x: wx, y: wy },
         })
       );
@@ -1346,7 +1346,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const index = top.getData("mapEditorGrassIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-grass-click", {
+        new CustomEvent("last-summon-map-editor-grass-click", {
           detail: { index, x: wx, y: wy },
         })
       );
@@ -1356,7 +1356,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const exitIndex = top.getData("mapEditorExitIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-exit-click", {
+        new CustomEvent("last-summon-map-editor-exit-click", {
           detail: { exitIndex, x: wx, y: wy },
         })
       );
@@ -1366,7 +1366,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const segmentIndex = top.getData("mapEditorPathIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-path-click", {
+        new CustomEvent("last-summon-map-editor-path-click", {
           detail: { segmentIndex, x: wx, y: wy },
         })
       );
@@ -1374,13 +1374,13 @@ export class MapEditScene extends Phaser.Scene {
     }
     if (kind === "ground") {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-ground-click", {
+        new CustomEvent("last-summon-map-editor-ground-click", {
           detail: { x: wx, y: wy },
         })
       );
       return;
     }
-    window.dispatchEvent(new CustomEvent("nagibatop-map-editor-clear-selection"));
+    window.dispatchEvent(new CustomEvent("last-summon-map-editor-clear-selection"));
   }
 
   private dispatchWorldLayerRmb(
@@ -1395,7 +1395,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const stationIndex = top.getData("mapEditorAnimIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-anim-click", {
+        new CustomEvent("last-summon-map-editor-anim-click", {
           detail: { stationIndex, x: wx, y: wy },
         })
       );
@@ -1405,12 +1405,12 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const index = top.getData("mapEditorGrassIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-grass-click", {
+        new CustomEvent("last-summon-map-editor-grass-click", {
           detail: { index, x: wx, y: wy },
         })
       );
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-grass-menu", {
+        new CustomEvent("last-summon-map-editor-grass-menu", {
           detail: { clientX, clientY },
         })
       );
@@ -1420,7 +1420,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const exitIndex = top.getData("mapEditorExitIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-exit-click", {
+        new CustomEvent("last-summon-map-editor-exit-click", {
           detail: { exitIndex, x: wx, y: wy },
         })
       );
@@ -1430,7 +1430,7 @@ export class MapEditScene extends Phaser.Scene {
       if (!top) return;
       const segmentIndex = top.getData("mapEditorPathIndex") as number;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-path-click", {
+        new CustomEvent("last-summon-map-editor-path-click", {
           detail: { segmentIndex, x: wx, y: wy },
         })
       );
@@ -1438,7 +1438,7 @@ export class MapEditScene extends Phaser.Scene {
     }
     if (kind === "ground") {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-map-editor-ground-click", {
+        new CustomEvent("last-summon-map-editor-ground-click", {
           detail: { x: wx, y: wy },
         })
       );
@@ -1613,7 +1613,7 @@ export class MapEditScene extends Phaser.Scene {
         if (this.drag.kind === "prop") {
           const d = this.drag;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-prop-moved", {
+            new CustomEvent("last-summon-map-editor-prop-moved", {
               detail: {
                 index: d.index,
                 x: d.sprite.x,
@@ -1624,7 +1624,7 @@ export class MapEditScene extends Phaser.Scene {
         } else if (this.drag.kind === "spawn") {
           const d = this.drag;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-spawn-moved", {
+            new CustomEvent("last-summon-map-editor-spawn-moved", {
               detail: {
                 key: d.key,
                 x: d.marker.x,
@@ -1635,7 +1635,7 @@ export class MapEditScene extends Phaser.Scene {
         } else if (this.drag.kind === "npc") {
           const d = this.drag;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-npc-moved", {
+            new CustomEvent("last-summon-map-editor-npc-moved", {
               detail: {
                 npcId: d.npcId,
                 x: d.marker.x,
@@ -1646,7 +1646,7 @@ export class MapEditScene extends Phaser.Scene {
         } else if (this.drag.kind === "mob") {
           const d = this.drag;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-mob-moved", {
+            new CustomEvent("last-summon-map-editor-mob-moved", {
               detail: {
                 index: d.index,
                 x: d.marker.x,
@@ -1657,7 +1657,7 @@ export class MapEditScene extends Phaser.Scene {
         } else if (this.drag.kind === "grass") {
           const d = this.drag;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-grass-moved", {
+            new CustomEvent("last-summon-map-editor-grass-moved", {
               detail: {
                 index: d.index,
                 x: d.sprite.x,
@@ -1670,7 +1670,7 @@ export class MapEditScene extends Phaser.Scene {
           const w = d.hitRect.width;
           const h = d.hitRect.height;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-path-moved", {
+            new CustomEvent("last-summon-map-editor-path-moved", {
               detail: {
                 segmentIndex: d.segmentIndex,
                 x: d.hitRect.x - w / 2,
@@ -1683,7 +1683,7 @@ export class MapEditScene extends Phaser.Scene {
           const w = d.hitRect.width;
           const h = d.hitRect.height;
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-exit-moved", {
+            new CustomEvent("last-summon-map-editor-exit-moved", {
               detail: {
                 exitIndex: d.index,
                 x: d.hitRect.x - w / 2,
@@ -1700,7 +1700,7 @@ export class MapEditScene extends Phaser.Scene {
           d.preview.destroy();
           if (w >= 8 && h >= 8) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-map-editor-path-create", {
+              new CustomEvent("last-summon-map-editor-path-create", {
                 detail: { x, y, w, h },
               })
             );
@@ -1714,7 +1714,7 @@ export class MapEditScene extends Phaser.Scene {
           d.preview.destroy();
           if (w >= 8 && h >= 8) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-map-editor-exit-create", {
+              new CustomEvent("last-summon-map-editor-exit-create", {
                 detail: { x, y, w, h },
               })
             );
@@ -1731,13 +1731,13 @@ export class MapEditScene extends Phaser.Scene {
         const { cx, cy } = this.clientCoords(pointer);
         if (pend.kind === "prop") {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-prop-menu", {
+            new CustomEvent("last-summon-map-editor-prop-menu", {
               detail: { propIndex: pend.index, clientX: cx, clientY: cy },
             })
           );
         } else if (pend.kind === "spawn") {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-map-editor-spawn-menu", {
+            new CustomEvent("last-summon-map-editor-spawn-menu", {
               detail: { spawnKey: pend.key, clientX: cx, clientY: cy },
             })
           );

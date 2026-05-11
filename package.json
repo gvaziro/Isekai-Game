@@ -1,14 +1,26 @@
 {
-  "name": "nagibatop-app",
+  "name": "last-summon-app",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.mjs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "electron:dev": "node scripts/electron-dev.mjs",
+    "electron:preview": "npm run build && node scripts/electron-preview.mjs",
+    "electron:pack": "npm run build && electron-builder --dir",
+    "electron:build": "npm run build && electron-builder --win portable",
     "test": "vitest",
     "test:run": "vitest run",
     "lint": "eslint",
+    "kb:validate": "tsx src/knowledge/cli.ts validate",
+    "kb:index": "tsx src/knowledge/cli.ts index",
+    "kb:embed": "tsx src/knowledge/cli.ts embed",
+    "kb:vector:check": "tsx src/knowledge/cli.ts vector:check",
+    "kb:search": "tsx src/knowledge/cli.ts search",
+    "kb:search:vector": "tsx src/knowledge/cli.ts search:vector",
+    "kb:search:hybrid": "tsx src/knowledge/cli.ts search:hybrid",
     "gen-assets": "node scripts/gen-assets.mjs",
     "gen:town-map": "node scripts/flatten-town-tmj.mjs",
     "gen:pc-env": "node scripts/gen-pixel-crawler-environment-load.mjs",
@@ -19,6 +31,59 @@
     "gen-items-mapping": "node scripts/items-init-mapping.mjs",
     "preview:static": "tsx scripts/preview-map.ts",
     "preview:live": "node scripts/preview-live.mjs"
+  },
+  "build": {
+    "appId": "com.thelastsummon.game",
+    "productName": "The Last Summon",
+    "directories": {
+      "output": "dist/electron-build"
+    },
+    "files": [
+      "electron/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".next/standalone",
+        "to": "standalone",
+        "filter": [
+          "**/*",
+          "!public/**",
+          "!.next/static/**"
+        ]
+      },
+      {
+        "from": ".next/static",
+        "to": "standalone/.next/static"
+      },
+      {
+        "from": "public",
+        "to": "standalone/public",
+        "filter": [
+          "**/*",
+          "!**/*.wav"
+        ]
+      },
+      {
+        "from": "npcs",
+        "to": "standalone/npcs"
+      },
+      {
+        "from": "knowledge-index.json",
+        "to": "standalone/knowledge-index.json"
+      },
+      {
+        "from": "knowledge-vector-index.json",
+        "to": "standalone/knowledge-vector-index.json"
+      }
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "portable",
+        "dir"
+      ]
+    }
   },
   "dependencies": {
     "next": "16.2.4",
@@ -36,6 +101,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "ase-parser": "^0.0.18",
+    "electron": "^42.0.1",
+    "electron-builder": "^26.8.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "playwright": "^1.51.1",

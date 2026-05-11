@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getClientPersistJsonStorage } from "@/src/game/saves/electronProfileStateStorage";
 import { QUEST_CHAIN_IDS, QUESTS_BY_ID } from "@/src/game/data/quests";
 import {
   tickQuestState,
@@ -40,6 +41,17 @@ function buildContext(): QuestEvalContext | null {
     playerX: gs.player.x,
     playerY: gs.player.y,
     inventoryCount: (curatedId: string) => sumInventoryQty(slots, curatedId),
+    craftedRecipeCount: (recipeId: string) =>
+      gs.lifetimeStats.craftedRecipesById?.[recipeId] ?? 0,
+    enemyKillCount: (opts) => {
+      if (opts.mobVisualId) {
+        return gs.lifetimeStats.enemiesKilledByMobVisualId[opts.mobVisualId] ?? 0;
+      }
+      return 0;
+    },
+    chestContainsItem: (chestId: string, curatedId: string) =>
+      sumInventoryQty(gs.chestSlots[chestId] ?? [], curatedId),
+    dungeonCurrentFloor: Math.max(1, Math.floor(gs.dungeonCurrentFloor ?? 1)),
     dungeonMaxClearedFloor: Math.max(
       0,
       Math.floor(gs.dungeonMaxClearedFloor ?? 0)
@@ -97,7 +109,7 @@ export const useQuestStore = create<QuestStoreState>()(
           JSON.stringify(completed) !== JSON.stringify(prevCompleted)
         ) {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-achievements-reevaluate")
+            new CustomEvent("last-summon-achievements-reevaluate")
           );
         }
 
@@ -106,7 +118,7 @@ export const useQuestStore = create<QuestStoreState>()(
         if (r.stageCompleteMessages.length > 0) {
           for (const msg of r.stageCompleteMessages) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop:quest-stage-complete", {
+              new CustomEvent("last-summon:quest-stage-complete", {
                 detail: { message: msg },
               })
             );
@@ -118,7 +130,7 @@ export const useQuestStore = create<QuestStoreState>()(
             const q = QUESTS_BY_ID[qid];
             if (q) {
               window.dispatchEvent(
-                new CustomEvent("nagibatop-toast", {
+                new CustomEvent("last-summon-toast", {
                   detail: { message: `Квест завершён: ${q.title}` },
                 })
               );
@@ -128,7 +140,8 @@ export const useQuestStore = create<QuestStoreState>()(
       },
     }),
     {
-      name: "nagibatop-quest-v1",
+      name: "last-summon-quest-v1",
+      storage: getClientPersistJsonStorage(),
       version: QUEST_PERSIST_SCHEMA_VERSION,
       partialize: (s) => ({
         questPersistVersion: s.questPersistVersion,
@@ -192,6 +205,22 @@ export function mountQuestEventBridge(): () => void {
     });
   };
 
+  const onNpcScriptCompleted = (e: Event) => {
+    const ce = e as CustomEvent<{
+      npcId?: string;
+      questId?: string;
+      stageId?: string;
+    }>;
+    const { npcId, questId, stageId } = ce.detail ?? {};
+    if (!npcId || !questId || !stageId) return;
+    useQuestStore.getState().ingestEvent({
+      type: "npc_script_completed",
+      npcId,
+      questId,
+      stageId,
+    });
+  };
+
   const onChest = (e: Event) => {
     const ce = e as CustomEvent<{ chestId?: string }>;
     const chestId = ce.detail?.chestId;
@@ -202,25 +231,42 @@ export function mountQuestEventBridge(): () => void {
     });
   };
 
+  const onCraft = (e: Event) => {
+    const ce = e as CustomEvent<{ recipeId?: string }>;
+    const recipeId = ce.detail?.recipeId;
+    if (!recipeId) return;
+    useQuestStore.getState().ingestEvent({
+      type: "craft_completed",
+      recipeId,
+    });
+  };
+
   const onEnemy = (e: Event) => {
-    const ce = e as CustomEvent<{ enemyId?: string }>;
+    const ce = e as CustomEvent<{ enemyId?: string; mobVisualId?: string }>;
     const enemyId = ce.detail?.enemyId;
     if (!enemyId) return;
     useQuestStore.getState().ingestEvent({
       type: "enemy_defeated",
       enemyId,
+      mobVisualId: ce.detail?.mobVisualId,
     });
   };
 
-  window.addEventListener("nagibatop:dialogue-close", onDialogueClose);
-  window.addEventListener("nagibatop:chest-opened", onChest);
-  window.addEventListener("nagibatop:enemy-defeated", onEnemy);
+  window.addEventListener("last-summon:dialogue-close", onDialogueClose);
+  window.addEventListener(
+    "last-summon:npc-script-completed",
+    onNpcScriptCompleted
+  );
+  window.addEventListener("last-summon:chest-opened", onChest);
+  window.addEventListener("last-summon:craft-completed", onCraft);
+  window.addEventListener("last-summon:enemy-defeated", onEnemy);
 
   let snap = useGameStore.getState();
   const unsubGame = useGameStore.subscribe((s) => {
     const invChanged = s.inventorySlots !== snap.inventorySlots;
     const dungeonProg =
       s.dungeonMaxClearedFloor !== snap.dungeonMaxClearedFloor;
+    const dungeonFloor = s.dungeonCurrentFloor !== snap.dungeonCurrentFloor;
     const { x, y } = s.player;
     const moved =
       Math.hypot(x - snap.player.x, y - snap.player.y) >
@@ -228,6 +274,13 @@ export function mountQuestEventBridge(): () => void {
     snap = s;
     if (invChanged || dungeonProg) {
       useQuestStore.getState().ingestEvent({ type: "reevaluate" });
+      return;
+    }
+    if (dungeonFloor) {
+      useQuestStore.getState().ingestEvent({
+        type: "dungeon_floor_changed",
+        floor: Math.max(1, Math.floor(s.dungeonCurrentFloor ?? 1)),
+      });
       return;
     }
     if (moved) {
@@ -242,9 +295,14 @@ export function mountQuestEventBridge(): () => void {
   useQuestStore.getState().ingestEvent({ type: "reevaluate" });
 
   return () => {
-    window.removeEventListener("nagibatop:dialogue-close", onDialogueClose);
-    window.removeEventListener("nagibatop:chest-opened", onChest);
-    window.removeEventListener("nagibatop:enemy-defeated", onEnemy);
+    window.removeEventListener("last-summon:dialogue-close", onDialogueClose);
+    window.removeEventListener(
+      "last-summon:npc-script-completed",
+      onNpcScriptCompleted
+    );
+    window.removeEventListener("last-summon:chest-opened", onChest);
+    window.removeEventListener("last-summon:craft-completed", onCraft);
+    window.removeEventListener("last-summon:enemy-defeated", onEnemy);
     unsubGame();
   };
 }

@@ -5,14 +5,21 @@ export type QuestEvalContext = {
   playerX: number;
   playerY: number;
   inventoryCount: (curatedId: string) => number;
+  craftedRecipeCount: (recipeId: string) => number;
+  enemyKillCount: (opts: { enemyId?: string; mobVisualId?: string }) => number;
+  chestContainsItem: (chestId: string, curatedId: string) => number;
+  dungeonCurrentFloor: number;
   /** Макс. полностью зачищенный этаж катакомб (после убийства босса этажа). */
   dungeonMaxClearedFloor: number;
 };
 
 export type QuestRuntimeEvent =
   | { type: "dialogue_close"; npcId: string }
+  | { type: "npc_script_completed"; npcId: string; questId: string; stageId: string }
   | { type: "chest_opened"; chestId: string }
-  | { type: "enemy_defeated"; enemyId: string }
+  | { type: "craft_completed"; recipeId: string }
+  | { type: "enemy_defeated"; enemyId: string; mobVisualId?: string }
+  | { type: "dungeon_floor_changed"; floor: number }
   | { type: "player_moved"; x: number; y: number }
   | { type: "reevaluate" };
 
@@ -52,13 +59,37 @@ function evalObjective(
 ): boolean {
   switch (o.kind) {
     case "talk_to":
-      return ev?.type === "dialogue_close" && ev.npcId === o.npcId;
+      return ev?.type === "npc_script_completed" && ev.npcId === o.npcId;
     case "bring_item":
+    case "collect_item":
       return ctx.inventoryCount(o.curatedId) >= o.qty;
+    case "craft_recipe":
+      return (
+        ctx.craftedRecipeCount(o.recipeId) >= o.qty ||
+        (ev?.type === "craft_completed" && ev.recipeId === o.recipeId)
+      );
     case "open_chest":
       return ev?.type === "chest_opened" && ev.chestId === o.chestId;
+    case "open_chest_contains_item":
+      return (
+        ctx.chestContainsItem(o.chestId, o.curatedId) >= o.qty ||
+        (ev?.type === "chest_opened" &&
+          ev.chestId === o.chestId &&
+          ctx.chestContainsItem(o.chestId, o.curatedId) >= o.qty)
+      );
     case "kill":
       return ev?.type === "enemy_defeated" && ev.enemyId === o.enemyId;
+    case "kill_count":
+      return (
+        ctx.enemyKillCount({
+          enemyId: o.enemyId,
+          mobVisualId: o.mobVisualId,
+        }) >= o.qty ||
+        (o.qty <= 1 &&
+          ev?.type === "enemy_defeated" &&
+          ((o.enemyId !== undefined && ev.enemyId === o.enemyId) ||
+            (o.mobVisualId !== undefined && ev.mobVisualId === o.mobVisualId)))
+      );
     case "reach_point": {
       if (ev?.type === "player_moved") {
         return dist(ev.x, ev.y, o.x, o.y) <= o.radius;
@@ -67,6 +98,12 @@ function evalObjective(
     }
     case "dungeon_cleared_to_floor":
       return ctx.dungeonMaxClearedFloor >= o.floor;
+    case "dungeon_floor_reached":
+      return (
+        ctx.dungeonCurrentFloor >= o.floor ||
+        ctx.dungeonMaxClearedFloor >= o.floor ||
+        (ev?.type === "dungeon_floor_changed" && ev.floor >= o.floor)
+      );
     default:
       return false;
   }
@@ -85,8 +122,25 @@ export function isCurrentStageComplete(
   if (!stage) return false;
   const o = stage.objective;
 
-  if (o.kind === "bring_item") {
+  if (o.kind === "bring_item" || o.kind === "collect_item") {
     return ctx.inventoryCount(o.curatedId) >= o.qty;
+  }
+
+  if (o.kind === "craft_recipe") {
+    return ctx.craftedRecipeCount(o.recipeId) >= o.qty;
+  }
+
+  if (o.kind === "kill_count") {
+    return (
+      ctx.enemyKillCount({
+        enemyId: o.enemyId,
+        mobVisualId: o.mobVisualId,
+      }) >= o.qty
+    );
+  }
+
+  if (o.kind === "open_chest_contains_item") {
+    return ctx.chestContainsItem(o.chestId, o.curatedId) >= o.qty;
   }
 
   if (o.kind === "reach_point") {
@@ -98,6 +152,13 @@ export function isCurrentStageComplete(
 
   if (o.kind === "dungeon_cleared_to_floor") {
     return ctx.dungeonMaxClearedFloor >= o.floor;
+  }
+
+  if (o.kind === "dungeon_floor_reached") {
+    return (
+      ctx.dungeonCurrentFloor >= o.floor ||
+      ctx.dungeonMaxClearedFloor >= o.floor
+    );
   }
 
   if (!ev || ev.type === "reevaluate") return false;

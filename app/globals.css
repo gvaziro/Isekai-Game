@@ -24,3 +24,13 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+ * Phaser.Scale.FIT задаёт CSS width/height canvas меньше окна.
+ * Без nearest-neighbour браузер билинейно интерполирует весь буфер → «мыльный» пиксель-арт.
+ * WebGL текстуры уже NEAREST (render.pixelArt); это только композитинг на странице.
+ */
+.last-summon-phaser-root canvas {
+  image-rendering: pixelated !important;
+  image-rendering: crisp-edges !important;
+}

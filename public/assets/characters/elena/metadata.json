@@ -1,0 +1,63 @@
+{
+  "character": {
+    "id": "3984243a-8f71-4d90-aecc-5c4721cb6a3d",
+    "name": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
+    "prompt": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
+    "size": {
+      "width": 68,
+      "height": 68
+    },
+    "template_id": "mannequin",
+    "directions": 8,
+    "view": "low top-down",
+    "created_at": "2026-05-08T10:11:16.847678+00:00"
+  },
+  "frames": {
+    "rotations": {
+      "south": "rotations/south.png",
+      "south-east": "rotations/south-east.png",
+      "east": "rotations/east.png",
+      "north-east": "rotations/north-east.png",
+      "north": "rotations/north.png",
+      "north-west": "rotations/north-west.png",
+      "west": "rotations/west.png",
+      "south-west": "rotations/south-west.png"
+    },
+    "animations": {
+      "Walking-ada10d9a": {
+        "east": [
+          "animations/Walking-ada10d9a/east/frame_000.png",
+          "animations/Walking-ada10d9a/east/frame_001.png",
+          "animations/Walking-ada10d9a/east/frame_002.png",
+          "animations/Walking-ada10d9a/east/frame_003.png",
+          "animations/Walking-ada10d9a/east/frame_004.png",
+          "animations/Walking-ada10d9a/east/frame_005.png",
+          "animations/Walking-ada10d9a/east/frame_006.png",
+          "animations/Walking-ada10d9a/east/frame_007.png"
+        ],
+        "south": [
+          "animations/Walking-ada10d9a/south/frame_000.png",
+          "animations/Walking-ada10d9a/south/frame_001.png",
+          "animations/Walking-ada10d9a/south/frame_002.png",
+          "animations/Walking-ada10d9a/south/frame_003.png",
+          "animations/Walking-ada10d9a/south/frame_004.png",
+          "animations/Walking-ada10d9a/south/frame_005.png",
+          "animations/Walking-ada10d9a/south/frame_006.png",
+          "animations/Walking-ada10d9a/south/frame_007.png"
+        ],
+        "north": [
+          "animations/Walking-ada10d9a/north/frame_000.png",
+          "animations/Walking-ada10d9a/north/frame_001.png",
+          "animations/Walking-ada10d9a/north/frame_002.png",
+          "animations/Walking-ada10d9a/north/frame_003.png",
+          "animations/Walking-ada10d9a/north/frame_004.png",
+          "animations/Walking-ada10d9a/north/frame_005.png",
+          "animations/Walking-ada10d9a/north/frame_006.png",
+          "animations/Walking-ada10d9a/north/frame_007.png"
+        ]
+      }
+    }
+  },
+  "export_version": "2.0",
+  "export_date": "2026-05-08T14:37:41.172582"
+}

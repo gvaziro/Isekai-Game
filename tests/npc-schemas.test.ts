@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   npcCharacterMdSchema,
+  npcDialogueScriptsFileSchema,
   npcEventLineSchema,
   npcRouteSchema,
   npcTraitsSchema,
@@ -49,5 +50,48 @@ describe("Zod-схемы NPC", () => {
       waypoints: [{ x: 0, y: 0 }],
     });
     expect(r.success).toBe(true);
+  });
+
+  it("npcDialogueScriptsFileSchema принимает квестовую scripted-сцену", () => {
+    const r = npcDialogueScriptsFileSchema.safeParse({
+      scenes: [
+        {
+          id: "briefing",
+          questId: "village_briefing",
+          stageId: "talk_to_marcus",
+          version: 1,
+          steps: [
+            {
+              id: "start",
+              npcText: "Сначала слушай, потом спрашивай.",
+              choices: [
+                {
+                  label: "Я слушаю.",
+                  playerText: "Я слушаю.",
+                  complete: true,
+                  unlockLoreFactIds: ["places.village"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    expect(r.success).toBe(true);
+  });
+
+  it("npcDialogueScriptsFileSchema отклоняет scripted-сцену без выбора", () => {
+    const r = npcDialogueScriptsFileSchema.safeParse({
+      scenes: [
+        {
+          id: "briefing",
+          questId: "village_briefing",
+          stageId: "talk_to_marcus",
+          version: 1,
+          steps: [{ id: "start", npcText: "Нет выбора.", choices: [] }],
+        },
+      ],
+    });
+    expect(r.success).toBe(false);
   });
 });

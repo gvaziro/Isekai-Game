@@ -1,0 +1,25 @@
+{
+  "type": "book",
+  "required": [
+    "id",
+    "title",
+    "type",
+    "category",
+    "truth_level",
+    "location",
+    "contains_facts",
+    "unlocks"
+  ],
+  "allowed_categories": [
+    "personal_diary",
+    "official_chronicle",
+    "forbidden",
+    "folklore"
+  ],
+  "allowed_truth_levels": [
+    "subjective",
+    "official_distorted",
+    "hidden_truth",
+    "encoded_truth"
+  ]
+}

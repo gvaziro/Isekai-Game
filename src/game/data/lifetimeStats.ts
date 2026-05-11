@@ -4,6 +4,8 @@ export type LifetimeStats = {
   enemiesKilled: number;
   /** По визуалу моба (ключ из спавна / mobVisualId). */
   enemiesKilledByMobVisualId: Record<string, number>;
+  /** Successful crafts by recipe id. */
+  craftedRecipesById: Record<string, number>;
   /** Сумма фактически начисленного опыта (после баффов luck/xp за один вызов grantXp). */
   totalXpGained: number;
   /** Всё положительное пополнение кошелька (лут, продажа). */
@@ -32,6 +34,7 @@ export function initialLifetimeStats(): LifetimeStats {
   return {
     enemiesKilled: 0,
     enemiesKilledByMobVisualId: {},
+    craftedRecipesById: {},
     totalXpGained: 0,
     totalGoldEarned: 0,
     totalGoldSpent: 0,
@@ -66,11 +69,22 @@ export function sanitizeLifetimeStats(raw: unknown): LifetimeStats {
     }
   }
 
+  const craftedRecipesById: Record<string, number> = {};
+  const rawCrafted = o.craftedRecipesById;
+  if (rawCrafted && typeof rawCrafted === "object") {
+    for (const [k, v] of Object.entries(rawCrafted)) {
+      if (typeof v === "number" && Number.isFinite(v) && v > 0) {
+        craftedRecipesById[k] = Math.floor(v);
+      }
+    }
+  }
+
   return {
     enemiesKilled: clampInt(
       typeof o.enemiesKilled === "number" ? o.enemiesKilled : init.enemiesKilled
     ),
     enemiesKilledByMobVisualId: byMob,
+    craftedRecipesById,
     totalXpGained: clampInt(
       typeof o.totalXpGained === "number" ? o.totalXpGained : init.totalXpGained
     ),

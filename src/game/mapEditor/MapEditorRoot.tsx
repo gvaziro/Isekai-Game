@@ -372,8 +372,6 @@ export default function MapEditorRoot() {
         parent: el,
         width: WORLD.width,
         height: WORLD.height,
-        pixelArt: true,
-        roundPixels: true,
         backgroundColor: "#1a1a1a",
         /** Редактору звук не нужен; без этого при HMR/destroy бывают ошибки закрытого AudioContext. */
         audio: { noAudio: true },
@@ -381,13 +379,22 @@ export default function MapEditorRoot() {
           default: "arcade",
           arcade: { gravity: { x: 0, y: 0 }, debug: false },
         },
+        render: {
+          pixelArt: true,
+          antialias: false,
+          antialiasGL: false,
+          roundPixels: true,
+        },
         scale: {
           mode: Phaser.Scale.FIT,
           autoCenter: Phaser.Scale.CENTER_BOTH,
+          autoRound: true,
         },
         scene: [MapEditorBootScene, MapEditScene],
       });
       gameRef.current = game;
+      const canvas = game.canvas as HTMLCanvasElement;
+      canvas.style.imageRendering = "pixelated";
       game.registry.set("mapEditorInitial", {
         loc: draft,
         locId: locationId,
@@ -860,188 +867,188 @@ export default function MapEditorRoot() {
     };
 
     window.addEventListener(
-      "nagibatop-map-editor-prop-select",
+      "last-summon-map-editor-prop-select",
       onPropSelect as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-spawn-select",
+      "last-summon-map-editor-spawn-select",
       onSpawnSelect as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-npc-select",
+      "last-summon-map-editor-npc-select",
       onNpcSelect as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-mob-select",
+      "last-summon-map-editor-mob-select",
       onMobSelect as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-clear-selection",
+      "last-summon-map-editor-clear-selection",
       onClear
     );
     window.addEventListener(
-      "nagibatop-map-editor-prop-moved",
+      "last-summon-map-editor-prop-moved",
       onPropMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-spawn-moved",
+      "last-summon-map-editor-spawn-moved",
       onSpawnMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-npc-place",
+      "last-summon-map-editor-npc-place",
       onNpcPlace as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-npc-moved",
+      "last-summon-map-editor-npc-moved",
       onNpcMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-mob-place",
+      "last-summon-map-editor-mob-place",
       onMobPlace as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-mob-moved",
+      "last-summon-map-editor-mob-moved",
       onMobMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-world-click",
+      "last-summon-map-editor-world-click",
       onWorldClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-ground-click",
+      "last-summon-map-editor-ground-click",
       onGroundClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-grass-click",
+      "last-summon-map-editor-grass-click",
       onGrassClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-path-click",
+      "last-summon-map-editor-path-click",
       onPathClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-exit-click",
+      "last-summon-map-editor-exit-click",
       onExitClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-anim-click",
+      "last-summon-map-editor-anim-click",
       onAnimClick as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-grass-place",
+      "last-summon-map-editor-grass-place",
       onGrassPlace as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-grass-moved",
+      "last-summon-map-editor-grass-moved",
       onGrassMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-path-moved",
+      "last-summon-map-editor-path-moved",
       onPathMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-path-create",
+      "last-summon-map-editor-path-create",
       onPathCreate as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-exit-moved",
+      "last-summon-map-editor-exit-moved",
       onExitMoved as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-exit-create",
+      "last-summon-map-editor-exit-create",
       onExitCreate as EventListener
     );
     return () => {
       window.removeEventListener(
-        "nagibatop-map-editor-prop-select",
+        "last-summon-map-editor-prop-select",
         onPropSelect as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-spawn-select",
+        "last-summon-map-editor-spawn-select",
         onSpawnSelect as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-npc-select",
+        "last-summon-map-editor-npc-select",
         onNpcSelect as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-mob-select",
+        "last-summon-map-editor-mob-select",
         onMobSelect as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-clear-selection",
+        "last-summon-map-editor-clear-selection",
         onClear
       );
       window.removeEventListener(
-        "nagibatop-map-editor-prop-moved",
+        "last-summon-map-editor-prop-moved",
         onPropMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-spawn-moved",
+        "last-summon-map-editor-spawn-moved",
         onSpawnMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-npc-place",
+        "last-summon-map-editor-npc-place",
         onNpcPlace as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-npc-moved",
+        "last-summon-map-editor-npc-moved",
         onNpcMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-mob-place",
+        "last-summon-map-editor-mob-place",
         onMobPlace as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-mob-moved",
+        "last-summon-map-editor-mob-moved",
         onMobMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-world-click",
+        "last-summon-map-editor-world-click",
         onWorldClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-ground-click",
+        "last-summon-map-editor-ground-click",
         onGroundClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-grass-click",
+        "last-summon-map-editor-grass-click",
         onGrassClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-path-click",
+        "last-summon-map-editor-path-click",
         onPathClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-exit-click",
+        "last-summon-map-editor-exit-click",
         onExitClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-anim-click",
+        "last-summon-map-editor-anim-click",
         onAnimClick as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-grass-place",
+        "last-summon-map-editor-grass-place",
         onGrassPlace as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-grass-moved",
+        "last-summon-map-editor-grass-moved",
         onGrassMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-path-moved",
+        "last-summon-map-editor-path-moved",
         onPathMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-path-create",
+        "last-summon-map-editor-path-create",
         onPathCreate as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-exit-moved",
+        "last-summon-map-editor-exit-moved",
         onExitMoved as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-exit-create",
+        "last-summon-map-editor-exit-create",
         onExitCreate as EventListener
       );
     };
@@ -1104,36 +1111,36 @@ export default function MapEditorRoot() {
       setWorldPick(null);
     };
     window.addEventListener(
-      "nagibatop-map-editor-prop-menu",
+      "last-summon-map-editor-prop-menu",
       onPropMenu as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-spawn-menu",
+      "last-summon-map-editor-spawn-menu",
       onSpawnMenu as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-grass-menu",
+      "last-summon-map-editor-grass-menu",
       onGrassMenu as EventListener
     );
     window.addEventListener(
-      "nagibatop-map-editor-mob-menu",
+      "last-summon-map-editor-mob-menu",
       onMobMenu as EventListener
     );
     return () => {
       window.removeEventListener(
-        "nagibatop-map-editor-prop-menu",
+        "last-summon-map-editor-prop-menu",
         onPropMenu as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-spawn-menu",
+        "last-summon-map-editor-spawn-menu",
         onSpawnMenu as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-grass-menu",
+        "last-summon-map-editor-grass-menu",
         onGrassMenu as EventListener
       );
       window.removeEventListener(
-        "nagibatop-map-editor-mob-menu",
+        "last-summon-map-editor-mob-menu",
         onMobMenu as EventListener
       );
     };
@@ -2381,7 +2388,7 @@ export default function MapEditorRoot() {
           tabIndex={0}
           role="application"
           aria-label="Карта локации"
-          className="mx-auto w-full max-w-[min(100%,min(1600px,96vw))] shrink-0 overflow-hidden rounded-lg border border-zinc-700 bg-black outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
+          className="last-summon-phaser-root mx-auto w-full max-w-[min(100%,min(1600px,96vw))] shrink-0 overflow-hidden rounded-lg border border-zinc-700 bg-black outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
           style={{
             aspectRatio: `${WORLD.width} / ${WORLD.height}`,
             maxHeight: "min(92vh, calc(100vw * 0.75))",

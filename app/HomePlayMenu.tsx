@@ -3,17 +3,44 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import { isElectronClient } from "@/src/game/desktop";
+import { flushElectronProfileWrites } from "@/src/game/saves/electronProfileStateStorage";
 import { useGameStore, waitForGameStoreHydration } from "@/src/game/state/gameStore";
+import {
+  resetLoreJournalToNewGame,
+  waitForLoreJournalHydration,
+} from "@/src/game/state/loreJournalStore";
+import {
+  resetNpcDialogueProgressToNewGame,
+  waitForNpcDialogueProgressHydration,
+} from "@/src/game/state/npcDialogueProgressStore";
 import {
   resetQuestsToNewGame,
   waitForQuestStoreHydration,
 } from "@/src/game/state/questStore";
+import { OPEN_LOAD_GAME_PANEL_SESSION_KEY } from "@/src/game/constants/gameplay";
+
+const DEV_LINKS: readonly { href: string; label: string }[] = [
+  { href: "/dev/map-editor", label: "Редактор карты" },
+  { href: "/dev/character-editor", label: "Редактор персонажей" },
+  { href: "/dev/tileset-atlas", label: "Карта тайлсетов" },
+  { href: "/dev/items", label: "Каталог предметов" },
+  { href: "/dev/buffs", label: "Менеджер бафов" },
+  { href: "/dev/enemies", label: "Редактор врагов" },
+  { href: "/dev/recipes", label: "Рецепты крафта" },
+];
+
+const panelClass =
+  "overflow-hidden rounded-2xl border border-amber-200/15 bg-zinc-950/70 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.85)] backdrop-blur-xl";
 
 const menuItemClass =
-  "flex w-full items-center justify-center px-6 py-3.5 text-[15px] font-medium tracking-wide text-amber-100 shadow-[0_1px_3px_rgba(0,0,0,0.95),0_0_24px_rgba(0,0,0,0.65)] transition-colors hover:bg-black/35 hover:text-amber-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400/90";
+  "flex min-h-[3.25rem] w-full items-center justify-center px-8 py-4 text-lg font-semibold tracking-wide text-amber-50 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-colors hover:bg-white/10 hover:text-amber-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-amber-400/80";
 
 const menuItemMutedClass =
-  "flex w-full items-center justify-center px-6 py-2.5 text-xs font-medium tracking-wide text-zinc-300/95 shadow-[0_1px_3px_rgba(0,0,0,0.95)] transition-colors hover:bg-black/35 hover:text-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400/80";
+  "flex min-h-[2.75rem] w-full items-center justify-center px-6 py-2.5 text-sm font-medium tracking-wide text-zinc-200/95 transition-colors hover:bg-white/8 hover:text-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-zinc-400/70";
+
+const summaryClass =
+  "flex min-h-[3rem] w-full cursor-pointer list-none items-center justify-between gap-3 px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-amber-600/95 transition-colors hover:bg-white/6 hover:text-amber-500 [&::-webkit-details-marker]:hidden";
 
 export default function HomePlayMenu() {
   const router = useRouter();
@@ -31,15 +58,27 @@ export default function HomePlayMenu() {
     try {
       await Promise.all([
         waitForGameStoreHydration(),
+        waitForLoreJournalHydration(),
+        waitForNpcDialogueProgressHydration(),
         waitForQuestStoreHydration(),
       ]);
       resetQuestsToNewGame();
+      resetLoreJournalToNewGame();
+      resetNpcDialogueProgressToNewGame();
       useGameStore.getState().resetToNewGame();
+      if (isElectronClient()) {
+        await flushElectronProfileWrites();
+      }
       router.push("/game");
     } catch (e) {
       console.warn("[HomePlayMenu] new game", e);
       resetQuestsToNewGame();
+      resetLoreJournalToNewGame();
+      resetNpcDialogueProgressToNewGame();
       useGameStore.getState().resetToNewGame();
+      if (isElectronClient()) {
+        await flushElectronProfileWrites();
+      }
       router.push("/game");
     } finally {
       setBusy(false);
@@ -48,20 +87,35 @@ export default function HomePlayMenu() {
 
   return (
     <nav
-      className="select-none rounded-md border border-amber-900/60"
+      className={`select-none ${panelClass}`}
       aria-label="Главное меню"
     >
-      <ul className="divide-y divide-amber-950/45">
+      <ul className="divide-y divide-amber-950/35">
         <li>
           <Link href="/game" className={menuItemClass}>
             Продолжить
           </Link>
         </li>
         <li>
+          <Link
+            href="/game"
+            className={menuItemClass}
+            onClick={() => {
+              try {
+                sessionStorage.setItem(OPEN_LOAD_GAME_PANEL_SESSION_KEY, "1");
+              } catch {
+                /* ignore */
+              }
+            }}
+          >
+            Загрузка
+          </Link>
+        </li>
+        <li>
           <button
             type="button"
             disabled={busy}
-            className={`${menuItemClass} disabled:cursor-wait disabled:opacity-70`}
+            className={`${menuItemClass} disabled:cursor-wait disabled:opacity-60`}
             onClick={() => void onNewGame()}
           >
             {busy ? "Подготовка…" : "Новая игра"}
@@ -70,48 +124,26 @@ export default function HomePlayMenu() {
       </ul>
 
       {process.env.NODE_ENV === "development" ? (
-        <>
-          <p className="border-t border-amber-950/45 px-4 py-2 text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/90">
-            Разработка
-          </p>
-          <ul className="divide-y divide-amber-950/35 border-t border-amber-950/35">
-            <li>
-              <Link href="/dev/map-editor" className={menuItemMutedClass}>
-                Редактор карты
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/character-editor" className={menuItemMutedClass}>
-                Редактор персонажей
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/tileset-atlas" className={menuItemMutedClass}>
-                Карта тайлсетов
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/items" className={menuItemMutedClass}>
-                Каталог предметов
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/buffs" className={menuItemMutedClass}>
-                Менеджер бафов
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/enemies" className={menuItemMutedClass}>
-                Редактор врагов
-              </Link>
-            </li>
-            <li>
-              <Link href="/dev/recipes" className={menuItemMutedClass}>
-                Рецепты крафта
-              </Link>
-            </li>
+        <details className="group border-t border-amber-950/40">
+          <summary className={summaryClass}>
+            <span>Разработка — инструменты</span>
+            <span
+              className="inline-block shrink-0 text-[10px] text-amber-500/90 transition-transform duration-200 group-open:rotate-180"
+              aria-hidden
+            >
+              ▼
+            </span>
+          </summary>
+          <ul className="divide-y divide-amber-950/30 border-t border-amber-950/25 bg-black/25">
+            {DEV_LINKS.map(({ href, label }) => (
+              <li key={href}>
+                <Link href={href} className={menuItemMutedClass}>
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
-        </>
+        </details>
       ) : null}
     </nav>
   );

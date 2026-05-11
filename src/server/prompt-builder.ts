@@ -1,19 +1,9 @@
-import fs from "fs";
-import path from "path";
+import {
+  formatNpcKnowledgeForPrompt,
+  selectNpcKnowledge,
+  selectNpcKnowledgeHybrid,
+} from "@/src/server/npc-knowledge";
 import type { NpcBundle } from "@/src/server/types";
-
-let worldArcCanonCached: string | null = null;
-
-function loadWorldArcCanonForPrompt(): string {
-  if (worldArcCanonCached !== null) return worldArcCanonCached;
-  try {
-    const p = path.join(process.cwd(), "docs", "WORLD_ARC_PROMPT.md");
-    worldArcCanonCached = fs.readFileSync(p, "utf8").trim();
-  } catch {
-    worldArcCanonCached = "";
-  }
-  return worldArcCanonCached;
-}
 
 /** Стабильный блок правил — одинаковый между NPC, усиливает prefix-кэш OpenAI. */
 const SHARED_RULES = `
@@ -68,14 +58,18 @@ Endings: если игрок прощается — короткий ответ 
 
 function formatTraits(traits: Record<string, unknown>): string {
   try {
-    return JSON.stringify(traits, null, 2);
+    const { knowledge: _knowledge, ...promptTraits } = traits;
+    return JSON.stringify(promptTraits, null, 2);
   } catch {
     return "{}";
   }
 }
 
 function formatRecentEvents(npc: NpcBundle, limit = 24): string {
-  const slice = npc.events.slice(-limit);
+  const lastLoreUpdateIndex = npc.events.findLastIndex((event) => event.type === "lore_update");
+  const relevantEvents =
+    lastLoreUpdateIndex >= 0 ? npc.events.slice(lastLoreUpdateIndex) : npc.events;
+  const slice = relevantEvents.slice(-limit);
   if (slice.length === 0) return "(пока нет записанных событий)";
   return slice
     .map((e) => `- [${e.ts}] (${e.type}) ${e.summary}`)
@@ -86,8 +80,10 @@ function formatRecentEvents(npc: NpcBundle, limit = 24): string {
  * System-сообщения: сначала общий неизменный префикс (лучше prompt cache), затем профиль,
  * в конце — меняющийся лог событий.
  */
-export function buildSystemMessages(npc: NpcBundle): { role: "system"; content: string }[] {
-  const worldArc = loadWorldArcCanonForPrompt();
+export function buildSystemMessages(
+  npc: NpcBundle,
+  knowledgeBlock?: string
+): { role: "system"; content: string }[] {
   const profile = `
 === Профиль персонажа (канон) ===
 ${npc.characterMd.trim()}
@@ -103,15 +99,15 @@ ${formatRecentEvents(npc)}
 
   const out: { role: "system"; content: string }[] = [
     { role: "system", content: SHARED_RULES },
+    { role: "system", content: profile },
   ];
-  if (worldArc.length > 0) {
+  if (knowledgeBlock?.trim()) {
     out.push({
       role: "system",
-      content: `=== Канон мира (общий для всех NPC) ===\n${worldArc}`,
+      content: knowledgeBlock.trim(),
     });
   }
   out.push(
-    { role: "system", content: profile },
     { role: "system", content: eventsBlock }
   );
   return out;
@@ -119,22 +115,52 @@ ${formatRecentEvents(npc)}
 
 export type ChatTurn = { role: "user" | "assistant"; content: string };
 
+const MAX_PROMPT_HISTORY_TURNS = 8;
+
 function wrapLatestPlayerMessageForModel(raw: string): string {
   const t = raw.trim();
   return `--- Последняя реплика игрока ---\n${t}\n--- Конец реплики ---\nОтветь на неё естественно, в характере; не игнорируй вопрос и не уходи в сторону без причины.`;
+}
+
+function buildRuntimeSnapshotBlocks(
+  worldSnapshot?: string | null,
+  shopSnapshot?: string | null
+): { role: "system"; content: string }[] {
+  const blocks: { role: "system"; content: string }[] = [];
+  const world = worldSnapshot?.trim();
+  if (world) {
+    blocks.push({
+      role: "system",
+      content: world,
+    });
+  }
+  const shop = shopSnapshot?.trim();
+  if (shop) {
+    blocks.push({
+      role: "system",
+      content: `=== Лавка NPC сейчас (клиент игры) ===\n${shop}`,
+    });
+  }
+  return blocks;
 }
 
 export function buildMessagesForCompletion(
   npc: NpcBundle,
   history: ChatTurn[],
   userMessage: string,
-  worldSnapshot?: string | null
+  worldSnapshot?: string | null,
+  shopSnapshot?: string | null
 ): {
   role: "system" | "user" | "assistant";
   content: string;
 }[] {
-  const sys = buildSystemMessages(npc);
-  const snap = worldSnapshot?.trim();
+  const knowledgeQuery = [...history.slice(-6).map((h) => h.content), userMessage].join("\n");
+  const knowledgeEntries = selectNpcKnowledge(npc, knowledgeQuery);
+  const knowledgeBlock = formatNpcKnowledgeForPrompt(knowledgeEntries, npc);
+  const sys = buildSystemMessages(npc, knowledgeBlock);
+  const snap = buildRuntimeSnapshotBlocks(worldSnapshot, shopSnapshot)
+    .map((block) => block.content)
+    .join("\n\n");
   const snapBlock = snap
     ? ([
         {
@@ -143,7 +169,44 @@ export function buildMessagesForCompletion(
         },
       ] satisfies { role: "system"; content: string }[])
     : [];
-  const hist = history.map((h) => ({
+  const hist = history.slice(-MAX_PROMPT_HISTORY_TURNS).map((h) => ({
+    role: h.role as "user" | "assistant",
+    content: h.content,
+  }));
+  return [
+    ...sys,
+    ...snapBlock,
+    ...hist,
+    { role: "user" as const, content: wrapLatestPlayerMessageForModel(userMessage) },
+  ];
+}
+
+export async function buildMessagesForCompletionAsync(
+  npc: NpcBundle,
+  history: ChatTurn[],
+  userMessage: string,
+  worldSnapshot?: string | null,
+  shopSnapshot?: string | null
+): Promise<{
+  role: "system" | "user" | "assistant";
+  content: string;
+}[]> {
+  const knowledgeQuery = [...history.slice(-6).map((h) => h.content), userMessage].join("\n");
+  const knowledgeEntries = await selectNpcKnowledgeHybrid(npc, knowledgeQuery);
+  const knowledgeBlock = formatNpcKnowledgeForPrompt(knowledgeEntries, npc);
+  const sys = buildSystemMessages(npc, knowledgeBlock);
+  const snap = buildRuntimeSnapshotBlocks(worldSnapshot, shopSnapshot)
+    .map((block) => block.content)
+    .join("\n\n");
+  const snapBlock = snap
+    ? ([
+        {
+          role: "system" as const,
+          content: `=== Состояние мира сейчас (клиент игры) ===\n${snap}`,
+        },
+      ] satisfies { role: "system"; content: string }[])
+    : [];
+  const hist = history.slice(-MAX_PROMPT_HISTORY_TURNS).map((h) => ({
     role: h.role as "user" | "assistant",
     content: h.content,
   }));

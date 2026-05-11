@@ -10,6 +10,11 @@ import {
   mergeAssetManifestWithExtras,
   type CharacterPackJson,
 } from "@/src/game/load/mergeAssetManifestExtras";
+import {
+  getTownNpcFullSizeLoadEntries,
+  getTownNpcUnitsOverride,
+  registerTownNpcFullSizeAnimations,
+} from "@/src/game/load/townNpcFullSize";
 import type { AssetManifest } from "@/src/game/types";
 import { TOWN_TILESET_LOAD } from "@/src/game/maps/townTilesetPreload.gen";
 
@@ -61,14 +66,25 @@ export class BootScene extends Phaser.Scene {
     const autoSlices = this.cache.json.get("pcAutoSlicesLoad") as
       | { load?: AssetManifest["load"] }
       | undefined;
-    const characterPack = this.cache.json.get("characterPack") as
+    const characterPackRaw = this.cache.json.get("characterPack") as
       | CharacterPackJson
       | undefined;
+    const characterPackMerged: CharacterPackJson = {
+      ...(characterPackRaw ?? {}),
+      load: [
+        ...(characterPackRaw?.load ?? []),
+        ...getTownNpcFullSizeLoadEntries(),
+      ],
+      units: {
+        ...(characterPackRaw?.units ?? {}),
+        ...getTownNpcUnitsOverride(),
+      },
+    };
     const merged = mergeAssetManifestWithExtras(data, {
       pcEnvLoad: extra,
       pcSlicesLoad: slices,
       pcAutoSlicesLoad: autoSlices,
-      characterPack: characterPack ?? null,
+      characterPack: characterPackMerged,
     });
 
     if (ITEM_ATLAS.available) {
@@ -117,6 +133,7 @@ export class BootScene extends Phaser.Scene {
           repeat: a.repeat,
         });
       }
+      registerTownNpcFullSizeAnimations(this);
       this.registry.set("assetManifest", merged);
       this.scene.start("MainScene");
     });

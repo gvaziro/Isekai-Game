@@ -4,7 +4,7 @@ import type {
   AssetManifestLoadEntry,
 } from "@/src/game/types";
 
-const DB_NAME = "nagibatop-character-editor";
+const DB_NAME = "last-summon-character-editor";
 const DB_VERSION = 1;
 const STORE = "profiles";
 

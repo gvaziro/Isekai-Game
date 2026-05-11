@@ -7,6 +7,14 @@ export type HeroAttackStyle = "slice" | "pierce" | "crush";
 
 export type HeroInteractKind = "collect" | "fishing" | "watering";
 
+/** Снимок визуала героя для persist / загрузки (без позиции и velocity — их пишет сцена). */
+export type HeroPersistedVisual = {
+  facing: HeroFacing;
+  flipX: boolean;
+  carrying: boolean;
+  attackStyle: HeroAttackStyle;
+};
+
 type OneShotKind = "hit" | "death" | "attack" | "interact";
 
 /**
@@ -34,6 +42,33 @@ export class HeroAnimController {
 
   getFacing(): HeroFacing {
     return this.facing;
+  }
+
+  getPersistedVisual(): HeroPersistedVisual {
+    return {
+      facing: this.facing,
+      flipX: this.flipX,
+      carrying: this.carrying,
+      attackStyle: this.attackStyle,
+    };
+  }
+
+  /**
+   * Восстановить визуал после загрузки сейва: idle по сохранённому facing,
+   * без one-shot клипов.
+   */
+  applyPersistedVisual(v: HeroPersistedVisual): void {
+    if (this.deathStarted) return;
+    this.cancelRunningOneShot();
+    this.hitLock = false;
+    this.deathStarted = false;
+    this.facing = v.facing;
+    this.flipX = v.flipX;
+    this.carrying = v.carrying;
+    this.attackStyle = v.attackStyle;
+    this.sprite.anims.timeScale = 1;
+    this.applyFlipToSprite();
+    this.playIfExists(this.pickIdleKey(), true);
   }
 
   setCarrying(value: boolean): void {

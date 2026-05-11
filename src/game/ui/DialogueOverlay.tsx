@@ -1,21 +1,45 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { z } from "zod";
 import { NPC_REPLY_MAX_CHARS } from "@/src/game/constants/dialogue";
 import { DUNGEON_MAX_FLOOR } from "@/src/game/data/dungeonFloorScaling";
+import { getShopByNpc } from "@/src/game/data/shops";
+import { buildShopPromptSnapshot } from "@/src/game/data/shopPromptSnapshot";
 import {
   NpcChatClientResponseSchema,
 } from "@/src/game/data/npcChatStructured";
+import { QUESTS_BY_ID } from "@/src/game/data/quests";
 import { useGameStore } from "@/src/game/state/gameStore";
+import { useLoreJournalStore } from "@/src/game/state/loreJournalStore";
 import { useQuestStore } from "@/src/game/state/questStore";
+import { hasStarterNpcAiLoreAccess } from "@/src/game/data/npcDialogueProgress";
+import type { NpcDialogueScene } from "@/src/game/types";
 import { clipNpcReply } from "@/src/game/ui/npcReplyClip";
+import { PaperButton } from "@/src/game/ui/paper/PaperButton";
+import "@/src/game/ui/paper-ui.css";
 
 type Turn = { role: "user" | "assistant"; content: string };
-
-export type DialogueScriptedOpener = { label: string; prompt: string };
+type ScriptChoice = NonNullable<NpcDialogueScene["steps"][number]>["choices"][number];
 
 const ApiErrorBodySchema = z.object({ error: z.string() });
+
+function unlockLoreFromIntro(npcId: string, ids?: readonly string[]): void {
+  if (typeof window === "undefined" || !ids?.length) return;
+  window.dispatchEvent(
+    new CustomEvent("last-summon:lore-unlock", {
+      detail: { factIds: ids, source: `npc_intro:${npcId}` },
+    })
+  );
+}
 
 function buildWorldSnapshotForNpcChat(): string {
   if (typeof window === "undefined") return "";
@@ -30,18 +54,31 @@ function buildWorldSnapshotForNpcChat(): string {
     `Туман на западной дороге: ${
       gs.villageFogLifted
         ? "рассеян — путь из деревни открыт"
-        : "стоит — нужно победить хранителя на последнем этаже катакомб"
+        : "стоит — нужно победить Короля гоблинов на последнем этаже катакомб"
     }`,
     `Катакомбы: макс. зачищенный этаж ${gs.dungeonMaxClearedFloor} из ${DUNGEON_MAX_FLOOR}`,
     `Квесты: ${activeStr}; завершённые: ${qs.completedQuestIds.join(", ") || "—"}`,
   ].join("\n");
 }
 
+function buildShopSnapshotForNpcChat(npcId: string): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  const shop = getShopByNpc(npcId);
+  if (!shop) return undefined;
+  const gs = useGameStore.getState();
+  return buildShopPromptSnapshot({
+    shop,
+    runtime: gs.shops[shop.id],
+    characterLevel: gs.character.level,
+    gold: gs.character.gold,
+  });
+}
+
 function NpcMessageBody({ content }: { content: string }) {
   const trimmed = content.trim();
   if (!trimmed) {
     return (
-      <span className="text-zinc-400 italic">
+      <span className="text-[#7f735f] italic">
         Модель не вернула текст. Повторите сообщение или смените фразу.
       </span>
     );
@@ -53,32 +90,330 @@ function NpcMessageBody({ content }: { content: string }) {
   );
 }
 
+function NpcPortrait({
+  npcId,
+  displayName,
+}: {
+  npcId: string;
+  displayName?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  const name = displayName ?? npcId;
+  const src = `/assets/characters/${npcId}/rotations/south.png`;
+
+  return (
+    <div className="paper-pixelated flex w-full shrink-0 flex-row items-center gap-2 border-b border-[#5c4a32]/25 pb-2 sm:w-[8.5rem] sm:flex-col sm:border-b-0 sm:border-r sm:pb-0 sm:pr-3">
+      <div className="relative flex h-16 w-16 shrink-0 items-end justify-center overflow-hidden rounded-sm border-2 border-[#5c4a32]/55 bg-[#d7c8a9] shadow-inner sm:h-28 sm:w-28">
+        {!failed ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element -- пиксельный спрайт из /public */}
+            <img
+              src={src}
+              alt={name}
+              width={68}
+              height={68}
+              decoding="async"
+              className="h-[88%] w-[88%] object-contain [image-rendering:pixelated]"
+              onError={() => setFailed(true)}
+            />
+          </>
+        ) : (
+          <span className="px-2 text-center text-[10px] font-semibold leading-tight text-[#5c4a32]">
+            {name}
+          </span>
+        )}
+      </div>
+      <div className="min-w-0 flex-1 text-left sm:text-center">
+        <p className="truncate text-sm font-semibold leading-tight text-[#2a241c] sm:text-base">
+          {name}
+        </p>
+        <p className="mt-0.5 text-[10px] uppercase leading-tight tracking-wide text-[#7a6b55]">
+          NPC
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function DialogueFrame({
+  children,
+  npcId,
+  displayName,
+  loading,
+  summarizing,
+  onSummarize,
+  onClose,
+}: {
+  children: ReactNode;
+  npcId: string;
+  displayName?: string;
+  loading: boolean;
+  summarizing: boolean;
+  onSummarize: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="pointer-events-auto absolute inset-0 z-[100] flex items-end justify-center bg-black/30 px-2 pb-2 pt-12 backdrop-blur-[1px] sm:px-4 sm:pb-4"
+      role="presentation"
+    >
+      <section
+        className="paper-pixelated paper-parchment-bg flex max-h-[48vh] min-h-[15rem] w-full max-w-[min(960px,calc(100vw-16px))] flex-col overflow-hidden border-2 border-[#5c4a32]/45 px-3 py-3 text-[#2a241c] shadow-2xl sm:max-h-[38vh] sm:max-w-[min(960px,calc(100vw-32px))] sm:px-4"
+        aria-label={`Диалог с ${displayName ?? npcId}`}
+        onMouseDown={(e) => e.stopPropagation()}
+      >
+        <div className="mb-2 flex shrink-0 items-start justify-between gap-2 border-b border-[#5c4a32]/25 pb-2">
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-[#7a6b55]">
+              Разговор
+            </p>
+            <h2 className="truncate text-base font-semibold leading-tight text-[#2a241c] sm:text-lg">
+              {displayName ?? npcId}
+            </h2>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <PaperButton
+              type="button"
+              variant="accent"
+              disabled={summarizing || loading}
+              className="px-2 py-1 text-[10px] sm:text-[11px]"
+              onClick={onSummarize}
+            >
+              {summarizing ? "Сохранение..." : "Завершить"}
+            </PaperButton>
+            <PaperButton
+              type="button"
+              variant="close"
+              disabled={summarizing}
+              className="px-2 py-1 text-[10px] sm:text-[11px]"
+              onClick={onClose}
+            >
+              Esc
+            </PaperButton>
+          </div>
+        </div>
+        {children}
+      </section>
+    </div>
+  );
+}
+
+function DialogueHistory({
+  msgs,
+  loading,
+  endRef,
+}: {
+  msgs: Turn[];
+  loading: boolean;
+  endRef: RefObject<HTMLDivElement | null>;
+}) {
+  if (msgs.length === 0 && !loading) return null;
+
+  return (
+    <div className="paper-scroll min-h-[3.5rem] flex-1 space-y-1.5 overflow-y-auto rounded-sm border border-[#5c4a32]/20 bg-[rgba(42,36,28,0.055)] px-2 py-1.5">
+      {msgs.map((m, i) => (
+        <div
+          key={`${i}-${m.role}-${m.content.slice(0, 12)}`}
+          className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-2 text-xs leading-relaxed sm:grid-cols-[4rem_minmax(0,1fr)]"
+        >
+          <span
+            className={
+              m.role === "user"
+                ? "font-semibold text-[#1b6b52]"
+                : "font-semibold text-[#7a5218]"
+            }
+          >
+            {m.role === "user" ? "Вы" : "NPC"}
+          </span>
+          <p className="min-w-0 whitespace-pre-wrap break-words text-[#3d362c]">
+            {m.role === "user" ? m.content : <NpcMessageBody content={m.content} />}
+          </p>
+        </div>
+      ))}
+      {loading ? (
+        <div className="grid grid-cols-[3.25rem_minmax(0,1fr)] gap-2 text-xs leading-relaxed sm:grid-cols-[4rem_minmax(0,1fr)]">
+          <span className="font-semibold text-[#7a5218]">NPC</span>
+          <p className="animate-pulse text-[#6d6658]">Печатает...</p>
+        </div>
+      ) : null}
+      <div ref={endRef} />
+    </div>
+  );
+}
+
+function ScriptedChoices({
+  choices,
+  disabled,
+  onChoose,
+}: {
+  choices: ScriptChoice[];
+  disabled: boolean;
+  onChoose: (choice: ScriptChoice) => void;
+}) {
+  return (
+    <div className="grid shrink-0 gap-1.5 sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+      {choices.map((choice) => (
+        <button
+          key={choice.label}
+          type="button"
+          disabled={disabled}
+          className="min-h-10 rounded-sm border-2 border-[#1b6b52]/75 bg-[#f4ecd8]/92 px-3 py-2 text-left text-xs font-semibold leading-snug text-[#1a3228] shadow-sm transition-colors hover:bg-[#dcefdc] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1b6b52] disabled:opacity-45 sm:text-[13px]"
+          onClick={() => onChoose(choice)}
+        >
+          {choice.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function DialogueActions({
+  shopAvailable,
+  disabled,
+  onOpenShop,
+}: {
+  shopAvailable: boolean;
+  disabled: boolean;
+  onOpenShop?: () => void;
+}) {
+  if (!shopAvailable || !onOpenShop) return null;
+
+  return (
+    <div className="grid shrink-0 gap-1.5 sm:grid-cols-[repeat(auto-fit,minmax(12rem,1fr))]">
+      <button
+        type="button"
+        disabled={disabled}
+        className="min-h-10 rounded-sm border-2 border-[#7a5218]/75 bg-[#f6e3bc]/95 px-3 py-2 text-left text-xs font-semibold leading-snug text-[#4c3210] shadow-sm transition-colors hover:bg-[#efd198] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#7a5218] disabled:opacity-45 sm:text-[13px]"
+        onClick={onOpenShop}
+      >
+        Торговля
+      </button>
+    </div>
+  );
+}
+
+function AiInputBar({
+  inputRef,
+  input,
+  setInput,
+  canChat,
+  scriptedActive,
+  aiLoreUnlocked,
+  loading,
+  summarizing,
+  onSend,
+}: {
+  inputRef: RefObject<HTMLInputElement | null>;
+  input: string;
+  setInput: (value: string) => void;
+  canChat: boolean;
+  scriptedActive: boolean;
+  aiLoreUnlocked: boolean;
+  loading: boolean;
+  summarizing: boolean;
+  onSend: () => void;
+}) {
+  return (
+    <div className="flex shrink-0 gap-2 border-t border-[#5c4a32]/25 pt-2">
+      <input
+        ref={inputRef}
+        className="min-w-0 flex-1 rounded-sm border-2 border-[#5c4a32]/45 bg-[#f8f0dc] px-3 py-2 text-sm text-[#2a241c] outline-none placeholder:text-[#8a8270] focus:border-[#1b6b52] disabled:bg-[#d8ccb8]/70 disabled:text-[#7f735f]"
+        placeholder={
+          scriptedActive
+            ? "Сначала выберите ответ по текущей задаче..."
+            : aiLoreUnlocked
+              ? "Спросить NPC..."
+              : "Свободный разговор откроется после первых записей в дневнике..."
+        }
+        value={input}
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
+        disabled={loading || summarizing || !canChat}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.key === "Tab") {
+            e.preventDefault();
+          }
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            onSend();
+          }
+        }}
+        onKeyUp={(e) => e.stopPropagation()}
+      />
+      <PaperButton
+        type="button"
+        variant="accent"
+        disabled={loading || summarizing || !input.trim() || !canChat}
+        className="shrink-0 px-3 py-2 text-[11px] sm:px-4"
+        onClick={onSend}
+      >
+        Отправить
+      </PaperButton>
+    </div>
+  );
+}
+
 export default function DialogueOverlay({
   npcId,
   displayName,
-  scriptedOpeners,
+  scriptedScenes,
+  onOpenShop,
   onClose,
 }: {
   npcId: string;
   /** Имя из traits.json (через GET /api/npcs) */
   displayName?: string;
-  /** Кнопки быстрого старта из `dialogue_scripts.json`. */
-  scriptedOpeners?: ReadonlyArray<DialogueScriptedOpener>;
+  /** Квестовые scripted-сцены из `dialogue_scripts.json`. */
+  scriptedScenes?: ReadonlyArray<NpcDialogueScene>;
+  onOpenShop?: () => void;
   onClose: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
   const [msgs, setMsgs] = useState<Turn[]>([]);
   const [suggestedReplies, setSuggestedReplies] = useState<string[]>([]);
+  const [scriptStepId, setScriptStepId] = useState<string | null>(null);
+  const [hasAiConversation, setHasAiConversation] = useState(false);
   const [loading, setLoading] = useState(false);
   const [summarizing, setSummarizing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const chatAbortRef = useRef<AbortController | null>(null);
+  const unlockedFactIds = useLoreJournalStore((s) => s.unlockedFactIds);
+  const activeQuest = useQuestStore((s) => s.active);
+  const activeQuestDef = activeQuest ? QUESTS_BY_ID[activeQuest.questId] : null;
+  const activeStage = activeQuestDef?.stages[activeQuest?.stageIndex ?? -1];
+  const shopAvailable = Boolean(getShopByNpc(npcId));
+  const activeTalkToNpcId =
+    activeStage?.objective.kind === "talk_to"
+      ? activeStage.objective.npcId
+      : null;
+  const scriptedScene =
+    activeQuest &&
+    activeStage &&
+    activeTalkToNpcId === npcId &&
+    scriptedScenes
+      ? scriptedScenes.find(
+          (s) =>
+            s.questId === activeQuest.questId &&
+            s.stageId === activeStage.id
+        )
+      : undefined;
+  const scriptedActive = Boolean(scriptedScene);
+  const aiLoreUnlocked = hasStarterNpcAiLoreAccess(unlockedFactIds);
+  const aiChatAvailable = !scriptedActive && aiLoreUnlocked;
+  const currentScriptStep =
+    scriptedActive && scriptedScene
+      ? scriptedScene.steps.find((s) => s.id === scriptStepId) ??
+        scriptedScene.steps[0]
+      : undefined;
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+    if (aiChatAvailable) inputRef.current?.focus();
+  }, [aiChatAvailable]);
 
   useEffect(() => {
     return () => {
@@ -96,7 +431,7 @@ export default function DialogueOverlay({
       new CustomEvent("npc-dialogue-close", { detail: { npcId } })
     );
     window.dispatchEvent(
-      new CustomEvent("nagibatop:dialogue-close", { detail: { npcId } })
+      new CustomEvent("last-summon:dialogue-close", { detail: { npcId } })
     );
     onClose();
   }, [npcId, onClose]);
@@ -113,7 +448,7 @@ export default function DialogueOverlay({
 
   async function summarizeAndClose(): Promise<void> {
     setError(null);
-    if (msgs.length === 0) {
+    if (!hasAiConversation) {
       close();
       return;
     }
@@ -148,7 +483,7 @@ export default function DialogueOverlay({
     opts?: { restoreInputOnError?: string }
   ): Promise<void> {
     const text = raw.trim();
-    if (!text || loading || summarizing) return;
+    if (!text || loading || summarizing || !aiChatAvailable) return;
 
     chatAbortRef.current?.abort();
     const ac = new AbortController();
@@ -170,6 +505,7 @@ export default function DialogueOverlay({
           message: text,
           history,
           worldSnapshot: buildWorldSnapshotForNpcChat(),
+          shopSnapshot: buildShopSnapshotForNpcChat(npcId),
         }),
         signal: ac.signal,
       });
@@ -208,6 +544,7 @@ export default function DialogueOverlay({
       }
 
       const { reply, suggestions } = dataParsed.data;
+      setHasAiConversation(true);
       setMsgs((m) => [
         ...m,
         { role: "user", content: text },
@@ -229,173 +566,144 @@ export default function DialogueOverlay({
 
   async function send(): Promise<void> {
     const text = input.trim();
-    if (!text || loading || summarizing) return;
+    if (!text || loading || summarizing || !aiChatAvailable) return;
     setInput("");
     await sendUserMessage(text, { restoreInputOnError: text });
   }
 
+  function completeScriptedScene(scene: NpcDialogueScene): void {
+    window.dispatchEvent(
+      new CustomEvent("last-summon:npc-script-completed", {
+        detail: {
+          npcId,
+          questId: scene.questId,
+          stageId: scene.stageId,
+          sceneId: scene.id,
+        },
+      })
+    );
+    setScriptStepId(null);
+  }
+
+  function chooseScriptReply(choice: ScriptChoice): void {
+    if (!scriptedScene || !currentScriptStep) return;
+    const playerText = choice.playerText?.trim() || choice.label;
+    setMsgs((m) => [
+      ...m,
+      { role: "assistant", content: currentScriptStep.npcText },
+      { role: "user", content: playerText },
+    ]);
+    unlockLoreFromIntro(npcId, choice.unlockLoreFactIds);
+    setSuggestedReplies([]);
+
+    if (choice.complete) {
+      completeScriptedScene(scriptedScene);
+      return;
+    }
+
+    const next =
+      choice.nextStepId &&
+      scriptedScene.steps.some((step) => step.id === choice.nextStepId)
+        ? choice.nextStepId
+        : null;
+    if (next) {
+      setScriptStepId(next);
+      return;
+    }
+
+    completeScriptedScene(scriptedScene);
+  }
+
   return (
-    <div
-      className="pointer-events-auto absolute inset-0 z-[100] flex flex-col justify-center bg-black/65 p-4 backdrop-blur-sm"
-      onMouseDown={() => inputRef.current?.focus()}
-      role="presentation"
+    <DialogueFrame
+      npcId={npcId}
+      displayName={displayName}
+      loading={loading}
+      summarizing={summarizing}
+      onSummarize={() => void summarizeAndClose()}
+      onClose={close}
     >
-      <div className="mx-auto flex h-[min(72vh,520px)] min-h-0 w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-zinc-600 bg-zinc-900/97 p-4 text-sm text-zinc-100 shadow-2xl">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-zinc-700 pb-3">
-          <div className="font-medium text-emerald-300">
-            Диалог —{" "}
-            <span className="text-zinc-200">{displayName ?? npcId}</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              disabled={summarizing || loading}
-              className="rounded-md border border-emerald-700 bg-emerald-950/80 px-3 py-1.5 text-xs text-emerald-200 hover:bg-emerald-900 disabled:opacity-40"
-              onClick={() => void summarizeAndClose()}
-            >
-              {summarizing ? "Сохранение…" : "Завершить и саммари"}
-            </button>
-            <button
-              type="button"
-              disabled={summarizing}
-              className="rounded-md border border-zinc-600 px-3 py-1.5 text-xs hover:bg-zinc-800"
-              onClick={close}
-            >
-              Закрыть (Esc)
-            </button>
-          </div>
-        </div>
+      <div
+        className="flex min-h-0 flex-1 flex-col gap-3 sm:flex-row"
+        onMouseDown={() => {
+          if (aiChatAvailable) inputRef.current?.focus();
+        }}
+        role="presentation"
+      >
+        <NpcPortrait npcId={npcId} displayName={displayName} />
 
-        {error ? (
-          <div className="mb-2 rounded-md border border-red-900/80 bg-red-950/90 px-3 py-2 text-xs text-red-200">
-            {error}
-          </div>
-        ) : null}
-
-        <div className="mb-3 min-h-0 flex-1 space-y-2 overflow-y-auto overflow-x-hidden pr-1">
-          {msgs.map((m, i) => (
-            <div
-              key={`${i}-${m.role}-${m.content.slice(0, 12)}`}
-              className={
-                m.role === "user"
-                  ? "ml-8 min-w-0 rounded-lg border border-emerald-700/55 bg-emerald-950/75 p-3 shadow-sm"
-                  : "mr-8 min-w-0 rounded-lg border border-zinc-500/45 bg-zinc-600/90 p-3 shadow-sm"
-              }
-            >
-              <span
-                className={
-                  m.role === "user"
-                    ? "text-[10px] font-medium uppercase tracking-wide text-emerald-400/95"
-                    : "text-[10px] font-medium uppercase tracking-wide text-zinc-300"
-                }
-              >
-                {m.role === "user" ? "Вы" : "NPC"}
-              </span>
-              <p
-                className={
-                  m.role === "user"
-                    ? "mt-1.5 whitespace-pre-wrap break-words text-[15px] leading-relaxed text-emerald-50"
-                    : "mt-1.5 text-[15px] leading-relaxed text-zinc-50 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]"
-                }
-              >
-                {m.role === "user" ? (
-                  m.content
-                ) : (
-                  <NpcMessageBody content={m.content} />
-                )}
-              </p>
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
+          {error ? (
+            <div className="shrink-0 rounded-sm border-2 border-[#8b2f24]/60 bg-[#f2d5c8] px-3 py-2 text-xs font-semibold leading-snug text-[#6f241d]">
+              {error}
             </div>
-          ))}
-          {loading ? (
-            <div className="mr-8 min-w-0 rounded-lg border border-zinc-500/45 bg-zinc-600/90 p-3 shadow-sm">
-              <span className="text-[10px] font-medium uppercase tracking-wide text-zinc-300">
-                NPC
-              </span>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-zinc-50 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]">
-                <span className="animate-pulse text-zinc-300">Печатает…</span>
+          ) : null}
+
+          {currentScriptStep ? (
+            <div className="shrink-0 rounded-sm border border-[#5c4a32]/20 bg-[rgba(255,255,255,0.18)] px-3 py-2">
+              <p className="whitespace-pre-wrap break-words text-[15px] font-medium leading-relaxed text-[#2a241c] sm:text-base">
+                {currentScriptStep.npcText}
               </p>
             </div>
           ) : null}
-          <div ref={endRef} />
-        </div>
 
-        {scriptedOpeners && scriptedOpeners.length > 0 ? (
-          <div className="mb-2 flex flex-wrap gap-2">
-            {scriptedOpeners.map((o, i) => (
-              <button
-                key={`${i}-${o.label}`}
-                type="button"
-                disabled={loading || summarizing || !o.prompt.trim()}
-                className="rounded-lg border border-zinc-600 bg-zinc-800/80 px-3 py-1.5 text-xs text-zinc-100 hover:bg-zinc-700 disabled:opacity-40"
-                onClick={() => void sendUserMessage(o.prompt)}
-              >
-                {o.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
+          <DialogueHistory msgs={msgs} loading={loading} endRef={endRef} />
 
-        {suggestedReplies.length === 3 ? (
-          <div className="mb-2 rounded-lg border border-zinc-700/80 bg-zinc-950/80 px-3 py-2">
-            <p className="mb-2 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
-              Варианты ответа
-            </p>
-            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          {!aiChatAvailable && !scriptedActive ? (
+            <div className="shrink-0 rounded-sm border border-[#9b6a20]/45 bg-[#f2dfb8]/75 px-3 py-2 text-xs leading-relaxed text-[#5f451c]">
+              Свободный разговор откроется, когда в дневнике появятся первые
+              записи о деревне, тумане и самом дневнике.
+            </div>
+          ) : null}
+
+          {currentScriptStep ? (
+            <ScriptedChoices
+              choices={currentScriptStep.choices}
+              disabled={summarizing}
+              onChoose={chooseScriptReply}
+            />
+          ) : null}
+
+          <DialogueActions
+            shopAvailable={shopAvailable}
+            disabled={summarizing}
+            onOpenShop={onOpenShop}
+          />
+
+          {aiChatAvailable && suggestedReplies.length === 3 ? (
+            <div className="grid shrink-0 gap-1.5 sm:grid-cols-3">
               {suggestedReplies.map((s, i) => (
                 <button
                   key={`${i}-${s.slice(0, 24)}`}
                   type="button"
                   disabled={loading || summarizing}
-                  className="rounded-lg border border-emerald-800/70 bg-emerald-950/50 px-3 py-2 text-left text-xs leading-snug text-emerald-100 hover:bg-emerald-900/55 disabled:opacity-40"
+                  className="rounded-sm border border-[#1b6b52]/65 bg-[#e7f0d8]/90 px-2.5 py-1.5 text-left text-[11px] font-semibold leading-snug text-[#1a3228] transition-colors hover:bg-[#d4ebcf] disabled:opacity-45"
                   onClick={() => void sendUserMessage(s)}
                 >
                   {s}
                 </button>
               ))}
             </div>
-          </div>
-        ) : null}
+          ) : null}
 
-        <div className="flex gap-2 border-t border-zinc-800 pt-3">
-          <input
-            ref={inputRef}
-            className="min-w-0 flex-1 rounded-lg border border-zinc-600 bg-zinc-950 px-3 py-2.5 text-base text-zinc-100 outline-none focus:border-emerald-500"
-            placeholder="Введите сообщение…"
-            value={input}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck={false}
-            disabled={loading || summarizing}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-              if (e.key === "Tab") {
-                e.preventDefault();
-              }
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                void send();
-              }
-            }}
-            onKeyUp={(e) => e.stopPropagation()}
+          <AiInputBar
+            inputRef={inputRef}
+            input={input}
+            setInput={setInput}
+            canChat={aiChatAvailable}
+            scriptedActive={scriptedActive}
+            aiLoreUnlocked={aiLoreUnlocked}
+            loading={loading}
+            summarizing={summarizing}
+            onSend={() => void send()}
           />
-          <button
-            type="button"
-            disabled={loading || summarizing || !input.trim()}
-            className="shrink-0 rounded-lg bg-emerald-700 px-5 py-2.5 font-medium text-white hover:bg-emerald-600 disabled:opacity-40"
-            onClick={() => void send()}
-          >
-            Отправить
-          </button>
+
+          <p className="shrink-0 text-center text-[10px] leading-tight text-[#7a6b55]">
+            Enter — отправить · Esc — закрыть · ответ NPC до{" "}
+            {NPC_REPLY_MAX_CHARS} символов
+          </p>
         </div>
-        <p className="mt-2 text-center text-[11px] text-zinc-500">
-          Enter — отправить · Shift+Enter можно вставить перенос · Esc — закрыть
-        </p>
-        <p className="mt-1 text-center text-[10px] text-zinc-600">
-          До {NPC_REPLY_MAX_CHARS} символов в ответе NPC; три варианта ответа —
-          подсказки, можно игнорировать и писать своё.
-        </p>
       </div>
-    </div>
+    </DialogueFrame>
   );
 }

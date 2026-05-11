@@ -157,6 +157,7 @@ export type GameLocation = {
   grassDecorItems?: GrassDecorDef[];
 };
 
+/** Целое число — дробный zoom даёт субпиксель в рендере и «мыло» на пиксель-арте. */
 export const CAMERA_ZOOM_PLAY = 2;
 
 export function pointInSegment(

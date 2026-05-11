@@ -6,7 +6,7 @@ import { migrateTownLegacyStationTextures } from "@/src/game/locations/migrateTo
 import type { GameLocation, LocationId } from "@/src/game/locations/types";
 
 /** Должен совпадать с прежним ключом в `MapEditorRoot` / старыми сейвами. */
-const MAP_EDITOR_DRAFT_STORAGE_PREFIX = "nagibatop-map-editor-draft";
+const MAP_EDITOR_DRAFT_STORAGE_PREFIX = "last-summon-map-editor-draft";
 
 export function mapEditorDraftStorageKey(id: LocationId): string {
   return `${MAP_EDITOR_DRAFT_STORAGE_PREFIX}-${id}`;

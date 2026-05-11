@@ -172,9 +172,25 @@ export async function loadNpcRouteOnly(id: string): Promise<NpcRoute> {
   return routeResult.data as NpcRoute;
 }
 
-/** Человекочитаемое имя из `traits.json` (`name`), если файл есть и поле строка. */
+/** Квестовые scripted-сцены из `dialogue_scripts.json`. */
 export type NpcDialogueScriptsPayload = {
-  openers: { label: string; prompt: string }[];
+  scenes: {
+    id: string;
+    questId: string;
+    stageId: string;
+    version: number;
+    steps: {
+      id: string;
+      npcText: string;
+      choices: {
+        label: string;
+        playerText?: string;
+        nextStepId?: string;
+        unlockLoreFactIds?: string[];
+        complete?: boolean;
+      }[];
+    }[];
+  }[];
 };
 
 /** Опциональные реплики при приближении; при ошибке — пустой массив. */
@@ -235,7 +251,9 @@ export async function loadNpcDialogueScriptsOnly(
       );
       return null;
     }
-    return { openers: r.data.openers };
+    return {
+      scenes: r.data.scenes,
+    };
   } catch {
     return null;
   }

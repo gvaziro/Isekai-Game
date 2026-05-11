@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { loadNpcCached } from "@/src/server/cache";
 import { appendNpcEvent, assertSafeNpcId } from "@/src/server/npc-loader";
-import { buildMessagesForCompletion } from "@/src/server/prompt-builder";
+import { buildMessagesForCompletionAsync } from "@/src/server/prompt-builder";
 import { createNpcChatStructuredCompletion } from "@/src/server/openai";
 import { getClientIp, rateLimit } from "@/src/server/rate-limit";
 import {
@@ -26,12 +26,49 @@ const BodySchema = z.object({
     )
     .max(24),
   worldSnapshot: z.string().max(4500).optional(),
+  shopSnapshot: z.string().max(7000).optional(),
 });
 
 function buildSummary(user: string, assistant: string): string {
   const u = user.replace(/\s+/g, " ").trim().slice(0, 280);
   const a = assistant.replace(/\s+/g, " ").trim().slice(0, 420);
   return `Игрок: ${u} | NPC: ${a}`;
+}
+
+function shouldLogNpcTokenUsage(): boolean {
+  if (process.env.NPC_LOG_TOKEN_USAGE === "0") return false;
+  return process.env.NPC_LOG_TOKEN_USAGE === "1" || process.env.NODE_ENV !== "production";
+}
+
+function logNpcTokenUsage({
+  npcId,
+  model,
+  usage,
+  messageCount,
+}: {
+  npcId: string;
+  model: string;
+  usage: OpenAI.Chat.Completions.ChatCompletion["usage"];
+  messageCount: number;
+}): void {
+  if (!usage || !shouldLogNpcTokenUsage()) return;
+  const cached = usage.prompt_tokens_details?.cached_tokens ?? 0;
+  const reasoning = usage.completion_tokens_details?.reasoning_tokens ?? 0;
+  console.log("[api/chat] npc_token_usage", {
+    npcId,
+    model,
+    messages: messageCount,
+    prompt_tokens: usage.prompt_tokens,
+    completion_tokens: usage.completion_tokens,
+    total_tokens: usage.total_tokens,
+    cached_prompt_tokens: cached,
+    billable_prompt_tokens_est: Math.max(0, usage.prompt_tokens - cached),
+    cache_hit_ratio:
+      usage.prompt_tokens > 0
+        ? Number((cached / usage.prompt_tokens).toFixed(3))
+        : 0,
+    reasoning_tokens: reasoning,
+  });
 }
 
 export async function POST(
@@ -74,11 +111,12 @@ export async function POST(
     return NextResponse.json({ error: "NPC не найден" }, { status: 404 });
   }
 
-  const messages = buildMessagesForCompletion(
+  const messages = await buildMessagesForCompletionAsync(
     npc,
     body.history,
     body.message,
-    body.worldSnapshot
+    body.worldSnapshot,
+    body.shopSnapshot
   );
   const model = process.env.NPC_MODEL ?? "gpt-5.4-mini";
 
@@ -138,6 +176,12 @@ export async function POST(
       cached_tokens: cached,
     });
   }
+  logNpcTokenUsage({
+    npcId: rawId,
+    model,
+    usage: completion.usage,
+    messageCount: messages.length,
+  });
 
   const choice0 = completion.choices?.[0];
   let parsed: NpcChatStructured | null = parsedRaw;

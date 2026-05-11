@@ -174,7 +174,7 @@ const SLOT_BUTTON: Record<Slot, string> = {
 
 type SortMode = "frameKey" | "slot_name" | "unknown_first";
 
-const GRID_CELL_MIN_KEY = "nagibatop-items-admin-grid-cell-min";
+const GRID_CELL_MIN_KEY = "last-summon-items-admin-grid-cell-min";
 const GRID_CELL_MIN_DEFAULT = 108;
 const GRID_CELL_MIN_LO = 64;
 const GRID_CELL_MIN_HI = 280;

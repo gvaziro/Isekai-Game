@@ -42,9 +42,9 @@ export const ANIM_STATIONS: LayoutAnimStation[] = [];
 export const HERO_SPAWN = { x: 400, y: 400 } as const;
 
 export const NPC_IDLE_TEXTURE: Record<string, string> = {
-  elena: "npc_wizzard_idle",
-  marcus: "npc_knight_idle",
-  igor: "npc_rogue_idle",
+  elena: "npc_elena_idle",
+  marcus: "npc_marcus_idle",
+  igor: "npc_igor_idle",
 };
 
 export const TOWN_LOCATION: GameLocation = {

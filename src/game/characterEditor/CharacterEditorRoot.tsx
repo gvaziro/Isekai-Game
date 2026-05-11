@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import Link from "next/link";
 import type { CharacterPackJson } from "@/src/game/load/mergeAssetManifestExtras";
 import {
   deleteProfile,
@@ -22,8 +21,8 @@ import type {
   AssetManifestLoadSpritesheet,
 } from "@/src/game/types";
 
-const LEGACY_STORAGE_KEY = "nagibatop-character-editor-draft-v1";
-const LAST_SLUG_KEY = "nagibatop-character-editor-active-slug";
+const LEGACY_STORAGE_KEY = "last-summon-character-editor-draft-v1";
+const LAST_SLUG_KEY = "last-summon-character-editor-active-slug";
 
 const IMAGE_MIME = /^image\/(png|webp|jpeg|gif)$/i;
 
@@ -762,16 +761,17 @@ export default function CharacterEditorRoot() {
           подмешивается при загрузке игры и редактора карт.
         </p>
         <div className="flex flex-wrap gap-2 pt-2">
-          <Link
+          <a
             href="/dev/map-editor"
             className="text-sm text-emerald-400 hover:text-emerald-300"
           >
             Редактор карт
-          </Link>
+          </a>
           <span className="text-zinc-600">·</span>
-          <Link href="/" className="text-sm text-emerald-400 hover:text-emerald-300">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- редактор без next/link */}
+          <a href="/" className="text-sm text-emerald-400 hover:text-emerald-300">
             На главную
-          </Link>
+          </a>
         </div>
       </header>
 

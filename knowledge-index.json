@@ -1,0 +1,1411 @@
+{
+  "generated_at": "2026-05-11T18:30:25.492Z",
+  "entries": [
+    {
+      "id": "book_elena_seal_margin_notes",
+      "type": "book",
+      "title": "Поля Елены о туманной печати",
+      "tags": [],
+      "tier": null,
+      "truth_level": "hidden_truth",
+      "related": [],
+      "body": "Елена не ведет дневник как исповедь. Это скорее список признаков, сверенный с чужими ошибками.\n\nТретий этаж дает слабый холод и первый осколок. Шестой этаж должен дать повтор — если повтор есть, значит печать не точка, а контур. Нижний узел, вероятно, держит не камень, а воля существа, сидящего у порога.\n\nПоследняя строка подчеркнута дважды: если герой дойдет до десятого, Маркус должен быть готов проверить дорогу сразу.",
+      "source_path": "world/books/elena_seal_margin_notes.md",
+      "content_hash": "5ddd2fc99948166893b1487388535be518350b124d18203d3ec492f2047b6cc9",
+      "locked": false
+    },
+    {
+      "id": "book_forbidden_goblin_king_note",
+      "type": "book",
+      "title": "Запрещенная заметка о Короле гоблинов",
+      "tags": [],
+      "tier": null,
+      "truth_level": "hidden_truth",
+      "related": [],
+      "body": "Запись сделана рукой неизвестного служителя старой часовни.\n\n> Туман не пришел из леса. Он поднимается из печати под логовом короля малых. Пока его трон стоит на нижнем пороге, деревня остается внутри кольца, а нижняя лестница не помнит себя.\n\nПоследняя строка выцарапана отдельно: если король падет, дорога откроется в обе стороны.",
+      "source_path": "world/books/forbidden_goblin_king_note.md",
+      "content_hash": "10387922e16ab5be02bb1b32f487e0003eb63f93a04f4e799ee43c823e8f71c5",
+      "locked": false
+    },
+    {
+      "id": "book_forest_hub_spawn_note",
+      "type": "book",
+      "title": "Записка у тропы",
+      "tags": [],
+      "tier": null,
+      "truth_level": "subjective",
+      "related": [],
+      "body": "Кто-то прижал листок камнем к корню — чернила размазались от влаги, но строки ещё читаются.\n\nЕсли ты только вышел из деревни: не гонись за добычей. Здесь тропа ещё лжётся под ногами спокойно, а чуть в сторону — уже чужая густота. Старые говорили: пока видишь свой след на грязи главной дороги, ты можешь развернуться.\n\nДальше на север тропа не кончается, но кончается терпение леса. Не оставляй запас сил на ноль — и не верь тишине после заката.",
+      "source_path": "world/books/forest_hub_spawn_note.md",
+      "content_hash": "0606d9962750c67686ebe23b49fe1f7121bf3a49e64e59ba04469220629af023",
+      "locked": false
+    },
+    {
+      "id": "book_igor_deep_kit_note",
+      "type": "book",
+      "title": "Пометка Игоря о нижних этажах",
+      "tags": [],
+      "tier": null,
+      "truth_level": "subjective",
+      "related": [],
+      "body": "Лист исписан неровным почерком и перечнем цен, поверх которого Игорь вывел несколько правил.\n\nПервое: веревки мало не бывает, если лестница старая и злая. Второе: железо в сумке выглядит скучно ровно до первой поломки. Третье: если осколок из катакомб холодит через ткань, не спорь с Еленой и не клади его рядом с едой.\n\nВнизу стоит пометка: шестой этаж — уже не прогулка за добычей, а разговор с печатью.",
+      "source_path": "world/books/igor_deep_kit_note.md",
+      "content_hash": "a117b45b0fa28413ecc0258188c523918a7a0efd3e44307728d6e355fdc62239",
+      "locked": false
+    },
+    {
+      "id": "book_watch_post_road_log",
+      "type": "book",
+      "title": "Журнал дорожного поста",
+      "tags": [],
+      "tier": null,
+      "truth_level": "subjective",
+      "related": [],
+      "body": "Записи Маркуса короткие, почти сухие. В них нет героизма, зато есть повторяющиеся часы, следы и расстояния от ворот.\n\n> Твари снова подошли ближе после ночного гула снизу. Не уверен, что они слышат печать, но идут так, будто кто-то снимает поводок. Зачистка кромки помогает на день-два. Дольше — только если причина внизу будет убрана.\n\nНа полях приписано: новичку поручать малое, смотреть на возвращение, не на слова.",
+      "source_path": "world/books/watch_post_road_log.md",
+      "content_hash": "3053e11842aa7c38123864a3cd5fcfbed612da53f99ed2fe9d110c87205445b9",
+      "locked": false
+    },
+    {
+      "id": "fog_seal",
+      "type": "entity",
+      "title": "Туманная печать",
+      "tags": [],
+      "tier": null,
+      "truth_level": null,
+      "related": [],
+      "body": "Туманная печать — рабочее название механизма, который держит деревню внутри закрытого региона. На бытовом уровне жители знают только туман на дороге; профессиональные и скрытые источники связывают его с катакомбами, узлами печати и Королем гоблинов.",
+      "source_path": "world/entities/fog_seal.md",
+      "content_hash": "0ad6e2243ad21500a65707fb974625c7b5c38d0e3765c16e94d2239094ea1212",
+      "locked": false
+    },
+    {
+      "id": "goblin_king",
+      "type": "entity",
+      "title": "Король гоблинов",
+      "tags": [],
+      "tier": null,
+      "truth_level": null,
+      "related": [],
+      "body": "Король гоблинов является боссом первого подземелья под деревней. Для жителей он выглядит как сильнейший гоблин финального этажа, но на уровне канона его логово сидит на узле, который держит туман и закрывает более глубокую ветвь катакомб.\n\nЭтот entity-файл нужен автору и агентам как обзор. NPC должны получать атомарные факты, а не весь этот обзор целиком.",
+      "source_path": "world/entities/goblin_king.md",
+      "content_hash": "aaa08ca45fdbbd061ffa82a7a1ab3a27e6c2d9fa44974635a729b61f2590cb31",
+      "locked": false
+    },
+    {
+      "id": "village_watch",
+      "type": "entity",
+      "title": "Деревенский дозор",
+      "tags": [],
+      "tier": null,
+      "truth_level": null,
+      "related": [],
+      "body": "Деревенский дозор — не полноценная стража города, а привычка выживания. Маркус держит дорогу, площадь и порядок, распределяя малые поручения так, чтобы деревня не развалилась до решения главной проблемы.",
+      "source_path": "world/entities/village_watch.md",
+      "content_hash": "bd3d16dc4ef8d93c4b32ed91d320435dfeed2ccddd0bc1e2d5ca1ff14cf945a5",
+      "locked": false
+    },
+    {
+      "id": "catacombs_are_young_dungeon",
+      "type": "fact",
+      "title": "Катакомбы под деревней являются молодым живым подземельем",
+      "tags": [
+        "катакомбы",
+        "подземелье",
+        "живое_подземелье",
+        "деревня"
+      ],
+      "tier": "professional",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "floor_10_seal_blocks_depths"
+      ],
+      "body": "Катакомбы под стартовой деревней являются молодым живым подземельем. Жители считают, что оно заканчивается на 10-м этаже, потому что дальше никто не проходил.",
+      "source_path": "world/facts/catacombs_are_young_dungeon.md",
+      "content_hash": "a71d4dc8f8f08dd38f4e28e1c149e2d4a6ac7a3d13f63c1420cacc0aa712bd69",
+      "locked": false
+    },
+    {
+      "id": "catacombs_floor_10_seen_as_end",
+      "type": "fact",
+      "title": "10-й этаж считается концом известных катакомб",
+      "tags": [
+        "катакомбы",
+        "10_этаж",
+        "жители",
+        "подземелье"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "catacombs_are_young_dungeon",
+        "floor_10_seal_blocks_depths"
+      ],
+      "body": "Для жителей 10-й этаж является последним известным уровнем катакомб. О глубинной ветви они либо не знают, либо считают такие разговоры подземными байками.",
+      "source_path": "world/facts/catacombs_floor_10_seen_as_end.md",
+      "content_hash": "d591bd87b5ae2f65431351002a085e27cdbe663014667469d5987cc92df2d8ad",
+      "locked": false
+    },
+    {
+      "id": "catacombs_supply_ether_traces",
+      "type": "fact",
+      "title": "В катакомбах находят следы эфира",
+      "tags": [
+        "катакомбы",
+        "эфир",
+        "ресурсы",
+        "подземелье"
+      ],
+      "tier": "professional",
+      "truth_level": "true",
+      "related": [
+        "catacombs_are_young_dungeon"
+      ],
+      "body": "В катакомбах попадаются слабые эфирные следы и материалы, которые жители считают полезными, но опасными. Это один из признаков живого подземелья.",
+      "source_path": "world/facts/catacombs_supply_ether_traces.md",
+      "content_hash": "fbd53abb5726fc905f2ac3e58cefab97e49b7fab354583716d2c829ca5e791ad",
+      "locked": false
+    },
+    {
+      "id": "common_people_do_not_know_seal_mechanics",
+      "type": "fact",
+      "title": "Обычные жители не знают механику печати",
+      "tags": [
+        "печать",
+        "жители",
+        "туман",
+        "король_гоблинов"
+      ],
+      "tier": "hidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king_controls_fog",
+        "floor_10_seal_blocks_depths",
+        "village_common_knows_no_exit"
+      ],
+      "body": "Обычные жители могут говорить о тумане, дороге и Короле гоблинов, но не знают точную механику печати между деревней, финальным этажом первого подземелья и глубинной ветвью.",
+      "source_path": "world/facts/common_people_do_not_know_seal_mechanics.md",
+      "content_hash": "2626b6b80ac614f7d5ff92c99c67aceda68375fc8b064811a10d2db01f27e59c",
+      "locked": false
+    },
+    {
+      "id": "deep_supplies_matter_below_floor_3",
+      "type": "fact",
+      "title": "Ниже третьего этажа важны ремонтные припасы",
+      "tags": [
+        "катакомбы",
+        "припасы",
+        "ремесло",
+        "игорь",
+        "выживание"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "catacombs_are_young_dungeon",
+        "catacombs_floor_10_seen_as_end",
+        "road_supplies_matter_before_forest"
+      ],
+      "body": "После первых этажей катакомбы начинают ломать снаряжение так же быстро, как враги ломают здоровье. Веревка, железо и расходники не открывают новые проходы сами по себе, но снижают риск потерять вылазку из-за мелкой поломки.",
+      "source_path": "world/facts/deep_supplies_matter_below_floor_3.md",
+      "content_hash": "b7ce80ba327598746a09346471b031cdaf736d8d533d3f34806ca60b33b98a79",
+      "locked": false
+    },
+    {
+      "id": "deeper_branch_opens_after_keeper",
+      "type": "fact",
+      "title": "После Короля гоблинов открывается глубинная ветвь катакомб",
+      "tags": [
+        "катакомбы",
+        "глубинная_ветвь",
+        "король_гоблинов",
+        "стартовая_арка"
+      ],
+      "tier": "hidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "goblin_king_defeat_lifts_fog",
+        "floor_10_seal_blocks_depths"
+      ],
+      "body": "После смерти Короля гоблинов в катакомбах появляется проход к более старой глубинной ветви. Это не обязательное продолжение туториала, а следующий слой тайны, к которому игрок может вернуться позже.",
+      "source_path": "world/facts/deeper_branch_opens_after_keeper.md",
+      "content_hash": "b72d61dd0c676a75610d4b51edec724fd659d8ca6ec0652566658ade03c7c8d9",
+      "locked": true
+    },
+    {
+      "id": "dungeon_goblins_are_organized",
+      "type": "fact",
+      "title": "Гоблины в катакомбах действуют не совсем хаотично",
+      "tags": [
+        "гоблины",
+        "катакомбы",
+        "слухи",
+        "король_гоблинов"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "partial",
+      "related": [
+        "dungeon_has_goblins_and_slimes",
+        "goblin_king_rules_first_dungeon"
+      ],
+      "body": "По слухам, гоблины в катакомбах не просто бродят по этажам: ближе к нижним уровням они чаще действуют группами, будто слушаются вожака.",
+      "source_path": "world/facts/dungeon_goblins_are_organized.md",
+      "content_hash": "db60566adafe89e8720bf0b7c919b2308fb8c80301396f052fe2e1d394fd7cac",
+      "locked": false
+    },
+    {
+      "id": "dungeon_has_goblins_and_slimes",
+      "type": "fact",
+      "title": "В первом подземелье водятся гоблины и слаймы",
+      "tags": [
+        "катакомбы",
+        "подземелье",
+        "гоблины",
+        "слаймы",
+        "монстры"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "catacombs_are_young_dungeon",
+        "goblin_king_rules_first_dungeon"
+      ],
+      "body": "В первом подземелье под деревней встречаются гоблины и слаймы. Слаймы чаще воспринимаются как нижняя опасность для новичков, а гоблины как организованная угроза, связанная с Королем гоблинов.",
+      "source_path": "world/facts/dungeon_has_goblins_and_slimes.md",
+      "content_hash": "c3c46e6591f6493d663c69c48d260806e1fa94f0d561fe84cbc91a83540724c6",
+      "locked": false
+    },
+    {
+      "id": "dungeon_slimes_mark_damp_places",
+      "type": "fact",
+      "title": "Слаймы тянутся к сырым местам катакомб",
+      "tags": [
+        "слаймы",
+        "катакомбы",
+        "подземелье",
+        "ресурсы"
+      ],
+      "tier": "village_common",
+      "truth_level": "partial",
+      "related": [
+        "dungeon_has_goblins_and_slimes",
+        "catacombs_supply_ether_traces"
+      ],
+      "body": "Слаймы чаще попадаются в сырых и низких местах катакомб. Жители считают, что рядом с ними иногда можно найти полезную слизь, влажный гриб или след эфирного налета.",
+      "source_path": "world/facts/dungeon_slimes_mark_damp_places.md",
+      "content_hash": "22131ed5cbec8af7171a7d531c66e46b1770741cef993fa48fe0972a982fb5f2",
+      "locked": false
+    },
+    {
+      "id": "elena_interprets_seal_shards",
+      "type": "fact",
+      "title": "Елена умеет читать следы туманной печати",
+      "tags": [
+        "елена",
+        "печать",
+        "осколки",
+        "катакомбы"
+      ],
+      "tier": "professional",
+      "truth_level": "true",
+      "related": [
+        "elena_tracks_village_tasks",
+        "elena_prefers_practical_answers",
+        "seal_nodes_chain_under_catacombs"
+      ],
+      "body": "Елена не называет себя магом, но умеет сопоставлять холодные осколки, слухи и практические последствия. Для героя она становится первым надежным толкователем того, что именно держит деревню в тумане.",
+      "source_path": "world/facts/elena_interprets_seal_shards.md",
+      "content_hash": "dd80c536ee8d4a2483ede9f486510a15f495d41dc31e39f88f4287a3ea13dc5e",
+      "locked": false
+    },
+    {
+      "id": "elena_knows_who_to_ask",
+      "type": "fact",
+      "title": "Елена знает, кого расспросить по делу",
+      "tags": [
+        "елена",
+        "маркус",
+        "игорь",
+        "поручения"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "elena_tracks_village_tasks",
+        "marcus_watches_roads_and_square",
+        "igor_collects_item_rumors"
+      ],
+      "body": "Елена часто направляет игрока к Маркусу за безопасностью и к Игорю за слухами о вещах. Она не считает это тайной: в маленькой деревне у каждого соседа свой слух и своя польза.",
+      "source_path": "world/facts/elena_knows_who_to_ask.md",
+      "content_hash": "af8ce4e1f33bbdf333643d2019da2bfcca5ab2e3409534ae0b4683da9dabbd10",
+      "locked": false
+    },
+    {
+      "id": "elena_prefers_practical_answers",
+      "type": "fact",
+      "title": "Елена говорит о лоре через практические дела",
+      "tags": [
+        "елена",
+        "поручения",
+        "речь",
+        "деревня"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "elena_tracks_village_tasks",
+        "fog_blocks_village_road"
+      ],
+      "body": "Если игрок спрашивает Елену о деревне, она переводит разговор в конкретику: куда сходить, кого спросить, что проверить и к кому вернуться.",
+      "source_path": "world/facts/elena_prefers_practical_answers.md",
+      "content_hash": "125fff4642717df1d4d4fcba6cf2ffd53498cb605d9e47b395e199a5e78058ad",
+      "locked": false
+    },
+    {
+      "id": "elena_tracks_village_tasks",
+      "type": "fact",
+      "title": "Елена держит список деревенских дел",
+      "tags": [
+        "елена",
+        "поручения",
+        "деревня",
+        "развилка"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "village_square_is_information_hub"
+      ],
+      "body": "Елена знает, какие мелкие проблемы сейчас мешают деревне: дорога к лесу, нехватка припасов, подозрительные покупки, пропавшие вещи и просьбы жителей.",
+      "source_path": "world/facts/elena_tracks_village_tasks.md",
+      "content_hash": "0626da402ccd9035233253cfcc2784233bde22a2677fbe645dce4f03a65e9afa",
+      "locked": false
+    },
+    {
+      "id": "first_jobs_point_to_road_and_square",
+      "type": "fact",
+      "title": "Первые поручения ведут к лесу, дороге и соседям",
+      "tags": [
+        "поручения",
+        "елена",
+        "дорога",
+        "развилка",
+        "лес"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "elena_tracks_village_tasks",
+        "village_square_is_information_hub",
+        "forest_edge_has_return_rule"
+      ],
+      "body": "Стартовые поручения деревни должны вести игрока к понятным точкам: тропе в лес, старой дороге с туманом, Маркусу, Игорю и простым проверкам у домов. Это постепенно поднимает тему изоляции и тумана.",
+      "source_path": "world/facts/first_jobs_point_to_road_and_square.md",
+      "content_hash": "c2455ecec76fbc017c39d234ff34fc1a82d4b8f382f90dff5dacbf3821901475",
+      "locked": false
+    },
+    {
+      "id": "floor_10_rumor_about_goblin_king",
+      "type": "fact",
+      "title": "О Короле гоблинов говорят как о хозяине нижнего порога",
+      "tags": [
+        "король_гоблинов",
+        "гоблины",
+        "10_этаж",
+        "слухи",
+        "катакомбы"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "partial",
+      "related": [
+        "goblin_king",
+        "catacombs_floor_10_seen_as_end",
+        "villagers_know_fog_legend"
+      ],
+      "body": "В деревне Короля гоблинов называют хозяином нижнего порога. Большинство не знает, что именно он сторожит, но связывает его с причиной, по которой никто не проходит дальше финального этажа.",
+      "source_path": "world/facts/floor_10_rumor_about_goblin_king.md",
+      "content_hash": "665b1f6066ef1bc8eed09bf69527a5ee04708fc1605b16106a1ba910dec158de",
+      "locked": false
+    },
+    {
+      "id": "floor_10_seal_blocks_depths",
+      "type": "fact",
+      "title": "10-й этаж удерживает проход к глубинной ветви",
+      "tags": [
+        "катакомбы",
+        "10_этаж",
+        "печать",
+        "глубинная_ветвь"
+      ],
+      "tier": "hidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "catacombs_are_young_dungeon",
+        "deeper_branch_opens_after_keeper"
+      ],
+      "body": "До победы над Королем гоблинов путь ниже финального этажа первого подземелья закрыт, неизвестен или не проявлен. Его логово удерживает не только туман снаружи, но и границу между верхними катакомбами и более древней системой подземелья.",
+      "source_path": "world/facts/floor_10_seal_blocks_depths.md",
+      "content_hash": "3619d7574bd4141e273b1f33b2764bb8e2afc30a32a73a56251f9da01a94bd10",
+      "locked": true
+    },
+    {
+      "id": "floor_6_confirms_seal_chain",
+      "type": "fact",
+      "title": "Шестой этаж подтверждает цепь печати",
+      "tags": [
+        "катакомбы",
+        "шестой_этаж",
+        "печать",
+        "елена"
+      ],
+      "tier": "professional",
+      "truth_level": "partial",
+      "related": [
+        "seal_nodes_chain_under_catacombs",
+        "floor_10_seal_blocks_depths",
+        "catacombs_floor_10_seen_as_end"
+      ],
+      "body": "Елена трактует второй холодный след как подтверждение цепи узлов. Шестой этаж не раскрывает весь механизм, но показывает, что нижние уровни держат туман плотнее верхних.",
+      "source_path": "world/facts/floor_6_confirms_seal_chain.md",
+      "content_hash": "3b7ddc687e1b75dee5116cc9e54f4b9f4f7f1f49062cd3461c5e2fc0825bfce4",
+      "locked": false
+    },
+    {
+      "id": "fog_blocks_village_road",
+      "type": "fact",
+      "title": "Туман запирает дорогу из деревни",
+      "tags": [
+        "туман",
+        "деревня",
+        "дорога",
+        "стартовая_арка"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "goblin_king_controls_fog"
+      ],
+      "body": "Пока Король гоблинов жив, магический туман не дает покинуть регион по дороге наружу. Лес рядом с деревней доступен для вылазок, но дорога за пределы региона остается закрытой.",
+      "source_path": "world/facts/fog_blocks_village_road.md",
+      "content_hash": "bfe3a900396fbec39e1c2e96e564e45f11b8763e98ce71bf0bc895e684cd4c2f",
+      "locked": true
+    },
+    {
+      "id": "fog_cut_off_village_years_ago",
+      "type": "fact",
+      "title": "Туман отрезал деревню пять-семь лет назад",
+      "tags": [
+        "туман",
+        "деревня",
+        "изоляция",
+        "припасы",
+        "лес",
+        "дорога"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "forest_foraging_is_allowed",
+        "forest_has_harvestable_mushrooms"
+      ],
+      "body": "Жители считают, что туман на дороге наружу появился примерно пять-семь лет назад. С тех пор деревня отрезана от обозов, писем и помощи извне, а выживание держится на ближнем лесе, старых запасах, обмене и осторожных вылазках.",
+      "source_path": "world/facts/fog_cut_off_village_years_ago.md",
+      "content_hash": "2649b413b46c741a29df8ce1878e5263bdd53f6cfd57c0eefb7e0ca2de2c3ca0",
+      "locked": false
+    },
+    {
+      "id": "fog_not_cleared_until_goblin_king_defeated",
+      "type": "fact",
+      "title": "Туман не должен рассеяться до победы над Королем гоблинов",
+      "tags": [
+        "туман",
+        "король_гоблинов",
+        "гоблины",
+        "состояние_мира",
+        "канон"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king_defeat_lifts_fog",
+        "fog_blocks_village_road"
+      ],
+      "body": "NPC не должен говорить, что туман уже рассеялся, если в состоянии мира не указано, что Король гоблинов на финальном этаже первого подземелья побежден.",
+      "source_path": "world/facts/fog_not_cleared_until_goblin_king_defeated.md",
+      "content_hash": "b786fdbe8bdc6d0af6fc2fad1f72f9fcb6297aa427cdcdf7bfaf9d70ce7addab",
+      "locked": true
+    },
+    {
+      "id": "fog_swallows_sound",
+      "type": "fact",
+      "title": "Туман глушит звук",
+      "tags": [
+        "туман",
+        "слухи",
+        "дорога",
+        "страх"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "partial",
+      "related": [
+        "fog_blocks_village_road",
+        "fog_turns_travelers_back"
+      ],
+      "body": "По слухам, в тумане звук становится плоским: шаги слышны слишком близко, голоса теряются, а колокольчик на ремне может молчать даже при движении.",
+      "source_path": "world/facts/fog_swallows_sound.md",
+      "content_hash": "8a309001ff9a3fc9ee8918628261328504df18c4432da5cf6ff94a59cb46faa4",
+      "locked": false
+    },
+    {
+      "id": "fog_turns_travelers_back",
+      "type": "fact",
+      "title": "Туман сбивает путников с дороги",
+      "tags": [
+        "туман",
+        "дорога",
+        "слухи",
+        "деревня"
+      ],
+      "tier": "village_common",
+      "truth_level": "partial",
+      "related": [
+        "fog_blocks_village_road",
+        "villagers_know_fog_legend"
+      ],
+      "body": "Жители говорят, что в тумане дорога будто разворачивается: человек идет наружу, а возвращается к тем же деревьям или к знакомому повороту у деревни.",
+      "source_path": "world/facts/fog_turns_travelers_back.md",
+      "content_hash": "60c04183fdf5b23643563bcf1996053aef79d02638e507e262bd3c08151272b5",
+      "locked": false
+    },
+    {
+      "id": "forest_edge_has_return_rule",
+      "type": "fact",
+      "title": "У лесной кромки есть правило возврата",
+      "tags": [
+        "лес",
+        "безопасность",
+        "маркус",
+        "елена"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_foraging_is_allowed",
+        "road_is_dangerous_at_night"
+      ],
+      "body": "У жителей есть простое правило: не уходить дальше знакомых ориентиров без причины и возвращаться до фонарей. Елена формулирует это как поручение, Маркус как правило безопасности.",
+      "source_path": "world/facts/forest_edge_has_return_rule.md",
+      "content_hash": "541b5c9b9e8b904a41b124f9f48b9dd6e1564d3b8ce683d60634ee277fc58321",
+      "locked": false
+    },
+    {
+      "id": "forest_foraging_is_allowed",
+      "type": "fact",
+      "title": "В лес можно ходить за ресурсами",
+      "tags": [
+        "лес",
+        "ресурсы",
+        "деревня",
+        "дорога"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "road_is_dangerous_at_night"
+      ],
+      "body": "Туман закрывает дорогу наружу, но не запрещает короткие вылазки в лес за травами, древесиной, едой и другими простыми ресурсами. Жители привыкли возвращаться до темноты.",
+      "source_path": "world/facts/forest_foraging_is_allowed.md",
+      "content_hash": "d6c4639d50d25af68fab01850df06195ccaf700bfb17e6cbdf54ba6184208a40",
+      "locked": false
+    },
+    {
+      "id": "forest_has_harvestable_mushrooms",
+      "type": "fact",
+      "title": "В лесу собирают грибы и другие ресурсы",
+      "tags": [
+        "лес",
+        "грибы",
+        "ресурсы",
+        "собирательство"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_foraging_is_allowed",
+        "forest_is_endless_to_villagers"
+      ],
+      "body": "В лес ходят не ради путешествия, а за ресурсами: грибами, древесиной, травами, камнем и тем, что можно унести до темноты. Чем дальше от входа, тем выше риск не вернуться с добычей.",
+      "source_path": "world/facts/forest_has_harvestable_mushrooms.md",
+      "content_hash": "54eca72ee61e47f4b5665fe20a27600cf5e9567a2a4dcb39f60f8ec9bf52af8b",
+      "locked": false
+    },
+    {
+      "id": "forest_is_endless_to_villagers",
+      "type": "fact",
+      "title": "Лес кажется бесконечным",
+      "tags": [
+        "лес",
+        "бесконечный_лес",
+        "жители",
+        "деревня"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_foraging_is_allowed",
+        "forest_edge_has_return_rule"
+      ],
+      "body": "Лес у деревни считается бесконечным: его не удавалось пройти насквозь ни охотникам, ни сборщикам, ни тем, кто пытался искать обход тумана.",
+      "source_path": "world/facts/forest_is_endless_to_villagers.md",
+      "content_hash": "24311eeaf06cf41d7f83b1334bb649701253acca46ae37dd9b10d2dfcd5dc95f",
+      "locked": false
+    },
+    {
+      "id": "forest_monsters_scale_with_distance",
+      "type": "fact",
+      "title": "Чем дальше в лес, тем страшнее монстры",
+      "tags": [
+        "лес",
+        "монстры",
+        "опасность",
+        "градиент"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_is_endless_to_villagers",
+        "forest_has_harvestable_mushrooms",
+        "road_is_dangerous_at_night"
+      ],
+      "body": "Опасность леса растет с расстоянием от входа из деревни. У знакомой кромки встречаются слабые угрозы, а далеко в чащу уходят только те, кто готов к более сильным монстрам.",
+      "source_path": "world/facts/forest_monsters_scale_with_distance.md",
+      "content_hash": "f2a0d8942da795293dc194a7d47797915511e959024ec5480542948f8106d033",
+      "locked": false
+    },
+    {
+      "id": "goblin_king_controls_fog",
+      "type": "fact",
+      "title": "Король гоблинов связан с туманом",
+      "tags": [
+        "король_гоблинов",
+        "гоблины",
+        "туман",
+        "катакомбы",
+        "печать"
+      ],
+      "tier": "hidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "fog_blocks_village_road",
+        "floor_10_seal_blocks_depths"
+      ],
+      "body": "Туман вокруг деревни связан с Королем гоблинов на финальном этаже первого подземелья. Сам он выглядит как обычный чудовищный вожак, но его логово держится на узле печати между деревней, верхними катакомбами и закрытой глубинной ветвью.",
+      "source_path": "world/facts/goblin_king_controls_fog.md",
+      "content_hash": "5bf316d05b440df0bc00121b3b2eafa4543aa9a430b68337b7109b87cdfe3e4b",
+      "locked": true
+    },
+    {
+      "id": "goblin_king_defeat_lifts_fog",
+      "type": "fact",
+      "title": "Победа над Королем гоблинов рассеивает туман",
+      "tags": [
+        "король_гоблинов",
+        "гоблины",
+        "туман",
+        "победа",
+        "стартовая_арка"
+      ],
+      "tier": "hidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "fog_blocks_village_road",
+        "deeper_branch_opens_after_keeper"
+      ],
+      "body": "После победы над Королем гоблинов на финальном этаже первого подземелья туман на дороге наружу рассеивается. Это завершает стартовую арку и открывает путь к первому большому региону за пределами деревни.",
+      "source_path": "world/facts/goblin_king_defeat_lifts_fog.md",
+      "content_hash": "f9ab35ab579d0853f496828cb18ca13e40bc54fe0b5312e1e4af3dcaeea47501",
+      "locked": true
+    },
+    {
+      "id": "goblin_king_rules_first_dungeon",
+      "type": "fact",
+      "title": "Король гоблинов является боссом первого подземелья",
+      "tags": [
+        "король_гоблинов",
+        "гоблины",
+        "босс",
+        "катакомбы",
+        "10_этаж"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "catacombs_floor_10_seen_as_end",
+        "goblin_king_defeat_lifts_fog"
+      ],
+      "body": "Финальным боссом первого подземелья под деревней является Король гоблинов. Для жителей это не абстрактный хранитель печати, а опасный вожак гоблинов, до которого никто из деревни не смог добраться и вернуться с победой.",
+      "source_path": "world/facts/goblin_king_rules_first_dungeon.md",
+      "content_hash": "7e9d31273df0d068edef7b01f8a77834478c441f2c3b8701a3160f8631815343",
+      "locked": true
+    },
+    {
+      "id": "hero_isekai_origin_player_defined",
+      "type": "fact",
+      "title": "Прошлая жизнь героя выбирается игроком",
+      "tags": [
+        "герой",
+        "исекай",
+        "прошлое",
+        "стартовый_тест"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_start_arc_anchors"
+      ],
+      "body": "Герой является человеком из другого мира, перерожденным в фэнтезийном мире. Конкретная прошлая жизнь не фиксируется заранее: игрок формирует ее через стартовый тест, а результаты влияют на начальные характеристики и склонности.",
+      "source_path": "world/facts/hero_isekai_origin_player_defined.md",
+      "content_hash": "f4abcbe2854bff19ba08a1a9aa0337ac75401d5d120d3ea925bd362f817d6442",
+      "locked": true
+    },
+    {
+      "id": "igor_collects_item_rumors",
+      "type": "fact",
+      "title": "Игорь собирает слухи через товары",
+      "tags": [
+        "игорь",
+        "слухи",
+        "торговля",
+        "находки"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "partial",
+      "related": [
+        "igor_trades_road_gear",
+        "village_square_is_information_hub"
+      ],
+      "body": "Через покупки и обмены Игорь слышит много странного: кто принес мокрый ремень из сухого леса, кто искал лишний нож, кто купил щит и не вернулся до темноты.",
+      "source_path": "world/facts/igor_collects_item_rumors.md",
+      "content_hash": "7ea03550077dae3c0996a020a686d66c658eae57fa4b495e247472b913763500",
+      "locked": false
+    },
+    {
+      "id": "igor_prepares_deep_supplies",
+      "type": "fact",
+      "title": "Игорь готовит наборы для глубокого спуска",
+      "tags": [
+        "игорь",
+        "торговля",
+        "припасы",
+        "катакомбы"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "igor_trades_road_gear",
+        "igor_collects_item_rumors",
+        "deep_supplies_matter_below_floor_3"
+      ],
+      "body": "Игорь продает и собирает припасы для дороги и катакомб, но его полезность особенно заметна перед нижними этажами. Он понимает цену веревки, железа и маленьких вещей, которые редко попадают в героические рассказы.",
+      "source_path": "world/facts/igor_prepares_deep_supplies.md",
+      "content_hash": "3a050eb642fd417b95efd5b25d59dd67d35e62f7de1b5cc902f3d59924168df3",
+      "locked": false
+    },
+    {
+      "id": "igor_trades_road_gear",
+      "type": "fact",
+      "title": "Игорь торгует снаряжением для дороги",
+      "tags": [
+        "игорь",
+        "торговля",
+        "дорога",
+        "снаряжение"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "village_square_is_information_hub",
+        "road_is_dangerous_at_night"
+      ],
+      "body": "Игорь продает оружие, щиты, кожу, ремни и другие вещи для вылазок в лес, катакомбы и к старой дороге. Он подает советы как сделку и часто знает, кто куда собирался.",
+      "source_path": "world/facts/igor_trades_road_gear.md",
+      "content_hash": "d66eb460e364b266fd43bfa81d9998c4367ae6eebea1f54d2c61c487826811b6",
+      "locked": false
+    },
+    {
+      "id": "marcus_reduces_road_pressure",
+      "type": "fact",
+      "title": "Маркус снижает риск у дороги через малые зачистки",
+      "tags": [
+        "маркус",
+        "дорога",
+        "лес",
+        "безопасность"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "marcus_watches_roads_and_square",
+        "marcus_warns_against_shortcuts",
+        "road_pressure_rises_with_seal_nodes"
+      ],
+      "body": "Маркус не может снять туман, но может удерживать ближайшую дорогу от полного расползания опасности. Поэтому он просит героя не только идти в катакомбы, но и периодически сбивать угрозы у лесной кромки.",
+      "source_path": "world/facts/marcus_reduces_road_pressure.md",
+      "content_hash": "e593bbd3b6c2ba3e0af1ac95ba637f2b864d4dc0c774c28e62e584abc132447e",
+      "locked": false
+    },
+    {
+      "id": "marcus_values_order_without_cruelty",
+      "type": "fact",
+      "title": "Маркус держит порядок без жестокости",
+      "tags": [
+        "маркус",
+        "порядок",
+        "развилка",
+        "безопасность"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "marcus_watches_roads_and_square"
+      ],
+      "body": "Маркус считает порядок способом не дать людям ломать друг друга. Он предпочитает предупреждение, ремонт ущерба и ясные правила, а не угрозы и показную силу.",
+      "source_path": "world/facts/marcus_values_order_without_cruelty.md",
+      "content_hash": "6026e86b3f51599e1ad5e077b5a8feb5cbd647b89e1b70ac4479759d6bef8a1b",
+      "locked": false
+    },
+    {
+      "id": "marcus_warns_against_shortcuts",
+      "type": "fact",
+      "title": "Маркус не доверяет коротким путям",
+      "tags": [
+        "маркус",
+        "дорога",
+        "безопасность",
+        "лес"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "road_is_dangerous_at_night",
+        "forest_edge_has_return_rule"
+      ],
+      "body": "Маркус предупреждает новичков не верить словам про короткий путь, особенно у леса и тумана. Если кто-то предлагает срезать дорогу, он советует сначала спросить цену дважды.",
+      "source_path": "world/facts/marcus_warns_against_shortcuts.md",
+      "content_hash": "e47fe4d2c324e20ab4dee9b1dbcb0fd6ff0af749807315593f2e9537730b1482",
+      "locked": false
+    },
+    {
+      "id": "marcus_watches_roads_and_square",
+      "type": "fact",
+      "title": "Маркус следит за развилкой и проходами",
+      "tags": [
+        "маркус",
+        "развилка",
+        "дорога",
+        "безопасность"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "village_square_is_information_hub",
+        "road_is_dangerous_at_night"
+      ],
+      "body": "Маркус присматривает за деревенской развилкой, домами, тропой к лесу, спуском к катакомбам и старой дорогой с туманом. Он не любит легенды ради легенд, но хорошо знает, где люди чаще всего попадают в беду.",
+      "source_path": "world/facts/marcus_watches_roads_and_square.md",
+      "content_hash": "34c25383eafab2745cfcc20c8c14d0e370210ea4856a7945a8779eb61db4b3da",
+      "locked": false
+    },
+    {
+      "id": "old_chapel_has_forbidden_notes",
+      "type": "fact",
+      "title": "У старой часовни могли прятать запретные записи",
+      "tags": [
+        "часовня",
+        "книги",
+        "король_гоблинов",
+        "тайник"
+      ],
+      "tier": "hidden",
+      "truth_level": "partial",
+      "related": [
+        "book_forbidden_goblin_king_note",
+        "goblin_king"
+      ],
+      "body": "Старая часовня могла хранить записи о Короле гоблинов и печати под его логовом, но обычные жители не говорят об этом прямо. Для большинства это просто место, где лучше не рыться без причины.",
+      "source_path": "world/facts/old_chapel_has_forbidden_notes.md",
+      "content_hash": "cb4f596f5112e8b8c3668d45a4dab9e90298cb2dcaaccaa09b351bb3700bf158",
+      "locked": false
+    },
+    {
+      "id": "road_is_dangerous_at_night",
+      "type": "fact",
+      "title": "Дорога опаснее ночью",
+      "tags": [
+        "дорога",
+        "ночь",
+        "безопасность",
+        "лес"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "marcus_watches_roads_and_square"
+      ],
+      "body": "Даже до самой границы тумана дорога ночью опаснее: хуже видно следы, люди чаще теряют направление, а обычные предупреждения Маркуса звучат уже не как формальность.",
+      "source_path": "world/facts/road_is_dangerous_at_night.md",
+      "content_hash": "577d93743b0e976e50e154935bbc4969128e31aa7c4dccc76089c46407094d1c",
+      "locked": false
+    },
+    {
+      "id": "road_pressure_rises_with_seal_nodes",
+      "type": "fact",
+      "title": "Давление у дороги растет вместе с активностью печати",
+      "tags": [
+        "дорога",
+        "туман",
+        "лес",
+        "печать",
+        "стартовая_арка"
+      ],
+      "tier": "professional",
+      "truth_level": "partial",
+      "related": [
+        "fog_blocks_village_road",
+        "forest_monsters_scale_with_distance",
+        "catacombs_supply_ether_traces"
+      ],
+      "body": "Маркус считает, что всплески опасности у старой дороги совпадают с изменениями в катакомбах. Это не доказывает прямое управление монстрами, но делает зачистку лесной кромки частью подготовки к глубокому спуску.",
+      "source_path": "world/facts/road_pressure_rises_with_seal_nodes.md",
+      "content_hash": "6cdf14789aa0c18538e81a0eeb9bb36ac0a5760b3ae02a0e4963fd22d145a03c",
+      "locked": false
+    },
+    {
+      "id": "road_supplies_matter_before_forest",
+      "type": "fact",
+      "title": "Перед выходом к лесу важны припасы",
+      "tags": [
+        "дорога",
+        "лес",
+        "снаряжение",
+        "игорь",
+        "елена"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_foraging_is_allowed",
+        "igor_trades_road_gear",
+        "elena_tracks_village_tasks"
+      ],
+      "body": "Перед вылазкой к лесу жители советуют взять простые припасы и проверить снаряжение. Елена думает о еде и расходниках, Игорь о ремнях, щите и честной рукояти.",
+      "source_path": "world/facts/road_supplies_matter_before_forest.md",
+      "content_hash": "a9e66bc9f551ca0a81a6793e4ef1b1924b1be49efa49349103cfc331cc2ff9ad",
+      "locked": false
+    },
+    {
+      "id": "rumors_are_distorted_by_role",
+      "type": "fact",
+      "title": "Слухи меняются от рассказчика к рассказчику",
+      "tags": [
+        "слухи",
+        "жители",
+        "деревня",
+        "npc"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "villagers_know_fog_legend",
+        "igor_collects_item_rumors"
+      ],
+      "body": "Один и тот же слух в деревне звучит по-разному: Елена режет лишнее, Маркус сводит к рискам, Игорь добавляет цену, товар или странную деталь.",
+      "source_path": "world/facts/rumors_are_distorted_by_role.md",
+      "content_hash": "e42f377b8129c61a79d94c41efee151fe40daa055f6447fd287492bfdc0d7020",
+      "locked": false
+    },
+    {
+      "id": "seal_nodes_chain_under_catacombs",
+      "type": "fact",
+      "title": "Печать под катакомбами состоит из нескольких узлов",
+      "tags": [
+        "печать",
+        "катакомбы",
+        "туман",
+        "король_гоблинов",
+        "стартовая_арка"
+      ],
+      "tier": "hidden",
+      "truth_level": "partial",
+      "related": [
+        "floor_10_seal_blocks_depths",
+        "goblin_king_controls_fog",
+        "catacombs_supply_ether_traces"
+      ],
+      "body": "Следы на третьем и шестом этажах указывают, что туманная печать не является одной точкой. Верхние узлы дают слабые осколки и холодный след, а нижний узел связан с троном Короля гоблинов.",
+      "source_path": "world/facts/seal_nodes_chain_under_catacombs.md",
+      "content_hash": "a449185598d0ed8204ea8968a302768d3c903cb12903027db649ae36b9bfa0b9",
+      "locked": false
+    },
+    {
+      "id": "strange_purchases_hint_at_catacombs",
+      "type": "fact",
+      "title": "Странные покупки намекают на катакомбы",
+      "tags": [
+        "игорь",
+        "слухи",
+        "катакомбы",
+        "торговля"
+      ],
+      "tier": "village_rumor",
+      "truth_level": "partial",
+      "related": [
+        "igor_collects_item_rumors",
+        "catacombs_are_young_dungeon"
+      ],
+      "body": "Когда кто-то покупает веревку, запасной нож, ремни и масло в один день, Игорь обычно подозревает не прогулку, а подготовку к катакомбам.",
+      "source_path": "world/facts/strange_purchases_hint_at_catacombs.md",
+      "content_hash": "c9e392a8a8cf3384d4c2b106c1280d49881a9de82c9d9949fb26bda2b30c578f",
+      "locked": false
+    },
+    {
+      "id": "village_common_knows_no_exit",
+      "type": "fact",
+      "title": "Обычные жители знают, что выхода нет",
+      "tags": [
+        "деревня",
+        "туман",
+        "дорога",
+        "жители"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "villagers_avoid_fog_tests"
+      ],
+      "body": "Обычный житель не объяснит природу тумана, но знает практическую правду: по дороге наружу сейчас не выйти.",
+      "source_path": "world/facts/village_common_knows_no_exit.md",
+      "content_hash": "e676c2142028ce0fdaec88035c23cd434883f95f1d3a62954d909ee55daae3b5",
+      "locked": false
+    },
+    {
+      "id": "village_reads_hero_by_errands",
+      "type": "fact",
+      "title": "Деревня судит героя по выполненным поручениям",
+      "tags": [
+        "деревня",
+        "герой",
+        "доверие",
+        "квесты"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "first_jobs_point_to_road_and_square",
+        "elena_tracks_village_tasks",
+        "marcus_values_order_without_cruelty"
+      ],
+      "body": "В деревне мало людей и слишком много риска, поэтому доверие растет через конкретные поручения. Собранные припасы, зачищенная дорога и принесенные сведения значат больше, чем обещания о будущих подвигах.",
+      "source_path": "world/facts/village_reads_hero_by_errands.md",
+      "content_hash": "17622191f1d3a451c682d8582da7eef9264558d017e3b276eb638f09f1f4b74c",
+      "locked": false
+    },
+    {
+      "id": "village_square_is_information_hub",
+      "type": "fact",
+      "title": "Развилка собирает новости деревни",
+      "tags": [
+        "деревня",
+        "развилка",
+        "слухи",
+        "елена",
+        "маркус",
+        "игорь"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "villagers_know_fog_legend"
+      ],
+      "body": "В маленькой деревне новости сходятся у развилки между тремя домами, дорогой к лесу и спуском к катакомбам. У Елены просят работу, у Маркуса уточняют правила, а у Игоря всплывают слухи о странных покупках и находках.",
+      "source_path": "world/facts/village_square_is_information_hub.md",
+      "content_hash": "d477632be672915fe09f018c0315c2c9cfe1777bdfd712cab65747d1ca5ca536",
+      "locked": false
+    },
+    {
+      "id": "villagers_avoid_fog_tests",
+      "type": "fact",
+      "title": "Жители перестали проверять туман",
+      "tags": [
+        "туман",
+        "жители",
+        "дорога",
+        "безопасность"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "fog_turns_travelers_back"
+      ],
+      "body": "Жители уже не устраивают смелых проверок тумана. Те, кто пытался пройти силой или хитростью, вернулись ни с чем, а некоторые после этого долго не говорили о дороге.",
+      "source_path": "world/facts/villagers_avoid_fog_tests.md",
+      "content_hash": "ee2ebaca6439eae57d0aae640cdd5748ed146f9b47c766182a2dfebed9a6ef1e",
+      "locked": false
+    },
+    {
+      "id": "villagers_know_fog_legend",
+      "type": "fact",
+      "title": "Жители знают легенду о тумане и катакомбах",
+      "tags": [
+        "жители",
+        "слухи",
+        "туман",
+        "катакомбы"
+      ],
+      "tier": "village_common",
+      "truth_level": "partial",
+      "related": [
+        "fog_blocks_village_road",
+        "catacombs_are_young_dungeon",
+        "goblin_king"
+      ],
+      "body": "Обычные жители знают, что туман связан с катакомбами, но не понимают механизма печати. В пересказах Король гоблинов иногда превращается то в проклятого стража, то в наказание за старый грех деревни.",
+      "source_path": "world/facts/villagers_know_fog_legend.md",
+      "content_hash": "7ba501557618a0fb0ea95552ccc1b272a0825f29440a0ad3c0bfdcca67dc05b0",
+      "locked": false
+    },
+    {
+      "id": "locked_gods_church_anchors",
+      "type": "locked",
+      "title": "Канонические якоря богов и церкви",
+      "tags": [
+        "канон",
+        "боги",
+        "церковь",
+        "печати",
+        "чудеса",
+        "культ"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_world_core_anchors",
+        "locked_seal_system_anchors",
+        "locked_hero_summoning_anchors"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- боги в этом мире действительно существовали;\n- боги участвовали в создании или укреплении первых великих печатей;\n- после последней великой катастрофы боги замолчали;\n- в начале игры боги не должны напрямую являться, говорить с людьми или решать проблемы мира;\n- чудеса возможны, но они редки, спорны и непредсказуемы;\n- церковь существует как религиозная, социальная и политическая сила;\n- церковь утверждает, что Эра героев закончилась по воле богов;\n- церковь может считать появление главного героя опасным, неудобным или священным событием;\n- истинная природа богов: они стали якорями великих печатей;\n- большинство жителей мира не знает, что боги встроены в систему печатей;\n- высшие иерархи церкви могут знать часть правды, но не обязаны понимать полный механизм;\n- снятие или повреждение великих печатей может ослабить спящих богов или нарушить то, что они удерживают;\n- культы, пытающиеся освободить богов из печатей, могут на самом деле разрушать систему защиты мира.",
+      "source_path": "world/locked/gods-church-anchors.md",
+      "content_hash": "0d393d4f6b28846169c4e2a463613da07cc0d98cf3a9d802e09ac33ddbb67296",
+      "locked": true
+    },
+    {
+      "id": "locked_hero_summoning_anchors",
+      "type": "locked",
+      "title": "Канонические якоря Эры героев и призывов",
+      "tags": [
+        "канон",
+        "исекай",
+        "герой",
+        "эра_героев",
+        "призыв",
+        "печати"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_start_arc_anchors",
+        "hero_isekai_origin_player_defined"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- главный герой не первый человек из другого мира;\n- современный мир считает Эру героев завершённой;\n- последний официальный призыв героя произошёл примерно 312 лет назад;\n- для обычных людей Эра героев является легендарным прошлым, а не недавней историей;\n- живых обычных свидетелей последнего призыва быть не должно;\n- правду о последнем призыве могут помнить только долгоживущие существа, древние маги, духи, нежить, хранители печатей, высшая церковь или закрытые архивы;\n- следы старых героев должны быть историческими, археологическими, религиозными или политическими;\n- старые герои не должны выглядеть как обычная современная часть мира.\n\nИстинная причина прекращения призывов:\n\n- каждый официальный призыв героя ослаблял систему печатей;\n- механизм призыва использовал энергию древней сети печатей;\n- призванные герои могли решать локальные катастрофы, но их появление приближало глобальную угрозу;\n- последний официальный герой помог закрыть или запечатать систему призыва;\n- обычные жители не знают истинную причину прекращения призывов;\n- церковь объясняет конец Эры героев волей богов;\n- академии и закрытые магические круги могут знать, что механизм призыва был опасен для печатей;\n- никто в мире не должен считать появление нового героя нормальным событием.",
+      "source_path": "world/locked/hero-summoning-anchors.md",
+      "content_hash": "9d05ceb74a2c3d83778cf00d255ebfdfe2e37e4bde8e67ebe91d1f8dca44fa10",
+      "locked": true
+    },
+    {
+      "id": "locked_living_dungeons_anchors",
+      "type": "locked",
+      "title": "Канонические якоря живых подземелий",
+      "tags": [
+        "канон",
+        "подземелья",
+        "живое_подземелье",
+        "катакомбы",
+        "стартовая_арка"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_start_arc_anchors",
+        "catacombs_are_young_dungeon",
+        "floor_10_seal_blocks_depths",
+        "deeper_branch_opens_after_keeper"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- подземелья являются живыми структурами, а не обычными руинами;\n- подземелья могут расти, стареть, менять структуру, поглощать старые туннели, соединяться с другими ветвями и влиять на поверхность;\n- молодые подземелья обычно имеют мало этажей, слабых монстров, простую структуру и слабую связь с глубинными ветвями;\n- старые подземелья могут иметь десятки, сотни или неизвестное количество этажей;\n- старые подземелья могут соединять регионы между собой, как корни огромного дерева;\n- путь через подземелье может быть единственным способом попасть туда, куда не пускает печать на поверхности;\n- стартовое подземелье под деревней является молодым живым подземельем;\n- 10-й этаж стартового подземелья остаётся финалом стартовой арки;\n- после победы над Королем гоблинов открывается не обычный следующий этаж, а проход к более старой глубинной ветви;\n- игрок не обязан сразу исследовать глубинную ветвь после стартовой арки.",
+      "source_path": "world/locked/living-dungeons-anchors.md",
+      "content_hash": "16286676275d3bbbfe4b34569e4be9b9699dc783d9373e10ea920696c4f41bc3",
+      "locked": true
+    },
+    {
+      "id": "locked_magic_economy_anchors",
+      "type": "locked",
+      "title": "Канонические якоря экономики магии",
+      "tags": [
+        "канон",
+        "экономика",
+        "магия",
+        "ресурсы",
+        "подземелья",
+        "чёрный_рынок"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_magic_ether_anchors"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- подземелья являются главным источником магических ресурсов;\n- сильная магия требует ресурсов из подземелий;\n- эфирные кристаллы используются для артефактов, освещения, отопления, оружия и алхимии;\n- ядра монстров используются для зачарования и алхимии;\n- рунические металлы проводят эфир и нужны для оружия, брони, механизмов и магических замков;\n- живой камень подземелий может использоваться в строительстве, но остаётся опасным материалом;\n- фрагменты печатей являются редкими, опасными и часто незаконными материалами;\n- контроль над магическими ресурсами является причиной политических, экономических и военных конфликтов;\n- богатые регионы, гильдии, академии, церковь и чёрный рынок могут бороться за доступ к ресурсам подземелий;\n- чёрный рынок торгует фрагментами печатей, ядрами запрещённых монстров и артефактами прошлых героев.",
+      "source_path": "world/locked/magic-economy-anchors.md",
+      "content_hash": "01e139357accff8ffea67a8c076c993d2a3ae0de484900922373c06d7473ad94",
+      "locked": true
+    },
+    {
+      "id": "locked_magic_ether_anchors",
+      "type": "locked",
+      "title": "Канонические якоря магии и эфира",
+      "tags": [
+        "канон",
+        "магия",
+        "эфир",
+        "печати",
+        "подземелья"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_world_core_anchors",
+        "catacombs_supply_ether_traces"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- магия работает через эфир;\n- эфир является природной магической энергией мира;\n- эфир течёт через живые существа, землю, подземелья, печати и артефакты;\n- печати регулируют эфирные потоки;\n- живые подземелья поглощают, искажают и накапливают эфир;\n- маги не создают магию из ничего, а проводят и формируют эфир;\n- не все люди способны напрямую использовать магию;\n- обычные люди используют магию через предметы, зелья, амулеты, свитки и услуги специалистов;\n- одарённые могут чувствовать эфир и обучаться магии;\n- проводники способны взаимодействовать с печатями, живыми подземельями и глубинным эфиром;\n- многие призванные герои прошлого были проводниками;\n- главный герой может быть проводником из-за прохождения через сломанную систему призыва;\n- магия всегда имеет цену: личную, материальную или мировую;\n- запретная или древняя магия может ослаблять печати, ускорять рост подземелий или вызывать искажения.",
+      "source_path": "world/locked/magic-ether-anchors.md",
+      "content_hash": "cc3041cad3d77928adae2283105a73b851ac06e34448cc408358058141130dfb",
+      "locked": true
+    },
+    {
+      "id": "locked_protagonist_system_error_anchors",
+      "type": "locked",
+      "title": "Канонические якоря героя как сбоя системы",
+      "tags": [
+        "канон",
+        "герой",
+        "исекай",
+        "сбой_системы",
+        "стартовая_деревня",
+        "печати"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_start_arc_anchors",
+        "hero_isekai_origin_player_defined",
+        "catacombs_are_young_dungeon"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- главный герой не был официально призван;\n- его появление является сбоем, ошибкой или непредвиденной активацией старой системы;\n- его не вызывали короли, жрецы, маги, боги или древний орден;\n- причина сбоя связана со стартовой деревней и живым подземельем под ней;\n- под молодым подземельем находится связь с более старой глубинной ветвью;\n- старая глубинная ветвь связана с древними печатями и остатками старой системы призыва;\n- когда молодое подземелье проросло достаточно глубоко, оно коснулось старого узла, и запечатанный механизм призыва дал сбой;\n- герой не является официально признанным избранным спасителем в начале истории;\n- разные фракции могут трактовать его появление как угрозу, чудо, объект исследования, знак богов, ошибку печатей или возвращение Эры героев;\n- особенность героя связана не с официальным избранием, а с тем, что его душа прошла через сломанную систему призыва.",
+      "source_path": "world/locked/protagonist-system-error-anchors.md",
+      "content_hash": "4cc49a9d022d42a6df4de2d9e8d53d92d909c6c8ec185ff3bdad5173bb520ac1",
+      "locked": true
+    },
+    {
+      "id": "locked_seal_system_anchors",
+      "type": "locked",
+      "title": "Канонические якоря системы печатей",
+      "tags": [
+        "канон",
+        "печати",
+        "регионы",
+        "туман",
+        "магические_барьеры"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_world_core_anchors",
+        "fog_blocks_village_road",
+        "fog_cut_off_village_years_ago",
+        "fog_turns_travelers_back"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- печати разделяют мир на регионы и объясняют постепенное открытие карты;\n- печати могут проявляться как туман, буря, исчезающая дорога, закрытый перевал, проклятый лес, магический барьер, мёртвая зона или невозможность связи;\n- печати ограничивают именно обычные физические пути: дороги, перевалы, лесные проходы и другие маршруты;\n- порталы телепортации могут обходить часть ограничений, но они крайне ресурсозатратны;\n- до очень позднего этапа герою недоступны стабильные порталы уровня знати;\n- жители одного региона могут знать о другом регионе, но не иметь возможности нормально связаться с ним;\n- открытие нового региона должно быть связано с конкретной проблемой, удерживающей печать;\n- снятие печати должно быть выбором или событием с последствиями;\n- чем больше печатей трогает герой, тем сильнее должен проявляться вопрос о цене освобождения мира.",
+      "source_path": "world/locked/seal-system-anchors.md",
+      "content_hash": "efd3c95313df94a556ff9c14b3a165ce4de2f29d57662a287d5a777e0412c34b",
+      "locked": true
+    },
+    {
+      "id": "locked_start_arc_anchors",
+      "type": "locked",
+      "title": "Канонические якоря стартовой арки",
+      "tags": [
+        "канон",
+        "стартовая_арка",
+        "туман",
+        "король_гоблинов",
+        "гоблины",
+        "катакомбы",
+        "исекай"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "goblin_king",
+        "fog_blocks_village_road",
+        "goblin_king_controls_fog",
+        "goblin_king_defeat_lifts_fog",
+        "floor_10_seal_blocks_depths",
+        "hero_isekai_origin_player_defined"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- деревня отрезана магическим туманом на дороге наружу;\n- туман связан с Королем гоблинов на финальном этаже первого подземелья;\n- победа над Королем гоблинов рассеивает туман;\n- после победы открывается дорога наружу и проход к более старой глубинной ветви катакомб;\n- герой является исекай-перерожденным, но его прошлое выбирается игроком через стартовый тест.",
+      "source_path": "world/locked/start-arc-anchors.md",
+      "content_hash": "3a9a4bedbc8d5bf3d7d9b216bda44b87ef7c1e30c14b57a1bdf6f6d65f3fc836",
+      "locked": true
+    },
+    {
+      "id": "locked_world_core_anchors",
+      "type": "locked",
+      "title": "Канонические якоря большого конфликта мира",
+      "tags": [
+        "канон",
+        "мир",
+        "печати",
+        "живые_подземелья",
+        "большой_конфликт"
+      ],
+      "tier": "forbidden",
+      "truth_level": "true",
+      "related": [
+        "locked_start_arc_anchors",
+        "fog_blocks_village_road",
+        "deeper_branch_opens_after_keeper"
+      ],
+      "body": "Эти утверждения нельзя менять без явного авторского override:\n\n- мир разделён древними магическими печатями;\n- печати ограничивают передвижение, связь и влияние между регионами;\n- печати не являются абсолютным злом: они мешают людям, но одновременно удерживают глубинные угрозы;\n- постепенное открытие карты должно объясняться снятием, ослаблением, обходом, восстановлением или нарушением печатей;\n- открытие нового региона должно иметь лорную причину, а не быть просто краем карты;\n- снятие печатей должно иметь последствия для мира;\n- главный вопрос большого сюжета: герой освобождает мир или ломает древнюю систему защиты.",
+      "source_path": "world/locked/world-core-anchors.md",
+      "content_hash": "4173ae29be13e34a61007cc15979146de0b31c5f10451b5dddb8e7b830839abc",
+      "locked": true
+    }
+  ],
+  "stats": {
+    "facts": 50,
+    "entities": 3,
+    "books": 5,
+    "locked": 17,
+    "broken_links": 0
+  }
+}

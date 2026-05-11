@@ -25,7 +25,7 @@ import { PaperSectionLabel } from "@/src/game/ui/paper/PaperSectionLabel";
 import { PaperSlotChrome } from "@/src/game/ui/paper/PaperSlotChrome";
 
 function toast(message: string): void {
-  window.dispatchEvent(new CustomEvent("nagibatop-toast", { detail: { message } }));
+  window.dispatchEvent(new CustomEvent("last-summon-toast", { detail: { message } }));
 }
 
 export default function ShopOverlay({

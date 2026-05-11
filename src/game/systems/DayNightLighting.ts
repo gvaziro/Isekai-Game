@@ -9,10 +9,10 @@ import {
 } from "@/src/game/time/dayNight";
 
 /** Новая версия ключа — пересобрать текстуру после смены градиента. */
-const VIGNETTE_TEXTURE_KEY = "nagibatop-night-vignette-v2";
+const VIGNETTE_TEXTURE_KEY = "last-summon-night-vignette-v2";
 const VIGNETTE_TEX_SIZE = 512;
 /** Мягкий круг для ERASE по альфе: центр снимает затемнение, к краю — плавно. */
-const TORCH_HOLE_TEXTURE_KEY = "nagibatop-torch-hole-v1";
+const TORCH_HOLE_TEXTURE_KEY = "last-summon-torch-hole-v1";
 
 /** Пока горит факел — оставляем внешнюю зону читаемой, но с ночной атмосферой. */
 const TORCH_OUTSIDE_TINT_MUL = 1.08;

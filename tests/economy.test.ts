@@ -3,11 +3,13 @@ import {
   applyShopRestock,
   computeBuyUnitPrice,
   computeSellUnitPrice,
+  getShopByNpc,
   initialShopRuntime,
   type ShopDef,
   type ShopPersistState,
 } from "@/src/game/data/shops";
 import { getItemBasePrice } from "@/src/game/data/itemRegistry";
+import { buildShopPromptSnapshot } from "@/src/game/data/shopPromptSnapshot";
 
 const mockShop: ShopDef = {
   id: "test",
@@ -87,5 +89,31 @@ describe("getItemBasePrice", () => {
 
   it("returns 0 for unknown id", () => {
     expect(getItemBasePrice("__no_such_item__")).toBe(0);
+  });
+});
+
+describe("buildShopPromptSnapshot", () => {
+  it("describes current merchant stock, prices, effects, and unavailable items", () => {
+    const shop = getShopByNpc("igor");
+    expect(shop).toBeTruthy();
+    const text = buildShopPromptSnapshot({
+      shop: shop!,
+      runtime: {
+        stock: { blade_rusty: 0, mace: 2, shield_round: 1 },
+        lastRestockAt: 1_000_000,
+      },
+      characterLevel: 1,
+      gold: 35,
+      nowMs: 1_000_000,
+    });
+
+    expect(text).toContain("NPC igor");
+    expect(text).toContain("золото 35");
+    expect(text).toContain("mace");
+    expect(text).toContain("shield_round");
+    expect(text).toContain("blade_rusty");
+    expect(text).toContain("нет в наличии");
+    expect(text).toContain("item674");
+    expect(text).toContain("доступно с уровня 20");
   });
 });

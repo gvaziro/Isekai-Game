@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   FOREST_CHUNK_H,
   FOREST_CHUNK_W,
+  FOREST_HUB_SPAWNS,
   forestTreePatchDensity01,
   generateForestChunkPayload,
   getMainTrailSegmentsForChunk,
@@ -85,5 +86,15 @@ describe("forestChunkGen", () => {
       expect(d).toBeGreaterThanOrEqual(0.21);
       expect(d).toBeLessThanOrEqual(1.01);
     }
+  });
+
+  it("hub chunk includes fixed spawn note pickup (item629)", () => {
+    const hub = generateForestChunkPayload(0, 0, 0x99aabbcc);
+    const note = hub.forestForage.find((f) => f.id === "forest_hub_spawn_note_v1");
+    expect(note).toBeDefined();
+    expect(note!.curatedId).toBe("item629");
+    expect(note!.qty).toBe(1);
+    expect(note!.x).toBe(FOREST_HUB_SPAWNS.default.x);
+    expect(note!.y).toBe(FOREST_HUB_SPAWNS.default.y + 22);
   });
 });

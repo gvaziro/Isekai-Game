@@ -32,6 +32,21 @@ export function getOpenAI(): OpenAI {
   return client;
 }
 
+export async function createEmbeddings(params: {
+  model: string;
+  input: string[];
+}): Promise<number[][]> {
+  const openai = getOpenAI();
+  const response = await openai.embeddings.create({
+    model: params.model,
+    input: params.input,
+    encoding_format: "float",
+  });
+  return response.data
+    .sort((a, b) => a.index - b.index)
+    .map((item) => item.embedding);
+}
+
 /**
  * Поток chat completions. Сначала `max_tokens` (совместимо с gpt-5.4-mini и др.);
  * если API требует только `max_completion_tokens` (o-серия, часть новых моделей) —

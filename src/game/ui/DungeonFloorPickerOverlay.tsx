@@ -29,14 +29,14 @@ export default function DungeonFloorPickerOverlay({
     const r = enterDungeonFloor(floor);
     if (!r.ok) {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: r.reason ?? "Нельзя войти на этот этаж" },
         })
       );
       return;
     }
     window.dispatchEvent(
-      new CustomEvent("nagibatop-dungeon-enter", {
+      new CustomEvent("last-summon-dungeon-enter", {
         detail: { spawnId },
       })
     );

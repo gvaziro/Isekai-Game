@@ -9,6 +9,10 @@ import {
 } from "@/src/game/state/uiSettingsStore";
 import { PaperButton } from "@/src/game/ui/paper/PaperButton";
 import { PaperModalChrome } from "@/src/game/ui/paper/PaperChrome";
+import {
+  PLAY_RENDER_PRESETS,
+  type PlayRenderPresetId,
+} from "@/src/game/constants/renderPresets";
 
 type SettingsTab = "sound" | "display" | "stats";
 
@@ -40,6 +44,8 @@ export default function SettingsOverlay({
   const resetNightVisibilityCalibration = useUiSettingsStore(
     (s) => s.resetNightVisibilityCalibration
   );
+  const playRenderPreset = useUiSettingsStore((s) => s.playRenderPreset);
+  const setPlayRenderPreset = useUiSettingsStore((s) => s.setPlayRenderPreset);
 
   const lifetimeStats = useGameStore((s) => s.lifetimeStats);
   const level = useGameStore((s) => s.character.level);
@@ -141,6 +147,30 @@ export default function SettingsOverlay({
 
         {tab === "display" && (
           <div className="flex flex-col gap-4">
+            <label className="flex flex-col gap-1.5 text-sm text-[#4a4338]">
+              <span className="font-medium text-[#3d2914]">
+                Разрешение рендера (внутреннее 16:9)
+              </span>
+              <select
+                className="rounded border border-[#b8a88c] bg-[#f6f0e4] px-2 py-1.5 text-sm text-[#2a241c]"
+                value={playRenderPreset}
+                onChange={(e) =>
+                  setPlayRenderPreset(e.target.value as PlayRenderPresetId)
+                }
+              >
+                {(Object.keys(PLAY_RENDER_PRESETS) as PlayRenderPresetId[]).map(
+                  (id) => (
+                    <option key={id} value={id}>
+                      {PLAY_RENDER_PRESETS[id].label}
+                    </option>
+                  )
+                )}
+              </select>
+              <span className="text-[11px] leading-snug text-[#6b5d4a]">
+                Смена пересоздаёт игру (короткая перезагрузка сцены). В окне не
+                16:9 возможны чёрные поля по краям — это нормально для Scale.FIT.
+              </span>
+            </label>
             <p className="text-xs leading-relaxed text-[#6b5d4a]">
               Два множителя к встроенной кривой суток. 100% — без усиления от
               ползунка; по умолчанию в игре выставлено сильнее (см. сброс).

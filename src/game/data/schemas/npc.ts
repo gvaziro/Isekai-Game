@@ -45,17 +45,38 @@ export const npcBarksFileSchema = z
   })
   .strict();
 
-const npcDialogueScriptOpenerSchema = z
+const npcDialogueScriptChoiceSchema = z
   .object({
-    label: z.string().min(1).max(80),
-    prompt: z.string().min(1).max(600),
+    label: z.string().min(1).max(120),
+    playerText: z.string().min(1).max(600).optional(),
+    nextStepId: z.string().min(1).max(80).optional(),
+    unlockLoreFactIds: z.array(z.string().min(1).max(120)).max(8).optional(),
+    complete: z.boolean().optional(),
   })
   .strict();
 
-/** `npcs/<id>/dialogue_scripts.json` — кнопки быстрого старта диалога. */
+const npcDialogueScriptIntroStepSchema = z
+  .object({
+    id: z.string().min(1).max(80),
+    npcText: z.string().min(1).max(1200),
+    choices: z.array(npcDialogueScriptChoiceSchema).min(1).max(3),
+  })
+  .strict();
+
+const npcDialogueScriptSceneSchema = z
+  .object({
+    id: z.string().min(1).max(80),
+    questId: z.string().min(1).max(120),
+    stageId: z.string().min(1).max(120),
+    version: z.number().int().positive(),
+    steps: z.array(npcDialogueScriptIntroStepSchema).min(1).max(12),
+  })
+  .strict();
+
+/** `npcs/<id>/dialogue_scripts.json` — квестовые scripted-сцены диалога. */
 export const npcDialogueScriptsFileSchema = z
   .object({
-    openers: z.array(npcDialogueScriptOpenerSchema).min(1).max(12),
+    scenes: z.array(npcDialogueScriptSceneSchema).min(1).max(24),
   })
   .strict();
 

@@ -19,6 +19,7 @@ import {
   type ItemSlot,
 } from "@/src/game/data/items.curated";
 import { ITEM_ATLAS, ITEM_ATLAS_FRAME_KEYS } from "@/src/game/data/items.generated";
+import { getReadableBookForItem } from "@/src/game/data/readableBooks";
 
 const byCuratedId = new Map<string, CuratedItemDef>(
   CURATED_ITEMS.map((def) => [def.id, def])
@@ -164,6 +165,7 @@ export function getConsumableCooldownMs(id: string): number {
 /** Можно ли применить предмет сразу из хотбара (F / цифры). */
 export function hotbarItemIsImmediatelyUsable(curatedId: string): boolean {
   if (curatedId === "hand_torch") return true;
+  if (getReadableBookForItem(curatedId)) return true;
   const def = getCuratedItem(curatedId);
   if (!def || !itemSlotSupportsUsableEffect(def.slot)) return false;
   return !!getConsumableEffect(curatedId);

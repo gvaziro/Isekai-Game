@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getClientPersistJsonStorage } from "@/src/game/saves/electronProfileStateStorage";
 import {
   LORE_FACTS_BY_ID,
   isKnownLoreFactId,
@@ -169,7 +170,8 @@ export const useLoreJournalStore = create<LoreJournalStoreState>()(
       },
     }),
     {
-      name: "nagibatop-lore-journal-v1",
+      name: "last-summon-lore-journal-v1",
+      storage: getClientPersistJsonStorage(),
       version: LORE_JOURNAL_PERSIST_SCHEMA_VERSION,
       partialize: (s) => ({
         lorePersistVersion: s.lorePersistVersion,

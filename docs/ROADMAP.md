@@ -1,4 +1,4 @@
-# Nagibatop — роадмап: квесты, RPG, предметы
+# The Last Summon — роадмап: квесты, RPG, предметы
 
 Исходное состояние проекта (устарело в деталях): Next.js 16 + Phaser 4, локации town / forest / dungeon / **beyond**, RPG-слой (инвентарь, статы, квесты, бой), сейв в `localStorage`. **Стартовая арка:** катакомбы на **10 этажей** (`DUNGEON_MAX_FLOOR`), финальный босс на 10-м, флаг **`villageFogLifted`** в `gameStore` после победы; западный выход из деревни ведёт в **beyond** после рассеяния тумана. Квест «Сквозь туман» — `src/game/data/quests.ts`. Общий лор для LLM: `docs/WORLD_ARC_PROMPT.md` + снимок мира в `POST /api/chat` (`worldSnapshot`).
 
@@ -14,7 +14,7 @@
 2. **Валидация через Zod** для всего загружаемого JSON (сейчас `npc-loader` парсит без проверки). Ошибки — рано и с понятным сообщением.
 3. **Save / Load:** минимум клиентский `localStorage` (позиция, инвентарь, квесты); опционально `GET/POST /api/save/[slot]` → файл `saves/<slot>.json`.
 4. **Глобальный стор:** Zustand или лёгкий стор (`usePlayerStore`, `useInventoryStore`, `useQuestStore`). Phaser подписывается через события окна (как с диалогом).
-5. **Dev overlay (например F9):** координаты игрока, рядом какой NPC, флаги квестов, слот сейва.
+5. **Dev overlay (например F10):** координаты игрока, рядом какой NPC, флаги квестов, слот сейва.
 
 **Выход:** каркас `SaveV1`, Zod для NPC, стор, dev-панель.
 
@@ -53,7 +53,7 @@
 
 ## Фаза 3. Ядро RPG: статы, уровень
 
-**Статус в репо:** производные статы и баланс — [`balance.ts`](src/game/data/balance.ts), [`derivedStats.ts`](src/game/rpg/derivedStats.ts); полоски HP/STA/XP, LCK и активные баффы — [`GameHud.tsx`](src/game/ui/GameHud.tsx); пассивные реген HP/STA, баффы от зелий, удача влияет на XP, скорость бега от SPD+«Ходок» — [`gameStore.ts`](src/game/state/gameStore.ts) + [`MainScene.ts`](src/game/scenes/MainScene.ts); расходники — [`InventoryOverlay.tsx`](src/game/ui/InventoryOverlay.tsx). Сейв v4 (поле `character.buffs`). Отладка урона: `window.__NAGIBATOP_HURT__(30)`.
+**Статус в репо:** производные статы и баланс — [`balance.ts`](src/game/data/balance.ts), [`derivedStats.ts`](src/game/rpg/derivedStats.ts); полоски HP/STA/XP, LCK и активные баффы — [`GameHud.tsx`](src/game/ui/GameHud.tsx); пассивные реген HP/STA, баффы от зелий, удача влияет на XP, скорость бега от SPD+«Ходок» — [`gameStore.ts`](src/game/state/gameStore.ts) + [`MainScene.ts`](src/game/scenes/MainScene.ts); расходники — [`InventoryOverlay.tsx`](src/game/ui/InventoryOverlay.tsx). Сейв v4 (поле `character.buffs`). Отладка урона: `window.__LAST_SUMMON_HURT__(30)`.
 
 1. Атрибуты: HP, MP или STA, ATK, DEF, SPD, LUCK; модификаторы от экипа.
 2. Уровень и XP; кривая вроде `xpToNext(level)`.

@@ -9,14 +9,14 @@ export type SlicePx = { left: number; top: number; width: number; height: number
 
 /** Событие после успешного POST `/api/dev/asset-slices` — игра/редактор подхватывают JSON без перезагрузки вкладки. */
 export const ASSET_SLICE_OVERRIDES_UPDATED_EVENT =
-  "nagibatop:asset-slice-overrides-saved";
+  "last-summon:asset-slice-overrides-saved";
 
 export const ASSET_SLICE_OVERRIDES_BROADCAST_CHANNEL =
-  "nagibatop-asset-slice-overrides";
+  "last-summon-asset-slice-overrides";
 
 /** После применения вырезов из JSON — пересобрать коллизии пропов / оверлеи редактора. */
 export const ASSET_SLICE_OVERRIDES_TEXTURES_APPLIED =
-  "nagibatop-slice-overrides-textures-applied";
+  "last-summon-slice-overrides-textures-applied";
 
 function parseSlicePx(v: unknown): SlicePx | null {
   if (typeof v !== "object" || v === null) return null;

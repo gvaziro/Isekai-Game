@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getClientPersistJsonStorage } from "@/src/game/saves/electronProfileStateStorage";
 import {
   BUFFS,
   HP_REGEN_IDLE_PER_SEC,
@@ -23,6 +24,8 @@ import {
   professionXpToNext,
   rollCraftMaterialsLost,
   xpToNext,
+  FOREST_TREE_REGROW_MS,
+  FOREST_ROCK_REGROW_MS,
 } from "@/src/game/data/balance";
 import type { ConsumableFx } from "@/src/game/data/balance";
 import {
@@ -31,6 +34,7 @@ import {
   HOTBAR_SLOT_COUNT,
   MAX_INVENTORY_SLOTS,
   MAX_STACK,
+  READABLE_BOOK_OPEN_EVENT,
   SPAWN_WORLD_PICKUP_EVENT,
   deathCorpseChestId,
   isDeathCorpseChestId,
@@ -45,9 +49,9 @@ import {
   getCuratedItem,
   getEffectiveInventorySlotCount,
   getItemBasePrice,
-  hotbarItemIsImmediatelyUsable,
   itemSlotSupportsUsableEffect,
 } from "@/src/game/data/itemRegistry";
+import { getReadableBookForItem } from "@/src/game/data/readableBooks";
 import {
   applyShopRestock,
   computeBuyUnitPrice,
@@ -152,9 +156,67 @@ import {
   wakeUpAtMorning,
   type WorldClock,
 } from "@/src/game/time/dayNight";
+import type { HeroAttackStyle, HeroFacing } from "@/src/game/entities/heroAnimations";
 
-/** Версия сейва (увеличивать при изменении persist-полей). 33: openingCutsceneScriptVersion. */
-export const SAVE_VERSION = 33;
+/** Версия сейва (увеличивать при изменении persist-полей). 35: полный pose игрока (facing, velocity, …). */
+export const SAVE_VERSION = 35;
+
+/** Позиция и кинематика/визуал героя в мире (persist + синхронизация перед сейвом). */
+export type PlayerWorldPose = {
+  x: number;
+  y: number;
+  facing: HeroFacing;
+  flipX: boolean;
+  vx: number;
+  vy: number;
+  carrying: boolean;
+  attackStyle: HeroAttackStyle;
+};
+
+export function defaultPlayerPoseAt(x: number, y: number): PlayerWorldPose {
+  return {
+    x,
+    y,
+    facing: "down",
+    flipX: false,
+    vx: 0,
+    vy: 0,
+    carrying: false,
+    attackStyle: "slice",
+  };
+}
+
+function finitePlayerCoord(n: unknown, fb: number): number {
+  return typeof n === "number" && Number.isFinite(n) ? n : fb;
+}
+
+function normalizePlayerWorldPose(
+  raw: unknown,
+  fallback: PlayerWorldPose
+): PlayerWorldPose {
+  if (!raw || typeof raw !== "object") return { ...fallback };
+  const o = raw as Record<string, unknown>;
+  const x = finitePlayerCoord(o.x, fallback.x);
+  const y = finitePlayerCoord(o.y, fallback.y);
+  const hasFacing =
+    o.facing === "side" || o.facing === "up" || o.facing === "down";
+  if (!hasFacing) {
+    return defaultPlayerPoseAt(x, y);
+  }
+  const atk = o.attackStyle;
+  const attackStyle: HeroAttackStyle =
+    atk === "pierce" || atk === "crush" || atk === "slice" ? atk : "slice";
+  return {
+    x,
+    y,
+    facing: o.facing as HeroFacing,
+    flipX: o.flipX === true,
+    vx: finitePlayerCoord(o.vx, 0),
+    vy: finitePlayerCoord(o.vy, 0),
+    carrying: o.carrying === true,
+    attackStyle,
+  };
+}
 
 /** Макс. записей срубленных деревьев в сейве (защита от раздувания). */
 export const MAX_CHOPPED_FOREST_TREE_KEYS = 6000;
@@ -172,6 +234,18 @@ export function forestTreePersistKey(
   worldY: number
 ): string {
   return `${forestWorldSeed >>> 0}|${Math.round(worldX)}|${Math.round(worldY)}`;
+}
+
+/** Позиция мира из ключа `forestTreePersistKey` (для перезагрузки чанка). */
+export function parseForestPersistKey(
+  key: string
+): { x: number; y: number } | null {
+  const m = /^(\d+)\|(-?\d+)\|(-?\d+)$/.exec(key);
+  if (!m) return null;
+  const x = Number(m[2]);
+  const y = Number(m[3]);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  return { x, y };
 }
 
 function sanitizeChoppedForestTreeKeys(
@@ -207,29 +281,45 @@ function sanitizeMinedForestRockKeys(raw: unknown): Record<string, true> {
 /** Активные пни: `Date.now()` до какого момента показывать chopped-спрайт. */
 function sanitizeForestTreeStumps(
   raw: unknown,
-  chopped: Record<string, true>,
   nowMs: number
-): { stumps: Record<string, number>; migratedToChopped: string[] } {
-  const migratedToChopped: string[] = [];
+): { stumps: Record<string, number>; migratedToRegrowAt: Record<string, number> } {
+  const migratedToRegrowAt: Record<string, number> = {};
   if (!raw || typeof raw !== "object") {
-    return { stumps: {}, migratedToChopped };
+    return { stumps: {}, migratedToRegrowAt };
   }
   const out: Record<string, number> = {};
   let n = 0;
   for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
     if (n >= MAX_FOREST_TREE_STUMPS) break;
     if (!/^\d+\|-?\d+\|-?\d+$/.test(k)) continue;
-    if (chopped[k] === true) continue;
     if (typeof v !== "number" || !Number.isFinite(v)) continue;
     const until = Math.floor(v);
     if (until <= nowMs) {
-      migratedToChopped.push(k);
+      migratedToRegrowAt[k] = nowMs + FOREST_TREE_REGROW_MS;
       continue;
     }
     out[k] = until;
     n++;
   }
-  return { stumps: out, migratedToChopped };
+  return { stumps: out, migratedToRegrowAt };
+}
+
+function sanitizeForestTreeRegrowAtMs(raw: unknown): Record<string, number> {
+  if (!raw || typeof raw !== "object") return {};
+  const out: Record<string, number> = {};
+  let n = 0;
+  for (const [k, v] of Object.entries(raw as Record<string, unknown>)) {
+    if (n >= MAX_CHOPPED_FOREST_TREE_KEYS) break;
+    if (!/^\d+\|-?\d+\|-?\d+$/.test(k)) continue;
+    if (typeof v !== "number" || !Number.isFinite(v)) continue;
+    out[k] = Math.floor(v);
+    n++;
+  }
+  return out;
+}
+
+function sanitizeForestRockRegrowAtMs(raw: unknown): Record<string, number> {
+  return sanitizeForestTreeRegrowAtMs(raw);
 }
 
 export type { LifetimeStats } from "@/src/game/data/lifetimeStats";
@@ -627,7 +717,7 @@ export function createFreshPersistedGameState(): GameSaveState {
   return {
     saveVersion: SAVE_VERSION,
     currentLocationId: "town",
-    player: { x: spawn.x, y: spawn.y },
+    player: defaultPlayerPoseAt(spawn.x, spawn.y),
     character: initialCharacter(undefined),
     isekaiOrigin: { completed: false },
     staWindedUntilMs: 0,
@@ -649,6 +739,8 @@ export function createFreshPersistedGameState(): GameSaveState {
     forestRevealedCells: {},
     choppedForestTreeKeys: {},
     minedForestRockKeys: {},
+    forestTreeRegrowAtMs: {},
+    forestRockRegrowAtMs: {},
     forestTreeStumps: {},
     hotbarSelectedIndex: 0,
     consumableCooldownUntil: {},
@@ -852,7 +944,7 @@ export type GameSaveState = {
   saveVersion: number;
   /** Текущая локация (Фаза 7): town | forest */
   currentLocationId: LocationId;
-  player: { x: number; y: number };
+  player: PlayerWorldPose;
   character: CharacterState;
   /**
    * Окончание «перегруза» после нуля стамины от спринта (performance.now / Date.now).
@@ -898,13 +990,21 @@ export type GameSaveState = {
   /** Разведка леса: ключ `forest:gx,gy` (мировая сетка) → открыта. */
   forestRevealedCells: Record<string, boolean>;
   /**
-   * Срубленные деревья бесконечного леса: ключ `forestTreePersistKey` → true.
+   * Устарело: навсегда вырублено; при загрузке переносится в `forestTreeRegrowAtMs`.
    */
   choppedForestTreeKeys: Record<string, true>;
   /**
-   * Добытные валуны леса: тот же ключ позиции, что у деревьев.
+   * Устарело: навсегда добыто; при загрузке переносится в `forestRockRegrowAtMs`.
    */
   minedForestRockKeys: Record<string, true>;
+  /**
+   * Дерево появится снова после метки времени (пустая клетка до этого момента).
+   */
+  forestTreeRegrowAtMs: Record<string, number>;
+  /**
+   * Валун появится снова после метки времени.
+   */
+  forestRockRegrowAtMs: Record<string, number>;
   /**
    * Пень после рубки: ключ дерева → время `Date.now()`, до которого показывать chopped.
    */
@@ -952,6 +1052,7 @@ export type GameSaveState = {
 
 type GameStore = GameSaveState & {
   setPlayerPosition: (x: number, y: number) => void;
+  setPlayerWorldPose: (pose: PlayerWorldPose) => void;
   tryAddItem: (
     curatedId: string,
     qty: number
@@ -1103,8 +1204,13 @@ type GameStore = GameSaveState & {
   markForestTreeStump: (key: string, visibleUntilMs: number) => void;
   isForestRockMined: (key: string) => boolean;
   markForestRockMined: (key: string) => void;
-  /** Истёкшие пни → в `choppedForestTreeKeys`; вернуть ключи для снятия спрайтов. */
+  /** Истёкшие пни → задержка до отрастания дерева; вернуть ключи для анимации пня. */
   expireForestStumpsBefore: (nowMs: number) => string[];
+  /** Деревья и камни, у которых истёк таймер возврата — ключи сняты со стора; перезагрузить чанки. */
+  finalizeForestRegrowthPrune: (nowMs: number) => {
+    treeKeys: string[];
+    rockKeys: string[];
+  };
   /** Учёт убийства врага (все типы, включая босса). */
   recordEnemyKill: (payload: {
     mobVisualId: string;
@@ -1155,7 +1261,7 @@ export const useGameStore = create<GameStore>()(
         for (const id of newIds) {
           const def = getAchievementById(id);
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: {
                 message: `Достижение: ${def?.title ?? id}`,
               },
@@ -1167,10 +1273,10 @@ export const useGameStore = create<GameStore>()(
       return {
       saveVersion: SAVE_VERSION,
       currentLocationId: "town",
-      player: {
-        x: getLocation("town").spawns.default.x,
-        y: getLocation("town").spawns.default.y,
-      },
+      player: defaultPlayerPoseAt(
+        getLocation("town").spawns.default.x,
+        getLocation("town").spawns.default.y
+      ),
       character: initialCharacter(undefined),
       isekaiOrigin: {
         completed: true,
@@ -1197,6 +1303,8 @@ export const useGameStore = create<GameStore>()(
       forestRevealedCells: {},
       choppedForestTreeKeys: {},
       minedForestRockKeys: {},
+      forestTreeRegrowAtMs: {},
+      forestRockRegrowAtMs: {},
       forestTreeStumps: {},
       hotbarSelectedIndex: 0,
       consumableCooldownUntil: {},
@@ -1226,7 +1334,12 @@ export const useGameStore = create<GameStore>()(
         }));
       },
 
-      setPlayerPosition: (x, y) => set({ player: { x, y } }),
+      setPlayerPosition: (x, y) =>
+        set((s) => ({
+          player: { ...s.player, x, y },
+        })),
+
+      setPlayerWorldPose: (pose) => set({ player: pose }),
 
       revealDungeonMapAtWorld: (floor, worldX, worldY) => {
         if (!Number.isFinite(worldX) || !Number.isFinite(worldY)) return;
@@ -1289,21 +1402,25 @@ export const useGameStore = create<GameStore>()(
 
       isForestTreeChopped: (key) => {
         if (typeof key !== "string" || key.length === 0) return false;
-        return get().choppedForestTreeKeys[key] === true;
+        const s = get();
+        if (s.choppedForestTreeKeys[key] === true) return true;
+        const until = s.forestTreeRegrowAtMs[key];
+        return typeof until === "number" && until > Date.now();
       },
 
       markForestTreeChopped: (key) => {
         if (typeof key !== "string" || key.length === 0) return;
         set((s) => {
-          if (s.choppedForestTreeKeys[key] === true) return s;
-          let nextStumps = s.forestTreeStumps;
-          if (s.forestTreeStumps[key] !== undefined) {
-            nextStumps = { ...s.forestTreeStumps };
-            delete nextStumps[key];
+          const nextStumps = { ...s.forestTreeStumps };
+          delete nextStumps[key];
+          const nextRegrow = { ...s.forestTreeRegrowAtMs };
+          if (Object.keys(nextRegrow).length >= MAX_CHOPPED_FOREST_TREE_KEYS) {
+            return s;
           }
+          nextRegrow[key] = Date.now() + FOREST_TREE_REGROW_MS;
           return {
-            choppedForestTreeKeys: { ...s.choppedForestTreeKeys, [key]: true },
             forestTreeStumps: nextStumps,
+            forestTreeRegrowAtMs: nextRegrow,
           };
         });
       },
@@ -1318,11 +1435,17 @@ export const useGameStore = create<GameStore>()(
         }
         set((s) => {
           if (s.choppedForestTreeKeys[key] === true) return s;
+          let nextRegrow = s.forestTreeRegrowAtMs;
+          if (nextRegrow[key] !== undefined) {
+            nextRegrow = { ...nextRegrow };
+            delete nextRegrow[key];
+          }
           return {
             forestTreeStumps: {
               ...s.forestTreeStumps,
               [key]: Math.floor(visibleUntilMs),
             },
+            forestTreeRegrowAtMs: nextRegrow,
           };
         });
       },
@@ -1337,33 +1460,65 @@ export const useGameStore = create<GameStore>()(
         if (keys.length === 0) return [];
         set((state) => {
           const nextStumps = { ...state.forestTreeStumps };
-          const nextChopped = { ...state.choppedForestTreeKeys };
+          const nextRegrow = { ...state.forestTreeRegrowAtMs };
           for (const k of keys) {
             delete nextStumps[k];
-            nextChopped[k] = true;
+            nextRegrow[k] = nowMs + FOREST_TREE_REGROW_MS;
           }
           return {
             forestTreeStumps: nextStumps,
-            choppedForestTreeKeys: nextChopped,
+            forestTreeRegrowAtMs: nextRegrow,
           };
         });
         return keys;
       },
 
+      finalizeForestRegrowthPrune: (nowMs) => {
+        if (typeof nowMs !== "number" || !Number.isFinite(nowMs)) {
+          return { treeKeys: [], rockKeys: [] };
+        }
+        const st = get();
+        const treeKeys: string[] = [];
+        const rockKeys: string[] = [];
+        for (const [k, until] of Object.entries(st.forestTreeRegrowAtMs)) {
+          if (until <= nowMs) treeKeys.push(k);
+        }
+        for (const [k, until] of Object.entries(st.forestRockRegrowAtMs)) {
+          if (until <= nowMs) rockKeys.push(k);
+        }
+        if (treeKeys.length === 0 && rockKeys.length === 0) {
+          return { treeKeys: [], rockKeys: [] };
+        }
+        set((s) => {
+          const nextT = { ...s.forestTreeRegrowAtMs };
+          const nextR = { ...s.forestRockRegrowAtMs };
+          for (const k of treeKeys) delete nextT[k];
+          for (const k of rockKeys) delete nextR[k];
+          return {
+            forestTreeRegrowAtMs: nextT,
+            forestRockRegrowAtMs: nextR,
+          };
+        });
+        return { treeKeys, rockKeys };
+      },
+
       isForestRockMined: (key) => {
         if (typeof key !== "string" || key.length === 0) return false;
-        return get().minedForestRockKeys[key] === true;
+        const s = get();
+        if (s.minedForestRockKeys[key] === true) return true;
+        const until = s.forestRockRegrowAtMs[key];
+        return typeof until === "number" && until > Date.now();
       },
 
       markForestRockMined: (key) => {
         if (typeof key !== "string" || key.length === 0) return;
         set((s) => {
           if (s.minedForestRockKeys[key] === true) return s;
-          const next = { ...s.minedForestRockKeys };
-          const n = Object.keys(next).length;
+          const nextR = { ...s.forestRockRegrowAtMs };
+          const n = Object.keys(nextR).length;
           if (n >= MAX_MINED_FOREST_ROCK_KEYS) return s;
-          next[key] = true;
-          return { minedForestRockKeys: next };
+          nextR[key] = Date.now() + FOREST_ROCK_REGROW_MS;
+          return { forestRockRegrowAtMs: nextR };
         });
       },
 
@@ -1529,7 +1684,15 @@ export const useGameStore = create<GameStore>()(
       setLocationAndPosition: (locationId, x, y) =>
         set((s) => ({
           currentLocationId: locationId,
-          player: { x, y },
+          player: {
+            ...s.player,
+            x,
+            y,
+            vx: 0,
+            vy: 0,
+            facing: "down",
+            flipX: false,
+          },
           dungeonCurrentFloor:
             locationId === "dungeon" ? s.dungeonCurrentFloor : 1,
         })),
@@ -1665,7 +1828,7 @@ export const useGameStore = create<GameStore>()(
           if (prevTorch && !nextTorch && typeof window !== "undefined") {
             queueMicrotask(() => {
               window.dispatchEvent(
-                new CustomEvent("nagibatop-toast", {
+                new CustomEvent("last-summon-toast", {
                   detail: { message: "Факел догорел." },
                 })
               );
@@ -1853,10 +2016,17 @@ export const useGameStore = create<GameStore>()(
               : st.character.gold - goldCost,
           },
           lifetimeStats:
-            !materialsLost && goldCost > 0
+            !materialsLost
               ? {
                   ...st.lifetimeStats,
-                  totalGoldSpent: st.lifetimeStats.totalGoldSpent + goldCost,
+                  totalGoldSpent:
+                    st.lifetimeStats.totalGoldSpent +
+                    (goldCost > 0 ? goldCost : 0),
+                  craftedRecipesById: {
+                    ...st.lifetimeStats.craftedRecipesById,
+                    [recipeId]:
+                      (st.lifetimeStats.craftedRecipesById[recipeId] ?? 0) + 1,
+                  },
                 }
               : st.lifetimeStats,
         });
@@ -1873,6 +2043,13 @@ export const useGameStore = create<GameStore>()(
 
         get().grantProfessionXp(craftProfId, XP_PROFESSION_CRAFT_PER_ACTION);
         flushAchievementUnlocks();
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("last-summon:craft-completed", {
+              detail: { recipeId, stationId },
+            })
+          );
+        }
         const successMessage = recipe.outputs
           .map((line: { curatedId: string; qty: number }) => {
             const def = getCuratedItem(line.curatedId);
@@ -1997,7 +2174,7 @@ export const useGameStore = create<GameStore>()(
 
         set((s) => ({
           currentLocationId: "town",
-          player: { x: spawn.x, y: spawn.y },
+          player: defaultPlayerPoseAt(spawn.x, spawn.y),
           staWindedUntilMs: 0,
           inventorySlots: nextInventory,
           equipped: nextEquipped,
@@ -2022,7 +2199,7 @@ export const useGameStore = create<GameStore>()(
         if (typeof window !== "undefined") {
           if (relocate) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-request-goto-location", {
+              new CustomEvent("last-summon-request-goto-location", {
                 detail: {
                   locationId: "town",
                   spawnId: spawnKey,
@@ -2033,13 +2210,13 @@ export const useGameStore = create<GameStore>()(
             );
           } else {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-respawn-player", {
+              new CustomEvent("last-summon-respawn-player", {
                 detail: { x: spawn.x, y: spawn.y },
               })
             );
           }
 
-          let where =
+          const where =
             locId === "dungeon"
               ? "Вас вытащили из подземелья и отнесли в поселение."
               : locId === "forest"
@@ -2074,8 +2251,8 @@ export const useGameStore = create<GameStore>()(
 
         let slots = cloneInventorySlots(st.inventorySlots);
         const eff = getEffectiveInventorySlotCount(st.equipped);
-        let inv = cloneInventorySlots(drop.corpseInventory);
-        let eq: Partial<Record<EquipSlot, string>> = { ...drop.corpseEquipped };
+        const inv = cloneInventorySlots(drop.corpseInventory);
+        const eq: Partial<Record<EquipSlot, string>> = { ...drop.corpseEquipped };
         let touched = false;
 
         for (let i = 0; i < inv.length; i++) {
@@ -2280,11 +2457,21 @@ export const useGameStore = create<GameStore>()(
           flushAchievementUnlocks();
           if (typeof window !== "undefined") {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-toast", {
+              new CustomEvent("last-summon-toast", {
                 detail: { message: "Факел зажжён — горит, пока не выгорит." },
               })
             );
           }
+          return { ok: true };
+        }
+
+        const readable = getReadableBookForItem(stack.curatedId);
+        if (readable && typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent(READABLE_BOOK_OPEN_EVENT, {
+              detail: { curatedId: stack.curatedId },
+            })
+          );
           return { ok: true };
         }
 
@@ -2540,7 +2727,7 @@ export const useGameStore = create<GameStore>()(
         flushAchievementUnlocks();
         if (typeof window !== "undefined") {
           window.dispatchEvent(
-            new CustomEvent("nagibatop:item-picked", {
+            new CustomEvent("last-summon:item-picked", {
               detail: {
                 worldPickupId,
                 curatedId: wp?.curatedId,
@@ -2581,7 +2768,7 @@ export const useGameStore = create<GameStore>()(
         flushAchievementUnlocks();
         if (typeof window !== "undefined") {
           window.dispatchEvent(
-            new CustomEvent("nagibatop:chest-opened", {
+            new CustomEvent("last-summon:chest-opened", {
               detail: { chestId },
             })
           );
@@ -2805,7 +2992,7 @@ export const useGameStore = create<GameStore>()(
         }));
         if (typeof window !== "undefined") {
           window.dispatchEvent(
-            new CustomEvent("nagibatop:enemy-defeated", {
+            new CustomEvent("last-summon:enemy-defeated", {
               detail: { enemyId: enemyInstanceId, respawnNotBeforeMs: notBeforeMs },
             })
           );
@@ -2922,7 +3109,7 @@ export const useGameStore = create<GameStore>()(
           if (prevTorch && !nextTorch && typeof window !== "undefined") {
             queueMicrotask(() => {
               window.dispatchEvent(
-                new CustomEvent("nagibatop-toast", {
+                new CustomEvent("last-summon-toast", {
                   detail: { message: "Факел догорел во сне." },
                 })
               );
@@ -2942,7 +3129,8 @@ export const useGameStore = create<GameStore>()(
         });
       },
 
-      recordEnemyKill: ({ mobVisualId, instanceId: _instanceId }) => {
+      recordEnemyKill: (payload) => {
+        const { mobVisualId } = payload;
         const key = mobVisualId.trim() || "unknown";
         set((s) => {
           const prevMob = s.lifetimeStats.enemiesKilledByMobVisualId[key] ?? 0;
@@ -2969,7 +3157,8 @@ export const useGameStore = create<GameStore>()(
     };
     },
     {
-      name: "nagibatop-save-v1",
+      name: "last-summon-save-v1",
+      storage: getClientPersistJsonStorage(),
       partialize: (s) => ({
         saveVersion: s.saveVersion,
         currentLocationId: s.currentLocationId,
@@ -2996,6 +3185,8 @@ export const useGameStore = create<GameStore>()(
         forestRevealedCells: s.forestRevealedCells,
         choppedForestTreeKeys: s.choppedForestTreeKeys,
         minedForestRockKeys: s.minedForestRockKeys,
+        forestTreeRegrowAtMs: s.forestTreeRegrowAtMs,
+        forestRockRegrowAtMs: s.forestRockRegrowAtMs,
         forestTreeStumps: s.forestTreeStumps,
         hotbarSelectedIndex: s.hotbarSelectedIndex,
         lifetimeStats: s.lifetimeStats,
@@ -3207,18 +3398,41 @@ export const useGameStore = create<GameStore>()(
         const nowForStumps = Date.now();
         const stumpSanitized = sanitizeForestTreeStumps(
           (p as Partial<GameSaveState>).forestTreeStumps,
-          choppedForestTreeKeysBase,
           nowForStumps
         );
-        const choppedForestTreeKeys = { ...choppedForestTreeKeysBase };
-        for (const k of stumpSanitized.migratedToChopped) {
-          choppedForestTreeKeys[k] = true;
+        const forestTreeRegrowAtMs = sanitizeForestTreeRegrowAtMs(
+          (p as Partial<GameSaveState>).forestTreeRegrowAtMs
+        );
+        const migrateTreeCut = nowForStumps + FOREST_TREE_REGROW_MS;
+        for (const k of Object.keys(choppedForestTreeKeysBase)) {
+          const prev = forestTreeRegrowAtMs[k];
+          forestTreeRegrowAtMs[k] =
+            prev === undefined ? migrateTreeCut : Math.min(prev, migrateTreeCut);
         }
-        const forestTreeStumps = stumpSanitized.stumps;
+        for (const [k, until] of Object.entries(
+          stumpSanitized.migratedToRegrowAt
+        )) {
+          const prev = forestTreeRegrowAtMs[k];
+          forestTreeRegrowAtMs[k] =
+            prev === undefined ? until : Math.min(prev, until);
+        }
+        const choppedForestTreeKeys: Record<string, true> = {};
 
-        const minedForestRockKeys = sanitizeMinedForestRockKeys(
+        const minedForestRockKeysBase = sanitizeMinedForestRockKeys(
           (p as Partial<GameSaveState>).minedForestRockKeys
         );
+        const forestRockRegrowAtMs = sanitizeForestRockRegrowAtMs(
+          (p as Partial<GameSaveState>).forestRockRegrowAtMs
+        );
+        const migrateRockCut = nowForStumps + FOREST_ROCK_REGROW_MS;
+        for (const k of Object.keys(minedForestRockKeysBase)) {
+          const prev = forestRockRegrowAtMs[k];
+          forestRockRegrowAtMs[k] =
+            prev === undefined ? migrateRockCut : Math.min(prev, migrateRockCut);
+        }
+        const minedForestRockKeys: Record<string, true> = {};
+
+        const forestTreeStumps = stumpSanitized.stumps;
 
         const consumableEffectsRevealed = sanitizeConsumableEffectsRevealed(
           (p as Partial<GameSaveState>).consumableEffectsRevealed
@@ -3263,7 +3477,7 @@ export const useGameStore = create<GameStore>()(
           ...c,
           saveVersion: SAVE_VERSION,
           currentLocationId,
-          player: p.player ?? c.player,
+          player: normalizePlayerWorldPose(p.player, c.player),
           character: charOut,
           inventorySlots: invSlots,
           equipped: eqSan,
@@ -3290,6 +3504,8 @@ export const useGameStore = create<GameStore>()(
           forestRevealedCells,
           choppedForestTreeKeys,
           minedForestRockKeys,
+          forestTreeRegrowAtMs,
+          forestRockRegrowAtMs,
           forestTreeStumps,
           hotbarSelectedIndex,
           lifetimeStats,

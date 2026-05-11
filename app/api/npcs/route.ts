@@ -19,14 +19,15 @@ export async function GET() {
         loadNpcBarksOnly(id),
         loadNpcDialogueScriptsOnly(id),
       ]);
+      const hasDialogueScripts = Boolean(
+        dialogueScripts && dialogueScripts.scenes.length > 0
+      );
       return {
         id,
         route,
         displayName,
         ...(barks.length > 0 ? { barks } : {}),
-        ...(dialogueScripts && dialogueScripts.openers.length > 0
-          ? { dialogueScripts }
-          : {}),
+        ...(hasDialogueScripts && dialogueScripts ? { dialogueScripts } : {}),
       };
     })
   );

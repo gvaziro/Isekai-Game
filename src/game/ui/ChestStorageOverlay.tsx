@@ -25,7 +25,7 @@ import { PaperModalChrome } from "@/src/game/ui/paper/PaperChrome";
 import { PaperSectionLabel } from "@/src/game/ui/paper/PaperSectionLabel";
 import { PaperSlotChrome } from "@/src/game/ui/paper/PaperSlotChrome";
 
-const CHEST_DRAG_MIME = "application/x-nagibatop-chest-dnd";
+const CHEST_DRAG_MIME = "application/x-last-summon-chest-dnd";
 
 type DragSource = { kind: "inv" | "chest"; index: number };
 
@@ -134,7 +134,7 @@ export default function ChestStorageOverlay({
           totalXp += r.xp;
           if (r.toastLines.length > 0) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-toast", {
+              new CustomEvent("last-summon-toast", {
                 detail: {
                   message:
                     r.xp > 0

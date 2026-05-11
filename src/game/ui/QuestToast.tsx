@@ -15,9 +15,9 @@ export default function QuestToast() {
       setMsg(m);
       window.setTimeout(() => setMsg(null), 2400);
     };
-    window.addEventListener("nagibatop:quest-stage-complete", onStage);
+    window.addEventListener("last-summon:quest-stage-complete", onStage);
     return () =>
-      window.removeEventListener("nagibatop:quest-stage-complete", onStage);
+      window.removeEventListener("last-summon:quest-stage-complete", onStage);
   }, []);
 
   if (!msg) return null;

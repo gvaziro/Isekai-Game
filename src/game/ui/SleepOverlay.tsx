@@ -126,7 +126,7 @@ export default function SleepOverlay({
         const full =
           pendingSleepMinRef.current >= SLEEP_FULL_RECOVERY_GAME_MINUTES;
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: {
               message: full
                 ? `Вы проснулись (${formatWorldHudLine(w)}). Силы восстановлены.`

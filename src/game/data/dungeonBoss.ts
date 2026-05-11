@@ -34,11 +34,10 @@ export function migrateLegacyDungeonBossChestOpened(
 }
 
 export const DUNGEON_GRUNT_VISUAL_IDS = [
+  "orc_base",
   "orc_warrior",
-  "skeleton_rogue",
+  "orc_rogue",
   "orc_shaman",
-  "skeleton_warrior",
-  "skeleton_mage",
   "slime_basic",
 ] as const;
 

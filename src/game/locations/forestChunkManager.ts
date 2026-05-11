@@ -46,6 +46,17 @@ export class ForestChunkManager {
     return [...this.loaded.keys()];
   }
 
+  /** Пересобрать чанк, если он уже загружен (после выросшего дерева / появившегося камня). */
+  reloadChunkAtWorld(worldX: number, worldY: number): void {
+    const worldSeed = this.hooks.getWorldSeed();
+    if (worldSeed === 0) return;
+    const { cx, cy } = worldToForestChunk(worldX, worldY);
+    const k = chunkKey(cx, cy);
+    if (!this.loaded.has(k)) return;
+    this.unloadChunk(k);
+    this.loadChunk(k, worldSeed);
+  }
+
   /** Границы мира по загруженным чанкам (для камеры и физики). */
   computeWorldBounds(): { minX: number; minY: number; maxX: number; maxY: number } {
     let minX = 0;

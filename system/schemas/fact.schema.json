@@ -1,0 +1,30 @@
+{
+  "type": "fact",
+  "required": [
+    "id",
+    "title",
+    "type",
+    "tier",
+    "tags",
+    "truth_level",
+    "related",
+    "locked",
+    "canonical_source",
+    "created_at",
+    "last_validated"
+  ],
+  "allowed_tiers": [
+    "village_common",
+    "village_rumor",
+    "professional",
+    "hidden",
+    "forbidden"
+  ],
+  "allowed_truth_levels": [
+    "true",
+    "partial",
+    "distorted",
+    "false",
+    "encoded"
+  ]
+}

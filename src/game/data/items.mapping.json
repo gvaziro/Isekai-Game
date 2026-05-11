@@ -4939,9 +4939,9 @@
     },
     {
       "frameKey": "item861",
-      "id": "item861",
-      "name": "",
-      "slot": "unknown"
+      "id": "fog_seal_shard",
+      "name": "Осколок туманной печати",
+      "slot": "quest"
     },
     {
       "frameKey": "item862",

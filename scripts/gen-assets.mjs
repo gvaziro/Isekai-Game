@@ -10,6 +10,9 @@
  * путь относительно `public/assets/characters/main/` для кастомного героя,
  * иначе `rel` из Pixel Crawler Body_A/Animations).
  *
+ * NPC деревни — экспорт в `public/assets/characters/{markus,igor,elena}/` (metadata.json v2,
+ * кадры Walking…); idle/run листы собираются ниже из южной проекции ходьбы.
+ *
  * Враги Orc Crew / Skeleton Crew — `src/game/data/mobAnimSheets.json` + `manifest.mobs`.
  */
 import sharp from "sharp";
@@ -33,11 +36,13 @@ const PC_BODY = path.join(
   "Animations"
 );
 
-const PC_NPC = path.join(PC, "Entities", "Npc's");
 const PC_MOBS = path.join(PC, "Entities", "Mobs");
 
 /** Кастомный главный герой: PNG-листы в `public/assets/characters/main/`. */
 const PC_MAIN_HERO = path.join(root, "public", "assets", "characters", "main");
+
+/** Кастомные NPC: папки с metadata.json (имена папок — markus / igor / elena). */
+const PC_NPC_EXPORT = path.join(root, "public", "assets", "characters");
 
 const TILE = 16;
 
@@ -53,6 +58,101 @@ function mkdirp(p) {
 function copy(from, to) {
   mkdirp(path.dirname(to));
   fs.copyFileSync(from, to);
+}
+
+/**
+ * Отдельные PNG кадров → один горизонтальный лист (Phaser spritesheet).
+ * nearest — чтобы сохранить пиксельную чёткость после ресайза.
+ */
+async function compositeHorizontalFrames(absPaths, targetW, targetH, outPath) {
+  mkdirp(path.dirname(outPath));
+  const composites = [];
+  for (let i = 0; i < absPaths.length; i++) {
+    const p = absPaths[i];
+    if (!fs.existsSync(p)) {
+      throw new Error(`NPC sheet: нет файла кадра ${p}`);
+    }
+    const buf = await sharp(p)
+      .resize(targetW, targetH, {
+        kernel: sharp.kernel.nearest,
+        fit: "contain",
+        position: "south",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .png()
+      .toBuffer();
+    composites.push({ input: buf, left: i * targetW, top: 0 });
+  }
+  await sharp({
+    create: {
+      width: targetW * absPaths.length,
+      height: targetH,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
+  })
+    .composite(composites)
+    .png()
+    .toFile(outPath);
+}
+
+/**
+ * Собирает npc_{knight|rogue|wizzard}_{idle|run}.png из экспорта персонажа.
+ * idle/run: кадры с юга; idle и run одной высоты кадра (64×64), чтобы не «сплющивать»
+ * стойку относительно шага (раньше idle был 32 px — сильный даунскейл с 68 px).
+ */
+async function buildNpcSheetsFromCharacterExport(
+  outUnitsDir,
+  idlePx,
+  runPx,
+  spec
+) {
+  const charDir = path.join(PC_NPC_EXPORT, spec.folder);
+  const metaPath = path.join(charDir, "metadata.json");
+  if (!fs.existsSync(metaPath)) {
+    throw new Error(`NPC export: нет ${metaPath}`);
+  }
+  const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
+  const anims = meta.frames?.animations;
+  if (!anims || typeof anims !== "object") {
+    throw new Error(`NPC export ${spec.folder}: нет frames.animations`);
+  }
+  const walkKeys = Object.keys(anims).filter((k) => k.startsWith("Walking"));
+  if (walkKeys.length < 1) {
+    throw new Error(`NPC export ${spec.folder}: нет анимации Walking`);
+  }
+  const southFrames = anims[walkKeys[0]]?.south;
+  if (!Array.isArray(southFrames) || southFrames.length < 1) {
+    throw new Error(`NPC export ${spec.folder}: нет south кадров у Walking`);
+  }
+  const idleCount = 4;
+  const runCount = 6;
+  const idleRel = [];
+  const runRel = [];
+  for (let i = 0; i < idleCount; i++) {
+    idleRel.push(southFrames[i % southFrames.length]);
+  }
+  for (let i = 0; i < runCount; i++) {
+    runRel.push(southFrames[i % southFrames.length]);
+  }
+  const idleAbs = idleRel.map((r) =>
+    path.join(charDir, r.replace(/\//g, path.sep))
+  );
+  const runAbs = runRel.map((r) =>
+    path.join(charDir, r.replace(/\//g, path.sep))
+  );
+  await compositeHorizontalFrames(
+    idleAbs,
+    idlePx,
+    idlePx,
+    path.join(outUnitsDir, `npc_${spec.key}_idle.png`)
+  );
+  await compositeHorizontalFrames(
+    runAbs,
+    runPx,
+    runPx,
+    path.join(outUnitsDir, `npc_${spec.key}_run.png`)
+  );
 }
 
 function extractTile(srcPath, col, row, tw = TILE, th = TILE) {
@@ -725,7 +825,6 @@ async function main() {
     WALLS,
     ROOFS,
     PC_BODY,
-    PC_NPC,
     PC_MOBS,
   ];
   for (const p of required) {
@@ -799,19 +898,20 @@ async function main() {
     copy(src, path.join(outRoot, "units", `${c.textureKey}.png`));
   }
 
-  const npcCopies = [
-    ["Knight", "knight"],
-    ["Rogue", "rogue"],
-    ["Wizzard", "wizzard"],
+  const npcExportSpecs = [
+    { folder: "markus", key: "knight" },
+    { folder: "igor", key: "rogue" },
+    { folder: "elena", key: "wizzard" },
   ];
-  for (const [folder, key] of npcCopies) {
-    copy(
-      path.join(PC_NPC, folder, "Idle", "Idle-Sheet.png"),
-      path.join(outRoot, "units", `npc_${key}_idle.png`)
-    );
-    copy(
-      path.join(PC_NPC, folder, "Run", "Run-Sheet.png"),
-      path.join(outRoot, "units", `npc_${key}_run.png`)
+  const npcIdlePx = 64;
+  const npcRunPx = 64;
+  const unitsDir = path.join(outRoot, "units");
+  for (const spec of npcExportSpecs) {
+    await buildNpcSheetsFromCharacterExport(
+      unitsDir,
+      npcIdlePx,
+      npcRunPx,
+      spec
     );
   }
 
@@ -910,7 +1010,7 @@ async function main() {
 
   const manifestHero = { frameSize: PCF, ...heroManifest };
 
-  const npcIdleF = 32;
+  const npcIdleF = 64;
   const npcRunF = 64;
 
   const npcIdleFrames = 4;

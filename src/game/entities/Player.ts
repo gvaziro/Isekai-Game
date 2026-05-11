@@ -111,7 +111,8 @@ export function playerVisionWorldPoint(
 }
 
 /**
- * NPC Pixel Crawler: idle 32×32, run 64×64 — подгоняем хитбокс у ног под текущий кадр.
+ * NPC: idle/run спрайтлисты из gen-assets (кадры квадратные, одна высота idle и run) —
+ * хитбокс у ног подгоняем под текущий кадр.
  * Вызывать после смены анимации / в update.
  */
 export function syncPixelCrawlerNpcFeetHitbox(

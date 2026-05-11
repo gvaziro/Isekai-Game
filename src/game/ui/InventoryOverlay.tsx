@@ -134,7 +134,7 @@ function consumableFxSummaryForUi(
   return formatConsumableFx(curatedId);
 }
 
-const INV_DRAG_MIME = "application/x-nagibatop-inv";
+const INV_DRAG_MIME = "application/x-last-summon-inv";
 
 function parseInventoryDragIndex(e: DragEvent): number | null {
   const raw =
@@ -271,7 +271,7 @@ export default function InventoryOverlay({
 
   const toast = useCallback((message: string) => {
     window.dispatchEvent(
-      new CustomEvent("nagibatop-toast", { detail: { message } })
+      new CustomEvent("last-summon-toast", { detail: { message } })
     );
   }, []);
 

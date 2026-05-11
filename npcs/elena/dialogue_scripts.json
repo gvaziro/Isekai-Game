@@ -1,24 +1,130 @@
 {
-  "openers": [
+  "scenes": [
     {
-      "label": "Работа",
-      "prompt": "Есть работа для меня? Дай одно конкретное задание: что случилось, куда идти и к кому вернуться."
+      "id": "village_briefing_talk_to_elena",
+      "questId": "village_briefing",
+      "stageId": "talk_to_elena",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Маркус тебя прислал? Значит так: сначала без подвигов. Деревне нужны руки, а тебе нужно понять, как здесь выживают.",
+          "choices": [
+            {
+              "label": "Что собрать?",
+              "playerText": "Что собрать?",
+              "nextStepId": "supplies",
+              "unlockLoreFactIds": ["places.village", "world.forest_resources"]
+            }
+          ]
+        },
+        {
+          "id": "supplies",
+          "npcText": "У кромки леса собери древесину и камень. По шесть штук хватит. Не уходи глубже тропы и возвращайся ко мне, когда будет запас.",
+          "choices": [
+            {
+              "label": "Соберу и вернусь.",
+              "playerText": "Соберу и вернусь.",
+              "complete": true,
+              "unlockLoreFactIds": ["misc.journal", "world.forest_resources"]
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Слухи",
-      "prompt": "Что сейчас происходит в деревне? Коротко: где проблема и с чего мне начать."
+      "id": "elena_basic_supplies_report_to_elena",
+      "questId": "elena_basic_supplies",
+      "stageId": "report_to_elena",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Хорошо, это уже похоже на запас, а не на надежду. Древесина и камень здесь быстро становятся едой, ремонтом или инструментом.",
+          "choices": [
+            {
+              "label": "К кому теперь?",
+              "playerText": "К кому теперь?",
+              "nextStepId": "send_to_igor"
+            }
+          ]
+        },
+        {
+          "id": "send_to_igor",
+          "npcText": "Иди к Игорю. Пусть покажет верстак и соберёт из этого что-то полезное. Только слушай задачу, а не его торговые выкрутасы.",
+          "choices": [
+            {
+              "label": "Понял. К Игорю.",
+              "playerText": "Понял. К Игорю.",
+              "complete": true
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Маркус",
-      "prompt": "Мне стоит поговорить с Маркусом? Что у него можно узнать по делу?"
+      "id": "catacombs_first_descent_report_shard_to_elena",
+      "questId": "catacombs_first_descent",
+      "stageId": "report_shard_to_elena",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Дай посмотреть. Да, это не просто камень. Такой холод остаётся от печати, а печать у нас связана с туманом.",
+          "choices": [
+            {
+              "label": "Значит, катакомбы держат туман?",
+              "playerText": "Значит, катакомбы держат туман?",
+              "nextStepId": "deeper",
+              "unlockLoreFactIds": ["world.catacombs_guardian"]
+            }
+          ]
+        },
+        {
+          "id": "deeper",
+          "npcText": "Похоже на то. Третий этаж дал след, значит ответ ниже. Придётся спускаться глубже и добить того, кто держит нижний узел.",
+          "choices": [
+            {
+              "label": "Понял. Пойду глубже.",
+              "playerText": "Понял. Пойду глубже.",
+              "complete": true,
+              "unlockLoreFactIds": ["places.catacombs", "world.catacombs_guardian"]
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Игорь",
-      "prompt": "Мне стоит поговорить с Игорем? Что он может знать или продавать полезного?"
-    },
-    {
-      "label": "Лавка",
-      "prompt": "Что у тебя можно купить для дороги и что лучше взять с собой прямо сейчас?"
+      "id": "catacombs_second_proof_report_second_proof_to_elena",
+      "questId": "catacombs_second_proof",
+      "stageId": "report_second_proof_to_elena",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Шестой этаж подтвердил худшее: печать не одна точка, а цепь узлов. Верхние держат форму, нижние держат волю. Поэтому туман не просто стоит — он слушается.",
+          "choices": [
+            {
+              "label": "Значит, остался нижний узел?",
+              "playerText": "Значит, остался нижний узел?",
+              "nextStepId": "final_push",
+              "unlockLoreFactIds": ["world.seal_nodes", "world.catacombs_guardian"]
+            }
+          ]
+        },
+        {
+          "id": "final_push",
+          "npcText": "Да. Десятый этаж. Если Король гоблинов действительно сидит на нижнем пороге, его смерть должна сорвать весь контур. После этого Маркус проверит дорогу.",
+          "choices": [
+            {
+              "label": "Тогда пора вниз.",
+              "playerText": "Тогда пора вниз.",
+              "complete": true,
+              "unlockLoreFactIds": ["places.catacombs", "world.seal_nodes"]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

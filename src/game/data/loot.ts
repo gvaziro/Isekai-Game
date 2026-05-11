@@ -4,6 +4,7 @@ import { getRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext
 import type { CuratedItemDef } from "@/src/game/data/items.curated";
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
 import type { GameLocation } from "@/src/game/locations/types";
+import { FOG_SEAL_SHARD_ITEM_ID } from "@/src/game/data/quests";
 
 /** Сундуки: id и координаты как у декора chest в layout */
 export type ChestDef = {
@@ -125,6 +126,14 @@ export function rollDungeonBossChestDrops(floor?: number): {
       "coin_stack",
     ] as CuratedItemDef["id"][]);
     if (fallback) out.push({ curatedId: fallback, qty: 1 });
+  }
+  if (
+    typeof floor === "number" &&
+    Number.isFinite(floor) &&
+    Math.floor(floor) === 3 &&
+    getCuratedItem(FOG_SEAL_SHARD_ITEM_ID)
+  ) {
+    out.unshift({ curatedId: FOG_SEAL_SHARD_ITEM_ID, qty: 1 });
   }
   return out;
 }

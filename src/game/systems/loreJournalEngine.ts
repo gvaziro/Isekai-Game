@@ -11,7 +11,7 @@ export type LoreUnlockEventDetail = {
 };
 
 /**
- * Слушает `nagibatop:lore-unlock` и добавляет только известные каталогу id.
+ * Слушает `last-summon:lore-unlock` и добавляет только известные каталогу id.
  * При появлении новых записей — короткий toast с названием.
  */
 export function mountLoreJournalEventBridge(): () => void {
@@ -41,11 +41,11 @@ export function mountLoreJournalEventBridge(): () => void {
           ? `Дневник: «${LORE_FACTS_BY_ID[added[0]!]?.title ?? added[0]}»`
           : `Дневник: открыто записей — ${added.length}`;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", { detail: { message: msg } })
+        new CustomEvent("last-summon-toast", { detail: { message: msg } })
       );
     }
   };
 
-  window.addEventListener("nagibatop:lore-unlock", onUnlock);
-  return () => window.removeEventListener("nagibatop:lore-unlock", onUnlock);
+  window.addEventListener("last-summon:lore-unlock", onUnlock);
+  return () => window.removeEventListener("last-summon:lore-unlock", onUnlock);
 }

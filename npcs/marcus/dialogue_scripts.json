@@ -1,24 +1,129 @@
 {
-  "openers": [
+  "scenes": [
     {
-      "label": "Правила",
-      "prompt": "Объясни коротко и по делу: какие неписаные правила на этой площади важнее всего для приезжего, чтобы не нарваться на неприятности?"
+      "id": "village_briefing_talk_to_marcus",
+      "questId": "village_briefing",
+      "stageId": "talk_to_marcus",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Постой. Ты только очнулся у развилки, значит слушай коротко: это деревня у леса, старая дорога наружу закрыта туманом, а под нами катакомбы. Сначала без геройства.",
+          "choices": [
+            {
+              "label": "Что мне делать первым?",
+              "playerText": "Что мне делать первым?",
+              "nextStepId": "send_to_elena",
+              "unlockLoreFactIds": ["places.village", "world.forest_and_fog"]
+            }
+          ]
+        },
+        {
+          "id": "send_to_elena",
+          "npcText": "Иди к Елене. Она держит припасы и скажет, с чего начать так, чтобы ты вернулся на своих ногах. Катакомбы пока не трогай.",
+          "choices": [
+            {
+              "label": "Понял. Найду Елену.",
+              "playerText": "Понял. Найду Елену.",
+              "complete": true,
+              "unlockLoreFactIds": ["misc.journal", "places.catacombs"]
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Опасность",
-      "prompt": "Есть ли сейчас что-то, за чем ты следишь особенно пристально? Не паникуй меня — просто скажи, на что обратить внимание."
+      "id": "forest_edge_patrol_report_to_marcus",
+      "questId": "forest_edge_patrol",
+      "stageId": "report_to_marcus",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Вернулся целым. Значит, лесную кромку ты понял: там уже не прогулка, но ещё не настоящая беда.",
+          "choices": [
+            {
+              "label": "Что дальше?",
+              "playerText": "Что дальше?",
+              "nextStepId": "catacombs"
+            }
+          ]
+        },
+        {
+          "id": "catacombs",
+          "npcText": "Теперь можно смотреть к катакомбам. Не глубоко: дойдёшь до входа, спустишься до третьего этажа, зачистишь стража и проверь его сундук.",
+          "choices": [
+            {
+              "label": "Принял. Пойду осторожно.",
+              "playerText": "Принял. Пойду осторожно.",
+              "complete": true,
+              "unlockLoreFactIds": ["places.catacombs", "world.dungeon_monsters"]
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Елена",
-      "prompt": "Как ты относишься к Елене и её библиотеке? Вы часто спорите или это больше рабочий ритм?"
+      "id": "marcus_road_pressure_report_pressure_to_marcus",
+      "questId": "marcus_road_pressure",
+      "stageId": "report_pressure_to_marcus",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Дорога стала тише. Не безопасной — не люблю врать, — но тише. Этого достаточно, чтобы следующий спуск не начался с удара в спину.",
+          "choices": [
+            {
+              "label": "Что теперь?",
+              "playerText": "Что теперь?",
+              "nextStepId": "send_to_igor",
+              "unlockLoreFactIds": ["world.road_pressure", "world.forest_and_fog"]
+            }
+          ]
+        },
+        {
+          "id": "send_to_igor",
+          "npcText": "Иди к Игорю. Нижние этажи ломают людей не только когтями: там рвутся ремни, садится рука и внезапно заканчивается всё нужное.",
+          "choices": [
+            {
+              "label": "Зайду к Игорю.",
+              "playerText": "Зайду к Игорю.",
+              "complete": true
+            }
+          ]
+        }
+      ]
     },
     {
-      "label": "Игорь",
-      "prompt": "Что ты думаешь про Игоря и его торговлю? Мешает ли он порядку или ты его просто держишь на коротком поводке?"
-    },
-    {
-      "label": "Патруль",
-      "prompt": "Я хочу помочь поддерживать порядок — без формальностей. Что бы ты попросил сделать в первую очередь и как отчитаться?"
+      "id": "escape_village_report_back",
+      "questId": "escape_village",
+      "stageId": "report_back",
+      "version": 1,
+      "steps": [
+        {
+          "id": "start",
+          "npcText": "Значит, Король гоблинов мёртв, и туман отступил. Хорошо. Не красиво, не легко, но хорошо.",
+          "choices": [
+            {
+              "label": "Дорога теперь открыта?",
+              "playerText": "Дорога теперь открыта?",
+              "nextStepId": "finish"
+            }
+          ]
+        },
+        {
+          "id": "finish",
+          "npcText": "Проверь западный путь. Если туман правда ушёл, деревня впервые за годы увидит дорогу наружу. Иди, пока у нас хватает смелости в это поверить.",
+          "choices": [
+            {
+              "label": "Иду.",
+              "playerText": "Иду.",
+              "complete": true,
+              "unlockLoreFactIds": ["world.forest_and_fog"]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,10 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { getShopByNpc } from "@/src/game/data/shops";
-import DialogueOverlay, {
-  type DialogueScriptedOpener,
-} from "@/src/game/ui/DialogueOverlay";
+import DialogueOverlay from "@/src/game/ui/DialogueOverlay";
+import type { NpcDialogueScene } from "@/src/game/types";
 import GameHud from "@/src/game/ui/GameHud";
 import ChestStorageOverlay from "@/src/game/ui/ChestStorageOverlay";
 import CraftOverlay from "@/src/game/ui/CraftOverlay";
@@ -14,6 +20,8 @@ import LoreJournalOverlay from "@/src/game/ui/LoreJournalOverlay";
 import AchievementsTreeOverlay from "@/src/game/ui/AchievementsTreeOverlay";
 import QuestToast from "@/src/game/ui/QuestToast";
 import SettingsOverlay from "@/src/game/ui/SettingsOverlay";
+import LoadGameOverlay from "@/src/game/ui/LoadGameOverlay";
+import SaveGameOverlay from "@/src/game/ui/SaveGameOverlay";
 import ShopOverlay from "@/src/game/ui/ShopOverlay";
 import IsekaiOriginOverlay from "@/src/game/ui/IsekaiOriginOverlay";
 import OpeningCutsceneOverlay from "@/src/game/ui/OpeningCutsceneOverlay";
@@ -22,6 +30,7 @@ import SleepOverlay from "@/src/game/ui/SleepOverlay";
 import DungeonMapOverlay from "@/src/game/ui/DungeonMapOverlay";
 import ForestMapOverlay from "@/src/game/ui/ForestMapOverlay";
 import LevelStatOverlay from "@/src/game/ui/LevelStatOverlay";
+import ReadableBookOverlay from "@/src/game/ui/ReadableBookOverlay";
 import HotbarHud from "@/src/game/ui/HotbarHud";
 import {
   DEATH_MODAL_EVENT,
@@ -29,10 +38,13 @@ import {
   HOTBAR_SLOT_COUNT,
   HOTBAR_WHEEL_NUDGE_EVENT,
   isDeathCorpseChestId,
-  PLAY_VIEWPORT_HEIGHT,
-  PLAY_VIEWPORT_WIDTH,
+  OPEN_LOAD_GAME_PANEL_SESSION_KEY,
+  READABLE_BOOK_OPEN_EVENT,
   RESYNC_CORPSE_PICKUPS_EVENT,
 } from "@/src/game/constants/gameplay";
+import { playRenderDimensions } from "@/src/game/constants/renderPresets";
+import { getSharedPhaserAudioContext } from "@/src/game/audio/sharedWebAudioContext";
+import { useIsElectronClient } from "@/src/game/hooks/useIsElectronClient";
 import { WORLD } from "@/src/game/layout";
 import {
   useGameStore,
@@ -45,9 +57,18 @@ import {
   waitForQuestStoreHydration,
 } from "@/src/game/state/questStore";
 import { waitForLoreJournalHydration } from "@/src/game/state/loreJournalStore";
+import {
+  useSaveSlotsStore,
+  waitForSaveSlotsHydration,
+} from "@/src/game/state/saveSlotsStore";
+import { useUiSettingsStore } from "@/src/game/state/uiSettingsStore";
 import { mountLoreJournalEventBridge } from "@/src/game/systems/loreJournalEngine";
-import { subscribeAssetSliceOverridesSaved } from "@/src/game/load/assetSliceOverridesRuntime";
 import { hotbarItemIsImmediatelyUsable } from "@/src/game/data/itemRegistry";
+import { getReadableBookForItem } from "@/src/game/data/readableBooks";
+import { isElectronClient } from "@/src/game/desktop";
+import { applySaveSlotPayload } from "@/src/game/saves/applyProfileSlot";
+import { flushElectronProfileWrites } from "@/src/game/saves/electronProfileStateStorage";
+import { saveProfileNow } from "@/src/game/saves/saveProfileNow";
 import { OPENING_CUTSCENE_SCRIPT_VERSION } from "@/src/game/data/openingCutscene";
 import { PaperButton } from "@/src/game/ui/paper/PaperButton";
 import {
@@ -69,10 +90,8 @@ function canAttemptSleepChannel():
 type DialogueOpen = {
   npcId: string;
   displayName?: string;
-  scriptedOpeners?: ReadonlyArray<DialogueScriptedOpener>;
+  scriptedScenes?: ReadonlyArray<NpcDialogueScene>;
 };
-
-type NpcInteractOpen = DialogueOpen;
 
 type ShopOpenState = {
   shopId: string;
@@ -81,9 +100,48 @@ type ShopOpenState = {
   displayName?: string;
 };
 
+/** Снимок для keydown-обработчика: ref обновляется каждый рендер, useEffect зависит только от preview (устойчиво к HMR). */
+type WorldMenuHotkeysRef = {
+  dungeonMapOpen: boolean;
+  forestMapOpen: boolean;
+  dialogue: DialogueOpen | null;
+  modalLockInput: GameRootModalLikeInput;
+  toggleInventory: () => void;
+  toggleJournal: () => void;
+  toggleLoreJournal: () => void;
+  toggleAchievements: () => void;
+  toggleSettings: () => void;
+  runQuickSave: () => Promise<void>;
+  runQuickLoad: () => Promise<void>;
+};
+
+
 function readPreviewFlag(): boolean {
   if (typeof window === "undefined") return false;
   return new URLSearchParams(window.location.search).get("preview") === "1";
+}
+
+const WORLD_QUICK_MENU_ITEM_COUNT = 10;
+
+/** Каскад: при открытии сначала «нижние» пункты (ближе к ?), при закрытии — сверху вниз. */
+function worldQuickMenuItemMotion(
+  open: boolean,
+  indexFromTop: number
+): { className: string; style: CSSProperties } {
+  const staggerOpenMs = 44;
+  const staggerCloseMs = 26;
+  const delayMs = open
+    ? (WORLD_QUICK_MENU_ITEM_COUNT - 1 - indexFromTop) * staggerOpenMs
+    : indexFromTop * staggerCloseMs;
+  return {
+    className: [
+      "pointer-events-auto transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity]",
+      open
+        ? "translate-y-0 opacity-100"
+        : "translate-y-8 scale-95 opacity-0",
+    ].join(" "),
+    style: { transitionDelay: `${delayMs}ms` },
+  };
 }
 
 function DevHud() {
@@ -95,12 +153,12 @@ function DevHud() {
       role="status"
     >
       <div className="text-[9px] font-semibold uppercase tracking-wide text-amber-400/90">
-        Dev (F9)
+        Dev (F10)
       </div>
       <div>
         x: {Math.round(player.x)} · y: {Math.round(player.y)}
       </div>
-      <div className="text-zinc-500">save v{saveVersion} · nagibatop-save-v1</div>
+      <div className="text-zinc-500">save v{saveVersion} · last-summon-save-v1</div>
     </div>
   );
 }
@@ -110,14 +168,16 @@ export default function GameRoot() {
   const hostRef = useRef<HTMLDivElement>(null);
   const phaserGameRef = useRef<import("phaser").Game | null>(null);
   const [dialogue, setDialogue] = useState<DialogueOpen | null>(null);
-  const [npcInteract, setNpcInteract] = useState<NpcInteractOpen | null>(null);
   const [shopOpen, setShopOpen] = useState<ShopOpenState | null>(null);
   const [preview] = useState(readPreviewFlag);
-  const [mapCaptureBusy, setMapCaptureBusy] = useState(false);
-  const [mapCaptureNotice, setMapCaptureNotice] = useState<string | null>(null);
   const [devHud, setDevHud] = useState(false);
-  const [fullscreenAvailable, setFullscreenAvailable] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const electronClient = useIsElectronClient();
+  const playRenderPreset = useUiSettingsStore((s) => s.playRenderPreset);
+  const playDims = useMemo(
+    () => playRenderDimensions(playRenderPreset),
+    [playRenderPreset]
+  );
   const [inventoryOpen, setInventoryOpen] = useState(false);
   const [chestOpen, setChestOpen] = useState<{
     chestId: string;
@@ -150,6 +210,15 @@ export default function GameRoot() {
   const [sleepOpen, setSleepOpen] = useState(false);
   const [dungeonMapOpen, setDungeonMapOpen] = useState(false);
   const [forestMapOpen, setForestMapOpen] = useState(false);
+  const [readableBook, setReadableBook] = useState<{
+    title: string;
+    body: string;
+  } | null>(null);
+  /** Правое нижнее меню (инвентарь, квесты, …): по умолчанию скрыто, открывается по «?». */
+  const [worldQuickMenuOpen, setWorldQuickMenuOpen] = useState(false);
+  const [loadGameOverlayOpen, setLoadGameOverlayOpen] = useState(false);
+  const [saveGameOverlayOpen, setSaveGameOverlayOpen] = useState(false);
+  const [engineRemountKey, setEngineRemountKey] = useState(0);
   const [gameStoreHydrated, setGameStoreHydrated] = useState(false);
   const unspentStatPoints = useGameStore(
     (s) => s.character.unspentStatPoints
@@ -175,9 +244,10 @@ export default function GameRoot() {
       craftOpen: craftOpen !== null,
       journalOpen,
       loreJournalOpen,
+      readableBookOpen: readableBook !== null,
       achievementsOpen,
       settingsOpen,
-      npcInteract: npcInteract !== null,
+      npcInteract: false,
       shopOpen: shopOpen !== null,
       isekaiOpen,
       openingCutsceneOpen,
@@ -187,6 +257,9 @@ export default function GameRoot() {
       dungeonMapOpen,
       forestMapOpen,
       deathModalOpen,
+      worldQuickMenuOpen,
+      loadGameOverlayOpen,
+      saveGameOverlayOpen,
     }),
     [
       inventoryOpen,
@@ -194,9 +267,9 @@ export default function GameRoot() {
       craftOpen,
       journalOpen,
       loreJournalOpen,
+      readableBook,
       achievementsOpen,
       settingsOpen,
-      npcInteract,
       shopOpen,
       isekaiOpen,
       openingCutsceneOpen,
@@ -206,6 +279,9 @@ export default function GameRoot() {
       dungeonMapOpen,
       forestMapOpen,
       deathModalOpen,
+      worldQuickMenuOpen,
+      loadGameOverlayOpen,
+      saveGameOverlayOpen,
     ]
   );
 
@@ -214,9 +290,9 @@ export default function GameRoot() {
 
   useEffect(() => {
     if (anyModalBlocking) {
-      window.dispatchEvent(new CustomEvent("nagibatop-modal-open"));
+      window.dispatchEvent(new CustomEvent("last-summon-modal-open"));
     } else {
-      window.dispatchEvent(new CustomEvent("nagibatop-modal-close"));
+      window.dispatchEvent(new CustomEvent("last-summon-modal-close"));
     }
   }, [anyModalBlocking]);
 
@@ -227,8 +303,8 @@ export default function GameRoot() {
       setToast(msg);
       window.setTimeout(() => setToast(null), 2800);
     };
-    window.addEventListener("nagibatop-toast", onToast);
-    return () => window.removeEventListener("nagibatop-toast", onToast);
+    window.addEventListener("last-summon-toast", onToast);
+    return () => window.removeEventListener("last-summon-toast", onToast);
   }, []);
 
   useEffect(() => {
@@ -261,7 +337,9 @@ export default function GameRoot() {
 
   useEffect(() => {
     if (craftOpen === null) {
-      setCraftToasts([]);
+      queueMicrotask(() => {
+        setCraftToasts([]);
+      });
     }
   }, [craftOpen]);
 
@@ -282,8 +360,8 @@ export default function GameRoot() {
         setCraftToasts((prev) => prev.filter((t) => t.id !== id));
       }, CRAFT_TOAST_MS);
     };
-    window.addEventListener("nagibatop-craft-toast", onCraftToast);
-    return () => window.removeEventListener("nagibatop-craft-toast", onCraftToast);
+    window.addEventListener("last-summon-craft-toast", onCraftToast);
+    return () => window.removeEventListener("last-summon-craft-toast", onCraftToast);
   }, []);
 
   useEffect(() => {
@@ -299,12 +377,37 @@ export default function GameRoot() {
       setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
+      setLoadGameOverlayOpen(false);
+      setSaveGameOverlayOpen(false);
       setInventoryOpen(false);
       setChestOpen({ chestId: d.chestId, chestX, chestY });
     };
-    window.addEventListener("nagibatop-chest-open", onChestOpen);
+    window.addEventListener("last-summon-chest-open", onChestOpen);
     return () =>
-      window.removeEventListener("nagibatop-chest-open", onChestOpen);
+      window.removeEventListener("last-summon-chest-open", onChestOpen);
+  }, []);
+
+  useEffect(() => {
+    const onReadableBook = (e: Event) => {
+      const d = (e as CustomEvent<{ curatedId?: string }>).detail;
+      const cid = typeof d?.curatedId === "string" ? d.curatedId.trim() : "";
+      if (!cid) return;
+      const book = getReadableBookForItem(cid);
+      if (!book) return;
+      setJournalOpen(false);
+      setLoreJournalOpen(false);
+      setAchievementsOpen(false);
+      setSettingsOpen(false);
+      setLoadGameOverlayOpen(false);
+      setSaveGameOverlayOpen(false);
+      setInventoryOpen(false);
+      setChestOpen(null);
+      setCraftOpen(null);
+      setReadableBook({ title: book.title, body: book.body });
+    };
+    window.addEventListener(READABLE_BOOK_OPEN_EVENT, onReadableBook);
+    return () =>
+      window.removeEventListener(READABLE_BOOK_OPEN_EVENT, onReadableBook);
   }, []);
 
   useEffect(() => {
@@ -321,13 +424,15 @@ export default function GameRoot() {
       setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
+      setLoadGameOverlayOpen(false);
+      setSaveGameOverlayOpen(false);
       setInventoryOpen(false);
       setChestOpen(null);
       setCraftOpen({ stationId: d.stationId, label });
     };
-    window.addEventListener("nagibatop-craft-open", onCraftOpen);
+    window.addEventListener("last-summon-craft-open", onCraftOpen);
     return () =>
-      window.removeEventListener("nagibatop-craft-open", onCraftOpen);
+      window.removeEventListener("last-summon-craft-open", onCraftOpen);
   }, []);
 
   useEffect(() => {
@@ -344,14 +449,14 @@ export default function GameRoot() {
       setToast(`${name}: ${d.text.trim()}`);
       window.setTimeout(() => setToast(null), 2800);
     };
-    window.addEventListener("nagibatop-npc-bark", onBark);
-    return () => window.removeEventListener("nagibatop-npc-bark", onBark);
+    window.addEventListener("last-summon-npc-bark", onBark);
+    return () => window.removeEventListener("last-summon-npc-bark", onBark);
   }, []);
 
   useEffect(() => {
     if (preview) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "F9") {
+      if (e.key === "F10") {
         e.preventDefault();
         setDevHud((v) => !v);
       }
@@ -365,6 +470,8 @@ export default function GameRoot() {
     setLoreJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen(false);
+    setLoadGameOverlayOpen(false);
+    setSaveGameOverlayOpen(false);
     setInventoryOpen((v) => !v);
   }, []);
 
@@ -373,6 +480,8 @@ export default function GameRoot() {
     setLoreJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen(false);
+    setLoadGameOverlayOpen(false);
+    setSaveGameOverlayOpen(false);
     setJournalOpen((v) => !v);
   }, []);
 
@@ -381,6 +490,8 @@ export default function GameRoot() {
     setJournalOpen(false);
     setAchievementsOpen(false);
     setSettingsOpen(false);
+    setLoadGameOverlayOpen(false);
+    setSaveGameOverlayOpen(false);
     setLoreJournalOpen((v) => !v);
   }, []);
 
@@ -389,6 +500,8 @@ export default function GameRoot() {
     setJournalOpen(false);
     setLoreJournalOpen(false);
     setSettingsOpen(false);
+    setLoadGameOverlayOpen(false);
+    setSaveGameOverlayOpen(false);
     setAchievementsOpen((v) => !v);
   }, []);
 
@@ -397,31 +510,81 @@ export default function GameRoot() {
     setJournalOpen(false);
     setLoreJournalOpen(false);
     setAchievementsOpen(false);
+    setLoadGameOverlayOpen(false);
+    setSaveGameOverlayOpen(false);
     setSettingsOpen((v) => !v);
   }, []);
 
-  const toggleFullscreen = useCallback(async () => {
-    if (preview) return;
-    const el = gameFrameRef.current;
-    if (!el || !document.fullscreenEnabled || !el.requestFullscreen) {
-      setToast("Полноэкранный режим недоступен в этом браузере.");
-      window.setTimeout(() => setToast(null), 2800);
+  const closeWorldQuickMenu = useCallback(() => setWorldQuickMenuOpen(false), []);
+
+  const runQuickSave = useCallback(async () => {
+    const r = await saveProfileNow();
+    window.dispatchEvent(
+      new CustomEvent("last-summon-toast", {
+        detail: {
+          message: r.ok
+            ? "Игра сохранена."
+            : (r.error ?? "Не удалось сохранить."),
+        },
+      })
+    );
+  }, []);
+
+  const handleLoadGameApplied = useCallback(() => {
+    setEngineRemountKey((k) => k + 1);
+    useQuestStore.getState().ingestEvent({ type: "reevaluate" });
+  }, []);
+
+  const runQuickLoad = useCallback(async () => {
+    const slot = useSaveSlotsStore.getState().slots[0];
+    if (!slot) {
+      window.dispatchEvent(
+        new CustomEvent("last-summon-toast", {
+          detail: { message: "Нет автосохранения в слоте 0." },
+        })
+      );
       return;
     }
-
-    try {
-      if (document.fullscreenElement === el) {
-        await document.exitFullscreen();
-      } else {
-        await el.requestFullscreen({ navigationUI: "hide" });
-        hostRef.current?.focus({ preventScroll: true });
-      }
-    } catch (e) {
-      console.warn("[GameRoot] fullscreen", e);
-      setToast("Браузер не разрешил открыть игру на весь экран.");
-      window.setTimeout(() => setToast(null), 2800);
+    if (
+      !window.confirm(
+        "Загрузить автосохранение (слот 0)? Несохранённый прогресс текущей сессии будет потерян."
+      )
+    ) {
+      return;
     }
-  }, [preview]);
+    const r = await applySaveSlotPayload(slot);
+    if (!r.ok) {
+      window.dispatchEvent(
+        new CustomEvent("last-summon-toast", {
+          detail: {
+            message: r.error ?? "Не удалось загрузить автосохранение.",
+          },
+        })
+      );
+      return;
+    }
+    window.dispatchEvent(
+      new CustomEvent("last-summon-toast", {
+        detail: { message: "Загружено автосохранение (слот 0)." },
+      })
+    );
+    handleLoadGameApplied();
+  }, [handleLoadGameApplied]);
+
+  const worldMenuHotkeysRef = useRef<WorldMenuHotkeysRef | null>(null);
+  worldMenuHotkeysRef.current = {
+    dungeonMapOpen,
+    forestMapOpen,
+    dialogue,
+    modalLockInput,
+    toggleInventory,
+    toggleJournal,
+    toggleLoreJournal,
+    toggleAchievements,
+    toggleSettings,
+    runQuickSave,
+    runQuickLoad,
+  };
 
   const closeSleep = useCallback(() => setSleepOpen(false), []);
 
@@ -431,9 +594,6 @@ export default function GameRoot() {
   useEffect(() => {
     if (preview) return;
     const syncFullscreenState = () => {
-      setFullscreenAvailable(
-        Boolean(document.fullscreenEnabled && gameFrameRef.current?.requestFullscreen)
-      );
       setIsFullscreen(document.fullscreenElement === gameFrameRef.current);
     };
     syncFullscreenState();
@@ -444,21 +604,6 @@ export default function GameRoot() {
       document.removeEventListener("fullscreenerror", syncFullscreenState);
     };
   }, [preview]);
-
-  useEffect(() => {
-    if (preview) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.repeat || !e.altKey || e.code !== "Enter") return;
-      const el = e.target as HTMLElement | null;
-      if (el?.closest?.("input, textarea, select, [contenteditable=true]")) {
-        return;
-      }
-      e.preventDefault();
-      void toggleFullscreen();
-    };
-    window.addEventListener("keydown", onKey, true);
-    return () => window.removeEventListener("keydown", onKey, true);
-  }, [preview, toggleFullscreen]);
 
   useEffect(() => {
     if (preview) return;
@@ -475,40 +620,42 @@ export default function GameRoot() {
   useEffect(() => {
     if (preview) return;
     const onKey = (e: KeyboardEvent) => {
+      const h = worldMenuHotkeysRef.current;
+      if (!h) return;
       if (e.repeat) return;
       const el = e.target as HTMLElement | null;
       if (el?.closest?.("input, textarea, select, [contenteditable=true]")) {
         return;
       }
-      if (dungeonMapOpen || forestMapOpen) return;
-      if (gameRootBlocksWorldMenuHotkeys(modalLockInput, dialogue !== null))
+      if (h.dungeonMapOpen || h.forestMapOpen) return;
+      if (gameRootBlocksWorldMenuHotkeys(h.modalLockInput, h.dialogue !== null))
         return;
       if (e.code === "KeyI") {
         e.preventDefault();
-        toggleInventory();
+        h.toggleInventory();
       }
       if (e.code === "KeyJ") {
         e.preventDefault();
-        toggleJournal();
+        h.toggleJournal();
       }
       if (e.code === "KeyK") {
         e.preventDefault();
-        toggleLoreJournal();
+        h.toggleLoreJournal();
       }
       if (e.code === "KeyH") {
         e.preventDefault();
-        toggleAchievements();
+        h.toggleAchievements();
       }
       if (e.code === "KeyO") {
         e.preventDefault();
-        toggleSettings();
+        h.toggleSettings();
       }
       if (e.code === "KeyZ") {
         e.preventDefault();
         const r = canAttemptSleepChannel();
         if (!r.ok) {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: {
                 message:
                   r.reason === "wrong_location"
@@ -532,7 +679,7 @@ export default function GameRoot() {
           setForestMapOpen((v) => !v);
         } else {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: {
                 message:
                   "Мини-карта доступна в лесу и в катакомбах (клавиша M).",
@@ -541,38 +688,41 @@ export default function GameRoot() {
           );
         }
       }
-    };
-    window.addEventListener("keydown", onKey, true);
-    return () => window.removeEventListener("keydown", onKey, true);
-  }, [
-    preview,
-    dungeonMapOpen,
-    forestMapOpen,
-    dialogue,
-    modalLockInput,
-    toggleInventory,
-    toggleJournal,
-    toggleLoreJournal,
-    toggleAchievements,
-    toggleSettings,
-  ]);
-
-  useEffect(() => {
-    if (preview || !npcInteract) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.code === "F5") {
         e.preventDefault();
-        window.dispatchEvent(
-          new CustomEvent("npc-dialogue-close", {
-            detail: { npcId: npcInteract.npcId },
-          })
-        );
-        setNpcInteract(null);
+        void h.runQuickSave();
+      }
+      if (e.code === "F9") {
+        e.preventDefault();
+        void h.runQuickLoad();
       }
     };
     window.addEventListener("keydown", onKey, true);
     return () => window.removeEventListener("keydown", onKey, true);
-  }, [preview, npcInteract]);
+  }, [preview]);
+
+  useEffect(() => {
+    if (preview) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (e.repeat) return;
+      const el = e.target as HTMLElement | null;
+      if (el?.closest?.("input, textarea, select, [contenteditable=true]")) {
+        return;
+      }
+      if (dialogue !== null) return;
+      if (worldQuickMenuOpen) {
+        e.preventDefault();
+        setWorldQuickMenuOpen(false);
+        return;
+      }
+      if (computeGameRootModalLike(modalLockInput)) return;
+      e.preventDefault();
+      setWorldQuickMenuOpen(true);
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [preview, dialogue, worldQuickMenuOpen, modalLockInput]);
 
   useEffect(() => {
     if (preview) return;
@@ -610,15 +760,22 @@ export default function GameRoot() {
 
   useEffect(() => {
     if (preview) return;
+    void waitForSaveSlotsHydration().catch(() => {
+      /* ignore */
+    });
+  }, [preview]);
+
+  useEffect(() => {
+    if (preview) return;
     setAchievementQuestCompletedCountSource(() =>
       useQuestStore.getState().completedQuestIds.length
     );
     const onAch = () => {
       useGameStore.getState().flushAchievements();
     };
-    window.addEventListener("nagibatop-achievements-reevaluate", onAch);
+    window.addEventListener("last-summon-achievements-reevaluate", onAch);
     return () => {
-      window.removeEventListener("nagibatop-achievements-reevaluate", onAch);
+      window.removeEventListener("last-summon-achievements-reevaluate", onAch);
     };
   }, [preview]);
 
@@ -640,6 +797,25 @@ export default function GameRoot() {
     };
   }, [preview]);
 
+  useEffect(() => {
+    if (preview || !isElectronClient()) return;
+    const onBeforeUnload = () => {
+      void flushElectronProfileWrites();
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") {
+        void flushElectronProfileWrites();
+      }
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      document.removeEventListener("visibilitychange", onVisibility);
+      void flushElectronProfileWrites();
+    };
+  }, [preview]);
+
   const handleOpeningCutsceneDone = useCallback(() => {
     markOpeningCutsceneScriptCurrent();
     setOpeningCutsceneOpen(false);
@@ -650,13 +826,56 @@ export default function GameRoot() {
     if (preview || !gameStoreHydrated) return;
     if (openingCutsceneScriptVersion >= OPENING_CUTSCENE_SCRIPT_VERSION) return;
     if (isekaiOpen) return;
-    setOpeningCutsceneOpen(true);
+    queueMicrotask(() => {
+      setOpeningCutsceneOpen(true);
+    });
   }, [
     preview,
     gameStoreHydrated,
     isekaiOpen,
     openingCutsceneScriptVersion,
   ]);
+
+  /** С главной: «Загрузка» — открыть панель слотов после гидрации (оверлей может быть под прологом, z-index). */
+  useEffect(() => {
+    if (preview || !gameStoreHydrated) return;
+    let cancelled = false;
+    if (typeof window === "undefined") return;
+    let wantOpen = false;
+    try {
+      wantOpen = sessionStorage.getItem(OPEN_LOAD_GAME_PANEL_SESSION_KEY) === "1";
+    } catch {
+      return;
+    }
+    if (!wantOpen) return;
+
+    void waitForSaveSlotsHydration()
+      .then(() => {
+        if (cancelled) return;
+        let stillWant = false;
+        try {
+          stillWant =
+            sessionStorage.getItem(OPEN_LOAD_GAME_PANEL_SESSION_KEY) === "1";
+        } catch {
+          return;
+        }
+        if (!stillWant) return;
+        try {
+          sessionStorage.removeItem(OPEN_LOAD_GAME_PANEL_SESSION_KEY);
+        } catch {
+          /* ignore */
+        }
+        setSaveGameOverlayOpen(false);
+        setLoadGameOverlayOpen(true);
+      })
+      .catch((e) => {
+        console.warn("[GameRoot] open load panel from home", e);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [preview, gameStoreHydrated]);
 
   useEffect(() => {
     if (preview) return;
@@ -694,7 +913,7 @@ export default function GameRoot() {
         const r = useGameStore.getState().useConsumableAt(idx);
         if (!r.ok && r.reason) {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: { message: r.reason },
             })
           );
@@ -717,7 +936,7 @@ export default function GameRoot() {
             const r = gs.useConsumableAt(idx);
             if (!r.ok && r.reason) {
               window.dispatchEvent(
-                new CustomEvent("nagibatop-toast", {
+                new CustomEvent("last-summon-toast", {
                   detail: { message: r.reason },
                 })
               );
@@ -741,9 +960,9 @@ export default function GameRoot() {
           : "from_town";
       setDungeonPicker({ open: true, spawnId: sid });
     };
-    window.addEventListener("nagibatop-dungeon-pick-request", onDungeonPick);
+    window.addEventListener("last-summon-dungeon-pick-request", onDungeonPick);
     return () =>
-      window.removeEventListener("nagibatop-dungeon-pick-request", onDungeonPick);
+      window.removeEventListener("last-summon-dungeon-pick-request", onDungeonPick);
   }, [preview]);
 
   useEffect(() => {
@@ -751,9 +970,9 @@ export default function GameRoot() {
       const ce = e as CustomEvent<{
         npcId: string;
         displayName?: string;
-        scriptedOpeners?: ReadonlyArray<DialogueScriptedOpener>;
+        scriptedScenes?: ReadonlyArray<NpcDialogueScene>;
       }>;
-      const { npcId, displayName, scriptedOpeners } = ce.detail ?? {};
+      const { npcId, displayName, scriptedScenes } = ce.detail ?? {};
       if (!npcId) return;
 
       const gs = useGameStore.getState();
@@ -767,27 +986,19 @@ export default function GameRoot() {
       setLoreJournalOpen(false);
       setAchievementsOpen(false);
       setSettingsOpen(false);
+      setLoadGameOverlayOpen(false);
+      setSaveGameOverlayOpen(false);
       setShopOpen(null);
 
-      const shop = getShopByNpc(npcId);
-      if (shop) {
-        setNpcInteract({
-          npcId,
-          displayName,
-          ...(scriptedOpeners?.length ? { scriptedOpeners } : {}),
-        });
-        return;
-      }
-
       window.dispatchEvent(
-        new CustomEvent("nagibatop:dialogue-open", {
-          detail: { npcId, displayName, scriptedOpeners },
+        new CustomEvent("last-summon:dialogue-open", {
+          detail: { npcId, displayName, scriptedScenes },
         })
       );
       setDialogue({
         npcId,
         displayName,
-        ...(scriptedOpeners?.length ? { scriptedOpeners } : {}),
+        ...(scriptedScenes?.length ? { scriptedScenes } : {}),
       });
       window.dispatchEvent(new CustomEvent("npc-dialogue-open"));
     };
@@ -796,22 +1007,32 @@ export default function GameRoot() {
   }, []);
 
   useEffect(() => {
-    return subscribeAssetSliceOverridesSaved(() => phaserGameRef.current);
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
+    void import("@/src/game/load/assetSliceOverridesRuntime").then((m) => {
+      if (cancelled) return;
+      cleanup = m.subscribeAssetSliceOverridesSaved(() => phaserGameRef.current);
+    });
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
   }, []);
 
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
 
-    const gameWidth = preview ? WORLD.width : PLAY_VIEWPORT_WIDTH;
-    const gameHeight = preview ? WORLD.height : PLAY_VIEWPORT_HEIGHT;
+    const gameWidth = preview ? WORLD.width : playDims.width;
+    const gameHeight = preview ? WORLD.height : playDims.height;
 
     let game: import("phaser").Game | undefined;
+    let crispOnResize: (() => void) | undefined;
     /**
      * React Strict Mode и HMR вызывают cleanup до того, как async-импорт Phaser
      * успеет завершиться. Без этого флага в памяти одновременно висело бы два
      * экземпляра Phaser.Game с дублирующимися слушателями window (keydown,
-     * nagibatop-modal-*, blur, respawn-player), и урон/события срабатывали
+     * last-summon-modal-*, blur, respawn-player), и урон/события срабатывали
      * дважды.
      */
     let cancelled = false;
@@ -823,158 +1044,247 @@ export default function GameRoot() {
 
       if (cancelled) return;
 
+      const audioContext = getSharedPhaserAudioContext();
+
       game = new Phaser.Game({
         type: Phaser.AUTO,
         parent: el,
         width: gameWidth,
         height: gameHeight,
-        pixelArt: true,
-        roundPixels: true,
         backgroundColor: "#1a1a1a",
+        audio: {
+          context: audioContext,
+        },
         physics: {
           default: "arcade",
           arcade: { gravity: { x: 0, y: 0 }, debug: false },
         },
+        render: {
+          pixelArt: true,
+          antialias: false,
+          antialiasGL: false,
+          roundPixels: true,
+        },
         scale: {
           mode: Phaser.Scale.FIT,
           autoCenter: Phaser.Scale.CENTER_BOTH,
+          // Целочисленный CSS-размер canvas — меньше дробного масштаба → меньше «каши» у браузера.
+          autoRound: true,
         },
         scene: [BootScene, MainScene],
       });
       phaserGameRef.current = game;
+
+      crispOnResize = () => {
+        Phaser.Display.Canvas.CanvasInterpolation.setCrisp(
+          game.canvas as HTMLCanvasElement
+        );
+      };
+      crispOnResize();
+      game.scale.on("resize", crispOnResize);
     })().catch((e) => {
       console.error("[GameRoot] Phaser init", e);
     });
 
     return () => {
       cancelled = true;
+      if (game && crispOnResize) {
+        game.scale.off("resize", crispOnResize);
+      }
       phaserGameRef.current = null;
       game?.destroy(true);
       game = undefined;
     };
-  }, [preview]);
+  }, [preview, playDims.width, playDims.height, engineRemountKey]);
 
-  async function copyFullMapScreenshot(): Promise<void> {
-    const capture = window.__NAGIBATOP_CAPTURE_FULL_MAP__;
-    if (!capture) {
-      setMapCaptureNotice("Дождитесь загрузки движка");
-      window.setTimeout(() => setMapCaptureNotice(null), 2800);
-      return;
-    }
-    setMapCaptureBusy(true);
-    setMapCaptureNotice(null);
-    try {
-      const r = await capture();
-      if (r.ok) {
-        setMapCaptureNotice("Карта скопирована в буфер (PNG)");
-      } else {
-        setMapCaptureNotice(r.error ?? "Не удалось скопировать");
-      }
-    } finally {
-      setMapCaptureBusy(false);
-      window.setTimeout(() => setMapCaptureNotice(null), 3200);
-    }
-  }
+  const worldQuickMenuMotion = useMemo(
+    () =>
+      Array.from({ length: WORLD_QUICK_MENU_ITEM_COUNT }, (_, i) =>
+        worldQuickMenuItemMotion(worldQuickMenuOpen, i)
+      ),
+    [worldQuickMenuOpen]
+  );
+
+  const fillGameViewport =
+    !preview && (isFullscreen || electronClient);
 
   return (
     <div
       ref={gameFrameRef}
       className={
-        isFullscreen
-          ? "relative h-screen w-screen bg-black"
-          : "relative inline-block"
+        preview
+          ? "relative inline-block"
+          : fillGameViewport
+            ? electronClient && !isFullscreen
+              ? "relative flex h-full min-h-0 w-full flex-1 flex-col bg-black"
+              : "relative h-screen w-screen bg-black"
+            : "relative inline-block"
       }
     >
-      <button
-        type="button"
-        disabled={mapCaptureBusy}
-        onClick={() => void copyFullMapScreenshot()}
-        className="absolute right-2 top-2 z-20 rounded-md border border-zinc-600 bg-zinc-900/95 px-2.5 py-1.5 text-[11px] font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800 disabled:opacity-50"
-        title="Снимок всей карты (масштаб под размер окна) — PNG в буфер обмена"
-      >
-        {mapCaptureBusy ? "…" : "Карта → буфер"}
-      </button>
-      {mapCaptureNotice ? (
-        <p
-          className="pointer-events-none absolute left-2 top-2 z-20 max-w-[min(90%,280px)] rounded-md border border-zinc-600 bg-zinc-950/90 px-2 py-1 text-[11px] text-zinc-200 shadow-md"
-          role="status"
-        >
-          {mapCaptureNotice}
-        </p>
-      ) : null}
       <GameHud preview={preview} />
       {!preview ? (
-        <div className="pointer-events-none absolute bottom-3 right-3 z-50 flex flex-col items-end gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              window.dispatchEvent(
-                new CustomEvent("nagibatop-request-goto-location", {
-                  detail: {
-                    locationId: "town",
-                    spawnId: "default",
-                    reviveIfDead: true,
-                  },
-                })
-              );
-            }}
-            className="pointer-events-auto rounded-lg border border-sky-700 bg-sky-950/90 px-3 py-2 text-left text-xs font-medium text-sky-100 shadow-md backdrop-blur-sm hover:bg-sky-900/90"
-            title="Появиться у дороги в городе (без штрафа опыта)"
-          >
-            Respawn
-          </button>
-          <button
-            type="button"
-            onClick={toggleInventory}
-            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
-          >
-            Инвентарь
-            <span className="ml-2 font-mono text-[10px] text-zinc-500">I</span>
-          </button>
-          <button
-            type="button"
-            onClick={toggleJournal}
-            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
-          >
-            Квесты
-            <span className="ml-2 font-mono text-[10px] text-zinc-500">J</span>
-          </button>
-          <button
-            type="button"
-            onClick={toggleLoreJournal}
-            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
-          >
-            Дневник знаний
-            <span className="ml-2 font-mono text-[10px] text-zinc-500">K</span>
-          </button>
-          <button
-            type="button"
-            onClick={toggleAchievements}
-            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
-          >
-            Достижения
-            <span className="ml-2 font-mono text-[10px] text-zinc-500">H</span>
-          </button>
-          <button
-            type="button"
-            onClick={toggleSettings}
-            className="pointer-events-auto rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800"
-          >
-            Настройки
-            <span className="ml-2 font-mono text-[10px] text-zinc-500">O</span>
-          </button>
-          <button
-            type="button"
-            disabled={!fullscreenAvailable}
-            onClick={() => void toggleFullscreen()}
-            className="pointer-events-auto rounded-lg border border-emerald-700 bg-emerald-950/90 px-3 py-2 text-left text-xs font-medium text-emerald-100 shadow-md backdrop-blur-sm hover:bg-emerald-900/90 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:bg-zinc-900/80 disabled:text-zinc-500"
-            title="Переключить полноэкранный режим (Alt+Enter)"
-          >
-            {isFullscreen ? "Оконный режим" : "Во весь экран"}
-            <span className="ml-2 font-mono text-[10px] text-emerald-400/80">
-              Alt+Enter
-            </span>
-          </button>
+        <div className="pointer-events-none absolute bottom-3 right-3 z-50">
+          <div className="relative flex flex-col items-end">
+            <div
+              id="world-quick-menu"
+              className={`absolute bottom-full right-0 mb-2 flex flex-col items-end gap-2 ${
+                worldQuickMenuOpen ? "pointer-events-auto" : "pointer-events-none"
+              }`}
+              aria-hidden={!worldQuickMenuOpen}
+              inert={worldQuickMenuOpen ? undefined : true}
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  window.dispatchEvent(
+                    new CustomEvent("last-summon-request-goto-location", {
+                      detail: {
+                        locationId: "town",
+                        spawnId: "default",
+                        reviveIfDead: true,
+                      },
+                    })
+                  );
+                }}
+                className={`${worldQuickMenuMotion[0].className} rounded-lg border border-sky-700 bg-sky-950/90 px-3 py-2 text-left text-xs font-medium text-sky-100 shadow-md backdrop-blur-sm hover:bg-sky-900/90`}
+                style={worldQuickMenuMotion[0].style}
+                title="Появиться у дороги в городе (без штрафа опыта)"
+              >
+                Respawn
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  toggleInventory();
+                }}
+                className={`${worldQuickMenuMotion[1].className} rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800`}
+                style={worldQuickMenuMotion[1].style}
+              >
+                Инвентарь
+                <span className="ml-2 font-mono text-[10px] text-zinc-500">
+                  I
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  toggleJournal();
+                }}
+                className={`${worldQuickMenuMotion[2].className} rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800`}
+                style={worldQuickMenuMotion[2].style}
+              >
+                Квесты
+                <span className="ml-2 font-mono text-[10px] text-zinc-500">
+                  J
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  toggleLoreJournal();
+                }}
+                className={`${worldQuickMenuMotion[3].className} rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800`}
+                style={worldQuickMenuMotion[3].style}
+              >
+                Дневник знаний
+                <span className="ml-2 font-mono text-[10px] text-zinc-500">
+                  K
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  toggleAchievements();
+                }}
+                className={`${worldQuickMenuMotion[4].className} rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800`}
+                style={worldQuickMenuMotion[4].style}
+              >
+                Достижения
+                <span className="ml-2 font-mono text-[10px] text-zinc-500">
+                  H
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  toggleSettings();
+                }}
+                className={`${worldQuickMenuMotion[5].className} rounded-lg border border-zinc-600 bg-zinc-900/95 px-3 py-2 text-left text-xs font-medium text-zinc-100 shadow-md backdrop-blur-sm hover:bg-zinc-800`}
+                style={worldQuickMenuMotion[5].style}
+              >
+                Настройки
+                <span className="ml-2 font-mono text-[10px] text-zinc-500">
+                  O
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  void runQuickSave();
+                }}
+                className={`${worldQuickMenuMotion[6].className} rounded-lg border border-amber-800/90 bg-amber-950/90 px-3 py-2 text-left text-xs font-medium text-amber-100 shadow-md backdrop-blur-sm hover:bg-amber-900/90`}
+                style={worldQuickMenuMotion[6].style}
+                title="Быстрое сохранение (F5)"
+              >
+                Сохранить
+                <span className="ml-2 font-mono text-[10px] text-amber-200/80">
+                  F5
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  setLoadGameOverlayOpen(false);
+                  setSaveGameOverlayOpen(true);
+                }}
+                className={`${worldQuickMenuMotion[7].className} rounded-lg border border-teal-800/90 bg-teal-950/90 px-3 py-2 text-left text-xs font-medium text-teal-100 shadow-md backdrop-blur-sm hover:bg-teal-900/90`}
+                style={worldQuickMenuMotion[7].style}
+                title="Записать текущую игру в ручной слот 1–4"
+              >
+                Сохранить в слот…
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  closeWorldQuickMenu();
+                  setSaveGameOverlayOpen(false);
+                  setLoadGameOverlayOpen(true);
+                }}
+                className={`${worldQuickMenuMotion[8].className} rounded-lg border border-violet-800/90 bg-violet-950/90 px-3 py-2 text-left text-xs font-medium text-violet-100 shadow-md backdrop-blur-sm hover:bg-violet-900/90`}
+                style={worldQuickMenuMotion[8].style}
+                title="Загрузить из любого заполненного слота"
+              >
+                Загрузить
+              </button>
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+              <a
+                href="/"
+                onClick={() => closeWorldQuickMenu()}
+                className={`${worldQuickMenuMotion[9].className} inline-block rounded-lg border border-emerald-800 bg-emerald-950/90 px-3 py-2 text-left text-xs font-medium text-emerald-100 shadow-md backdrop-blur-sm hover:bg-emerald-900/90`}
+                style={worldQuickMenuMotion[9].style}
+              >
+                Меню
+              </a>
+            </div>
+            <button
+              type="button"
+              onClick={() => setWorldQuickMenuOpen((v) => !v)}
+              className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full border border-amber-700/90 bg-zinc-900/95 text-lg font-semibold text-amber-100 shadow-lg backdrop-blur-sm transition-colors hover:border-amber-600 hover:bg-zinc-800"
+              aria-expanded={worldQuickMenuOpen}
+              aria-controls="world-quick-menu"
+              title="Игровое меню (Escape): инвентарь, F5/F9 сохранение и загрузка…"
+            >
+              ?
+            </button>
+          </div>
         </div>
       ) : null}
       {!preview && devHud ? <DevHud /> : null}
@@ -1008,11 +1318,29 @@ export default function GameRoot() {
         className={
           preview
             ? "relative inline-block overflow-hidden rounded-lg border border-zinc-700 bg-black"
-            : isFullscreen
-              ? "relative h-screen w-screen overflow-hidden bg-black"
-              : "relative h-[min(88vh,720px)] w-[min(100%,1280px)] max-w-[1280px] overflow-hidden rounded-lg border border-zinc-700 bg-black"
+            : fillGameViewport
+              ? electronClient && !isFullscreen
+                ? "relative flex min-h-0 w-full flex-1 flex-col items-center justify-center overflow-hidden bg-black"
+                : "relative flex h-screen w-screen flex-col items-center justify-center overflow-hidden bg-black"
+              : "relative w-full max-w-full overflow-hidden rounded-lg border border-zinc-700 bg-black"
+        }
+        style={
+          !preview && !fillGameViewport
+            ? {
+                maxWidth: playDims.width,
+                maxHeight: `min(88vh, ${playDims.height}px)`,
+                aspectRatio: `${playDims.width} / ${playDims.height}`,
+              }
+            : undefined
         }
       >
+        <div
+          className={
+            fillGameViewport
+              ? "relative aspect-video h-full max-h-full w-full max-w-full overflow-hidden bg-black"
+              : "contents"
+          }
+        >
         <div
           ref={hostRef}
           tabIndex={0}
@@ -1022,11 +1350,13 @@ export default function GameRoot() {
             if (e.button !== 0) return;
             hostRef.current?.focus({ preventScroll: true });
           }}
-          className={
+          className={`last-summon-phaser-root ${
             preview
               ? "overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
-              : "h-full w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
-          }
+              : fillGameViewport
+                ? "absolute inset-0 overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
+                : "h-full w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
+          }`}
         />
         {!preview ? <HotbarHud /> : null}
         {deathModalOpen ? (
@@ -1105,6 +1435,12 @@ export default function GameRoot() {
           open={!preview && loreJournalOpen}
           onClose={() => setLoreJournalOpen(false)}
         />
+        <ReadableBookOverlay
+          open={!preview && readableBook !== null}
+          title={readableBook?.title ?? ""}
+          body={readableBook?.body ?? ""}
+          onClose={() => setReadableBook(null)}
+        />
         <AchievementsTreeOverlay
           open={!preview && achievementsOpen}
           onClose={() => setAchievementsOpen(false)}
@@ -1113,84 +1449,15 @@ export default function GameRoot() {
           open={!preview && settingsOpen}
           onClose={() => setSettingsOpen(false)}
         />
-        {!preview && npcInteract ? (
-          <div
-            className="pointer-events-auto absolute inset-0 z-[95] flex flex-col items-center justify-center bg-black/65 p-4 backdrop-blur-sm"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Действие с персонажем"
-          >
-            <div className="w-full max-w-md rounded-xl border border-zinc-600 bg-zinc-900/97 p-5 shadow-2xl">
-              <p className="mb-4 text-center text-sm font-medium text-zinc-100">
-                {npcInteract.displayName ?? npcInteract.npcId}
-              </p>
-              <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
-                <button
-                  type="button"
-                  className="rounded-lg bg-emerald-700 px-4 py-3 text-sm font-medium text-white hover:bg-emerald-600"
-                  onClick={() => {
-                    const { npcId, displayName, scriptedOpeners } =
-                      npcInteract;
-                    setNpcInteract(null);
-                    window.dispatchEvent(
-                      new CustomEvent("nagibatop:dialogue-open", {
-                        detail: {
-                          npcId,
-                          displayName,
-                          scriptedOpeners,
-                        },
-                      })
-                    );
-                    setDialogue({
-                      npcId,
-                      displayName,
-                      ...(scriptedOpeners?.length ? { scriptedOpeners } : {}),
-                    });
-                    window.dispatchEvent(new CustomEvent("npc-dialogue-open"));
-                  }}
-                >
-                  Поговорить
-                </button>
-                <button
-                  type="button"
-                  className="rounded-lg border border-amber-700 bg-amber-950/80 px-4 py-3 text-sm font-medium text-amber-100 hover:bg-amber-900/90"
-                  onClick={() => {
-                    const shop = getShopByNpc(npcInteract.npcId);
-                    if (!shop) return;
-                    window.dispatchEvent(
-                      new CustomEvent("npc-dialogue-close", {
-                        detail: { npcId: npcInteract.npcId },
-                      })
-                    );
-                    setNpcInteract(null);
-                    setShopOpen({
-                      shopId: shop.id,
-                      npcId: npcInteract.npcId,
-                      shopTitle: shop.title,
-                      displayName: npcInteract.displayName,
-                    });
-                  }}
-                >
-                  Торговля
-                </button>
-              </div>
-              <button
-                type="button"
-                className="mt-4 w-full rounded-md border border-zinc-600 px-3 py-2 text-xs text-zinc-300 hover:bg-zinc-800"
-                onClick={() => {
-                  window.dispatchEvent(
-                    new CustomEvent("npc-dialogue-close", {
-                      detail: { npcId: npcInteract.npcId },
-                    })
-                  );
-                  setNpcInteract(null);
-                }}
-              >
-                Отмена (Esc)
-              </button>
-            </div>
-          </div>
-        ) : null}
+        <LoadGameOverlay
+          open={!preview && loadGameOverlayOpen}
+          onClose={() => setLoadGameOverlayOpen(false)}
+          onAfterLoadSuccess={handleLoadGameApplied}
+        />
+        <SaveGameOverlay
+          open={!preview && saveGameOverlayOpen}
+          onClose={() => setSaveGameOverlayOpen(false)}
+        />
         {!preview && shopOpen ? (
           <ShopOverlay
             open
@@ -1201,13 +1468,35 @@ export default function GameRoot() {
             }}
           />
         ) : null}
+        </div>
       </div>
       {!preview ? <QuestToast /> : null}
       {dialogue ? (
         <DialogueOverlay
           npcId={dialogue.npcId}
           displayName={dialogue.displayName}
-          scriptedOpeners={dialogue.scriptedOpeners}
+          scriptedScenes={dialogue.scriptedScenes}
+          onOpenShop={() => {
+            const shop = getShopByNpc(dialogue.npcId);
+            if (!shop) return;
+            window.dispatchEvent(
+              new CustomEvent("npc-dialogue-close", {
+                detail: { npcId: dialogue.npcId },
+              })
+            );
+            window.dispatchEvent(
+              new CustomEvent("last-summon:dialogue-close", {
+                detail: { npcId: dialogue.npcId },
+              })
+            );
+            setDialogue(null);
+            setShopOpen({
+              shopId: shop.id,
+              npcId: dialogue.npcId,
+              shopTitle: shop.title,
+              displayName: dialogue.displayName,
+            });
+          }}
           onClose={() => setDialogue(null)}
         />
       ) : null}

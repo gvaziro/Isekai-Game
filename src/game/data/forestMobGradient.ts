@@ -36,11 +36,18 @@ export function forestMobLevelFromTemplate(
   return Math.max(1, Math.min(farPeak, Math.round(1 + t * (farPeak - 1))));
 }
 
-/** Множитель к базовой задержке респавна: чуть дольше у входа, чуть быстрее вдали. */
+/**
+ * Дополнительный множитель к задержке респавна лесных мобов (после базового `respawnMs`).
+ */
+export const FOREST_MOB_RESPAWN_GLOBAL_MULT = 2.85;
+
+/**
+ * Множитель к базовой задержке респавна: дольше у входа, во «глубине» всё равно не быстрее старого центра.
+ */
 export function forestRespawnDelayMultiplier(worldX: number, worldY: number): number {
   const t = forestThreatGradient01(worldX, worldY);
-  const nearMult = 1.52;
-  const farMult = 0.9;
+  const nearMult = 1.72;
+  const farMult = 1.08;
   return nearMult - t * (nearMult - farMult);
 }
 

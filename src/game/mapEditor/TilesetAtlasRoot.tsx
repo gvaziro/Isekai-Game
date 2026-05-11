@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import { getLocation } from "@/src/game/locations";
 import {
   mergeAssetManifestWithExtras,
@@ -214,12 +213,12 @@ export default function TilesetAtlasRoot() {
             </code>
             . Масштаб и прокрутка — для больших тайлсетов. «Объекты с карты» —
             реальные ключи из локаций. Позиция на карте —{" "}
-            <Link
+            <a
               href="/dev/map-editor"
               className="text-emerald-400 underline hover:text-emerald-300"
             >
               редактор карт
-            </Link>
+            </a>
             .
           </p>
         </div>

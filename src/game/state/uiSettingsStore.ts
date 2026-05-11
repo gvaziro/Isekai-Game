@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import {
+  DEFAULT_PLAY_RENDER_PRESET,
+  isPlayRenderPresetId,
+  type PlayRenderPresetId,
+} from "@/src/game/constants/renderPresets";
 
-export const UI_SETTINGS_PERSIST_VERSION = 2;
+export const UI_SETTINGS_PERSIST_VERSION = 3;
 
 /** Множитель альфы ночного «тинта» (полноэкранный слой суток), по умолчанию усилен. */
 export const DEFAULT_NIGHT_TINT_MUL = 1.4;
@@ -33,6 +38,9 @@ export type UiSettingsState = {
   nightVignetteMul: number;
   setNightVignetteMul: (value: number) => void;
   resetNightVisibilityCalibration: () => void;
+  /** Внутреннее разрешение Phaser (16:9); смена пересоздаёт игру. */
+  playRenderPreset: PlayRenderPresetId;
+  setPlayRenderPreset: (id: PlayRenderPresetId) => void;
 };
 
 export const useUiSettingsStore = create<UiSettingsState>()(
@@ -58,15 +66,23 @@ export const useUiSettingsStore = create<UiSettingsState>()(
           nightTintMul: DEFAULT_NIGHT_TINT_MUL,
           nightVignetteMul: DEFAULT_NIGHT_VIGNETTE_MUL,
         }),
+      playRenderPreset: DEFAULT_PLAY_RENDER_PRESET,
+      setPlayRenderPreset: (id) =>
+        set({
+          playRenderPreset: isPlayRenderPresetId(id)
+            ? id
+            : DEFAULT_PLAY_RENDER_PRESET,
+        }),
     }),
     {
-      name: "nagibatop-ui-settings-v1",
+      name: "last-summon-ui-settings-v1",
       partialize: (s) => ({
         sfxVolume: s.sfxVolume,
         footstepVolume: s.footstepVolume,
         nightTintMul: s.nightTintMul,
         nightVignetteMul: s.nightVignetteMul,
         uiSettingsVersion: s.uiSettingsVersion,
+        playRenderPreset: s.playRenderPreset,
       }),
       merge: (persisted, current) => {
         const p = persisted as
@@ -77,6 +93,7 @@ export const useUiSettingsStore = create<UiSettingsState>()(
                 | "footstepVolume"
                 | "nightTintMul"
                 | "nightVignetteMul"
+                | "playRenderPreset"
               >
             >
           | undefined;
@@ -102,6 +119,9 @@ export const useUiSettingsStore = create<UiSettingsState>()(
               : current.nightVignetteMul,
             DEFAULT_NIGHT_VIGNETTE_MUL
           ),
+          playRenderPreset: isPlayRenderPresetId(p?.playRenderPreset)
+            ? p.playRenderPreset
+            : current.playRenderPreset,
           uiSettingsVersion: UI_SETTINGS_PERSIST_VERSION,
         };
       },

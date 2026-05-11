@@ -1,0 +1,21 @@
+{
+  "type": "entity",
+  "required": [
+    "id",
+    "title",
+    "type",
+    "entity_kind",
+    "canonical_facts",
+    "disputed_facts",
+    "open_questions",
+    "related_entities",
+    "locked_aspects"
+  ],
+  "allowed_entity_kinds": [
+    "character",
+    "location",
+    "organization",
+    "concept",
+    "item"
+  ]
+}

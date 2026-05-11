@@ -67,6 +67,7 @@ import {
 } from "@/src/game/data/loot";
 import { ITEM_ATLAS } from "@/src/game/data/items.generated";
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
+import { getReadableBookForItem } from "@/src/game/data/readableBooks";
 import {
   XP_PROFESSION_LUMBER_PER_TREE,
   XP_PROFESSION_MINING_PER_ROCK,
@@ -77,7 +78,9 @@ import {
   NPC_BARK_COOLDOWN_MS_MIN,
   PICKUP_RADIUS,
   deathCorpseChestId,
+  READABLE_BOOK_OPEN_EVENT,
   RESYNC_CORPSE_PICKUPS_EVENT,
+  SYNC_PLAYER_POSITION_TO_STORE_EVENT,
   SPAWN_WORLD_PICKUP_EVENT,
   TREE_CHOP_RADIUS,
   VILLAGE_FOG_EXIT_ID,
@@ -119,6 +122,7 @@ import {
 import { getEnemyRespawnDelayMs } from "@/src/game/data/enemyRespawn";
 import {
   forestMobLevelFromTemplate,
+  FOREST_MOB_RESPAWN_GLOBAL_MULT,
   forestRespawnDelayMultiplier,
   forestSpawnPresenceChance,
 } from "@/src/game/data/forestMobGradient";
@@ -137,6 +141,7 @@ import { ForestChunkManager } from "@/src/game/locations/forestChunkManager";
 import {
   TREE_TEXTURE_KEYS,
   type ForestForagePickup,
+  worldToForestChunk,
 } from "@/src/game/locations/forestChunkGen";
 import { forestStumpTextureKey } from "@/src/game/locations/forestTreeStump";
 import {
@@ -171,11 +176,13 @@ import { setRuntimeDungeonFloor } from "@/src/game/locations/dungeonFloorContext
 import {
   forestTreePersistKey,
   markerCuratedIdForDeathCorpse,
+  parseForestPersistKey,
   useGameStore,
   waitForGameStoreHydration,
 } from "@/src/game/state/gameStore";
 import { DayNightLighting, type PlayerVisionWorldHint } from "@/src/game/systems/DayNightLighting";
 import { useUiSettingsStore } from "@/src/game/state/uiSettingsStore";
+import { consumePendingLoadPose } from "@/src/game/saves/pendingLoadPose";
 
 const TREE_TEXTURE_KEY_SET = new Set<string>(
   TREE_TEXTURE_KEYS as unknown as string[]
@@ -197,18 +204,18 @@ const ENEMY_RESPAWN_CHECK_INTERVAL_MS = 750;
 
 declare global {
   interface Window {
-    __NAGIBATOP_READY__?: boolean;
+    __LAST_SUMMON_READY__?: boolean;
     /** Отладочный урон игроку (нет боя во Фазе 3). */
-    __NAGIBATOP_HURT__?: (amount?: number) => void;
+    __LAST_SUMMON_HURT__?: (amount?: number) => void;
     /** Вкл/выкл анимации ношения (Carry_*), пока нет квестового флага. */
-    __NAGIBATOP_SET_CARRY__?: (value: boolean) => void;
+    __LAST_SUMMON_SET_CARRY__?: (value: boolean) => void;
     /** Полный кадр карты (весь мир в канвасе) → PNG в буфер обмена. */
-    __NAGIBATOP_CAPTURE_FULL_MAP__?: () => Promise<{
+    __LAST_SUMMON_CAPTURE_FULL_MAP__?: () => Promise<{
       ok: boolean;
       error?: string;
     }>;
     /** Сбросить таймеры респавна мобов в сейве и перезагрузить страницу (отладка). */
-    __NAGIBATOP_RESET_MOBS__?: () => void;
+    __LAST_SUMMON_RESET_MOBS__?: () => void;
   }
 }
 
@@ -234,7 +241,7 @@ export class MainScene extends Phaser.Scene {
   private npcBarksById: Record<string, string[]> = {};
   private npcDialogueScriptsById: Record<
     string,
-    { openers: { label: string; prompt: string }[] }
+    NonNullable<NpcPublic["dialogueScripts"]>
   > = {};
   private npcBarkNextAt: Record<string, number> = {};
   private lastNearNpcIdForBark: string | null = null;
@@ -325,6 +332,42 @@ export class MainScene extends Phaser.Scene {
   private readonly boundOnSliceTexturesApplied = (): void => {
     this.rebuildImagePropObstacleRects();
   };
+
+  private readonly boundSyncPlayerPosToStore = (): void => {
+    if (this.previewMode || !this.player || !this.heroAnim) return;
+    const body = this.player.body as Phaser.Physics.Arcade.Body | undefined;
+    const vx = body?.velocity.x ?? 0;
+    const vy = body?.velocity.y ?? 0;
+    const vis = this.heroAnim.getPersistedVisual();
+    useGameStore.getState().setPlayerWorldPose({
+      x: this.player.x,
+      y: this.player.y,
+      vx,
+      vy,
+      facing: vis.facing,
+      flipX: vis.flipX,
+      carrying: vis.carrying,
+      attackStyle: vis.attackStyle,
+    });
+  };
+
+  /** Поза героя из zustand → спрайт (после загрузки / один кадр после физики). */
+  private applyStorePlayerPoseToSprite(): void {
+    if (this.previewMode || !this.player || !this.heroAnim) return;
+    const pl = useGameStore.getState().player;
+    this.player.setPosition(pl.x, pl.y);
+    const body = this.player.body as Phaser.Physics.Arcade.Body | undefined;
+    if (body) {
+      body.setVelocity(pl.vx, pl.vy);
+    }
+    this.heroAnim.applyPersistedVisual({
+      facing: pl.facing,
+      flipX: pl.flipX,
+      carrying: pl.carrying,
+      attackStyle: pl.attackStyle,
+    });
+    this.heroAnim.setAttackStyle(this.heroAttackStyleFromWeapon());
+  }
 
   constructor() {
     super({ key: "MainScene" });
@@ -829,7 +872,7 @@ export class MainScene extends Phaser.Scene {
         const p = forestSpawnPresenceChance(sp.x, sp.y);
         if (Math.random() > p) {
           store.scheduleEnemyRespawn(sp.id, sp.mobVisualId, {
-            delayMs: Phaser.Math.Between(2200, 5200),
+            delayMs: Phaser.Math.Between(12_000, 28_000),
           });
           continue;
         }
@@ -875,7 +918,7 @@ export class MainScene extends Phaser.Scene {
 
     const text = lines[Phaser.Math.Between(0, lines.length - 1)]!;
     window.dispatchEvent(
-      new CustomEvent("nagibatop-npc-bark", {
+      new CustomEvent("last-summon-npc-bark", {
         detail: {
           npcId: id,
           displayName: nearNpc.displayName,
@@ -925,7 +968,7 @@ export class MainScene extends Phaser.Scene {
           if (notBefore !== undefined && now < notBefore) continue;
           if (Math.random() > forestSpawnPresenceChance(sp.x, sp.y)) {
             useGameStore.getState().scheduleEnemyRespawn(sp.id, sp.mobVisualId, {
-              delayMs: Phaser.Math.Between(3200, 7200),
+              delayMs: Phaser.Math.Between(10_000, 22_000),
             });
           } else {
             this.spawnEnemyFromSpawnDef(sp);
@@ -963,7 +1006,6 @@ export class MainScene extends Phaser.Scene {
         try {
           this.townPhaserTilemap = createTownTilemapLayers(this);
         } catch (e) {
-          // eslint-disable-next-line no-console
           console.warn("[MainScene] town tilemap:", e);
         }
         for (const r of parseTownColliderRects(tmj)) {
@@ -1068,10 +1110,8 @@ export class MainScene extends Phaser.Scene {
     for (const n of list) {
       if (!n?.id) continue;
       if (n.barks?.length) this.npcBarksById[n.id] = n.barks;
-      if (n.dialogueScripts?.openers?.length) {
-        this.npcDialogueScriptsById[n.id] = {
-          openers: n.dialogueScripts.openers,
-        };
+      if (n.dialogueScripts && n.dialogueScripts.scenes.length > 0) {
+        this.npcDialogueScriptsById[n.id] = n.dialogueScripts;
       }
       if (!n.route?.spawn) continue;
       const idleTex = loc.npcIdleTexture[n.id];
@@ -1087,6 +1127,8 @@ export class MainScene extends Phaser.Scene {
         idleTextureKey: idleTex,
         idleAnim: unitDef.idleAnim,
         runAnim: unitDef.runAnim,
+        walkNAnim: unitDef.walkNAnim,
+        walkEAnim: unitDef.walkEAnim,
         route,
         displayName: n.displayName,
       });
@@ -1353,12 +1395,24 @@ export class MainScene extends Phaser.Scene {
     }
 
     const defSpawn = getLocation(startLoc).spawns.default;
-    const savedPos =
-      typeof window !== "undefined"
-        ? useGameStore.getState().player
-        : defSpawn;
-    const spawnX = savedPos?.x ?? defSpawn.x;
-    const spawnY = savedPos?.y ?? defSpawn.y;
+
+    /**
+     * consumePendingLoadPose() возвращает позу, записанную в applySaveSlotPayload
+     * сразу после rehydrate — до того, как старый Phaser успеет затереть стор своим
+     * throttled setPlayerPosition. Если загрузки не было — null, читаем из стора.
+     */
+    const pendingPose = typeof window !== "undefined" ? consumePendingLoadPose() : null;
+    const storePlayer =
+      typeof window !== "undefined" ? useGameStore.getState().player : null;
+    const sourcePose = pendingPose ?? storePlayer;
+    const spawnX = sourcePose?.x ?? defSpawn.x;
+    const spawnY = sourcePose?.y ?? defSpawn.y;
+
+    // Если пришла pending-поза — сразу восстанавливаем в сторе, чтобы стор
+    // тоже был актуален (не ждём следующего тика throttle).
+    if (pendingPose && typeof window !== "undefined") {
+      useGameStore.getState().setPlayerWorldPose(pendingPose);
+    }
 
     this.player = this.physics.add.sprite(
       spawnX,
@@ -1374,12 +1428,35 @@ export class MainScene extends Phaser.Scene {
     }
 
     this.heroAnim = new HeroAnimController(this.player, heroCfg);
+
+    if (typeof window !== "undefined" && !this.previewMode) {
+      // applyStorePlayerPoseToSprite читает из стора (который мы только что обновили
+      // pending-позой), поэтому в обоих случаях (свежий старт / загрузка) корректен.
+      this.applyStorePlayerPoseToSprite();
+    }
+
+    if (typeof window !== "undefined") {
+      window.addEventListener(
+        SYNC_PLAYER_POSITION_TO_STORE_EVENT,
+        this.boundSyncPlayerPosToStore
+      );
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        window.removeEventListener(
+          SYNC_PLAYER_POSITION_TO_STORE_EVENT,
+          this.boundSyncPlayerPosToStore
+        );
+      });
+    }
+
     this.lastHp =
       typeof window !== "undefined"
         ? useGameStore.getState().character.hp
         : 100;
 
     this.physics.add.collider(this.player, this.obstacles);
+
+    /** Округление координат отрисовки камеры — меньше субпиксельного «мыла» при zoom. */
+    this.cameras.roundPixels = true;
 
     const kb = this.input.keyboard;
     if (!kb) throw new Error("keyboard");
@@ -1499,8 +1576,8 @@ export class MainScene extends Phaser.Scene {
 
     window.addEventListener("npc-dialogue-open", onDialogueOpen);
     window.addEventListener("npc-dialogue-close", onDialogueClose);
-    window.addEventListener("nagibatop-modal-open", onModalOpen);
-    window.addEventListener("nagibatop-modal-close", onModalClose);
+    window.addEventListener("last-summon-modal-open", onModalOpen);
+    window.addEventListener("last-summon-modal-close", onModalClose);
     window.addEventListener("blur", this.onWindowBlur);
 
     this.sound.volume = useUiSettingsStore.getState().sfxVolume;
@@ -1544,7 +1621,7 @@ export class MainScene extends Phaser.Scene {
       this.postRespawnInvulUntil = tNow + 1200;
     };
 
-    window.addEventListener("nagibatop-respawn-player", onRespawnPlayer);
+    window.addEventListener("last-summon-respawn-player", onRespawnPlayer);
 
     const onRequestGotoLocation = (ev: Event) => {
       if (this.previewMode || !this.sys?.isActive()) return;
@@ -1607,7 +1684,7 @@ export class MainScene extends Phaser.Scene {
     };
 
     window.addEventListener(
-      "nagibatop-request-goto-location",
+      "last-summon-request-goto-location",
       onRequestGotoLocation
     );
 
@@ -1621,7 +1698,7 @@ export class MainScene extends Phaser.Scene {
           : "from_town";
       this.gotoLocation("dungeon", spawnId);
     };
-    window.addEventListener("nagibatop-dungeon-enter", onDungeonEnter);
+    window.addEventListener("last-summon-dungeon-enter", onDungeonEnter);
 
     const onSpawnWorldPickup = (ev: Event) => {
       if (this.previewMode || !this.sys?.isActive() || !this.player) return;
@@ -1674,32 +1751,32 @@ export class MainScene extends Phaser.Scene {
       this.sfxVolUnsub = undefined;
       window.removeEventListener("npc-dialogue-open", onDialogueOpen);
       window.removeEventListener("npc-dialogue-close", onDialogueClose);
-      window.removeEventListener("nagibatop-modal-open", onModalOpen);
-      window.removeEventListener("nagibatop-modal-close", onModalClose);
+      window.removeEventListener("last-summon-modal-open", onModalOpen);
+      window.removeEventListener("last-summon-modal-close", onModalClose);
       window.removeEventListener("blur", this.onWindowBlur);
       window.removeEventListener(
-        "nagibatop-respawn-player",
+        "last-summon-respawn-player",
         onRespawnPlayer
       );
       window.removeEventListener(
-        "nagibatop-request-goto-location",
+        "last-summon-request-goto-location",
         onRequestGotoLocation
       );
-      window.removeEventListener("nagibatop-dungeon-enter", onDungeonEnter);
+      window.removeEventListener("last-summon-dungeon-enter", onDungeonEnter);
       window.removeEventListener(SPAWN_WORLD_PICKUP_EVENT, onSpawnWorldPickup);
       window.removeEventListener(
         RESYNC_CORPSE_PICKUPS_EVENT,
         onResyncCorpsePickups
       );
-      window.__NAGIBATOP_READY__ = false;
-      delete window.__NAGIBATOP_CAPTURE_FULL_MAP__;
-      delete window.__NAGIBATOP_HURT__;
-      delete window.__NAGIBATOP_RESET_MOBS__;
-      delete window.__NAGIBATOP_SET_CARRY__;
+      window.__LAST_SUMMON_READY__ = false;
+      delete window.__LAST_SUMMON_CAPTURE_FULL_MAP__;
+      delete window.__LAST_SUMMON_HURT__;
+      delete window.__LAST_SUMMON_RESET_MOBS__;
+      delete window.__LAST_SUMMON_SET_CARRY__;
       this.heroAnim?.destroy();
     });
 
-    window.__NAGIBATOP_CAPTURE_FULL_MAP__ = async () => {
+    window.__LAST_SUMMON_CAPTURE_FULL_MAP__ = async () => {
       if (!this.booted || !this.sys?.isActive()) {
         return { ok: false, error: "Сцена не готова" };
       }
@@ -1761,16 +1838,22 @@ export class MainScene extends Phaser.Scene {
       this.syncDayNightLighting();
     }
 
+    if (!this.previewMode && typeof window !== "undefined") {
+      this.time.delayedCall(0, () => {
+        this.applyStorePlayerPoseToSprite();
+      });
+    }
+
     this.booted = true;
     if (typeof window !== "undefined") {
-      window.__NAGIBATOP_READY__ = true;
-      window.__NAGIBATOP_HURT__ = (amt = 12) =>
+      window.__LAST_SUMMON_READY__ = true;
+      window.__LAST_SUMMON_HURT__ = (amt = 12) =>
         useGameStore.getState().takeDamage(Math.max(1, Math.floor(amt)));
-      window.__NAGIBATOP_RESET_MOBS__ = () => {
+      window.__LAST_SUMMON_RESET_MOBS__ = () => {
         useGameStore.setState({ enemyRespawnNotBeforeMs: {} });
         window.location.reload();
       };
-      window.__NAGIBATOP_SET_CARRY__ = (value: boolean) => {
+      window.__LAST_SUMMON_SET_CARRY__ = (value: boolean) => {
         this.heroAnim.setCarrying(!!value);
       };
     }
@@ -1783,7 +1866,7 @@ export class MainScene extends Phaser.Scene {
       this.playSfx(FANTASY_SFX.levelUp);
       const lv = useGameStore.getState().character.level;
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: `Новый уровень: ${lv}!` },
         })
       );
@@ -2029,20 +2112,20 @@ export class MainScene extends Phaser.Scene {
           mobVisualId: e.mobVisualId,
           instanceId: e.instanceId,
         });
-        if (e.instanceId === DUNGEON_BOSS_INSTANCE_ID) {
-          if (typeof window !== "undefined") {
-            window.dispatchEvent(
-              new CustomEvent("nagibatop:enemy-defeated", {
-                detail: { enemyId: e.instanceId },
-              })
-            );
-          }
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new CustomEvent("last-summon:enemy-defeated", {
+              detail: { enemyId: e.instanceId, mobVisualId: e.mobVisualId },
+            })
+          );
         }
         if (e.instanceId !== DUNGEON_BOSS_INSTANCE_ID) {
           if (this.currentLocationId === "forest") {
             const base = getEnemyRespawnDelayMs(e.mobVisualId);
             const delayMs = Math.round(
-              base * forestRespawnDelayMultiplier(e.spawnX, e.spawnY)
+              base *
+                FOREST_MOB_RESPAWN_GLOBAL_MULT *
+                forestRespawnDelayMultiplier(e.spawnX, e.spawnY)
             );
             useGameStore
               .getState()
@@ -2068,7 +2151,7 @@ export class MainScene extends Phaser.Scene {
                 ? "Страж последнего этажа пал! Магический туман на западной дороге рассеивается…"
                 : `Этаж ${F} зачищен! Доступен следующий этаж.`;
             window.dispatchEvent(
-              new CustomEvent("nagibatop-toast", {
+              new CustomEvent("last-summon-toast", {
                 detail: {
                   message: clearedMax,
                 },
@@ -2085,7 +2168,7 @@ export class MainScene extends Phaser.Scene {
           );
           useGameStore.getState().addGold(Math.floor(goldAmt * gMult));
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: { message: `+${goldAmt} золота` },
             })
           );
@@ -2099,14 +2182,14 @@ export class MainScene extends Phaser.Scene {
           const name = getCuratedItem(loot.curatedId)?.name ?? loot.curatedId;
           if (res.ok) {
             window.dispatchEvent(
-              new CustomEvent("nagibatop-toast", {
+              new CustomEvent("last-summon-toast", {
                 detail: { message: `Добыча: ${name} ×${loot.qty}` },
               })
             );
           } else {
             this.spawnDroppedPickup(loot.curatedId, loot.qty, e.x, e.y);
             window.dispatchEvent(
-              new CustomEvent("nagibatop-toast", {
+              new CustomEvent("last-summon-toast", {
                 detail: {
                   message: `${res.reason ?? "Нет места"} — лут у трупа.`,
                 },
@@ -2337,7 +2420,7 @@ export class MainScene extends Phaser.Scene {
     }
 
     for (const n of this.npcs) {
-      n.updatePatrol(time);
+      n.updatePatrol(time, this.npcs);
       n.setDepth(n.y);
     }
 
@@ -2587,14 +2670,15 @@ export class MainScene extends Phaser.Scene {
 
     if (nearNpc) {
       nearNpc.beginTalk();
-      const scripted =
-        this.npcDialogueScriptsById[nearNpc.npcId]?.openers ?? [];
+      const dialogueScripts = this.npcDialogueScriptsById[nearNpc.npcId];
       window.dispatchEvent(
         new CustomEvent("npc-interact-open", {
           detail: {
             npcId: nearNpc.npcId,
             displayName: nearNpc.displayName ?? nearNpc.npcId,
-            ...(scripted.length > 0 ? { scriptedOpeners: scripted } : {}),
+            ...(dialogueScripts?.scenes.length
+              ? { scriptedScenes: dialogueScripts.scenes }
+              : {}),
           },
         })
       );
@@ -2607,7 +2691,7 @@ export class MainScene extends Phaser.Scene {
         this.isDungeonBossChestBlocked()
       ) {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: { message: "Сундук сияет магией — сначала одолейте стража." },
           })
         );
@@ -2617,7 +2701,7 @@ export class MainScene extends Phaser.Scene {
       this.heroAnim.tryPlayInteract("collect");
       this.playSfx(FANTASY_SFX.chestOpen);
       window.dispatchEvent(
-        new CustomEvent("nagibatop-chest-open", {
+        new CustomEvent("last-summon-chest-open", {
           detail: {
             chestId: nearChest.id,
             chestX: nearChest.x,
@@ -2630,7 +2714,7 @@ export class MainScene extends Phaser.Scene {
 
     if (nearStation) {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-craft-open", {
+        new CustomEvent("last-summon-craft-open", {
           detail: {
             stationId: nearStation.id,
             label: nearStation.label,
@@ -2648,7 +2732,7 @@ export class MainScene extends Phaser.Scene {
         this.playSfx(FANTASY_SFX.pickup);
         this.resyncDeathCorpsePickups();
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: {
               message: res.partial
                 ? "Часть вещей забрана. Освободите место и вернитесь за остальным."
@@ -2661,7 +2745,7 @@ export class MainScene extends Phaser.Scene {
           useGameStore.getState().prepareDeathCorpseChest(dropId);
         if (!prepared) {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: {
                 message: "Не удалось открыть вещи у тела.",
               },
@@ -2671,7 +2755,7 @@ export class MainScene extends Phaser.Scene {
           this.heroAnim.tryPlayInteract("collect");
           this.playSfx(FANTASY_SFX.chestOpen);
           window.dispatchEvent(
-            new CustomEvent("nagibatop-chest-open", {
+            new CustomEvent("last-summon-chest-open", {
               detail: {
                 chestId: deathCorpseChestId(dropId),
                 chestX: nearCorpsePickup.sprite.x,
@@ -2682,7 +2766,7 @@ export class MainScene extends Phaser.Scene {
         }
       } else {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: { message: res.reason ?? "Нельзя забрать" },
           })
         );
@@ -2707,15 +2791,22 @@ export class MainScene extends Phaser.Scene {
         nearItemPickup.sprite.destroy();
         this.pickups = this.pickups.filter((x) => x.id !== nearItemPickup.id);
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: {
               message: `Подобрано: ${getCuratedItem(nearItemPickup.curatedId)?.name ?? nearItemPickup.curatedId} ×${nearItemPickup.qty}`,
             },
           })
         );
+        if (getReadableBookForItem(nearItemPickup.curatedId)) {
+          window.dispatchEvent(
+            new CustomEvent(READABLE_BOOK_OPEN_EVENT, {
+              detail: { curatedId: nearItemPickup.curatedId },
+            })
+          );
+        }
       } else {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-toast", {
+          new CustomEvent("last-summon-toast", {
             detail: { message: res.reason ?? "Инвентарь полон" },
           })
         );
@@ -2734,7 +2825,7 @@ export class MainScene extends Phaser.Scene {
     if (nearPond) {
       this.heroAnim.tryPlayInteract("fishing");
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: "Рыбалка: заброс удочки (пока без добычи)." },
         })
       );
@@ -2745,10 +2836,10 @@ export class MainScene extends Phaser.Scene {
       if (nearExit.id === VILLAGE_FOG_EXIT_ID) {
         if (!useGameStore.getState().villageFogLifted) {
           window.dispatchEvent(
-            new CustomEvent("nagibatop-toast", {
+            new CustomEvent("last-summon-toast", {
               detail: {
                 message:
-                  "Плотный туман не пускает. Победите хранителя на последнем этаже катакомб — и дорога откроется.",
+                  "Плотный туман не пускает. Победите Короля гоблинов на последнем этаже катакомб — и дорога откроется.",
               },
             })
           );
@@ -2763,7 +2854,7 @@ export class MainScene extends Phaser.Scene {
           this.currentLocationId === "dungeon");
       if (openDungeonFloorPicker) {
         window.dispatchEvent(
-          new CustomEvent("nagibatop-dungeon-pick-request", {
+          new CustomEvent("last-summon-dungeon-pick-request", {
             detail: { spawnId: nearExit.targetSpawnId },
           })
         );
@@ -2975,7 +3066,7 @@ export class MainScene extends Phaser.Scene {
           : "Слишком далеко от камня.";
       this.cancelForestGather();
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: msg },
         })
       );
@@ -3038,7 +3129,7 @@ export class MainScene extends Phaser.Scene {
     );
     if (res.ok) {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: {
             message: `Получено: ${getCuratedItem(WOOD_MATERIAL_CURATED_ID)?.name ?? "Древесина"} ×${qty}`,
           },
@@ -3046,7 +3137,7 @@ export class MainScene extends Phaser.Scene {
       );
     } else {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: res.reason ?? "Рюкзак полон" },
         })
       );
@@ -3093,7 +3184,7 @@ export class MainScene extends Phaser.Scene {
     );
     if (res.ok) {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: {
             message: `Получено: ${getCuratedItem(STONE_MATERIAL_CURATED_ID)?.name ?? "Камень"} ×${qty}`,
           },
@@ -3101,7 +3192,7 @@ export class MainScene extends Phaser.Scene {
       );
     } else {
       window.dispatchEvent(
-        new CustomEvent("nagibatop-toast", {
+        new CustomEvent("last-summon-toast", {
           detail: { message: res.reason ?? "Рюкзак полон" },
         })
       );
@@ -3129,21 +3220,43 @@ export class MainScene extends Phaser.Scene {
 
   private pruneExpiredForestStumps(nowMs: number): void {
     const keys = useGameStore.getState().expireForestStumpsBefore(nowMs);
-    if (!keys.length) return;
-    for (const k of keys) {
-      const img = this.forestStumpSprites.get(k);
-      this.forestStumpSprites.delete(k);
-      if (img?.active) {
-        this.tweens.add({
-          targets: img,
-          alpha: 0,
-          duration: 420,
-          ease: "Quad.easeIn",
-          onComplete: () => {
-            if (img.active) img.destroy();
-          },
-        });
+    if (keys.length > 0) {
+      for (const k of keys) {
+        const img = this.forestStumpSprites.get(k);
+        this.forestStumpSprites.delete(k);
+        if (img?.active) {
+          this.tweens.add({
+            targets: img,
+            alpha: 0,
+            duration: 420,
+            ease: "Quad.easeIn",
+            onComplete: () => {
+              if (img.active) img.destroy();
+            },
+          });
+        }
       }
+    }
+
+    const regrow = useGameStore.getState().finalizeForestRegrowthPrune(nowMs);
+    const chunkSeen = new Set<string>();
+    for (const k of regrow.treeKeys) {
+      const pos = parseForestPersistKey(k);
+      if (!pos || !this.forestChunkMgr) continue;
+      const { cx, cy } = worldToForestChunk(pos.x, pos.y);
+      const ck = `${cx},${cy}`;
+      if (chunkSeen.has(ck)) continue;
+      chunkSeen.add(ck);
+      this.forestChunkMgr.reloadChunkAtWorld(pos.x, pos.y);
+    }
+    for (const k of regrow.rockKeys) {
+      const pos = parseForestPersistKey(k);
+      if (!pos || !this.forestChunkMgr) continue;
+      const { cx, cy } = worldToForestChunk(pos.x, pos.y);
+      const ck = `${cx},${cy}`;
+      if (chunkSeen.has(ck)) continue;
+      chunkSeen.add(ck);
+      this.forestChunkMgr.reloadChunkAtWorld(pos.x, pos.y);
     }
   }
 
