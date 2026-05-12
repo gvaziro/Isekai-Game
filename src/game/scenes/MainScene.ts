@@ -59,6 +59,7 @@ import {
   resolveCraftStations,
   type ResolvedCraftStation,
 } from "@/src/game/data/stations";
+import { OPENING_CUTSCENE_SCRIPT_VERSION } from "@/src/game/data/openingCutscene";
 import { WORLD_PICKUPS } from "@/src/game/data/worldPickups";
 import {
   getChestsForLocation,
@@ -105,11 +106,13 @@ import {
   damagePlayerDealsToEnemy,
   getPlayerAttackCooldownMs,
   resolveMobAggroRadii,
+  rollMobStrikeDebuff,
   rollPlayerEvadesMobHit,
   xpEnemyKillForPlayer,
 } from "@/src/game/data/balance";
 import {
   TAG_AXE,
+  TAG_FISHING_ROD,
   TAG_PICKAXE,
   playerHasInstrumentRole,
 } from "@/src/game/data/instruments";
@@ -128,9 +131,14 @@ import {
 } from "@/src/game/data/forestMobGradient";
 import {
   createTownTilemapLayers,
+  enableTownWaterTileCollision,
   getTownTmjData,
+  parseTownInteractZones,
   parseTownColliderRects,
   parseTownTravelExits,
+  updateTownFogLayerDrift,
+  type TownInteractKind,
+  type TownInteractZone,
 } from "@/src/game/maps/townTilemapRuntime";
 import type {
   LayoutImageProp,
@@ -190,6 +198,8 @@ const TREE_TEXTURE_KEY_SET = new Set<string>(
 
 const CHEST_RADIUS = INTERACT_RADIUS_NPC;
 const STATION_RADIUS = INTERACT_RADIUS_NPC;
+/** Маркус дошёл до якоря патруля после интро-хода (мировые px). */
+const MARCUS_VILLAGE_INTRO_ANCHOR_RADIUS = 30;
 
 /**
  * Должно совпадать с `kb.addCapture` ниже. На время диалога с NPC снимается через
@@ -245,6 +255,10 @@ export class MainScene extends Phaser.Scene {
   > = {};
   private npcBarkNextAt: Record<string, number> = {};
   private lastNearNpcIdForBark: string | null = null;
+  /** Снимок версии пролога после последней сборки town-NPC (для снятия intro_hold). */
+  private townOpeningScriptVersionSnapshot = -1;
+  /** Якорь патруля Маркуса в деревне во время интро-хода; иначе null. */
+  private marcusVillagePatrolAnchor: { x: number; y: number } | null = null;
   private hintText!: Phaser.GameObjects.Text;
   private previewMode = false;
   private onWindowBlur!: () => void;
@@ -323,8 +337,13 @@ export class MainScene extends Phaser.Scene {
   private craftStationsResolved: ResolvedCraftStation[] = [];
   /** Город: тайлмапа из `town.tmj`. */
   private townPhaserTilemap: Phaser.Tilemaps.Tilemap | null = null;
+  /** Слои с коллизией по тайлам воды (см. `enableTownWaterTileCollision`). */
+  private townWaterCollisionLayers: Phaser.Tilemaps.TilemapLayer[] = [];
+  /** Коллайдеры игрок ↔ вода (снимаем при смене локации / пересборке карты). */
+  private townWaterPlayerColliders: Phaser.Physics.Arcade.Collider[] = [];
   /** Зоны выходов из object-слоя Travel (если карта загружена). */
   private townTmjExits: LocationExit[] | null = null;
+  private townInteractZones: TownInteractZone[] = [];
   /** Удержание Shift — спринт (быстрее, тратит стамину; после нуля стамины — «перегруз» без спринта) */
   private keyShiftSprint!: Phaser.Input.Keyboard.Key;
   private sfxVolUnsub: (() => void) | undefined;
@@ -379,7 +398,38 @@ export class MainScene extends Phaser.Scene {
   }
 
   create(): void {
+    this.events.on(
+      Phaser.Scenes.Events.POST_UPDATE,
+      this.syncTownFogDriftPostUpdate,
+      this
+    );
     void this.bootstrap();
+  }
+
+  private destroyTownWaterPlayerColliders(): void {
+    for (const c of this.townWaterPlayerColliders) {
+      c.destroy();
+    }
+    this.townWaterPlayerColliders.length = 0;
+  }
+
+  /** Герой / NPC / мобы — столкновение с тайловой водой (Arcade). */
+  private collideSpriteWithTownWaterLayers(
+    sprite: Phaser.GameObjects.GameObject
+  ): void {
+    for (const layer of this.townWaterCollisionLayers) {
+      this.physics.add.collider(sprite, layer);
+    }
+  }
+
+  private attachTownWaterPlayerColliders(): void {
+    this.destroyTownWaterPlayerColliders();
+    if (!this.player) return;
+    for (const layer of this.townWaterCollisionLayers) {
+      this.townWaterPlayerColliders.push(
+        this.physics.add.collider(this.player, layer)
+      );
+    }
   }
 
   private addStaticRect(
@@ -659,9 +709,12 @@ export class MainScene extends Phaser.Scene {
 
   private clearWorldEntities(): void {
     this.cancelForestGather();
+    this.destroyTownWaterPlayerColliders();
+    this.townWaterCollisionLayers = [];
     this.townPhaserTilemap?.destroy();
     this.townPhaserTilemap = null;
     this.townTmjExits = null;
+    this.townInteractZones = [];
     this.forestTrees = [];
     this.forestRocks = [];
     this.forestStumpSprites.clear();
@@ -690,6 +743,8 @@ export class MainScene extends Phaser.Scene {
     this.npcDialogueScriptsById = {};
     this.npcBarkNextAt = {};
     this.lastNearNpcIdForBark = null;
+    this.townOpeningScriptVersionSnapshot = -1;
+    this.marcusVillagePatrolAnchor = null;
     this.dungeonNextSpawnAt = 0;
     this.dungeonMobSeq = 0;
     this.forestVisitSalt = 0;
@@ -767,6 +822,7 @@ export class MainScene extends Phaser.Scene {
     });
     mob.setDepth(sp.y);
     this.physics.add.collider(mob, this.obstacles);
+    this.collideSpriteWithTownWaterLayers(mob);
     this.enemies.push(mob);
   }
 
@@ -931,6 +987,32 @@ export class MainScene extends Phaser.Scene {
       Phaser.Math.Between(NPC_BARK_COOLDOWN_MS_MIN, NPC_BARK_COOLDOWN_MS_MAX);
   }
 
+  /** Пролог закончился → Маркус идёт; по приходу к якорю патруля — можно говорить. */
+  private tickMarcusVillageIntro(): void {
+    const st = useGameStore.getState();
+    const v = st.openingCutsceneScriptVersion;
+    if (v > this.townOpeningScriptVersionSnapshot) {
+      this.townOpeningScriptVersionSnapshot = v;
+      const marcus = this.npcs.find((n) => n.npcId === "marcus");
+      marcus?.releaseIntroHold();
+    }
+    if (st.marcusVillageIntroWalkDone || !this.marcusVillagePatrolAnchor) {
+      return;
+    }
+    const marcus = this.npcs.find((n) => n.npcId === "marcus");
+    if (!marcus?.interactionDisabled) return;
+    const ax = this.marcusVillagePatrolAnchor.x;
+    const ay = this.marcusVillagePatrolAnchor.y;
+    if (
+      Phaser.Math.Distance.Between(marcus.x, marcus.y, ax, ay) <
+      MARCUS_VILLAGE_INTRO_ANCHOR_RADIUS
+    ) {
+      marcus.setInteractionDisabled(false);
+      useGameStore.getState().markMarcusVillageIntroWalkDone();
+      this.marcusVillagePatrolAnchor = null;
+    }
+  }
+
   private async buildWorldContent(locId: LocationId): Promise<void> {
     this.clearWorldEntities();
     if (locId === "dungeon") {
@@ -997,16 +1079,26 @@ export class MainScene extends Phaser.Scene {
     );
 
     if (locId === "town") {
+      this.destroyTownWaterPlayerColliders();
+      this.townWaterCollisionLayers = [];
       this.townTmjExits = null;
+      this.townInteractZones = [];
       this.townPhaserTilemap?.destroy();
       this.townPhaserTilemap = null;
       const tmj = getTownTmjData(this);
       if (tmj) {
         this.townTmjExits = parseTownTravelExits(tmj);
+        this.townInteractZones = parseTownInteractZones(tmj);
         try {
           this.townPhaserTilemap = createTownTilemapLayers(this);
         } catch (e) {
           console.warn("[MainScene] town tilemap:", e);
+        }
+        if (this.townPhaserTilemap) {
+          this.townWaterCollisionLayers = enableTownWaterTileCollision(
+            this.townPhaserTilemap,
+            tmj
+          );
         }
         for (const r of parseTownColliderRects(tmj)) {
           const cx = r.x + r.w / 2;
@@ -1107,6 +1199,8 @@ export class MainScene extends Phaser.Scene {
       console.warn("[MainScene] /api/npcs недоступен", e);
     }
 
+    this.marcusVillagePatrolAnchor = null;
+
     for (const n of list) {
       if (!n?.id) continue;
       if (n.barks?.length) this.npcBarksById[n.id] = n.barks;
@@ -1118,23 +1212,61 @@ export class MainScene extends Phaser.Scene {
       const unitDef = this.manifest.units[n.id];
       if (!idleTex || !unitDef) continue;
 
-      const route = applyNpcSpawnOverride(
+      const store = useGameStore.getState();
+      let route = applyNpcSpawnOverride(
         n.route,
         loc.npcSpawnOverrides?.[n.id]
       );
+
+      if (n.id === "marcus" && !store.marcusVillageIntroWalkDone) {
+        const baseRoute = route;
+        const anchor = baseRoute.spawn;
+        const px = store.player.x;
+        const py = store.player.y;
+        const dx = anchor.x - px;
+        const dy = anchor.y - py;
+        const len = Math.hypot(dx, dy);
+        const spread = 52;
+        const nx = len > 8 ? dx / len : 1;
+        const ny = len > 8 ? dy / len : 0;
+        route = {
+          ...baseRoute,
+          spawn: {
+            x: px + nx * spread,
+            y: py + ny * spread,
+          },
+        };
+        this.marcusVillagePatrolAnchor = anchor;
+      }
+
       const npc = new PatrolNpc(this, {
         id: n.id,
         idleTextureKey: idleTex,
         idleAnim: unitDef.idleAnim,
+        idleNAnim: unitDef.idleNAnim,
+        idleEAnim: unitDef.idleEAnim,
         runAnim: unitDef.runAnim,
         walkNAnim: unitDef.walkNAnim,
         walkEAnim: unitDef.walkEAnim,
         route,
         displayName: n.displayName,
       });
+
+      if (n.id === "marcus" && this.marcusVillagePatrolAnchor) {
+        npc.setInteractionDisabled(true);
+        const st = useGameStore.getState();
+        if (st.openingCutsceneScriptVersion < OPENING_CUTSCENE_SCRIPT_VERSION) {
+          npc.beginIntroHold();
+        }
+      }
+
       this.physics.add.collider(npc, this.obstacles);
+      this.collideSpriteWithTownWaterLayers(npc);
       this.npcs.push(npc);
     }
+
+    this.townOpeningScriptVersionSnapshot =
+      useGameStore.getState().openingCutsceneScriptVersion;
     }
 
     if (this.manifest.mobs) {
@@ -1277,6 +1409,7 @@ export class MainScene extends Phaser.Scene {
             const H = this.locationDef.world.height;
             this.cameras.main.setBounds(0, 0, W, H);
           }
+          this.attachTownWaterPlayerColliders();
           if (!this.previewMode) {
             this.cameras.main.startFollow(this.player, true, 0.14, 0.14);
             this.cameras.main.setZoom(CAMERA_ZOOM_PLAY);
@@ -1454,6 +1587,7 @@ export class MainScene extends Phaser.Scene {
         : 100;
 
     this.physics.add.collider(this.player, this.obstacles);
+    this.attachTownWaterPlayerColliders();
 
     /** Округление координат отрисовки камеры — меньше субпиксельного «мыла» при zoom. */
     this.cameras.roundPixels = true;
@@ -2078,7 +2212,6 @@ export class MainScene extends Phaser.Scene {
     this.lastPlayerAttackTime = time;
     this.playSfx(FANTASY_SFX.meleeSwing);
 
-    this.cameras.main.shake(44, 0.002);
     const origin =
       st.isekaiOrigin?.completed === true ? st.isekaiOrigin.bonus : undefined;
     const derived = getDerivedCombatStats(
@@ -2090,13 +2223,11 @@ export class MainScene extends Phaser.Scene {
     const atkOut =
       derived.atk * buffNumericProduct(st.character.buffs, "atkMult");
 
-    let hitAny = false;
     let playedMeleeHit = false;
     for (const e of this.enemies) {
       if (e.state === "dead") continue;
       if (!this.computeMeleeHit(px, py, e.x, e.y)) continue;
 
-      hitAny = true;
       if (!playedMeleeHit) {
         this.playSfx(FANTASY_SFX.meleeHit);
         playedMeleeHit = true;
@@ -2205,13 +2336,29 @@ export class MainScene extends Phaser.Scene {
       }
     }
 
-    if (hitAny) {
-      this.cameras.main.shake(115, 0.0045);
-    }
   }
 
   private inputBlocked(): boolean {
     return this.dialogueOpen || this.modalBlocked || this.locationTransition;
+  }
+
+  /**
+   * Смещение слоёв тумана — в `postupdate`, после внутренних шагов Phaser и `Scene.update`,
+   * чтобы позиция слоя не затиралась до рендера.
+   */
+  private syncTownFogDriftPostUpdate(time: number): void {
+    if (
+      !this.booted ||
+      this.currentLocationId !== "town" ||
+      !this.townPhaserTilemap ||
+      !this.player
+    ) {
+      return;
+    }
+    updateTownFogLayerDrift(this.townPhaserTilemap, time, {
+      x: this.player.x,
+      y: this.player.y,
+    });
   }
 
   update(time: number, delta: number): void {
@@ -2424,6 +2571,10 @@ export class MainScene extends Phaser.Scene {
       n.setDepth(n.y);
     }
 
+    if (!this.previewMode && this.currentLocationId === "town") {
+      this.tickMarcusVillageIntro();
+    }
+
     if (!this.previewMode) {
       if (!this.inputBlocked() && !this.gatherChannel) {
         this.tryPlayerMeleeAttack(time, this.player.x, this.player.y, vx, vy);
@@ -2482,6 +2633,13 @@ export class MainScene extends Phaser.Scene {
                   buffNumericProduct(stCombat.character.buffs, "defMult")
               );
               useGameStore.getState().takeDamage(amt);
+              const strikeDebuff = rollMobStrikeDebuff(
+                e.instanceId === DUNGEON_BOSS_INSTANCE_ID,
+                Math.random
+              );
+              if (strikeDebuff) {
+                useGameStore.getState().applyTimedBuffs([strikeDebuff]);
+              }
               this.player.setTint(0xff5555);
               this.time.delayedCall(110, () => {
                 if (this.player.active) this.player.clearTint();
@@ -2492,7 +2650,6 @@ export class MainScene extends Phaser.Scene {
                 amt,
                 "#fca5a5"
               );
-              this.cameras.main.shake(90, 0.002);
             },
           });
         }
@@ -2512,10 +2669,18 @@ export class MainScene extends Phaser.Scene {
     const px = this.player.x;
     const py = this.player.y;
 
-    const nearNpc = this.npcs.find(
-      (n) =>
-        Phaser.Math.Distance.Between(px, py, n.x, n.y) < INTERACT_RADIUS_NPC
-    );
+    let nearNpc: PatrolNpc | undefined;
+    {
+      let bestD = INTERACT_RADIUS_NPC;
+      for (const n of this.npcs) {
+        if (n.interactionDisabled) continue;
+        const d = Phaser.Math.Distance.Between(px, py, n.x, n.y);
+        if (d < bestD) {
+          bestD = d;
+          nearNpc = n;
+        }
+      }
+    }
 
     const chestPool = getChestsForLocation(this.locationDef);
     const nearChest = chestPool.find(
@@ -2600,6 +2765,10 @@ export class MainScene extends Phaser.Scene {
             : null;
 
     const nearPond = this.playerNearPond(px, py);
+    const nearTownInteract =
+      this.currentLocationId === "town"
+        ? this.findNearestTownInteractZone(px, py)
+        : null;
 
     let hintX = px;
     let hintY = py - 36;
@@ -2635,6 +2804,10 @@ export class MainScene extends Phaser.Scene {
         forestGatherTarget.kind === "tree" ? "[ E ] Рубить" : "[ E ] Добыть";
       hintX = forestGatherTarget.entry.img.x;
       hintY = forestGatherTarget.entry.img.y - 36;
+    } else if (nearTownInteract) {
+      hintMsg = this.townInteractHint(nearTownInteract.kind);
+      hintX = nearTownInteract.x + nearTownInteract.w / 2;
+      hintY = nearTownInteract.y - 8;
     } else if (nearPond) {
       hintMsg = "[ E ] Рыбалка";
       hintX = 1060;
@@ -2822,6 +2995,11 @@ export class MainScene extends Phaser.Scene {
       return;
     }
 
+    if (nearTownInteract) {
+      this.handleTownInteractZone(nearTownInteract);
+      return;
+    }
+
     if (nearPond) {
       this.heroAnim.tryPlayInteract("fishing");
       window.dispatchEvent(
@@ -2862,6 +3040,141 @@ export class MainScene extends Phaser.Scene {
         this.gotoLocation(nearExit.targetLocationId, nearExit.targetSpawnId);
       }
     }
+  }
+
+  private distanceToRect(
+    px: number,
+    py: number,
+    r: { x: number; y: number; w: number; h: number }
+  ): number {
+    const cx = Math.max(r.x, Math.min(px, r.x + r.w));
+    const cy = Math.max(r.y, Math.min(py, r.y + r.h));
+    return Phaser.Math.Distance.Between(px, py, cx, cy);
+  }
+
+  private findNearestTownInteractZone(
+    px: number,
+    py: number
+  ): TownInteractZone | null {
+    let best: TownInteractZone | null = null;
+    let bestD = INTERACT_RADIUS_NPC;
+    for (const z of this.townInteractZones) {
+      const d = this.distanceToRect(px, py, z);
+      if (d < bestD) {
+        bestD = d;
+        best = z;
+      }
+    }
+    return best;
+  }
+
+  private townInteractHint(kind: TownInteractKind): string {
+    switch (kind) {
+      case "well":
+        return "[ E ] Испить воды";
+      case "fishing":
+        return "[ E ] Рыбачить";
+      case "fog":
+        return "[ E ] Осмотреть туман";
+      case "fired":
+        return "[ E ] Осмотреть пепелище";
+      case "abandon":
+        return "[ E ] Осмотреть дом";
+    }
+  }
+
+  private toast(message: string): void {
+    window.dispatchEvent(
+      new CustomEvent("last-summon-toast", {
+        detail: { message },
+      })
+    );
+  }
+
+  private openHeroThought(title: string, lines: string[]): void {
+    window.dispatchEvent(
+      new CustomEvent("last-summon-hero-thought-open", {
+        detail: { title, lines },
+      })
+    );
+  }
+
+  private heroThoughtFor(kind: TownInteractKind): {
+    title: string;
+    lines: string[];
+  } | null {
+    switch (kind) {
+      case "fog":
+        return {
+          title: "Туман",
+          lines: [
+            "Туман слишком плотный для обычной сырости. Он не стелется по земле, а будто держит границу.",
+            "Воздух рядом с ним глохнет. Шагнуть внутрь можно, но что-то подсказывает: он просто вернёт меня назад.",
+            "Это не место, которое проходят силой. Нужно понять, что его держит.",
+          ],
+        };
+      case "fired":
+        return {
+          title: "Сожжённый дом",
+          lines: [
+            "Дом выгорел давно, но следы огня всё ещё читаются слишком ясно.",
+            "Похоже, здесь не просто вспыхнула крыша. Огонь прошёлся по месту основательно, будто ему дали время.",
+            "Если кто-то жил здесь, деревня об этом помнит. Стоит расспросить, когда будет повод.",
+          ],
+        };
+      case "abandon":
+        return {
+          title: "Заброшенный дом",
+          lines: [
+            "Дом давно оставили. Не похоже на короткий отъезд: здесь уходили быстро и не возвращались.",
+            "Внутри тихо, но эта тишина не пустая. Скорее такая, после которой люди начинают говорить шёпотом.",
+            "Пока лучше запомнить это место. Возможно, позже станет ясно, что здесь произошло.",
+          ],
+        };
+      default:
+        return null;
+    }
+  }
+
+  private handleTownInteractZone(zone: TownInteractZone): void {
+    if (zone.kind === "well") {
+      const st = useGameStore.getState();
+      const d = getDerivedCombatStats(
+        st.character.level,
+        st.equipped,
+        st.isekaiOrigin.completed === true ? st.isekaiOrigin.bonus : undefined,
+        st.character.attrs
+      );
+      if (st.character.hp >= d.maxHp) {
+        this.toast("Вода холодная и чистая. Здоровье уже полное.");
+        return;
+      }
+      const amount = Math.ceil(d.maxHp * 0.4);
+      const res = useGameStore.getState().healCharacterHp(amount);
+      this.heroAnim.tryPlayInteract("watering");
+      this.toast(`Вы отпили воды. HP: ${res.before} -> ${res.after}`);
+      return;
+    }
+
+    if (zone.kind === "fishing") {
+      const st = useGameStore.getState();
+      if (
+        !playerHasInstrumentRole(
+          st.inventorySlots,
+          st.equipped,
+          TAG_FISHING_ROD
+        )
+      ) {
+        this.toast("Без удочки это просто вдумчивое стояние у воды.");
+        return;
+      }
+      this.heroAnim.tryPlayInteract("fishing");
+      this.toast("Рыбалка: заброс удочки. Добычи пока нет, но вид был уверенный.");
+      return;
+    }
+
+    const thought = this.heroThoughtFor(zone.kind);
+    if (thought) this.openHeroThought(thought.title, thought.lines);
   }
 
   private pruneForestTreeRegistry(): void {

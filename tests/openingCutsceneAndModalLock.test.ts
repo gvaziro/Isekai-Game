@@ -1,14 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { OPENING_CUTSCENE_SCRIPT_VERSION } from "@/src/game/data/openingCutscene";
-import { resolvePersistedOpeningScriptVersion } from "@/src/game/data/openingCutsceneVersion";
+import {
+  OPENING_CUTSCENE_LEGACY_BOOLEAN_MEANS_VERSION,
+  resolvePersistedOpeningScriptVersion,
+} from "@/src/game/data/openingCutsceneVersion";
 import {
   computeGameRootModalLike,
   gameRootBlocksWorldMenuHotkeys,
   type GameRootModalLikeInput,
 } from "@/src/game/ui/gameRootModalLock";
 import {
+  DEFAULT_PLAYER_NAME,
+  MAX_PLAYER_NAME_LENGTH,
   createFreshPersistedGameState,
+  normalizePlayerName,
   SAVE_VERSION,
+  useGameStore,
 } from "@/src/game/state/gameStore";
 
 const allClosed = (): GameRootModalLikeInput => ({
@@ -21,6 +28,7 @@ const allClosed = (): GameRootModalLikeInput => ({
   achievementsOpen: false,
   settingsOpen: false,
   npcInteract: false,
+  heroThoughtOpen: false,
   shopOpen: false,
   isekaiOpen: false,
   openingCutsceneOpen: false,
@@ -39,6 +47,7 @@ describe("opening cutscene persist", () => {
   it("новая игра: версия сценария 0 и актуальный SAVE_VERSION", () => {
     const s = createFreshPersistedGameState();
     expect(s.openingCutsceneScriptVersion).toBe(0);
+    expect(s.playerName).toBe(DEFAULT_PLAYER_NAME);
     expect(s.saveVersion).toBe(SAVE_VERSION);
   });
 
@@ -46,10 +55,10 @@ describe("opening cutscene persist", () => {
     expect(resolvePersistedOpeningScriptVersion({})).toBe(0);
   });
 
-  it("миграция: legacy openingCutsceneSeen true → не ниже ревизии 1", () => {
+  it("миграция: legacy openingCutsceneSeen true → ревизия из boolean (старый сейв)", () => {
     expect(
       resolvePersistedOpeningScriptVersion({ openingCutsceneSeen: true })
-    ).toBe(OPENING_CUTSCENE_SCRIPT_VERSION);
+    ).toBe(OPENING_CUTSCENE_LEGACY_BOOLEAN_MEANS_VERSION);
   });
 
   it("миграция: число из сейва сохраняется в пределах текущей ревизии", () => {
@@ -63,6 +72,29 @@ describe("opening cutscene persist", () => {
         openingCutsceneScriptVersion: OPENING_CUTSCENE_SCRIPT_VERSION,
       })
     ).toBe(OPENING_CUTSCENE_SCRIPT_VERSION);
+  });
+});
+
+describe("player name persist", () => {
+  it("normalizePlayerName: пустое и нестроковое значение дают дефолт", () => {
+    expect(normalizePlayerName("   ")).toBe(DEFAULT_PLAYER_NAME);
+    expect(normalizePlayerName(null)).toBe(DEFAULT_PLAYER_NAME);
+  });
+
+  it("normalizePlayerName: принимает валидное имя и схлопывает пробелы", () => {
+    expect(normalizePlayerName("  Анна   Светлая  ")).toBe("Анна Светлая");
+  });
+
+  it("normalizePlayerName: длинное имя обрезается до лимита", () => {
+    const raw = "А".repeat(MAX_PLAYER_NAME_LENGTH + 5);
+    expect(normalizePlayerName(raw)).toBe("А".repeat(MAX_PLAYER_NAME_LENGTH));
+  });
+
+  it("setPlayerName: сохраняет нормализованное имя в store", () => {
+    useGameStore.getState().setPlayerName("  Ника   ");
+    expect(useGameStore.getState().playerName).toBe("Ника");
+    useGameStore.getState().setPlayerName("");
+    expect(useGameStore.getState().playerName).toBe(DEFAULT_PLAYER_NAME);
   });
 });
 

@@ -11,6 +11,9 @@ import {
 import { getShopByNpc } from "@/src/game/data/shops";
 import DialogueOverlay from "@/src/game/ui/DialogueOverlay";
 import type { NpcDialogueScene } from "@/src/game/types";
+import HeroThoughtOverlay, {
+  type HeroThoughtOpen,
+} from "@/src/game/ui/HeroThoughtOverlay";
 import GameHud from "@/src/game/ui/GameHud";
 import ChestStorageOverlay from "@/src/game/ui/ChestStorageOverlay";
 import CraftOverlay from "@/src/game/ui/CraftOverlay";
@@ -121,6 +124,9 @@ function readPreviewFlag(): boolean {
   return new URLSearchParams(window.location.search).get("preview") === "1";
 }
 
+/** Курсор по умолчанию в игровой оболочке (Phaser + HUD). Hotspot — острие стрелки (левый верх). */
+const GAME_SHELL_CURSOR_CSS = 'url("/assets/ui/game-cursor.png") 0 0, pointer';
+
 const WORLD_QUICK_MENU_ITEM_COUNT = 10;
 
 /** Каскад: при открытии сначала «нижние» пункты (ближе к ?), при закрытии — сверху вниз. */
@@ -168,6 +174,7 @@ export default function GameRoot() {
   const hostRef = useRef<HTMLDivElement>(null);
   const phaserGameRef = useRef<import("phaser").Game | null>(null);
   const [dialogue, setDialogue] = useState<DialogueOpen | null>(null);
+  const [heroThought, setHeroThought] = useState<HeroThoughtOpen | null>(null);
   const [shopOpen, setShopOpen] = useState<ShopOpenState | null>(null);
   const [preview] = useState(readPreviewFlag);
   const [devHud, setDevHud] = useState(false);
@@ -248,6 +255,7 @@ export default function GameRoot() {
       achievementsOpen,
       settingsOpen,
       npcInteract: false,
+      heroThoughtOpen: heroThought !== null,
       shopOpen: shopOpen !== null,
       isekaiOpen,
       openingCutsceneOpen,
@@ -270,6 +278,7 @@ export default function GameRoot() {
       readableBook,
       achievementsOpen,
       settingsOpen,
+      heroThought,
       shopOpen,
       isekaiOpen,
       openingCutsceneOpen,
@@ -822,6 +831,20 @@ export default function GameRoot() {
     useQuestStore.getState().ingestEvent({ type: "reevaluate" });
   }, [markOpeningCutsceneScriptCurrent]);
 
+  /** Первый клик по полю имени не должен «съедаться» фокусом Phaser: снять фокус с canvas/хоста. */
+  useEffect(() => {
+    if (preview || !openingCutsceneOpen) return;
+    const host = hostRef.current;
+    const ae = document.activeElement;
+    if (!(ae instanceof HTMLElement)) return;
+    if (
+      ae.classList.contains("last-summon-phaser-root") ||
+      (host?.contains(ae) ?? false)
+    ) {
+      ae.blur();
+    }
+  }, [preview, openingCutsceneOpen]);
+
   useEffect(() => {
     if (preview || !gameStoreHydrated) return;
     if (openingCutsceneScriptVersion >= OPENING_CUTSCENE_SCRIPT_VERSION) return;
@@ -964,6 +987,29 @@ export default function GameRoot() {
     return () =>
       window.removeEventListener("last-summon-dungeon-pick-request", onDungeonPick);
   }, [preview]);
+
+  useEffect(() => {
+    const open = (e: Event) => {
+      const d = (e as CustomEvent<HeroThoughtOpen>).detail;
+      const title = typeof d?.title === "string" ? d.title.trim() : "";
+      const lines = Array.isArray(d?.lines)
+        ? d.lines.filter((x) => typeof x === "string" && x.trim())
+        : [];
+      if (!title || lines.length === 0) return;
+      setInventoryOpen(false);
+      setJournalOpen(false);
+      setLoreJournalOpen(false);
+      setAchievementsOpen(false);
+      setSettingsOpen(false);
+      setLoadGameOverlayOpen(false);
+      setSaveGameOverlayOpen(false);
+      setShopOpen(null);
+      setHeroThought({ title, lines });
+    };
+    window.addEventListener("last-summon-hero-thought-open", open);
+    return () =>
+      window.removeEventListener("last-summon-hero-thought-open", open);
+  }, []);
 
   useEffect(() => {
     const open = (e: Event) => {
@@ -1111,6 +1157,7 @@ export default function GameRoot() {
   return (
     <div
       ref={gameFrameRef}
+      style={{ cursor: GAME_SHELL_CURSOR_CSS }}
       className={
         preview
           ? "relative inline-block"
@@ -1346,11 +1393,15 @@ export default function GameRoot() {
           tabIndex={0}
           role="application"
           aria-label="Игровая сцена"
+          inert={openingCutsceneOpen}
           onMouseDown={(e) => {
             if (e.button !== 0) return;
+            if (openingCutsceneOpen) return;
             hostRef.current?.focus({ preventScroll: true });
           }}
           className={`last-summon-phaser-root ${
+            openingCutsceneOpen ? "pointer-events-none" : ""
+          } ${
             preview
               ? "overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-amber-600/50"
               : fillGameViewport
@@ -1471,6 +1522,13 @@ export default function GameRoot() {
         </div>
       </div>
       {!preview ? <QuestToast /> : null}
+      {!preview && heroThought ? (
+        <HeroThoughtOverlay
+          key={`${heroThought.title}:${heroThought.lines.join("|")}`}
+          thought={heroThought}
+          onClose={() => setHeroThought(null)}
+        />
+      ) : null}
       {dialogue ? (
         <DialogueOverlay
           npcId={dialogue.npcId}

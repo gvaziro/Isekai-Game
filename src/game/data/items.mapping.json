@@ -1,18 +1,20 @@
 {
   "$schema": "./items.mapping.schema.json",
-  "updatedAt": "2026-05-05T18:14:14.790Z",
+  "updatedAt": "2026-05-12T15:38:29.127Z",
   "items": [
     {
       "frameKey": "item1",
       "id": "blade_rusty",
       "name": "Ржавый клинок",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 20
     },
     {
       "frameKey": "item2",
       "id": "item2",
       "name": "Простой клинок",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 38
     },
     {
       "frameKey": "item3",
@@ -144,7 +146,8 @@
       "frameKey": "item24",
       "id": "knife_kitchen",
       "name": "Ножик",
-      "slot": "pickaxe"
+      "slot": "pickaxe",
+      "basePrice": 12
     },
     {
       "frameKey": "item25",
@@ -288,7 +291,8 @@
       "frameKey": "item48",
       "id": "wand_twig",
       "name": "Жезл из еловой ветки",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 18
     },
     {
       "frameKey": "item49",
@@ -468,7 +472,8 @@
       "frameKey": "item78",
       "id": "shield_buckler",
       "name": "Баклер",
-      "slot": "offhand"
+      "slot": "offhand",
+      "basePrice": 30
     },
     {
       "frameKey": "item79",
@@ -604,7 +609,8 @@
       "tags": [
         "instrument",
         "axe"
-      ]
+      ],
+      "basePrice": 30
     },
     {
       "frameKey": "item101",
@@ -700,7 +706,8 @@
       "frameKey": "item150",
       "id": "feather",
       "name": "Перо",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 3
     },
     {
       "frameKey": "item151",
@@ -761,7 +768,8 @@
       "id": "shield_round",
       "name": "Круглый щит",
       "slot": "offhand",
-      "iconFrameKey": "item198"
+      "iconFrameKey": "item198",
+      "basePrice": 58
     },
     {
       "frameKey": "item161",
@@ -882,7 +890,8 @@
       "id": "apple",
       "name": "Яблоко",
       "slot": "consumable",
-      "iconFrameKey": "item322"
+      "iconFrameKey": "item322",
+      "basePrice": 5
     },
     {
       "frameKey": "item186",
@@ -892,31 +901,36 @@
       "tags": [
         "instrument",
         "fishing_rod"
-      ]
+      ],
+      "basePrice": 22
     },
     {
       "frameKey": "item187",
       "id": "item187",
       "name": "Крутоая удочка",
-      "slot": "fishing_rod"
+      "slot": "fishing_rod",
+      "basePrice": 60
     },
     {
       "frameKey": "item188",
       "id": "item188",
       "name": "Профессиональная удочка",
-      "slot": "fishing_rod"
+      "slot": "fishing_rod",
+      "basePrice": 130
     },
     {
       "frameKey": "item189",
       "id": "item189",
       "name": "Удочка деда",
-      "slot": "fishing_rod"
+      "slot": "fishing_rod",
+      "basePrice": 88
     },
     {
       "frameKey": "item190",
       "id": "item190",
       "name": "Техноспиннинг",
-      "slot": "fishing_rod"
+      "slot": "fishing_rod",
+      "basePrice": 220
     },
     {
       "frameKey": "item191",
@@ -977,7 +991,8 @@
       "id": "helm_leather",
       "name": "Кожаный шлем",
       "slot": "helmet",
-      "iconFrameKey": "item201"
+      "iconFrameKey": "item201",
+      "basePrice": 32
     },
     {
       "frameKey": "item202",
@@ -1145,7 +1160,8 @@
       "frameKey": "item230",
       "id": "cap_wool",
       "name": "Шерстяная шапка",
-      "slot": "helmet"
+      "slot": "helmet",
+      "basePrice": 18
     },
     {
       "frameKey": "item231",
@@ -1205,7 +1221,8 @@
       "frameKey": "item240",
       "id": "fish",
       "name": "Сушёная рыба",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 14
     },
     {
       "frameKey": "item241",
@@ -1325,7 +1342,8 @@
       "frameKey": "item260",
       "id": "shirt_linen",
       "name": "Льняная рубаха",
-      "slot": "chest"
+      "slot": "chest",
+      "basePrice": 28
     },
     {
       "frameKey": "item261",
@@ -1383,9 +1401,10 @@
     },
     {
       "frameKey": "item270",
-      "id": "herb",
-      "name": "Трава",
-      "slot": "boots"
+      "id": "c",
+      "name": "Сапоги эльфа",
+      "slot": "boots",
+      "rarity": "uncommon"
     },
     {
       "frameKey": "item271",
@@ -1506,7 +1525,8 @@
       "id": "coat_travel",
       "name": "Дорожный камзол",
       "slot": "chest",
-      "iconFrameKey": "item232"
+      "iconFrameKey": "item232",
+      "basePrice": 50
     },
     {
       "frameKey": "item291",
@@ -1554,7 +1574,8 @@
       "frameKey": "item298",
       "id": "item298",
       "name": "Полный латный шлем",
-      "slot": "helmet"
+      "slot": "helmet",
+      "basePrice": 95
     },
     {
       "frameKey": "item299",
@@ -1584,7 +1605,8 @@
       "frameKey": "item303",
       "id": "item303",
       "name": "Маска злого духа",
-      "slot": "helmet"
+      "slot": "helmet",
+      "basePrice": 82
     },
     {
       "frameKey": "item304",
@@ -1662,7 +1684,8 @@
       "frameKey": "item316",
       "id": "item316",
       "name": "Шляпа фокусника",
-      "slot": "helmet"
+      "slot": "helmet",
+      "basePrice": 55
     },
     {
       "frameKey": "item317",
@@ -1687,7 +1710,8 @@
       "id": "boots_simple",
       "name": "Простые сапоги",
       "slot": "boots",
-      "iconFrameKey": "item267"
+      "iconFrameKey": "item267",
+      "basePrice": 22
     },
     {
       "frameKey": "item321",
@@ -1723,13 +1747,15 @@
       "frameKey": "item326",
       "id": "item326",
       "name": "Морковь",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 4
     },
     {
       "frameKey": "item327",
       "id": "item327",
       "name": "Гриб",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 6
     },
     {
       "frameKey": "item328",
@@ -1748,7 +1774,8 @@
       "id": "candle",
       "name": "Свеча",
       "slot": "material",
-      "iconFrameKey": "item668"
+      "iconFrameKey": "item668",
+      "basePrice": 5
     },
     {
       "frameKey": "item331",
@@ -1778,7 +1805,8 @@
       "frameKey": "item335",
       "id": "item335",
       "name": "Тыква",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 6
     },
     {
       "frameKey": "item336",
@@ -1796,7 +1824,8 @@
       "frameKey": "item338",
       "id": "item338",
       "name": "Яйцо",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 4
     },
     {
       "frameKey": "item339",
@@ -1994,7 +2023,8 @@
       "frameKey": "item372",
       "id": "item372",
       "name": "Кружка кофе",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 14
     },
     {
       "frameKey": "item373",
@@ -2024,7 +2054,8 @@
       "frameKey": "item377",
       "id": "item377",
       "name": "Перец чили",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 6
     },
     {
       "frameKey": "item378",
@@ -2036,7 +2067,8 @@
       "frameKey": "item379",
       "id": "item379",
       "name": "Гриб Лисичка",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 7
     },
     {
       "frameKey": "item380",
@@ -2048,13 +2080,15 @@
       "frameKey": "item381",
       "id": "item381",
       "name": "Вешенка",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 6
     },
     {
       "frameKey": "item382",
       "id": "item382",
       "name": "Вишня",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 5
     },
     {
       "frameKey": "item383",
@@ -2103,7 +2137,8 @@
       "id": "coin_stack",
       "name": "Мешочек монет",
       "slot": "quest",
-      "iconFrameKey": "item676"
+      "iconFrameKey": "item676",
+      "basePrice": 50
     },
     {
       "frameKey": "item391",
@@ -2149,8 +2184,8 @@
     },
     {
       "frameKey": "item398",
-      "id": "item398",
-      "name": "",
+      "id": "c",
+      "name": "Эскимо",
       "slot": "consumable"
     },
     {
@@ -2193,7 +2228,8 @@
       "frameKey": "item405",
       "id": "item405",
       "name": "Мед",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 9
     },
     {
       "frameKey": "item406",
@@ -2265,13 +2301,15 @@
       "frameKey": "item417",
       "id": "item417",
       "name": "Виноград",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 5
     },
     {
       "frameKey": "item418",
       "id": "item418",
       "name": "Помидор",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 4
     },
     {
       "frameKey": "item419",
@@ -2313,13 +2351,15 @@
       "frameKey": "item425",
       "id": "item425",
       "name": "Круассан",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 11
     },
     {
       "frameKey": "item426",
       "id": "item426",
       "name": "Пирог \"Мамин\"",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 22
     },
     {
       "frameKey": "item427",
@@ -2349,7 +2389,8 @@
       "frameKey": "item431",
       "id": "item431",
       "name": "Клубника \"Бомба\"",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 7
     },
     {
       "frameKey": "item432",
@@ -2373,7 +2414,8 @@
       "frameKey": "item435",
       "id": "item435",
       "name": "Жареный лосось",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 18
     },
     {
       "frameKey": "item436",
@@ -2404,7 +2446,8 @@
       "id": "hp_small",
       "name": "Целебная настойка",
       "slot": "consumable",
-      "iconFrameKey": "item1189"
+      "iconFrameKey": "item1189",
+      "basePrice": 18
     },
     {
       "frameKey": "item441",
@@ -2585,7 +2628,8 @@
       "id": "hp_medium",
       "name": "Флакон жизни",
       "slot": "consumable",
-      "iconFrameKey": "item730"
+      "iconFrameKey": "item730",
+      "basePrice": 35
     },
     {
       "frameKey": "item471",
@@ -2639,7 +2683,8 @@
       "frameKey": "item479",
       "id": "item479",
       "name": "Вареник ",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 12
     },
     {
       "frameKey": "item480",
@@ -2765,7 +2810,8 @@
       "frameKey": "item500",
       "id": "stamina_drink",
       "name": "Отвар бодрости",
-      "slot": "consumable"
+      "slot": "consumable",
+      "basePrice": 16
     },
     {
       "frameKey": "item501",
@@ -2946,7 +2992,8 @@
       "id": "bread",
       "name": "Хлеб",
       "slot": "consumable",
-      "iconFrameKey": "item332"
+      "iconFrameKey": "item332",
+      "basePrice": 8
     },
     {
       "frameKey": "item531",
@@ -3127,7 +3174,8 @@
       "id": "cheese",
       "name": "Сыр",
       "slot": "consumable",
-      "iconFrameKey": "item324"
+      "iconFrameKey": "item324",
+      "basePrice": 12
     },
     {
       "frameKey": "item561",
@@ -3139,7 +3187,8 @@
       "frameKey": "item562",
       "id": "item562",
       "name": "Железный слиток",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 18
     },
     {
       "frameKey": "item563",
@@ -3151,7 +3200,8 @@
       "frameKey": "item564",
       "id": "item564",
       "name": "Медный слиток",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 14
     },
     {
       "frameKey": "item565",
@@ -3163,13 +3213,15 @@
       "frameKey": "item566",
       "id": "item566",
       "name": "Серебряный слиток",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 36
     },
     {
       "frameKey": "item567",
       "id": "item567",
       "name": "Золотой слиток",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 80
     },
     {
       "frameKey": "item568",
@@ -3283,7 +3335,8 @@
       "frameKey": "item586",
       "id": "item586",
       "name": "Камень",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 2
     },
     {
       "frameKey": "item587",
@@ -3295,7 +3348,8 @@
       "frameKey": "item588",
       "id": "item588",
       "name": "Древесина",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 3
     },
     {
       "frameKey": "item589",
@@ -3308,7 +3362,8 @@
       "id": "rope_coil",
       "name": "Моток верёвки",
       "slot": "material",
-      "iconFrameKey": "item686"
+      "iconFrameKey": "item686",
+      "basePrice": 8
     },
     {
       "frameKey": "item591",
@@ -3476,7 +3531,8 @@
       "frameKey": "item618",
       "id": "item618",
       "name": "Шапка Санты",
-      "slot": "helmet"
+      "slot": "helmet",
+      "basePrice": 40
     },
     {
       "frameKey": "item619",
@@ -3489,7 +3545,8 @@
       "id": "iron_ore",
       "name": "Кусочек железной руды",
       "slot": "material",
-      "iconFrameKey": "item576"
+      "iconFrameKey": "item576",
+      "basePrice": 6
     },
     {
       "frameKey": "item621",
@@ -3789,7 +3846,8 @@
       "frameKey": "item670",
       "id": "item670",
       "name": "Шкура",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 10
     },
     {
       "frameKey": "item671",
@@ -3814,14 +3872,16 @@
       "id": "item674",
       "name": "Кожаный рюкзак",
       "slot": "backpack",
-      "inventoryBonusSlots": 5
+      "inventoryBonusSlots": 5,
+      "basePrice": 85
     },
     {
       "frameKey": "item675",
       "id": "item675",
       "name": "Походный рюкзак",
       "slot": "backpack",
-      "inventoryBonusSlots": 10
+      "inventoryBonusSlots": 10,
+      "basePrice": 210
     },
     {
       "frameKey": "item676",
@@ -3851,7 +3911,8 @@
       "frameKey": "item680",
       "id": "leather_scrap",
       "name": "Обрезки кожи",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 8
     },
     {
       "frameKey": "item681",
@@ -3864,7 +3925,8 @@
       "id": "item682",
       "name": "Портфель торговца",
       "slot": "backpack",
-      "inventoryBonusSlots": 3
+      "inventoryBonusSlots": 3,
+      "basePrice": 60
     },
     {
       "frameKey": "item683",
@@ -3876,7 +3938,15 @@
       "frameKey": "item684",
       "id": "item684",
       "name": "Сигарета",
-      "slot": "consumable"
+      "slot": "consumable",
+      "consumableFx": {
+        "applyBuffs": [
+          {
+            "id": "second_wind",
+            "durationSec": 30
+          }
+        ]
+      }
     },
     {
       "frameKey": "item685",
@@ -4032,7 +4102,8 @@
       "frameKey": "item710",
       "id": "cloth_roll",
       "name": "Рулон ткани",
-      "slot": "material"
+      "slot": "material",
+      "basePrice": 12
     },
     {
       "frameKey": "item711",
@@ -4214,7 +4285,8 @@
       "id": "nails",
       "name": "Гвозди",
       "slot": "material",
-      "iconFrameKey": "item932"
+      "iconFrameKey": "item932",
+      "basePrice": 3
     },
     {
       "frameKey": "item741",
@@ -4395,7 +4467,8 @@
       "id": "hammer_tool",
       "name": "Молоток",
       "slot": "material",
-      "iconFrameKey": "item695"
+      "iconFrameKey": "item695",
+      "basePrice": 22
     },
     {
       "frameKey": "item771",
@@ -5296,7 +5369,8 @@
       "id": "lantern",
       "name": "Щит",
       "slot": "offhand",
-      "iconFrameKey": "item199"
+      "iconFrameKey": "item199",
+      "basePrice": 26
     },
     {
       "frameKey": "item921",
@@ -5476,7 +5550,8 @@
       "frameKey": "item950",
       "id": "wooden_torch",
       "name": "Дровяной факел",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 12
     },
     {
       "frameKey": "item951",
@@ -5661,7 +5736,8 @@
         "instrument",
         "pickaxe"
       ],
-      "iconFrameKey": "item22"
+      "iconFrameKey": "item22",
+      "basePrice": 35
     },
     {
       "frameKey": "item981",
@@ -5841,7 +5917,8 @@
       "frameKey": "item1010",
       "id": "spear_short",
       "name": "Короткое копьё",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 45
     },
     {
       "frameKey": "item1011",
@@ -6561,7 +6638,8 @@
       "frameKey": "item1130",
       "id": "mace",
       "name": "Булава",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 62
     },
     {
       "frameKey": "item1131",
@@ -6741,7 +6819,8 @@
       "frameKey": "item1160",
       "id": "staff_oak",
       "name": "Дубовый посох",
-      "slot": "weapon"
+      "slot": "weapon",
+      "basePrice": 42
     },
     {
       "frameKey": "item1161",
@@ -6921,7 +7000,8 @@
       "frameKey": "item1190",
       "id": "potion_blue",
       "name": "Синий эликсир",
-      "slot": "loot"
+      "slot": "loot",
+      "basePrice": 48
     },
     {
       "frameKey": "item1191",
@@ -7041,7 +7121,8 @@
       "frameKey": "item1210",
       "id": "potion_green",
       "name": "Зелёная микстура",
-      "slot": "loot"
+      "slot": "loot",
+      "basePrice": 42
     },
     {
       "frameKey": "item1211",
@@ -7101,7 +7182,8 @@
       "frameKey": "item1220",
       "id": "ore_silver",
       "name": "Серебряная крошка",
-      "slot": "loot"
+      "slot": "loot",
+      "basePrice": 22
     },
     {
       "frameKey": "item1221",
@@ -7162,7 +7244,8 @@
       "id": "gem_red",
       "name": "Красный камень",
       "slot": "loot",
-      "iconFrameKey": "item536"
+      "iconFrameKey": "item536",
+      "basePrice": 32
     },
     {
       "frameKey": "item1231",

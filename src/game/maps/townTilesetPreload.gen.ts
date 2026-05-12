@@ -47,5 +47,21 @@ export const TOWN_TILESET_LOAD = [
   {
     "key": "town_ts_Vegetation_8605",
     "url": "/assets/world/maps/town/Environment/Props/Static/Vegetation.png"
+  },
+  {
+    "key": "town_ts_pixellab_clean_2D_top_down_fantasy_RPG__1778156301282_9280",
+    "url": "/assets/world/maps/town/imported/pixellab-clean-2D-top-down-fantasy-RPG--1778156301282.png"
+  },
+  {
+    "key": "town_ts_Town_big_objects_9344",
+    "url": "/assets/world/maps/town/imported/Town_big_objects.png"
+  },
+  {
+    "key": "town_ts_Kolodec_10400",
+    "url": "/assets/world/maps/town/imported/spritesheet (1).png"
+  },
+  {
+    "key": "town_ts_Fog_tiles_10436",
+    "url": "/assets/world/maps/town/imported/Fog_tiles.png"
   }
 ] as const;

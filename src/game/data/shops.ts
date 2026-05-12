@@ -44,7 +44,7 @@ export const SHOPS: readonly ShopDef[] = [
       { curatedId: "bread", stock: 12 },
       { curatedId: "apple", stock: 18 },
       { curatedId: "potion_blue", stock: 5 },
-      { curatedId: "mushroom", stock: 10 },
+      { curatedId: "item327", stock: 10 },
       { curatedId: "fishing_rod_simple", stock: 4 },
       { curatedId: "hand_torch", stock: 12 },
     ],

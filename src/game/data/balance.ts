@@ -8,6 +8,8 @@ import type { CharacterAttributes } from "@/src/game/rpg/characterAttributes";
 /** Короткие баффы от расходников (источник — `buffs.json`, правка в /dev/buffs). */
 export type BuffDef = {
   label: string;
+  /** UI и подсказки: дебаффы подсвечиваются иначе, чем баффы. */
+  isDebuff?: boolean;
   /** Множитель восстановления стамины стоя */
   staRegenMult?: number;
   /** Множитель скорости передвижения */
@@ -80,6 +82,57 @@ export const XP_WORLD_PICKUP = 4;
 export const XP_CHEST_FIRST = 18;
 /** Опыт за пустой сундук (нет лута после броска) */
 export const XP_CHEST_EMPTY = 10;
+
+/** Шанс навесить случайный дебафф при попадании обычного моба по игроку. */
+export const MOB_HIT_DEBUFF_CHANCE = 0.11;
+/** Шанс для удара босса подземелья (выше). */
+export const BOSS_HIT_DEBUFF_CHANCE = 0.38;
+
+/**
+ * Слабые и средние дебаффы при ударе обычного моба (id должны быть в `buffs.json`).
+ * Длительность — секунды реального времени.
+ */
+export const MOB_HIT_DEBUFF_POOL: ReadonlyArray<{
+  id: BuffId;
+  durationSec: number;
+}> = [
+  { id: "weary", durationSec: 9 },
+  { id: "sore_feet", durationSec: 11 },
+  { id: "distracted", durationSec: 10 },
+  { id: "ringing_ears", durationSec: 8 },
+  { id: "rakes_gash", durationSec: 14 },
+  { id: "enervation", durationSec: 12 },
+  { id: "slow_blade", durationSec: 13 },
+  { id: "misers_hook", durationSec: 12 },
+];
+
+/** Тяжёлые дебаффы при ударе босса подземелья. */
+export const BOSS_HIT_DEBUFF_POOL: ReadonlyArray<{
+  id: BuffId;
+  durationSec: number;
+}> = [
+  { id: "deep_wound", durationSec: 22 },
+  { id: "crushing_curse", durationSec: 20 },
+  { id: "spectral_mark", durationSec: 24 },
+  { id: "rot_venom", durationSec: 21 },
+  { id: "hollow_soul", durationSec: 18 },
+];
+
+/**
+ * Случайный дебафф при ударе моба; `rng` — [0, 1).
+ * Возвращает null, если выпало «без эффекта».
+ */
+export function rollMobStrikeDebuff(
+  isBoss: boolean,
+  rng: () => number
+): { id: BuffId; durationSec: number } | null {
+  const p = isBoss ? BOSS_HIT_DEBUFF_CHANCE : MOB_HIT_DEBUFF_CHANCE;
+  if (rng() >= p) return null;
+  const pool = isBoss ? BOSS_HIT_DEBUFF_POOL : MOB_HIT_DEBUFF_POOL;
+  if (pool.length === 0) return null;
+  const i = Math.min(pool.length - 1, Math.floor(rng() * pool.length));
+  return pool[i]!;
+}
 
 /** Величина потери XP при смерти (один расчёт от текущих level и xp). */
 export function xpDeathPenaltyLoseAmount(level: number, currentXp: number): number {
@@ -349,6 +402,11 @@ export const ITEM_EQUIP_BONUSES: Record<
   coat_travel: { def: 6, hp: 14 },
   boots_simple: { def: 2, spd: 2 },
   boots_patch: { def: 3, spd: 1 },
+  item2: { atk: 6 },
+  item298: { def: 8, hp: 16 },
+  item303: { def: 4, luck: 3 },
+  item316: { def: 1, luck: 5 },
+  item618: { def: 2, luck: 2 },
 };
 
 /** Расходники: эффект при «Использовать» из инвентаря */
@@ -439,6 +497,124 @@ export const CONSUMABLE_EFFECTS: Record<string, ConsumableFx> = {
     restoreSta: 28,
     applyBuffs: [{ id: "second_wind", durationSec: 28 }],
     cooldownMs: 6000,
+  },
+  /** Гриб (кадр item327) — тот же профиль, что у старого id `mushroom` в лавках */
+  item327: {
+    healHp: 6,
+    restoreSta: 8,
+    applyBuffs: [{ id: "mind_spore", durationSec: 40 }],
+    cooldownMs: 2200,
+  },
+  item326: {
+    healHp: 5,
+    restoreSta: 8,
+    applyBuffs: [{ id: "fortune_bite", durationSec: 22 }],
+    cooldownMs: 2400,
+  },
+  item335: {
+    healHp: 12,
+    restoreSta: 5,
+    applyBuffs: [{ id: "warmth", durationSec: 32 }],
+    cooldownMs: 2800,
+  },
+  item338: {
+    healHp: 8,
+    restoreSta: 12,
+    applyBuffs: [{ id: "vigor", durationSec: 26 }],
+    cooldownMs: 2400,
+  },
+  item341: {
+    healHp: 6,
+    restoreSta: 6,
+    applyBuffs: [{ id: "mist_step", durationSec: 22 }],
+    cooldownMs: 2200,
+  },
+  item372: {
+    restoreSta: 22,
+    applyBuffs: [{ id: "hustle", durationSec: 48 }],
+    cooldownMs: 3200,
+  },
+  item377: {
+    healHp: 4,
+    restoreSta: 5,
+    applyBuffs: [{ id: "battle_tonic", durationSec: 18 }],
+    cooldownMs: 2000,
+  },
+  item379: {
+    healHp: 8,
+    restoreSta: 5,
+    applyBuffs: [{ id: "scavenger", durationSec: 35 }],
+    cooldownMs: 2600,
+  },
+  item381: {
+    healHp: 6,
+    restoreSta: 7,
+    applyBuffs: [{ id: "mind_spore", durationSec: 30 }],
+    cooldownMs: 2300,
+  },
+  item382: {
+    healHp: 5,
+    restoreSta: 6,
+    applyBuffs: [{ id: "fortune_bite", durationSec: 26 }],
+    cooldownMs: 2100,
+  },
+  item389: {
+    healHp: 3,
+    restoreSta: 3,
+    applyBuffs: [{ id: "mind_spore", durationSec: 48 }],
+    cooldownMs: 2500,
+  },
+  item405: {
+    healHp: 14,
+    applyBuffs: [{ id: "warmth", durationSec: 42 }],
+    cooldownMs: 3400,
+  },
+  item417: {
+    healHp: 4,
+    restoreSta: 6,
+    applyBuffs: [{ id: "hustle", durationSec: 18 }],
+    cooldownMs: 2000,
+  },
+  item418: {
+    healHp: 7,
+    restoreSta: 5,
+    cooldownMs: 2000,
+  },
+  item425: {
+    healHp: 9,
+    restoreSta: 8,
+    applyBuffs: [{ id: "hustle", durationSec: 22 }],
+    cooldownMs: 2500,
+  },
+  item426: {
+    healHp: 18,
+    restoreSta: 10,
+    applyBuffs: [{ id: "warmth", durationSec: 45 }],
+    cooldownMs: 4200,
+  },
+  item431: {
+    healHp: 6,
+    restoreSta: 4,
+    applyBuffs: [{ id: "fortune_bite", durationSec: 30 }],
+    cooldownMs: 2200,
+  },
+  item435: {
+    healHp: 20,
+    restoreSta: 8,
+    applyBuffs: [{ id: "scavenger", durationSec: 44 }],
+    cooldownMs: 3800,
+  },
+  item479: {
+    healHp: 14,
+    restoreSta: 10,
+    applyBuffs: [{ id: "vigor", durationSec: 30 }],
+    cooldownMs: 3200,
+  },
+  /** Мухомор: слабое лечение + краткая дремота */
+  item328: {
+    healHp: 2,
+    applyBuffs: [{ id: "weary", durationSec: 15 }],
+    cooldownMs: 3000,
   },
 };
 

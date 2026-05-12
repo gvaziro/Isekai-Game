@@ -12,6 +12,10 @@ export type PatrolNpcConfig = {
   walkNAnim?: string;
   /** Анимация ходьбы на восток/запад (опционально; запад — та же + flipX). */
   walkEAnim?: string;
+  /** Idle на север (опционально). */
+  idleNAnim?: string;
+  /** Idle на восток (запад — east + flipX). */
+  idleEAnim?: string;
   route: NpcRoute;
   displayName?: string;
 };
@@ -30,12 +34,21 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
   readonly displayName?: string;
   private readonly route: NpcRoute;
   private readonly idleAnim: string;
+  private readonly idleNAnim: string | undefined;
+  private readonly idleEAnim: string | undefined;
   private readonly runAnim: string;
   private readonly walkNAnim: string | undefined;
   private readonly walkEAnim: string | undefined;
+  /** Последняя ось ходьбы для выбора idle-клипа (s / n / e). */
+  private idleFacing: "s" | "n" | "e" = "s";
+  /** Запоминаем flip при ходьбе на восток/запад для того же idle. */
+  private lastFlipX = false;
   private wpIndex = 0;
-  private mode: "walk" | "idle" | "talk" = "walk";
+  private mode: "walk" | "idle" | "talk" | "intro_hold" = "walk";
   private idleUntil = 0;
+
+  /** Пока true — не показывать [E] и не открывать диалог (интро-ход Маркуса). */
+  interactionDisabled = false;
 
   /** Счётчик тиков в состоянии "заблокирован коллайдером". */
   private stuckTicks = 0;
@@ -62,6 +75,8 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
     this.displayName = config.displayName;
     this.route = config.route;
     this.idleAnim = config.idleAnim;
+    this.idleNAnim = config.idleNAnim;
+    this.idleEAnim = config.idleEAnim;
     this.runAnim = config.runAnim;
     this.walkNAnim = config.walkNAnim;
     this.walkEAnim = config.walkEAnim;
@@ -70,9 +85,7 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
     body.setCollideWorldBounds(true);
     syncPixelCrawlerNpcFeetHitbox(this);
     this.setScale(1);
-    if (scene.anims.exists(this.idleAnim)) {
-      this.anims.play(this.idleAnim, true);
-    }
+    this.playDirectionalIdle();
   }
 
   preUpdate(time: number, delta: number): void {
@@ -85,9 +98,30 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
     this.smoothVx = 0;
     this.smoothVy = 0;
     this.setVelocity(0, 0);
-    if (this.scene.anims.exists(this.idleAnim)) {
-      this.anims.play(this.idleAnim, true);
+    this.playDirectionalIdle();
+  }
+
+  /** Ждать конец пролога (оверлей); патруль не крутится. */
+  beginIntroHold(): void {
+    this.mode = "intro_hold";
+    this.smoothVx = 0;
+    this.smoothVy = 0;
+    this.setVelocity(0, 0);
+    this.playDirectionalIdle();
+  }
+
+  releaseIntroHold(): void {
+    if (this.mode === "intro_hold") {
+      this.mode = "walk";
     }
+  }
+
+  get introHoldActive(): boolean {
+    return this.mode === "intro_hold";
+  }
+
+  setInteractionDisabled(value: boolean): void {
+    this.interactionDisabled = value;
   }
 
   endTalk(): void {
@@ -95,7 +129,7 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
   }
 
   updatePatrol(time: number, neighbors?: PatrolNpc[]): void {
-    if (this.mode === "talk") return;
+    if (this.mode === "talk" || this.mode === "intro_hold") return;
 
     if (!this.route.waypoints?.length) {
       this.smoothVx = 0;
@@ -208,8 +242,15 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
     this.setVelocity(this.smoothVx, this.smoothVy);
 
     const walkAnim = this.resolveWalkAnim(this.smoothVx, this.smoothVy);
-    if (Math.abs(this.smoothVx) >= Math.abs(this.smoothVy)) {
-      this.setFlipX(this.smoothVx < 0);
+    const ax = Math.abs(this.smoothVx);
+    const ay = Math.abs(this.smoothVy);
+    if (ax >= ay) {
+      this.idleFacing = "e";
+      this.lastFlipX = this.smoothVx < 0;
+      this.setFlipX(this.lastFlipX);
+    } else {
+      this.idleFacing = this.smoothVy < 0 ? "n" : "s";
+      this.setFlipX(false);
     }
     if (this.scene.anims.exists(walkAnim)) {
       if (this.anims.currentAnim?.key !== walkAnim) {
@@ -237,9 +278,44 @@ export class PatrolNpc extends Phaser.Physics.Arcade.Sprite {
 
   /** Запускает idle-анимацию только если она ещё не играет. */
   private playIdleIfNeeded(): void {
-    if (!this.scene.anims.exists(this.idleAnim)) return;
-    if (this.anims.currentAnim?.key !== this.idleAnim) {
-      this.anims.play(this.idleAnim, true);
+    const anim = this.resolveIdleAnim();
+    if (!this.scene.anims.exists(anim)) return;
+    if (anim === this.idleEAnim && this.idleEAnim) {
+      this.setFlipX(this.lastFlipX);
+    } else {
+      this.setFlipX(false);
     }
+    if (this.anims.currentAnim?.key !== anim) {
+      this.anims.play(anim, true);
+    }
+  }
+
+  private resolveIdleAnim(): string {
+    if (
+      this.idleFacing === "n" &&
+      this.idleNAnim &&
+      this.scene.anims.exists(this.idleNAnim)
+    ) {
+      return this.idleNAnim;
+    }
+    if (
+      this.idleFacing === "e" &&
+      this.idleEAnim &&
+      this.scene.anims.exists(this.idleEAnim)
+    ) {
+      return this.idleEAnim;
+    }
+    return this.idleAnim;
+  }
+
+  private playDirectionalIdle(): void {
+    const anim = this.resolveIdleAnim();
+    if (!this.scene.anims.exists(anim)) return;
+    if (anim === this.idleEAnim && this.idleEAnim) {
+      this.setFlipX(this.lastFlipX);
+    } else {
+      this.setFlipX(false);
+    }
+    this.anims.play(anim, true);
   }
 }

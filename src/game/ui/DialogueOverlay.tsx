@@ -50,6 +50,8 @@ function buildWorldSnapshotForNpcChat(): string {
     ? `активный квест «${act.questId}», шаг ${act.stageIndex + 1}`
     : "нет активного квеста";
   return [
+    `Имя игрока: ${gs.playerName}`,
+    "NPC могут естественно обращаться к игроку по имени, если это уместно, но не должны повторять имя в каждой реплике.",
     `Локация игрока: ${gs.currentLocationId}`,
     `Туман на западной дороге: ${
       gs.villageFogLifted
@@ -587,12 +589,37 @@ export default function DialogueOverlay({
 
   function chooseScriptReply(choice: ScriptChoice): void {
     if (!scriptedScene || !currentScriptStep) return;
-    const playerText = choice.playerText?.trim() || choice.label;
-    setMsgs((m) => [
-      ...m,
-      { role: "assistant", content: currentScriptStep.npcText },
-      { role: "user", content: playerText },
-    ]);
+
+    const grants = choice.grantItems;
+    if (grants?.length) {
+      const failed: string[] = [];
+      for (const g of grants) {
+        const r = useGameStore.getState().tryAddItem(g.curatedId, g.qty);
+        if (!r.ok) failed.push(r.reason ?? g.curatedId);
+      }
+      if (failed.length > 0) {
+        window.dispatchEvent(
+          new CustomEvent("last-summon-toast", {
+            detail: { message: failed.join(" · ") },
+          })
+        );
+      }
+    }
+
+    const takes = choice.takeItems;
+    if (takes?.length) {
+      const r = useGameStore.getState().tryRemoveCuratedLines(takes);
+      if (!r.ok) {
+        window.dispatchEvent(
+          new CustomEvent("last-summon-toast", {
+            detail: {
+              message: r.reason ?? "Не удалось забрать предметы.",
+            },
+          })
+        );
+      }
+    }
+
     unlockLoreFromIntro(npcId, choice.unlockLoreFactIds);
     setSuggestedReplies([]);
 
@@ -647,7 +674,9 @@ export default function DialogueOverlay({
             </div>
           ) : null}
 
-          <DialogueHistory msgs={msgs} loading={loading} endRef={endRef} />
+          {!scriptedActive ? (
+            <DialogueHistory msgs={msgs} loading={loading} endRef={endRef} />
+          ) : null}
 
           {!aiChatAvailable && !scriptedActive ? (
             <div className="shrink-0 rounded-sm border border-[#9b6a20]/45 bg-[#f2dfb8]/75 px-3 py-2 text-xs leading-relaxed text-[#5f451c]">

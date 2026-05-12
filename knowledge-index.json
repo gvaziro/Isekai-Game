@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T18:30:25.492Z",
+  "generated_at": "2026-05-12T16:59:54.367Z",
   "entries": [
     {
       "id": "book_elena_seal_margin_notes",
@@ -35,9 +35,9 @@
       "tier": null,
       "truth_level": "subjective",
       "related": [],
-      "body": "Кто-то прижал листок камнем к корню — чернила размазались от влаги, но строки ещё читаются.\n\nЕсли ты только вышел из деревни: не гонись за добычей. Здесь тропа ещё лжётся под ногами спокойно, а чуть в сторону — уже чужая густота. Старые говорили: пока видишь свой след на грязи главной дороги, ты можешь развернуться.\n\nДальше на север тропа не кончается, но кончается терпение леса. Не оставляй запас сил на ноль — и не верь тишине после заката.",
+      "body": "Листок прибит к старому колышку у тропы. Почерк неровный, будто писали на колене.\n\nЕсли идёшь из деревни на север, держись тропы и не строй из себя охотника. У кромки ещё можно собрать грибы, травы и пару сухих веток. Дальше начинается лес, где тебя никто искать не пойдёт без причины.\n\nДо темноты вернись. Если устал, голоден или ранен — разворачивайся сразу. Добыча не стоит того, чтобы Маркус потом считал твои следы вместо тебя.",
       "source_path": "world/books/forest_hub_spawn_note.md",
-      "content_hash": "0606d9962750c67686ebe23b49fe1f7121bf3a49e64e59ba04469220629af023",
+      "content_hash": "4ea02e8214a8c66ab7af4bc382389f2582f42e6a2e68c5f2f8ff15d525aea6c2",
       "locked": false
     },
     {
@@ -106,11 +106,36 @@
       "locked": false
     },
     {
+      "id": "abandoned_farm_east_of_village",
+      "type": "fact",
+      "title": "Справа от деревни стоит заброшенная большая ферма",
+      "tags": [
+        "деревня",
+        "ферма",
+        "восток",
+        "туман",
+        "заброшенное",
+        "карта"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_cut_off_village_years_ago",
+        "fog_blocks_village_road",
+        "village_cardinal_layout"
+      ],
+      "body": "К востоку, справа от жилой части деревни, находится большая заброшенная ферма. До прихода тумана это было важное деревнеобразующее место: там работали многие жители, от него зависели еда, обмен и обычный ритм деревни.",
+      "source_path": "world/facts/abandoned_farm_east_of_village.md",
+      "content_hash": "f7bea3f662b316a4446d9cc6fd2781614b50acedc06dc301b40b68d4b275ddd0",
+      "locked": false
+    },
+    {
       "id": "catacombs_are_young_dungeon",
       "type": "fact",
       "title": "Катакомбы под деревней являются молодым живым подземельем",
       "tags": [
         "катакомбы",
+        "юг",
         "подземелье",
         "живое_подземелье",
         "деревня"
@@ -119,11 +144,12 @@
       "truth_level": "true",
       "related": [
         "goblin_king",
-        "floor_10_seal_blocks_depths"
+        "floor_10_seal_blocks_depths",
+        "village_cardinal_layout"
       ],
-      "body": "Катакомбы под стартовой деревней являются молодым живым подземельем. Жители считают, что оно заканчивается на 10-м этаже, потому что дальше никто не проходил.",
+      "body": "Катакомбы под стартовой деревней являются молодым живым подземельем; вход к ним находится на юге деревни. Жители считают, что оно заканчивается на 10-м этаже, потому что дальше никто не проходил.",
       "source_path": "world/facts/catacombs_are_young_dungeon.md",
-      "content_hash": "a71d4dc8f8f08dd38f4e28e1c149e2d4a6ac7a3d13f63c1420cacc0aa712bd69",
+      "content_hash": "7109facfc8e58d5de92654126fb5d80d952ddc844a49622da75ec339567411bd",
       "locked": false
     },
     {
@@ -384,6 +410,31 @@
       "locked": false
     },
     {
+      "id": "farm_closed_by_fog_and_boards",
+      "type": "fact",
+      "title": "Вход на ферму заколочен и закрыт туманом",
+      "tags": [
+        "ферма",
+        "восток",
+        "туман",
+        "вход",
+        "запрет",
+        "заброшенное"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "abandoned_farm_east_of_village",
+        "fog_blocks_village_road",
+        "villagers_avoid_fog_tests",
+        "village_cardinal_layout"
+      ],
+      "body": "Сейчас на большую ферму к востоку, справа от деревни, попасть нельзя: вход заколочен, а почти вся территория фермы закрыта плотным туманом. Жители обходят это место стороной и не считают его доступной локацией, пока туман не отступит.",
+      "source_path": "world/facts/farm_closed_by_fog_and_boards.md",
+      "content_hash": "ed733df764357c601e2348ef15daa213e8aa28e1310e96188c4043a4dcb932b7",
+      "locked": false
+    },
+    {
       "id": "first_jobs_point_to_road_and_square",
       "type": "fact",
       "title": "Первые поручения ведут к лесу, дороге и соседям",
@@ -392,18 +443,20 @@
         "елена",
         "дорога",
         "развилка",
-        "лес"
+        "лес",
+        "карта"
       ],
       "tier": "village_common",
       "truth_level": "true",
       "related": [
         "elena_tracks_village_tasks",
         "village_square_is_information_hub",
-        "forest_edge_has_return_rule"
+        "forest_edge_has_return_rule",
+        "village_cardinal_layout"
       ],
-      "body": "Стартовые поручения деревни должны вести игрока к понятным точкам: тропе в лес, старой дороге с туманом, Маркусу, Игорю и простым проверкам у домов. Это постепенно поднимает тему изоляции и тумана.",
+      "body": "Стартовые поручения деревни должны вести игрока к понятным точкам: северной тропе в лес, западной старой дороге с туманом, Маркусу, Игорю и простым проверкам у домов. Это постепенно поднимает тему изоляции и тумана.",
       "source_path": "world/facts/first_jobs_point_to_road_and_square.md",
-      "content_hash": "c2455ecec76fbc017c39d234ff34fc1a82d4b8f382f90dff5dacbf3821901475",
+      "content_hash": "833c580cb75ab6e6c8a61497af315266c8d65678015f5e2d9fe9a817239b6184",
       "locked": false
     },
     {
@@ -588,6 +641,7 @@
       "title": "У лесной кромки есть правило возврата",
       "tags": [
         "лес",
+        "север",
         "безопасность",
         "маркус",
         "елена"
@@ -596,11 +650,12 @@
       "truth_level": "true",
       "related": [
         "forest_foraging_is_allowed",
-        "road_is_dangerous_at_night"
+        "road_is_dangerous_at_night",
+        "village_cardinal_layout"
       ],
-      "body": "У жителей есть простое правило: не уходить дальше знакомых ориентиров без причины и возвращаться до фонарей. Елена формулирует это как поручение, Маркус как правило безопасности.",
+      "body": "У северной лесной кромки есть простое правило: не уходить дальше знакомых ориентиров без причины и возвращаться до фонарей. Елена формулирует это как поручение, Маркус как правило безопасности.",
       "source_path": "world/facts/forest_edge_has_return_rule.md",
-      "content_hash": "541b5c9b9e8b904a41b124f9f48b9dd6e1564d3b8ce683d60634ee277fc58321",
+      "content_hash": "fa41662008507112eeb3be12cf01a64514d999a147786c24f9c8edd2f59c66db",
       "locked": false
     },
     {
@@ -609,6 +664,7 @@
       "title": "В лес можно ходить за ресурсами",
       "tags": [
         "лес",
+        "север",
         "ресурсы",
         "деревня",
         "дорога"
@@ -617,11 +673,12 @@
       "truth_level": "true",
       "related": [
         "fog_blocks_village_road",
-        "road_is_dangerous_at_night"
+        "road_is_dangerous_at_night",
+        "village_cardinal_layout"
       ],
-      "body": "Туман закрывает дорогу наружу, но не запрещает короткие вылазки в лес за травами, древесиной, едой и другими простыми ресурсами. Жители привыкли возвращаться до темноты.",
+      "body": "Туман закрывает западную дорогу наружу, но не запрещает короткие вылазки в северный лес за травами, древесиной, едой и другими простыми ресурсами. Жители привыкли возвращаться до темноты.",
       "source_path": "world/facts/forest_foraging_is_allowed.md",
-      "content_hash": "d6c4639d50d25af68fab01850df06195ccaf700bfb17e6cbdf54ba6184208a40",
+      "content_hash": "ea110e722acabf1e312769e2e3bde042597c97b03b38a561f3952427557e83e3",
       "locked": false
     },
     {
@@ -630,6 +687,7 @@
       "title": "В лесу собирают грибы и другие ресурсы",
       "tags": [
         "лес",
+        "север",
         "грибы",
         "ресурсы",
         "собирательство"
@@ -638,11 +696,12 @@
       "truth_level": "true",
       "related": [
         "forest_foraging_is_allowed",
-        "forest_is_endless_to_villagers"
+        "forest_is_endless_to_villagers",
+        "village_cardinal_layout"
       ],
-      "body": "В лес ходят не ради путешествия, а за ресурсами: грибами, древесиной, травами, камнем и тем, что можно унести до темноты. Чем дальше от входа, тем выше риск не вернуться с добычей.",
+      "body": "В северный лес ходят не ради путешествия, а за ресурсами: грибами, древесиной, травами, камнем и тем, что можно унести до темноты. Чем дальше от входа со стороны деревни, тем выше риск не вернуться с добычей.",
       "source_path": "world/facts/forest_has_harvestable_mushrooms.md",
-      "content_hash": "54eca72ee61e47f4b5665fe20a27600cf5e9567a2a4dcb39f60f8ec9bf52af8b",
+      "content_hash": "1b5ee18253e3847dd4abe64c5d058090b1983c25fe0f13bcc0ed27c308ef86d0",
       "locked": false
     },
     {
@@ -651,6 +710,7 @@
       "title": "Лес кажется бесконечным",
       "tags": [
         "лес",
+        "север",
         "бесконечный_лес",
         "жители",
         "деревня"
@@ -659,11 +719,12 @@
       "truth_level": "true",
       "related": [
         "forest_foraging_is_allowed",
-        "forest_edge_has_return_rule"
+        "forest_edge_has_return_rule",
+        "village_cardinal_layout"
       ],
-      "body": "Лес у деревни считается бесконечным: его не удавалось пройти насквозь ни охотникам, ни сборщикам, ни тем, кто пытался искать обход тумана.",
+      "body": "Лес к северу от деревни считается бесконечным: его не удавалось пройти насквозь ни охотникам, ни сборщикам, ни тем, кто пытался искать обход тумана.",
       "source_path": "world/facts/forest_is_endless_to_villagers.md",
-      "content_hash": "24311eeaf06cf41d7f83b1334bb649701253acca46ae37dd9b10d2dfcd5dc95f",
+      "content_hash": "b106d3314580930d84912a1c7585e6173178e661213e9ebf2c0c3e93b44422d3",
       "locked": false
     },
     {
@@ -672,6 +733,7 @@
       "title": "Чем дальше в лес, тем страшнее монстры",
       "tags": [
         "лес",
+        "север",
         "монстры",
         "опасность",
         "градиент"
@@ -681,11 +743,12 @@
       "related": [
         "forest_is_endless_to_villagers",
         "forest_has_harvestable_mushrooms",
-        "road_is_dangerous_at_night"
+        "road_is_dangerous_at_night",
+        "village_cardinal_layout"
       ],
-      "body": "Опасность леса растет с расстоянием от входа из деревни. У знакомой кромки встречаются слабые угрозы, а далеко в чащу уходят только те, кто готов к более сильным монстрам.",
+      "body": "Опасность северного леса растет с расстоянием от входа из деревни. У знакомой кромки встречаются слабые угрозы, а далеко в чащу уходят только те, кто готов к более сильным монстрам.",
       "source_path": "world/facts/forest_monsters_scale_with_distance.md",
-      "content_hash": "f2a0d8942da795293dc194a7d47797915511e959024ec5480542948f8106d033",
+      "content_hash": "03535d86f249d44d4601f0f4526b571ca9e23faeb9a623c3feca811fe15154d9",
       "locked": false
     },
     {
@@ -912,17 +975,19 @@
         "маркус",
         "развилка",
         "дорога",
-        "безопасность"
+        "безопасность",
+        "карта"
       ],
       "tier": "village_common",
       "truth_level": "true",
       "related": [
         "village_square_is_information_hub",
-        "road_is_dangerous_at_night"
+        "road_is_dangerous_at_night",
+        "village_cardinal_layout"
       ],
-      "body": "Маркус присматривает за деревенской развилкой, домами, тропой к лесу, спуском к катакомбам и старой дорогой с туманом. Он не любит легенды ради легенд, но хорошо знает, где люди чаще всего попадают в беду.",
+      "body": "Маркус присматривает за деревенской развилкой, домами, северной тропой к лесу, южным спуском к катакомбам, восточной старой фермой и западной дорогой с туманом. Он не любит легенды ради легенд, но хорошо знает, где люди чаще всего попадают в беду.",
       "source_path": "world/facts/marcus_watches_roads_and_square.md",
-      "content_hash": "34c25383eafab2745cfcc20c8c14d0e370210ea4856a7945a8779eb61db4b3da",
+      "content_hash": "749d2ff7a5d71f09797f39f492a669f5d3eead5dfe7384bc6536963eb8dbf0f6",
       "locked": false
     },
     {
@@ -1014,6 +1079,28 @@
       "locked": false
     },
     {
+      "id": "ruined_burned_houses_are_empty",
+      "type": "fact",
+      "title": "Сгоревшие и разрушенные дома стоят пустыми",
+      "tags": [
+        "деревня",
+        "дома",
+        "руины",
+        "сгоревшие_дома",
+        "заброшенное"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_cut_off_village_years_ago",
+        "village_square_is_information_hub"
+      ],
+      "body": "На расширенной территории деревни есть несколько сгоревших, разрушенных и заброшенных домов. Люди, которые жили в них, уже умерли, поэтому сейчас эти дома не являются активной точкой для поручений или важных встреч.",
+      "source_path": "world/facts/ruined_burned_houses_are_empty.md",
+      "content_hash": "4114f238f9366888984092b470d14fc97ea1024c52750e0642bc1dcf9e05fbd0",
+      "locked": false
+    },
+    {
       "id": "rumors_are_distorted_by_role",
       "type": "fact",
       "title": "Слухи меняются от рассказчика к рассказчику",
@@ -1079,6 +1166,35 @@
       "locked": false
     },
     {
+      "id": "village_cardinal_layout",
+      "type": "fact",
+      "title": "У деревни есть четыре главных направления",
+      "tags": [
+        "деревня",
+        "карта",
+        "север",
+        "юг",
+        "восток",
+        "запад",
+        "лес",
+        "ферма",
+        "катакомбы",
+        "город"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "forest_is_endless_to_villagers",
+        "catacombs_are_young_dungeon",
+        "abandoned_farm_east_of_village",
+        "west_road_to_city_closed_by_fog"
+      ],
+      "body": "От деревни основные направления читаются так: на севере находится лес, на юге — спуск в катакомбы и подземелье, на востоке — старая заброшенная ферма, а на западе — путь в город, сейчас закрытый туманом.",
+      "source_path": "world/facts/village_cardinal_layout.md",
+      "content_hash": "63d692aedad6ec9bd46eb01494d5c76c0cba1ce09cbcdc5e4528c4bceef27e3c",
+      "locked": false
+    },
+    {
       "id": "village_common_knows_no_exit",
       "type": "fact",
       "title": "Обычные жители знают, что выхода нет",
@@ -1128,6 +1244,7 @@
       "tags": [
         "деревня",
         "развилка",
+        "карта",
         "слухи",
         "елена",
         "маркус",
@@ -1136,11 +1253,12 @@
       "tier": "village_common",
       "truth_level": "true",
       "related": [
-        "villagers_know_fog_legend"
+        "villagers_know_fog_legend",
+        "village_cardinal_layout"
       ],
-      "body": "В маленькой деревне новости сходятся у развилки между тремя домами, дорогой к лесу и спуском к катакомбам. У Елены просят работу, у Маркуса уточняют правила, а у Игоря всплывают слухи о странных покупках и находках.",
+      "body": "В маленькой деревне новости сходятся у развилки между тремя домами, северной дорогой к лесу, южным спуском к катакомбам, восточной старой фермой и западной дорогой в город, закрытой туманом. У Елены просят работу, у Маркуса уточняют правила, а у Игоря всплывают слухи о странных покупках и находках.",
       "source_path": "world/facts/village_square_is_information_hub.md",
-      "content_hash": "d477632be672915fe09f018c0315c2c9cfe1777bdfd712cab65747d1ca5ca536",
+      "content_hash": "9e80e1aee8846e304e82f84049997073b653cad123a2b17c9828961e7b5c1e3a",
       "locked": false
     },
     {
@@ -1184,6 +1302,30 @@
       "body": "Обычные жители знают, что туман связан с катакомбами, но не понимают механизма печати. В пересказах Король гоблинов иногда превращается то в проклятого стража, то в наказание за старый грех деревни.",
       "source_path": "world/facts/villagers_know_fog_legend.md",
       "content_hash": "7ba501557618a0fb0ea95552ccc1b272a0825f29440a0ad3c0bfdcca67dc05b0",
+      "locked": false
+    },
+    {
+      "id": "west_road_to_city_closed_by_fog",
+      "type": "fact",
+      "title": "Западная дорога ведет в город, но закрыта туманом",
+      "tags": [
+        "запад",
+        "дорога",
+        "город",
+        "туман",
+        "деревня",
+        "карта"
+      ],
+      "tier": "village_common",
+      "truth_level": "true",
+      "related": [
+        "fog_blocks_village_road",
+        "fog_cut_off_village_years_ago",
+        "village_cardinal_layout"
+      ],
+      "body": "На западе от деревни находится старая дорога в город. До рассеивания тумана этот путь считается закрытым: по нему нельзя нормально уйти из региона или дойти до города.",
+      "source_path": "world/facts/west_road_to_city_closed_by_fog.md",
+      "content_hash": "5c05d834b4abce3308a8c435c186b58fb6ca0744984605aa8a1843d1baaa9cd4",
       "locked": false
     },
     {
@@ -1402,7 +1544,7 @@
     }
   ],
   "stats": {
-    "facts": 50,
+    "facts": 55,
     "entities": 3,
     "books": 5,
     "locked": 17,

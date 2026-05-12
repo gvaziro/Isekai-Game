@@ -11,6 +11,10 @@ export type NpcDialogueScriptChoice = {
   nextStepId?: string;
   unlockLoreFactIds?: string[];
   complete?: boolean;
+  /** Выдать в инвентарь при выборе этой реплики (до завершения сцены). */
+  grantItems?: { curatedId: string; qty: number }[];
+  /** Забрать из инвентаря и экипировки (атомарно по всему списку) при выборе реплики. */
+  takeItems?: { curatedId: string; qty: number }[];
 };
 
 export type NpcDialogueScriptStep = {
@@ -74,6 +78,10 @@ export type AssetManifestUnitEntry = {
   walkNAnim?: string;
   /** Анимация ходьбы на восток/запад (опционально; если нет — используется runAnim). */
   walkEAnim?: string;
+  /** Idle на север (опционально; иначе используется idleAnim, обычно «юг»). */
+  idleNAnim?: string;
+  /** Idle на восток (запад — та же анимация + flipX). */
+  idleEAnim?: string;
 };
 
 /**

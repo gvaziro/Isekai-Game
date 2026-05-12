@@ -1,4 +1,8 @@
 import {
+  TOWN_DEFAULT_SPAWN,
+  TOWN_WORLD_PIXEL,
+} from "@/src/game/maps/townWorld.gen";
+import {
   buildGrassDecorList,
   CAMERA_ZOOM_PLAY,
   type GameLocation,
@@ -20,8 +24,11 @@ export {
   type PropCollider,
 };
 
-/** Мир города — совпадает с `town.tmj` (50×16px тайла). */
-export const WORLD = { width: 800, height: 800 } as const;
+/** Пиксели мира города — из `town.tmj` (см. `npm run gen:town-map` → `townWorld.gen.ts`). */
+export const WORLD = {
+  width: TOWN_WORLD_PIXEL.width,
+  height: TOWN_WORLD_PIXEL.height,
+} as const;
 
 export const BACKGROUND_FILL = 0x3d6b2e;
 
@@ -38,8 +45,8 @@ export const IMAGE_PROPS: LayoutImageProp[] = [];
 
 export const ANIM_STATIONS: LayoutAnimStation[] = [];
 
-/** Базовый спавн (масштаб от старого 1280×960). */
-export const HERO_SPAWN = { x: 400, y: 400 } as const;
+/** Базовый спавн — object-слой «Спавн» в `town.tmj` (или центр карты после flatten). */
+export const HERO_SPAWN = TOWN_DEFAULT_SPAWN;
 
 export const NPC_IDLE_TEXTURE: Record<string, string> = {
   elena: "npc_elena_idle",
@@ -65,29 +72,38 @@ export const TOWN_LOCATION: GameLocation = {
   },
   spawns: {
     default: { x: HERO_SPAWN.x, y: HERO_SPAWN.y },
-    from_forest: { x: 400, y: 72 },
-    from_dungeon: { x: 400, y: 740 },
+    from_forest: {
+      x: Math.round(WORLD.width / 2),
+      y: Math.round(WORLD.height * 0.06),
+    },
+    from_dungeon: {
+      x: Math.round(WORLD.width / 2),
+      y: Math.round(WORLD.height * 0.92),
+    },
     /** Возврат из локации «beyond» у западной границы (туман рассеян). */
-    from_beyond: { x: 96, y: 400 },
+    from_beyond: {
+      x: Math.round(WORLD.width * 0.04),
+      y: Math.round(WORLD.height / 2),
+    },
   },
   /** Fallback, если TMJ не загрузился; нормальные зоны — object-слой Travel в `town.tmj`. */
   exits: [
     {
       id: "to_forest",
-      x: 560,
+      x: Math.round(WORLD.width * 0.65),
       y: 0,
-      w: 160,
-      h: 72,
+      w: Math.round(WORLD.width * 0.22),
+      h: Math.min(96, Math.round(WORLD.height * 0.08)),
       targetLocationId: "forest",
       targetSpawnId: "from_town",
       label: "В лес",
     },
     {
       id: "to_dungeon",
-      x: 560,
-      y: 680,
-      w: 160,
-      h: 120,
+      x: Math.round(WORLD.width * 0.65),
+      y: Math.round(WORLD.height * 0.82),
+      w: Math.round(WORLD.width * 0.22),
+      h: Math.min(160, Math.round(WORLD.height * 0.12)),
       targetLocationId: "dungeon",
       targetSpawnId: "from_town",
       label: "В подземелье (этаж)",

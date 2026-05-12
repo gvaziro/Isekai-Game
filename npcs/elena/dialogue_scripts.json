@@ -4,7 +4,7 @@
       "id": "village_briefing_talk_to_elena",
       "questId": "village_briefing",
       "stageId": "talk_to_elena",
-      "version": 1,
+      "version": 2,
       "steps": [
         {
           "id": "start",
@@ -20,13 +20,17 @@
         },
         {
           "id": "supplies",
-          "npcText": "У кромки леса собери древесину и камень. По шесть штук хватит. Не уходи глубже тропы и возвращайся ко мне, когда будет запас.",
+          "npcText": "У кромки леса собери древесину и камень — по шесть штук хватит. На это поручение даю деревенскую кирку и топорик: не в собственность, а на время задания; как сдашь запас — вернёшь. Без них у кромки только палки подбирать. Не уходи глубже тропы и возвращайся ко мне, когда будет груз.",
           "choices": [
             {
               "label": "Соберу и вернусь.",
               "playerText": "Соберу и вернусь.",
               "complete": true,
-              "unlockLoreFactIds": ["misc.journal", "world.forest_resources"]
+              "unlockLoreFactIds": ["misc.journal", "world.forest_resources"],
+              "grantItems": [
+                { "curatedId": "pickaxe", "qty": 1 },
+                { "curatedId": "axe_hatchet", "qty": 1 }
+              ]
             }
           ]
         }
@@ -36,7 +40,7 @@
       "id": "elena_basic_supplies_report_to_elena",
       "questId": "elena_basic_supplies",
       "stageId": "report_to_elena",
-      "version": 1,
+      "version": 2,
       "steps": [
         {
           "id": "start",
@@ -51,12 +55,16 @@
         },
         {
           "id": "send_to_igor",
-          "npcText": "Иди к Игорю. Пусть покажет верстак и соберёт из этого что-то полезное. Только слушай задачу, а не его торговые выкрутасы.",
+          "npcText": "Кирку с топориком забираю — это было одолжение на сбор, не дар: на складе им своё место. Иди к Игорю. Пусть покажет верстак и соберёт из этого что-то полезное. Только слушай задачу, а не его торговые выкрутасы.",
           "choices": [
             {
               "label": "Понял. К Игорю.",
               "playerText": "Понял. К Игорю.",
-              "complete": true
+              "complete": true,
+              "takeItems": [
+                { "curatedId": "pickaxe", "qty": 1 },
+                { "curatedId": "axe_hatchet", "qty": 1 }
+              ]
             }
           ]
         }

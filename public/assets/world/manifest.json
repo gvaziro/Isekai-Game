@@ -1,7 +1,7 @@
 {
   "world": {
-    "width": 800,
-    "height": 800
+    "width": 2400,
+    "height": 1600
   },
   "load": [
     {

@@ -110,8 +110,10 @@ function formatConsumableFx(id: string): string | null {
   if (fx.restoreSta) parts.push(`Стамина +${fx.restoreSta}`);
   if (fx.applyBuffs?.length) {
     for (const a of fx.applyBuffs) {
-      const name = BUFFS[a.id]?.label ?? a.id;
-      parts.push(`${name} (${a.durationSec}с)`);
+      const def = BUFFS[a.id];
+      const name = def?.label ?? a.id;
+      const prefix = def?.isDebuff ? "Дебафф: " : "";
+      parts.push(`${prefix}${name} (${a.durationSec}с)`);
     }
   }
   const cdMs = getConsumableCooldownMs(id);

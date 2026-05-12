@@ -18,6 +18,61 @@ const outMap = path.join(townDir, "town.tmj");
 const outLoad = path.join(townDir, "town-tilesets.load.json");
 const outGenTs = path.join(root, "src", "game", "maps", "townTilesetPreload.gen.ts");
 
+/** Windows `C:/...` или `C:\...` из Tiled — не валидный URL для Phaser. */
+function isAbsoluteFilesystemImagePath(p) {
+  const n = String(p).replace(/\\/g, "/");
+  if (/^[a-zA-Z]:\//.test(n)) return true;
+  if (n.startsWith("//")) return false;
+  return n.startsWith("/") && !n.startsWith("/assets/");
+}
+
+/**
+ * Кладёт PNG рядом с картой в `imported/<basename>` (копия или заглушка),
+ * возвращает относительный путь для поля `image` в TMJ.
+ */
+function resolveTilesetImageRelative(townDir, imagePathFromTsx, dims) {
+  const raw = String(imagePathFromTsx);
+  const norm = raw.replace(/\\/g, "/");
+  if (!isAbsoluteFilesystemImagePath(norm)) {
+    return norm;
+  }
+  const importedDir = path.join(townDir, "imported");
+  mkdirp(importedDir);
+  const base = path.basename(norm);
+  const destAbs = path.join(importedDir, base);
+  const srcAbs = path.normalize(raw);
+  if (fs.existsSync(srcAbs)) {
+    fs.copyFileSync(srcAbs, destAbs);
+  } else {
+    console.warn(
+      "[flatten-town] PNG не найден, пишем заглушку (положите файл вручную или обновите tsx):",
+      srcAbs
+    );
+    writeSolidPlaceholderPng(
+      destAbs,
+      Number(dims.imagewidth) || 16,
+      Number(dims.imageheight) || 16
+    );
+  }
+  return `imported/${base}`.replace(/\\/g, "/");
+}
+
+function writeSolidPlaceholderPng(outPath, w, h) {
+  const width = Math.max(1, Math.min(8192, Math.floor(w)));
+  const height = Math.max(1, Math.min(8192, Math.floor(h)));
+  const png = new PNG({ width, height });
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const idx = (width * y + x) << 2;
+      png.data[idx] = 72;
+      png.data[idx + 1] = 72;
+      png.data[idx + 2] = 88;
+      png.data[idx + 3] = 255;
+    }
+  }
+  fs.writeFileSync(outPath, PNG.sync.write(png));
+}
+
 function parseTsx(xml) {
   const tilesetTag = xml.match(/<tileset\b[^>]*>/);
   const nameM = tilesetTag?.[0]?.match(/\bname="([^"]+)"/);
@@ -62,10 +117,14 @@ function embedTilesets(mapJson) {
       }
       const raw = fs.readFileSync(tsPath, "utf8");
       const p = parseTsx(raw);
+      const imageRel = resolveTilesetImageRelative(townDir, p.image, {
+        imagewidth: p.imagewidth,
+        imageheight: p.imageheight,
+      });
       next.push({
         columns: p.columns,
         firstgid: ts.firstgid,
-        image: p.image.replace(/\\/g, "/"),
+        image: imageRel.replace(/\\/g, "/"),
         imageheight: p.imageheight,
         imagewidth: p.imagewidth,
         margin: p.margin,
@@ -77,9 +136,16 @@ function embedTilesets(mapJson) {
       });
     } else {
       if (ts.image) {
+        const imageStr = String(ts.image).replace(/\\/g, "/");
+        const imageRel = isAbsoluteFilesystemImagePath(imageStr)
+          ? resolveTilesetImageRelative(townDir, ts.image, {
+              imagewidth: Number(ts.imagewidth) || 16,
+              imageheight: Number(ts.imageheight) || 16,
+            })
+          : imageStr;
         next.push({
           ...ts,
-          image: String(ts.image).replace(/\\/g, "/"),
+          image: imageRel.replace(/\\/g, "/"),
         });
       } else {
         next.push(ts);
@@ -192,6 +258,70 @@ function collectTilesetImages(mapJson) {
   return { urls };
 }
 
+function findObjectGroupByNameSubstring(layers, substr) {
+  if (!Array.isArray(layers)) return null;
+  for (const L of layers) {
+    if (L.type === "objectgroup" && L.name && String(L.name).includes(substr)) {
+      return L;
+    }
+    if (L.layers?.length) {
+      const inner = findObjectGroupByNameSubstring(L.layers, substr);
+      if (inner) return inner;
+    }
+  }
+  return null;
+}
+
+/** Первая точка слоя «Спавн» в TMJ (после flatten имя вроде Above_Spawn_*). */
+function extractTownDefaultSpawn(mapJson) {
+  const layer = findObjectGroupByNameSubstring(mapJson.layers, "Spawn");
+  const obj = layer?.objects?.[0];
+  if (!obj) return null;
+  return {
+    x: Math.round(Number(obj.x) || 0),
+    y: Math.round(Number(obj.y) || 0),
+  };
+}
+
+function writeTownWorldGen(mapJson, rootDir) {
+  const tw = Number(mapJson.tilewidth) || 16;
+  const th = Number(mapJson.tileheight) || 16;
+  const wt = Number(mapJson.width) || 1;
+  const ht = Number(mapJson.height) || 1;
+  const pixelW = wt * tw;
+  const pixelH = ht * th;
+  const spawn = extractTownDefaultSpawn(mapJson);
+  const defaultSpawn = spawn ?? {
+    x: Math.round(pixelW / 2),
+    y: Math.round(pixelH / 2),
+  };
+  const outPath = path.join(
+    rootDir,
+    "src",
+    "game",
+    "maps",
+    "townWorld.gen.ts"
+  );
+  const body = `/** Авто из scripts/flatten-town-tmj.mjs — не править вручную. */
+export const TOWN_MAP = ${JSON.stringify(
+    { widthTiles: wt, heightTiles: ht, tileWidth: tw, tileHeight: th },
+    null,
+    2
+  )} as const;
+
+export const TOWN_WORLD_PIXEL = ${JSON.stringify(
+    { width: pixelW, height: pixelH },
+    null,
+    2
+  )} as const;
+
+export const TOWN_DEFAULT_SPAWN = ${JSON.stringify(defaultSpawn, null, 2)} as const;
+`;
+  mkdirp(path.dirname(outPath));
+  fs.writeFileSync(outPath, body);
+  console.log("OK:", outPath);
+}
+
 function mkdirp(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
@@ -217,6 +347,7 @@ export const TOWN_TILESET_LOAD = ${JSON.stringify(urls, null, 2)} as const;
 `;
   mkdirp(path.dirname(outGenTs));
   fs.writeFileSync(outGenTs, genBody);
+  writeTownWorldGen(mapJson, root);
   console.log("OK:", outMap);
   console.log("OK:", outLoad, `(${urls.length} textures)`);
   console.log("OK:", outGenTs);

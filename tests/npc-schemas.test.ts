@@ -80,6 +80,68 @@ describe("Zod-схемы NPC", () => {
     expect(r.success).toBe(true);
   });
 
+  it("npcDialogueScriptsFileSchema принимает grantItems на выборе", () => {
+    const r = npcDialogueScriptsFileSchema.safeParse({
+      scenes: [
+        {
+          id: "elena_tools",
+          questId: "village_briefing",
+          stageId: "talk_to_elena",
+          version: 1,
+          steps: [
+            {
+              id: "supplies",
+              npcText: "Вот инструменты.",
+              choices: [
+                {
+                  label: "Спасибо.",
+                  playerText: "Спасибо.",
+                  complete: true,
+                  grantItems: [
+                    { curatedId: "pickaxe", qty: 1 },
+                    { curatedId: "axe_hatchet", qty: 1 },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    expect(r.success).toBe(true);
+  });
+
+  it("npcDialogueScriptsFileSchema принимает takeItems на выборе", () => {
+    const r = npcDialogueScriptsFileSchema.safeParse({
+      scenes: [
+        {
+          id: "elena_take",
+          questId: "elena_basic_supplies",
+          stageId: "report_to_elena",
+          version: 1,
+          steps: [
+            {
+              id: "end",
+              npcText: "Забираю.",
+              choices: [
+                {
+                  label: "Хорошо.",
+                  playerText: "Хорошо.",
+                  complete: true,
+                  takeItems: [
+                    { curatedId: "pickaxe", qty: 1 },
+                    { curatedId: "axe_hatchet", qty: 1 },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+    expect(r.success).toBe(true);
+  });
+
   it("npcDialogueScriptsFileSchema отклоняет scripted-сцену без выбора", () => {
     const r = npcDialogueScriptsFileSchema.safeParse({
       scenes: [

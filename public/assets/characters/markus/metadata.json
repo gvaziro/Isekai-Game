@@ -1,63 +1,83 @@
 {
-  "character": {
-    "id": "85f8a364-e104-4963-b6a9-806f3cd83ba5",
-    "name": "fantasy village watchman, sturdy broad-shouldered man in his early forties, weathered face, short stubble, attentive grey-brown eyes, slightly broken nose, short dark blond hair with early grey at the temples, worn dark work jacket, simple linen shirt, rough trousers, heavy boots, old leather belt with keys, short baton at his side, grounded medieval rural fantasy, muted earthy browns greys faded greens, calm authoritative posture, practical non-heroic design, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no modern clothes, no armor, no crown, no glowing magic",
-    "prompt": "fantasy village watchman, sturdy broad-shouldered man in his early forties, weathered face, short stubble, attentive grey-brown eyes, slightly broken nose, short dark blond hair with early grey at the temples, worn dark work jacket, simple linen shirt, rough trousers, heavy boots, old leather belt with keys, short baton at his side, grounded medieval rural fantasy, muted earthy browns greys faded greens, calm authoritative posture, practical non-heroic design, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no modern clothes, no armor, no crown, no glowing magic",
-    "size": {
-      "width": 68,
-      "height": 68
-    },
-    "template_id": "mannequin",
-    "directions": 8,
-    "view": "low top-down",
-    "created_at": "2026-05-08T10:30:55.198686+00:00"
-  },
-  "frames": {
-    "rotations": {
-      "south": "rotations/south.png",
-      "south-east": "rotations/south-east.png",
-      "east": "rotations/east.png",
-      "north-east": "rotations/north-east.png",
-      "north": "rotations/north.png",
-      "north-west": "rotations/north-west.png",
-      "west": "rotations/west.png",
-      "south-west": "rotations/south-west.png"
-    },
-    "animations": {
-      "Walking-3023d24d": {
-        "south": [
-          "animations/Walking-3023d24d/south/frame_000.png",
-          "animations/Walking-3023d24d/south/frame_001.png",
-          "animations/Walking-3023d24d/south/frame_002.png",
-          "animations/Walking-3023d24d/south/frame_003.png",
-          "animations/Walking-3023d24d/south/frame_004.png",
-          "animations/Walking-3023d24d/south/frame_005.png",
-          "animations/Walking-3023d24d/south/frame_006.png",
-          "animations/Walking-3023d24d/south/frame_007.png"
-        ],
-        "east": [
-          "animations/Walking-3023d24d/east/frame_000.png",
-          "animations/Walking-3023d24d/east/frame_001.png",
-          "animations/Walking-3023d24d/east/frame_002.png",
-          "animations/Walking-3023d24d/east/frame_003.png",
-          "animations/Walking-3023d24d/east/frame_004.png",
-          "animations/Walking-3023d24d/east/frame_005.png",
-          "animations/Walking-3023d24d/east/frame_006.png",
-          "animations/Walking-3023d24d/east/frame_007.png"
-        ],
-        "north": [
-          "animations/Walking-3023d24d/north/frame_000.png",
-          "animations/Walking-3023d24d/north/frame_001.png",
-          "animations/Walking-3023d24d/north/frame_002.png",
-          "animations/Walking-3023d24d/north/frame_003.png",
-          "animations/Walking-3023d24d/north/frame_004.png",
-          "animations/Walking-3023d24d/north/frame_005.png",
-          "animations/Walking-3023d24d/north/frame_006.png",
-          "animations/Walking-3023d24d/north/frame_007.png"
-        ]
+  "group_id": null,
+  "states": [
+    {
+      "character": {
+        "id": "7c9ce6db-f1d6-413d-823c-3a5f1333a59a",
+        "name": "fantasy village watchman, sturdy broad-shouldered man in his early forties, weathered face, short stubble, attentive grey-brown eyes, slightly broken nose, short dark blond hair with early grey at the temples, worn dark work jacket, simple linen shirt, rough trousers, heavy boots, old leather belt with keys, short baton at his side, grounded medieval rural fantasy, muted earthy browns greys faded greens, calm authoritative posture, practical non-heroic design, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no modern clothes, no armor, no crown, no glowing magic",
+        "prompt": "fantasy village watchman, sturdy broad-shouldered man in his early forties, weathered face, short stubble, attentive grey-brown eyes, slightly broken nose, short dark blond hair with early grey at the temples, worn dark work jacket, simple linen shirt, rough trousers, heavy boots, old leather belt with keys, short baton at his side, grounded medieval rural fantasy, muted earthy browns greys faded greens, calm authoritative posture, practical non-heroic design, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no modern clothes, no armor, no crown, no glowing magic",
+        "size": {
+          "width": 48,
+          "height": 48
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-05-12T16:03:02.589926+00:00"
+      },
+      "folder": "states/fantasy_village_watchman_sturdy_broad-shouldered_m",
+      "frames": {
+        "rotations": {
+          "south": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/south.png",
+          "south-east": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/south-east.png",
+          "east": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/east.png",
+          "north-east": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/north-east.png",
+          "north": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/north.png",
+          "north-west": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/north-west.png",
+          "west": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/west.png",
+          "south-west": "states/fantasy_village_watchman_sturdy_broad-shouldered_m/rotations/south-west.png"
+        },
+        "animations": {
+          "Breathing_Idle-d2b803f1": {
+            "south": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/south/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/south/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/south/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/south/frame_003.png"
+            ],
+            "east": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/east/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/east/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/east/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/east/frame_003.png"
+            ],
+            "north": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/north/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/north/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/north/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Breathing_Idle-d2b803f1/north/frame_003.png"
+            ]
+          },
+          "Walking-caaf13ec": {
+            "south": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_003.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_004.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/south/frame_005.png"
+            ],
+            "east": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_003.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_004.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/east/frame_005.png"
+            ],
+            "north": [
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_000.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_001.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_002.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_003.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_004.png",
+              "states/fantasy_village_watchman_sturdy_broad-shouldered_m/animations/Walking-caaf13ec/north/frame_005.png"
+            ]
+          }
+        }
       }
     }
-  },
-  "export_version": "2.0",
-  "export_date": "2026-05-08T14:37:35.247167"
+  ],
+  "export_version": "3.0",
+  "export_date": "2026-05-12T17:16:34.588582"
 }

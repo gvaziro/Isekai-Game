@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-03T12:00:00.000Z",
+  "updatedAt": "2026-05-12T12:00:00.000Z",
   "buffs": {
     "vigor": {
       "label": "Бодрость",
@@ -47,10 +47,120 @@
     },
     "death_sickness": {
       "label": "Болезнь смерти",
+      "isDebuff": true,
       "defMult": 0.9,
       "moveSpdMult": 0.95,
       "xpGainMult": 0.9,
       "atkMult": 0.95
+    },
+    "weary": {
+      "label": "Дремота",
+      "isDebuff": true,
+      "staRegenMult": 0.9
+    },
+    "sore_feet": {
+      "label": "Натёртые ступни",
+      "isDebuff": true,
+      "moveSpdMult": 0.94
+    },
+    "distracted": {
+      "label": "Рассеянность",
+      "isDebuff": true,
+      "evadeMult": 0.9
+    },
+    "ringing_ears": {
+      "label": "Звон в ушах",
+      "isDebuff": true,
+      "luckMult": 0.9
+    },
+    "rakes_gash": {
+      "label": "Рваная рана",
+      "isDebuff": true,
+      "hpRegenMult": 0.76,
+      "staDrainMult": 1.08
+    },
+    "enervation": {
+      "label": "Истощение",
+      "isDebuff": true,
+      "atkMult": 0.92,
+      "defMult": 0.93
+    },
+    "slow_blade": {
+      "label": "Тяжёлая рука",
+      "isDebuff": true,
+      "attackCooldownMult": 1.14
+    },
+    "misers_hook": {
+      "label": "Крюк скупца",
+      "isDebuff": true,
+      "goldGainMult": 0.8
+    },
+    "deep_wound": {
+      "label": "Глубокая рана",
+      "isDebuff": true,
+      "hpRegenMult": 0.52,
+      "staRegenMult": 0.78,
+      "moveSpdMult": 0.86
+    },
+    "crushing_curse": {
+      "label": "Давящее проклятие",
+      "isDebuff": true,
+      "atkMult": 0.84,
+      "defMult": 0.86,
+      "xpGainMult": 0.8
+    },
+    "spectral_mark": {
+      "label": "Метка призрака",
+      "isDebuff": true,
+      "evadeMult": 0.65,
+      "defMult": 0.84,
+      "luckMult": 0.78
+    },
+    "rot_venom": {
+      "label": "Гнилостный яд",
+      "isDebuff": true,
+      "staDrainMult": 1.32,
+      "hpRegenMult": 0.58,
+      "moveSpdMult": 0.88
+    },
+    "hollow_soul": {
+      "label": "Пустая душа",
+      "isDebuff": true,
+      "atkMult": 0.8,
+      "defMult": 0.82,
+      "xpGainMult": 0.74,
+      "goldGainMult": 0.68,
+      "evadeMult": 0.72,
+      "hpRegenMult": 0.62,
+      "staRegenMult": 0.82
+    },
+    "abyssal_hunger": {
+      "label": "Голод бездны",
+      "isDebuff": true,
+      "staDrainMult": 1.45,
+      "staRegenMult": 0.72,
+      "hpRegenMult": 0.48,
+      "atkMult": 0.78,
+      "defMult": 0.8,
+      "xpGainMult": 0.68,
+      "goldGainMult": 0.62,
+      "evadeMult": 0.68,
+      "moveSpdMult": 0.82,
+      "attackCooldownMult": 1.22,
+      "luckMult": 0.72
+    },
+    "withering_touch": {
+      "label": "Увядающее касание",
+      "isDebuff": true,
+      "hpRegenMult": 0.42,
+      "staRegenMult": 0.68,
+      "moveSpdMult": 0.78,
+      "atkMult": 0.75,
+      "defMult": 0.76,
+      "luckMult": 0.7,
+      "evadeMult": 0.62,
+      "xpGainMult": 0.65,
+      "goldGainMult": 0.58
     }
   }
 }

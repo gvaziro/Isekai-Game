@@ -45,6 +45,13 @@ export const npcBarksFileSchema = z
   })
   .strict();
 
+const npcDialogueScriptGrantItemSchema = z
+  .object({
+    curatedId: z.string().min(1).max(120),
+    qty: z.number().int().min(1).max(99),
+  })
+  .strict();
+
 const npcDialogueScriptChoiceSchema = z
   .object({
     label: z.string().min(1).max(120),
@@ -52,6 +59,8 @@ const npcDialogueScriptChoiceSchema = z
     nextStepId: z.string().min(1).max(80).optional(),
     unlockLoreFactIds: z.array(z.string().min(1).max(120)).max(8).optional(),
     complete: z.boolean().optional(),
+    grantItems: z.array(npcDialogueScriptGrantItemSchema).max(6).optional(),
+    takeItems: z.array(npcDialogueScriptGrantItemSchema).max(6).optional(),
   })
   .strict();
 

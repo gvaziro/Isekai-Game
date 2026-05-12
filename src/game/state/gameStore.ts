@@ -147,6 +147,7 @@ import {
   hasRecipeInputs,
   simulateCraftConsumeInputsOnly,
   simulateCraftOutputs,
+  simulateRemoveCuratedLinesFromInvAndEquipped,
 } from "@/src/game/systems/craftInventory";
 import {
   advanceWorldTime,
@@ -158,8 +159,38 @@ import {
 } from "@/src/game/time/dayNight";
 import type { HeroAttackStyle, HeroFacing } from "@/src/game/entities/heroAnimations";
 
-/** Версия сейва (увеличивать при изменении persist-полей). 35: полный pose игрока (facing, velocity, …). */
-export const SAVE_VERSION = 35;
+/** Версия сейва (увеличивать при изменении persist-полей). 37: marcusVillageIntroWalkDone. */
+export const SAVE_VERSION = 37;
+
+/**
+ * Миграция `marcusVillageIntroWalkDone`: у старых сейвов без поля считаем интро уже
+ * пройденным, чтобы не телепортировать Маркуса к герою в поздней игре.
+ */
+export function migrateMarcusVillageIntroWalkDone(
+  prevSaveVersion: unknown,
+  rawField: unknown
+): boolean {
+  if (rawField === true) return true;
+  if (rawField === false) return false;
+  if (
+    typeof prevSaveVersion === "number" &&
+    Number.isFinite(prevSaveVersion) &&
+    prevSaveVersion < SAVE_VERSION
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export const DEFAULT_PLAYER_NAME = "Странник";
+export const MAX_PLAYER_NAME_LENGTH = 24;
+
+export function normalizePlayerName(raw: unknown): string {
+  if (typeof raw !== "string") return DEFAULT_PLAYER_NAME;
+  const normalized = raw.replace(/\s+/g, " ").trim();
+  if (!normalized) return DEFAULT_PLAYER_NAME;
+  return Array.from(normalized).slice(0, MAX_PLAYER_NAME_LENGTH).join("");
+}
 
 /** Позиция и кинематика/визуал героя в мире (persist + синхронизация перед сейвом). */
 export type PlayerWorldPose = {
@@ -717,6 +748,7 @@ export function createFreshPersistedGameState(): GameSaveState {
   return {
     saveVersion: SAVE_VERSION,
     currentLocationId: "town",
+    playerName: DEFAULT_PLAYER_NAME,
     player: defaultPlayerPoseAt(spawn.x, spawn.y),
     character: initialCharacter(undefined),
     isekaiOrigin: { completed: false },
@@ -753,6 +785,7 @@ export function createFreshPersistedGameState(): GameSaveState {
     activeTorch: null,
     villageFogLifted: false,
     openingCutsceneScriptVersion: 0,
+    marcusVillageIntroWalkDone: false,
   };
 }
 
@@ -944,6 +977,7 @@ export type GameSaveState = {
   saveVersion: number;
   /** Текущая локация (Фаза 7): town | forest */
   currentLocationId: LocationId;
+  playerName: string;
   player: PlayerWorldPose;
   character: CharacterState;
   /**
@@ -1048,14 +1082,25 @@ export type GameSaveState = {
    * `0` — ещё не видел текущую `OPENING_CUTSCENE_SCRIPT_VERSION`.
    */
   openingCutsceneScriptVersion: number;
+  /**
+   * Маркус уже дошёл до своей зоны патруля после пролога (однократный интро-ход в деревне).
+   */
+  marcusVillageIntroWalkDone: boolean;
 };
 
 type GameStore = GameSaveState & {
   setPlayerPosition: (x: number, y: number) => void;
   setPlayerWorldPose: (pose: PlayerWorldPose) => void;
+  setPlayerName: (name: string) => void;
   tryAddItem: (
     curatedId: string,
     qty: number
+  ) => { ok: boolean; reason?: string };
+  /**
+   * Атомарно снять несколько позиций с рюкзака и экипировки (все строки или ни одна).
+   */
+  tryRemoveCuratedLines: (
+    lines: readonly { curatedId: string; qty: number }[]
   ) => { ok: boolean; reason?: string };
   removeSlotAt: (index: number, qty?: number) => void;
   swapSlots: (from: number, to: number) => void;
@@ -1093,6 +1138,13 @@ type GameStore = GameSaveState & {
     worldY: number
   ) => { applied: boolean; xp: number; toastLines: string[] };
   takeDamage: (amount: number) => void;
+  healCharacterHp: (
+    amount: number
+  ) => { before: number; after: number; maxHp: number };
+  /** Слить временные баффы/дебаффы по тем же правилам, что у расходников. */
+  applyTimedBuffs: (
+    entries: Array<{ id: string; durationSec: number }>
+  ) => void;
   grantXp: (amount: number) => { leveled: boolean; levels: number };
   /**
    * Опыт профессии: те же множители luck / xpGainMult, что у grantXp; без очков характеристик.
@@ -1220,6 +1272,8 @@ type GameStore = GameSaveState & {
   flushAchievements: () => void;
   /** Отметить текущую ревизию пролога как просмотренную (сохраняется). */
   markOpeningCutsceneScriptCurrent: () => void;
+  /** Маркус дошёл до зоны патруля после интро-хода (сохраняется). */
+  markMarcusVillageIntroWalkDone: () => void;
 };
 
 function clampCharacterToDerived(
@@ -1273,6 +1327,7 @@ export const useGameStore = create<GameStore>()(
       return {
       saveVersion: SAVE_VERSION,
       currentLocationId: "town",
+      playerName: DEFAULT_PLAYER_NAME,
       player: defaultPlayerPoseAt(
         getLocation("town").spawns.default.x,
         getLocation("town").spawns.default.y
@@ -1317,6 +1372,7 @@ export const useGameStore = create<GameStore>()(
       activeTorch: null,
       villageFogLifted: false,
       openingCutsceneScriptVersion: 0,
+      marcusVillageIntroWalkDone: false,
 
       setHotbarSelectedIndex: (index) =>
         set({
@@ -1340,6 +1396,8 @@ export const useGameStore = create<GameStore>()(
         })),
 
       setPlayerWorldPose: (pose) => set({ player: pose }),
+
+      setPlayerName: (name) => set({ playerName: normalizePlayerName(name) }),
 
       revealDungeonMapAtWorld: (floor, worldX, worldY) => {
         if (!Number.isFinite(worldX) || !Number.isFinite(worldY)) return;
@@ -1864,6 +1922,46 @@ export const useGameStore = create<GameStore>()(
           character: {
             ...s.character,
             hp: Math.max(0, s.character.hp - Math.floor(amount)),
+          },
+        }));
+      },
+
+      healCharacterHp: (amount) => {
+        const st = get();
+        const d = getDerivedCombatStats(
+          st.character.level,
+          st.equipped,
+          persistedOriginBonus(st.isekaiOrigin),
+          st.character.attrs
+        );
+        const before = st.character.hp;
+        const heal = Math.max(0, Math.floor(amount));
+        const after = Math.max(0, Math.min(d.maxHp, before + heal));
+        if (after !== before) {
+          set((s) => ({
+            character: {
+              ...s.character,
+              hp: after,
+            },
+          }));
+        }
+        return { before, after, maxHp: d.maxHp };
+      },
+
+      applyTimedBuffs: (entries) => {
+        const ids = new Set(Object.keys(BUFFS));
+        const valid = entries.filter(
+          (x) =>
+            ids.has(x.id) &&
+            typeof x.durationSec === "number" &&
+            Number.isFinite(x.durationSec) &&
+            x.durationSec > 0
+        ) as NonNullable<ConsumableFx["applyBuffs"]>;
+        if (valid.length === 0) return;
+        set((s) => ({
+          character: {
+            ...s.character,
+            buffs: mergeBuffs(s.character.buffs ?? [], valid),
           },
         }));
       },
@@ -2564,6 +2662,29 @@ export const useGameStore = create<GameStore>()(
         return { ok: true };
       },
 
+      tryRemoveCuratedLines: (lines) => {
+        if (!lines.length) return { ok: true };
+        const st = get();
+        const next = simulateRemoveCuratedLinesFromInvAndEquipped(
+          st.inventorySlots,
+          st.equipped,
+          lines
+        );
+        if (!next) {
+          return {
+            ok: false,
+            reason:
+              "Не всё из оговорённого на месте — верни деревенские инструменты.",
+          };
+        }
+        set({
+          inventorySlots: next.slots as (InventoryStack | null)[],
+          equipped: next.equipped,
+        });
+        get().clampCharacterVitals();
+        return { ok: true };
+      },
+
       removeSlotAt: (index, qty = Infinity) => {
         set((state) => {
           const slots = [...state.inventorySlots];
@@ -3154,6 +3275,9 @@ export const useGameStore = create<GameStore>()(
 
       markOpeningCutsceneScriptCurrent: () =>
         set({ openingCutsceneScriptVersion: OPENING_CUTSCENE_SCRIPT_VERSION }),
+
+      markMarcusVillageIntroWalkDone: () =>
+        set({ marcusVillageIntroWalkDone: true }),
     };
     },
     {
@@ -3162,6 +3286,7 @@ export const useGameStore = create<GameStore>()(
       partialize: (s) => ({
         saveVersion: s.saveVersion,
         currentLocationId: s.currentLocationId,
+        playerName: s.playerName,
         player: s.player,
         character: s.character,
         inventorySlots: s.inventorySlots,
@@ -3198,6 +3323,7 @@ export const useGameStore = create<GameStore>()(
         activeTorch: s.activeTorch,
         villageFogLifted: s.villageFogLifted,
         openingCutsceneScriptVersion: s.openingCutsceneScriptVersion,
+        marcusVillageIntroWalkDone: s.marcusVillageIntroWalkDone,
       }),
       merge: (persisted, current) => {
         type P = Partial<GameSaveState>;
@@ -3473,10 +3599,18 @@ export const useGameStore = create<GameStore>()(
           p as Partial<GameSaveState>
         );
 
+        const marcusVillageIntroWalkDone = migrateMarcusVillageIntroWalkDone(
+          prevSaveVersion,
+          (p as Partial<GameSaveState>).marcusVillageIntroWalkDone
+        );
+
         return {
           ...c,
           saveVersion: SAVE_VERSION,
           currentLocationId,
+          playerName: normalizePlayerName(
+            (p as Partial<GameSaveState>).playerName
+          ),
           player: normalizePlayerWorldPose(p.player, c.player),
           character: charOut,
           inventorySlots: invSlots,
@@ -3517,6 +3651,7 @@ export const useGameStore = create<GameStore>()(
           activeTorch,
           villageFogLifted,
           openingCutsceneScriptVersion,
+          marcusVillageIntroWalkDone,
           staWindedUntilMs: 0,
           consumableCooldownUntil: {},
         };

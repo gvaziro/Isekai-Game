@@ -1,63 +1,83 @@
 {
-  "character": {
-    "id": "3984243a-8f71-4d90-aecc-5c4721cb6a3d",
-    "name": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
-    "prompt": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
-    "size": {
-      "width": 68,
-      "height": 68
-    },
-    "template_id": "mannequin",
-    "directions": 8,
-    "view": "low top-down",
-    "created_at": "2026-05-08T10:11:16.847678+00:00"
-  },
-  "frames": {
-    "rotations": {
-      "south": "rotations/south.png",
-      "south-east": "rotations/south-east.png",
-      "east": "rotations/east.png",
-      "north-east": "rotations/north-east.png",
-      "north": "rotations/north.png",
-      "north-west": "rotations/north-west.png",
-      "west": "rotations/west.png",
-      "south-west": "rotations/south-west.png"
-    },
-    "animations": {
-      "Walking-ada10d9a": {
-        "east": [
-          "animations/Walking-ada10d9a/east/frame_000.png",
-          "animations/Walking-ada10d9a/east/frame_001.png",
-          "animations/Walking-ada10d9a/east/frame_002.png",
-          "animations/Walking-ada10d9a/east/frame_003.png",
-          "animations/Walking-ada10d9a/east/frame_004.png",
-          "animations/Walking-ada10d9a/east/frame_005.png",
-          "animations/Walking-ada10d9a/east/frame_006.png",
-          "animations/Walking-ada10d9a/east/frame_007.png"
-        ],
-        "south": [
-          "animations/Walking-ada10d9a/south/frame_000.png",
-          "animations/Walking-ada10d9a/south/frame_001.png",
-          "animations/Walking-ada10d9a/south/frame_002.png",
-          "animations/Walking-ada10d9a/south/frame_003.png",
-          "animations/Walking-ada10d9a/south/frame_004.png",
-          "animations/Walking-ada10d9a/south/frame_005.png",
-          "animations/Walking-ada10d9a/south/frame_006.png",
-          "animations/Walking-ada10d9a/south/frame_007.png"
-        ],
-        "north": [
-          "animations/Walking-ada10d9a/north/frame_000.png",
-          "animations/Walking-ada10d9a/north/frame_001.png",
-          "animations/Walking-ada10d9a/north/frame_002.png",
-          "animations/Walking-ada10d9a/north/frame_003.png",
-          "animations/Walking-ada10d9a/north/frame_004.png",
-          "animations/Walking-ada10d9a/north/frame_005.png",
-          "animations/Walking-ada10d9a/north/frame_006.png",
-          "animations/Walking-ada10d9a/north/frame_007.png"
-        ]
+  "group_id": null,
+  "states": [
+    {
+      "character": {
+        "id": "ccc2c91c-f7f2-4319-b1f5-4da0efccaac3",
+        "name": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
+        "prompt": "fantasy village headwoman, practical woman around thirty-four, average height, sturdy from daily work, calm tired face, direct attentive gaze, light brown or grey-green eyes, subtle early tired lines, dark blond hair tied in a low bun or practical braid, simple dark dress or long work skirt, fitted sturdy vest, rolled sleeves, warm shawl, apron with pockets, leather folder or task journal, key ring, small supply pouch, pencil behind ear, muted blue grey-green brown linen palette, grounded medieval rural fantasy, responsible village leader, character model sheet, full body, neutral pose, high detail, realistic stylized game character, no noble gown, no mystic aura, no glowing magic",
+        "size": {
+          "width": 48,
+          "height": 48
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-05-12T14:24:00.989359+00:00"
+      },
+      "folder": "states/fantasy_village_headwoman_practical_woman_around_t",
+      "frames": {
+        "rotations": {
+          "south": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/south.png",
+          "south-east": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/south-east.png",
+          "east": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/east.png",
+          "north-east": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/north-east.png",
+          "north": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/north.png",
+          "north-west": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/north-west.png",
+          "west": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/west.png",
+          "south-west": "states/fantasy_village_headwoman_practical_woman_around_t/rotations/south-west.png"
+        },
+        "animations": {
+          "Breathing_Idle-399c1beb": {
+            "east": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/east/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/east/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/east/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/east/frame_003.png"
+            ],
+            "north": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/north/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/north/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/north/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/north/frame_003.png"
+            ],
+            "south": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/south/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/south/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/south/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Breathing_Idle-399c1beb/south/frame_003.png"
+            ]
+          },
+          "Walking-4f41dd5b": {
+            "north": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_003.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_004.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/north/frame_005.png"
+            ],
+            "south": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_003.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_004.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/south/frame_005.png"
+            ],
+            "east": [
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_000.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_001.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_002.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_003.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_004.png",
+              "states/fantasy_village_headwoman_practical_woman_around_t/animations/Walking-4f41dd5b/east/frame_005.png"
+            ]
+          }
+        }
       }
     }
-  },
-  "export_version": "2.0",
-  "export_date": "2026-05-08T14:37:41.172582"
+  ],
+  "export_version": "3.0",
+  "export_date": "2026-05-12T17:16:41.846069"
 }

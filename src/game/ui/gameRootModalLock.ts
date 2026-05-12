@@ -13,6 +13,7 @@ export type GameRootModalLikeInput = {
   achievementsOpen: boolean;
   settingsOpen: boolean;
   npcInteract: boolean;
+  heroThoughtOpen: boolean;
   shopOpen: boolean;
   isekaiOpen: boolean;
   openingCutsceneOpen: boolean;
@@ -42,6 +43,7 @@ export function computeGameRootModalLike(i: GameRootModalLikeInput): boolean {
     i.achievementsOpen ||
     i.settingsOpen ||
     i.npcInteract ||
+    i.heroThoughtOpen ||
     i.shopOpen ||
     i.isekaiOpen ||
     i.openingCutsceneOpen ||

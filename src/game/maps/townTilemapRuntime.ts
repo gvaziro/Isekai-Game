@@ -42,6 +42,8 @@ export type TownTmjJson = {
     name: string;
     firstgid: number;
     image?: string;
+    /** После flatten из TSX — нужен для диапазона GID воды. */
+    tilecount?: number;
   }[];
 };
 
@@ -50,6 +52,16 @@ function readProp(
   name: string
 ): string | undefined {
   const p = obj.properties?.find((x) => x.name === name);
+  if (!p) return undefined;
+  return String(p.value ?? "");
+}
+
+function readPropCaseInsensitive(
+  obj: TmjMapObject,
+  name: string
+): string | undefined {
+  const needle = name.toLowerCase();
+  const p = obj.properties?.find((x) => x.name.toLowerCase() === needle);
   if (!p) return undefined;
   return String(p.value ?? "");
 }
@@ -126,7 +138,65 @@ export function parseTownTravelExits(tmj: TownTmjJson): LocationExit[] {
   return out;
 }
 
-/** Прямоугольники коллизий: координаты как в Tiled (левый верх). */
+/** Прямоугольники коллизий: координаты как в Tiled (левый верх), без фильтрации по размеру. */
+export type TownInteractKind =
+  | "well"
+  | "fishing"
+  | "fog"
+  | "fired"
+  | "abandon";
+
+export type TownInteractZone = {
+  id: string;
+  kind: TownInteractKind;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+function normalizeTownInteractKind(raw: string): TownInteractKind | null {
+  const v = raw.trim().toLowerCase();
+  if (
+    v === "well" ||
+    v === "fishing" ||
+    v === "fog" ||
+    v === "fired" ||
+    v === "abandon"
+  ) {
+    return v;
+  }
+  return null;
+}
+
+export function parseTownInteractZones(
+  tmj: TownTmjJson
+): TownInteractZone[] {
+  const layer = findTownObjectGroup(tmj.layers, "Interact");
+  if (!layer?.objects?.length) return [];
+
+  const out: TownInteractZone[] = [];
+  for (const obj of layer.objects) {
+    const kindRaw = readPropCaseInsensitive(obj, "Interact");
+    if (!kindRaw) continue;
+    const kind = normalizeTownInteractKind(kindRaw);
+    if (!kind) continue;
+
+    const w = Math.max(1, round(obj.width ?? 0));
+    const h = Math.max(1, round(obj.height ?? 0));
+    if (w < 2 || h < 2) continue;
+    out.push({
+      id: `town_interact_${obj.id ?? out.length}`,
+      kind,
+      x: round(obj.x ?? 0),
+      y: round(obj.y ?? 0),
+      w,
+      h,
+    });
+  }
+  return out;
+}
+
 export function parseTownColliderRects(
   tmj: TownTmjJson
 ): { x: number; y: number; w: number; h: number }[] {
@@ -289,8 +359,9 @@ export function createTownTilemapLayers(
   if (rawTileLayers.length) warnDuplicateTownWallLayers(rawTileLayers);
 
   const map = scene.make.tilemap({ key: "townMapJson" });
-  const tilesetNames = map.tilesets.map((t) => t.name);
 
+  /** Только реально привязанные к текстурам тайлсеты — иначе WebGL-рендер падает на null.width. */
+  const linkedTilesetNames: string[] = [];
   for (const ts of map.tilesets) {
     const texKey = townTilesetTextureKey({
       name: ts.name,
@@ -301,7 +372,20 @@ export function createTownTilemapLayers(
       console.warn("[town] нет текстуры тайлсета:", texKey, ts.name);
       continue;
     }
-    map.addTilesetImage(ts.name, texKey);
+    const linked = map.addTilesetImage(ts.name, texKey);
+    if (!linked) {
+      // eslint-disable-next-line no-console
+      console.warn("[town] addTilesetImage не удался:", ts.name, texKey);
+      continue;
+    }
+    linkedTilesetNames.push(ts.name);
+  }
+
+  if (linkedTilesetNames.length === 0) {
+    // eslint-disable-next-line no-console
+    console.warn("[town] ни один тайлсет не привязан — слои карты не создаём");
+    map.destroy();
+    return null;
   }
 
   const userPlaneIdx = tmj ? findTownUserPlaneLayerIndex(tmj) : null;
@@ -310,7 +394,7 @@ export function createTownTilemapLayers(
   let structureOrder = 0;
   let overlayOrder = 0;
   for (let i = 0; i < map.layers.length; i++) {
-    const tileLayer = map.createLayer(i, tilesetNames);
+    const tileLayer = map.createLayer(i, linkedTilesetNames);
     if (!tileLayer) continue;
     const layerData = map.layers[i];
     const name = String(layerData.name ?? "");
@@ -352,4 +436,142 @@ export function createTownTilemapLayers(
   }
 
   return map;
+}
+
+/** Имена тумана «как в Tiled до flatten» — подстраховка, если слои без префикса Above_Fog_. */
+export const TOWN_FOG_DRIFT_LEGACY_LAYER_NAMES = [
+  "fog",
+  "fog2",
+  "fog3",
+  "fog4",
+] as const;
+
+const fogDriftBaseWorld = new WeakMap<
+  Phaser.Tilemaps.TilemapLayer,
+  { x: number; y: number }
+>();
+
+/** Порядок слоя тумана для фазы анимации (1…4 после flatten). */
+function townFogLayerOrdinalFromName(name: string): number {
+  const n = name.toLowerCase().replace(/\s+/g, "");
+  /** После flatten: `above_fog_fog1_id51` или `above_fog_fog_1_id51` (с подчёркиванием перед номером). */
+  const mFlat = n.match(/^above_fog_fog_?(\d+)_id\d+$/);
+  if (mFlat) return parseInt(mFlat[1], 10);
+  const mShort = n.match(/^fog(\d+)$/);
+  if (mShort) return parseInt(mShort[1], 10);
+  if (n === "fog") return 1;
+  return 0;
+}
+
+function isTownFogDriftTileLayerName(name: string): boolean {
+  const n = name.toLowerCase().replace(/\s+/g, "");
+  if (TOWN_FOG_DRIFT_LEGACY_LAYER_NAMES.some((w) => n === w.toLowerCase())) {
+    return true;
+  }
+  return /^above_fog_fog_?\d+_id\d+$/.test(n);
+}
+
+/** Все тайловые слои тумана в порядке номера в имени (Fog 1 … Fog 4). */
+export function collectTownFogDriftTileLayers(
+  map: Phaser.Tilemaps.Tilemap
+): Phaser.Tilemaps.TilemapLayer[] {
+  const found: { ord: number; name: string; tl: Phaser.Tilemaps.TilemapLayer }[] =
+    [];
+  for (const ld of map.layers) {
+    const nm = String(ld.name ?? "");
+    const tl = ld.tilemapLayer;
+    if (!tl || !isTownFogDriftTileLayerName(nm)) continue;
+    const ord = townFogLayerOrdinalFromName(nm);
+    found.push({ ord, name: nm, tl });
+  }
+  found.sort((a, b) => a.ord - b.ord || a.name.localeCompare(b.name));
+  return found.map((x) => x.tl);
+}
+
+/**
+ * Плавное смещение слоёв тумана: ~±10 px по синусоидам с разными фазами + лёгкая привязка к позиции героя.
+ * Вызывать каждый кадр, пока активна деревня и живой `Tilemap`.
+ */
+export function updateTownFogLayerDrift(
+  map: Phaser.Tilemaps.Tilemap | null,
+  timeMs: number,
+  player: { x: number; y: number }
+): void {
+  if (!map) return;
+  const layers = collectTownFogDriftTileLayers(map);
+  if (layers.length === 0) return;
+
+  const sec = timeMs * 0.001;
+  /** Пиковое смещение по одной оси (сумма волн ≤ ~10 px). */
+  const amp = 10;
+  const omega = 0.4;
+
+  const px = Math.max(-3.5, Math.min(3.5, player.x * 0.008));
+  const py = Math.max(-3.5, Math.min(3.5, player.y * 0.008));
+
+  for (let i = 0; i < layers.length; i++) {
+    const tl = layers[i]!;
+    if (!fogDriftBaseWorld.has(tl)) {
+      fogDriftBaseWorld.set(tl, { x: tl.x, y: tl.y });
+    }
+    const base = fogDriftBaseWorld.get(tl)!;
+
+    const phase = i * 1.55;
+    const ox =
+      Math.sin(sec * omega + phase) * amp * 0.62 +
+      Math.sin(sec * omega * 0.67 + phase * 2.2) * amp * 0.38;
+    const oy =
+      Math.cos(sec * omega * 0.91 + phase * 1.25) * amp * 0.58 +
+      Math.cos(sec * omega * 0.58 + phase * 0.85) * amp * 0.42;
+
+    const wx = base.x + ox + px * 0.4;
+    const wy = base.y + oy + py * 0.4;
+    tl.setPosition(wx, wy);
+    /** Часть расчётов читает `LayerData.x/y`; держим в синхроне с игровым объектом слоя. */
+    tl.layer.x = wx;
+    tl.layer.y = wy;
+  }
+}
+
+const TOWN_WATER_LAYER_NAME_RE = /water|grass-water/i;
+
+/**
+ * Коллизия по **тайлам** тайлсета воды (GID из TMJ): один механизм вместо десятков object-прямоугольников
+ * вдоль берега. Arcade не умеет полигоны; Matter — отдельный движок.
+ *
+ * Обрабатываются слои, в имени которых есть `water` / `grass-water` (как `Below_Grass-water_id1`).
+ * После проверки в игре можно удалить дублирующие прямоугольники у воды из object-слоя Collider.
+ */
+export function enableTownWaterTileCollision(
+  map: Phaser.Tilemaps.Tilemap,
+  tmj: TownTmjJson
+): Phaser.Tilemaps.TilemapLayer[] {
+  const meta = tmj.tilesets.find((t) => /water/i.test(String(t.name ?? "")));
+  const tilecount =
+    meta && typeof meta.tilecount === "number" ? meta.tilecount : null;
+  if (!meta || tilecount == null || tilecount < 1) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[town] нет tilecount у тайлсета воды в TMJ — тайловая коллизия воды отключена"
+    );
+    return [];
+  }
+  const gidStart = meta.firstgid;
+  const gidEnd = meta.firstgid + tilecount - 1;
+  const out: Phaser.Tilemaps.TilemapLayer[] = [];
+  for (const layerData of map.layers) {
+    const nm = String(layerData.name ?? "");
+    if (!TOWN_WATER_LAYER_NAME_RE.test(nm)) continue;
+    const tileLayer = layerData.tilemapLayer;
+    if (!tileLayer) continue;
+    map.setCollisionBetween(gidStart, gidEnd, true, true, tileLayer);
+    out.push(tileLayer);
+  }
+  if (out.length === 0) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "[town] нет тайловых слоёв с именем *water* — коллизия воды по тайлам не включена"
+    );
+  }
+  return out;
 }

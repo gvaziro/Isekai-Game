@@ -40,6 +40,7 @@ function sanitizeBuffDef(raw: unknown): BuffDef | null {
     typeof o.label === "string" ? o.label.trim().slice(0, LABEL_MAX) : "";
   if (!label) return null;
   const out: BuffDef = { label };
+  if (o.isDebuff === true) out.isDebuff = true;
   for (const key of BUFF_MULT_FIELD_KEYS) {
     const v = o[key];
     if (

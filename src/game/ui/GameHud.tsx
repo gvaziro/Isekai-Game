@@ -117,10 +117,15 @@ export default function GameHud({ preview }: { preview: boolean }) {
           {character.buffs.map((b) => {
             const def = BUFFS[b.id];
             const label = def?.label ?? b.id;
+            const debuff = def?.isDebuff === true;
             return (
               <span
                 key={b.id}
-                className="rounded border border-cyan-900/60 bg-cyan-950/45 px-1.5 py-0.5 text-[8px] text-cyan-200/95"
+                className={
+                  debuff
+                    ? "rounded border border-rose-900/70 bg-rose-950/55 px-1.5 py-0.5 text-[8px] text-rose-100/95"
+                    : "rounded border border-cyan-900/60 bg-cyan-950/45 px-1.5 py-0.5 text-[8px] text-cyan-200/95"
+                }
                 title={label}
               >
                 {label} ·{Math.max(0, Math.ceil(b.remainingSec))}с

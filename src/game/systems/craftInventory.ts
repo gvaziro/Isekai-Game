@@ -1,4 +1,5 @@
 import { getCuratedItem } from "@/src/game/data/itemRegistry";
+import type { EquipSlot } from "@/src/game/data/items.curated";
 import type { RecipeDef } from "@/src/game/data/recipesSchema";
 import {
   type InventorySlotLike,
@@ -9,6 +10,59 @@ export function cloneInventorySlots(
   slots: readonly (InventorySlotLike | null)[]
 ): (InventorySlotLike | null)[] {
   return slots.map((s) => (s ? { ...s } : null));
+}
+
+const ALL_BODY_EQUIP_SLOTS: EquipSlot[] = [
+  "weapon",
+  "offhand",
+  "helmet",
+  "chest",
+  "pants",
+  "boots",
+  "backpack",
+  "pickaxe",
+  "axe",
+  "fishing_rod",
+];
+
+export type CuratedQtyLine = { curatedId: string; qty: number };
+
+/**
+ * Снимает несколько позиций по `curatedId`/`qty` с рюкзака и экипировки.
+ * Либо применяется вся цепочка, либо возвращается null (без частичного списания).
+ */
+export function simulateRemoveCuratedLinesFromInvAndEquipped(
+  slots: readonly (InventorySlotLike | null)[],
+  equipped: Partial<Record<EquipSlot, string>>,
+  lines: readonly CuratedQtyLine[]
+): {
+  slots: (InventorySlotLike | null)[];
+  equipped: Partial<Record<EquipSlot, string>>;
+} | null {
+  let workSlots = cloneInventorySlots(slots);
+  let workEq: Partial<Record<EquipSlot, string>> = { ...equipped };
+  for (const { curatedId, qty } of lines) {
+    if (qty <= 0) return null;
+    if (!getCuratedItem(curatedId)) return null;
+    let need = qty;
+    for (let i = 0; i < workSlots.length && need > 0; i++) {
+      const s = workSlots[i];
+      if (!s || s.curatedId !== curatedId) continue;
+      const take = Math.min(s.qty, need);
+      const left = s.qty - take;
+      workSlots[i] = left <= 0 ? null : { ...s, qty: left };
+      need -= take;
+    }
+    for (const es of ALL_BODY_EQUIP_SLOTS) {
+      if (need <= 0) break;
+      if (workEq[es] === curatedId) {
+        delete workEq[es];
+        need -= 1;
+      }
+    }
+    if (need > 0) return null;
+  }
+  return { slots: workSlots, equipped: workEq };
 }
 
 export function inventoryCountCurated(
